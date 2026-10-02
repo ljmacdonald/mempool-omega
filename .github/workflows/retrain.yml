@@ -37,6 +37,9 @@ jobs:
         run: pip install -e .
       - name: Retrain models (rolling window)
         run: python -m omega.train
+      - name: Retrain the top-5 coin scanner
+        continue-on-error: true
+        run: python -m scanner.run train
       - name: Walk-forward backtest
         run: python -m backtest.engine --folds 4
       - name: Red-team (synthetic attacks)

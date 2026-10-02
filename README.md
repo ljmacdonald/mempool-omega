@@ -9,6 +9,13 @@ a ledger committed back to the repo.
 
 > ⚠️ **Paper trading only. Not financial advice. No profit is promised.** See [LEGAL.md](LEGAL.md).
 
+## 👋 Start here (no market knowledge needed)
+- **This hour's top 5 coin ideas, explained in plain English:** [state/suggestions/LATEST.md](state/suggestions/LATEST.md)
+- **How past ideas actually turned out:** [state/suggestions/scoreboard.json](state/suggestions/scoreboard.json) (or the dashboard's *Track record* tab)
+- **What everything means:** [docs/BEGINNERS_GUIDE.md](docs/BEGINNERS_GUIDE.md)
+
+Every hour the scanner ranks ~60 of the most-traded coins and lists 5 *buy* ideas. Each one has a score out of 10, a risk level, a take-profit price, a safety-exit price, a 24-hour time limit and the reasons it was picked. Every idea is checked afterwards, so you can judge the scanner by results.
+
 ![Walk-forward equity on synthetic data](docs/screenshots/equity_curve.png)
 
 ---
@@ -30,7 +37,8 @@ a ledger committed back to the repo.
 ```bash
 make setup          # pip install -e ".[all]"
 make demo           # offline end-to-end on synthetic data (+ charts)
-make test           # 33 unit tests incl. a no-look-ahead test
+make test           # unit tests incl. no-look-ahead tests
+python -m scanner.run hourly   # this hour's top-5 ideas → state/suggestions/LATEST.md
 make paper          # one live paper pass on public data
 make dashboard      # http://localhost:8501
 ```
@@ -123,6 +131,7 @@ deliberate trade-off, not a free lunch. Counts are small: treat this as a smoke 
 
 ## Repository map
 ```
+scanner/    hourly top-5 coin ideas: universe, features, pooled model, ranking, plain-English cards, track record
 core/       config (env-only), logging, schema, synthetic market
 ingest/     polite HTTP client, CEX REST, WebSocket capture, on-chain/mempool, history assembler
 features/   microstructure, Hawkes, calendar, feature engine (35 features)

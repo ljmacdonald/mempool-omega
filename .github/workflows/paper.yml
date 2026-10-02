@@ -46,6 +46,11 @@ jobs:
         run: pip install -e ".[stream]"
       - name: Paper pass
         run: python -m paper.trader --once --capture "${{ vars.OMEGA_WS_CAPTURE || '30' }}"
+      - name: Top-5 coin scanner (plain-English ideas)
+        continue-on-error: true
+        env:
+          OMEGA_SCANNER_ALERTS: ${{ vars.OMEGA_SCANNER_ALERTS || '1' }}
+        run: python -m scanner.run hourly
       - name: Commit state
         if: always()
         run: |
