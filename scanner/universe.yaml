@@ -1,0 +1,10 @@
+# Which coins the scanner looks at. Edit freely.
+# Coins are taken from Binance USDT pairs, sorted by 24h trading volume, after removing the lists below.
+min_quote_volume_usd: 5000000      # skip coins with < $5M traded per day (too easy to manipulate)
+max_coins: 60                      # how many of the most-traded coins to scan each hour
+min_history_days: 30               # skip brand-new listings
+exclude_stablecoins: [USDC, FDUSD, TUSD, USDP, DAI, BUSD, USD1, RLUSD, U, USDE, PYUSD, XUSD, BFUSD, EURI, AEUR, EUR, USDS, USTC, UST, PAX, SUSD, GUSD, FRAX, LUSD]
+exclude_other: [PAXG, XAUT, WBTC, WBETH, BETH, BNSOL]   # gold tokens and wrapped duplicates
+# Tokenized stocks on Binance end in "B" (e.g. NVDAB). Listed here so they are skipped.
+exclude_stock_tokens: [NVDAB, MSTRB, CRCLB, SNDKB, MUB, SPCXB, TSLAB, AAPLB, COINB, HOODB, GOOGLB, AMZNB, METAB, MSFTB, AMDB, PLTRB, NFLXB, SPYB, QQQB, ORCLB, INTCB, AVGOB]
+always_include: [BTC, ETH, SOL]
