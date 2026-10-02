@@ -1,0 +1,214 @@
+{
+  "run_at": "2026-10-01 23:20:14.435832+00:00",
+  "symbols": {
+    "BTCUSDT": {
+      "last_bar": "2026-10-01 23:15:00+00:00",
+      "close": 84763.59,
+      "data_mode": "live",
+      "data_quality": {
+        "score": 1.0,
+        "staleness_min": 0.5560071333333338,
+        "gap_frac": 0.0,
+        "max_venue_divergence": 0.0002771237037033636,
+        "sources_ok": 1.0,
+        "critical_ok": true
+      },
+      "p_up": 0.43036909075296825,
+      "meta_p": 0.2315940601774707,
+      "signal_trust": 0.7268270682985941,
+      "bars_processed": 12,
+      "least_trusted_features": {
+        "dex_intent": 0.092,
+        "depth_imbalance": 0.186,
+        "ofi_book": 0.191,
+        "ofi_trade": 0.274,
+        "ofi_trade_ema": 0.331
+      },
+      "most_trusted_features": {
+        "ret_12": 0.811,
+        "rv_ratio": 0.886,
+        "hour_sin": 0.924,
+        "hour_cos": 0.924,
+        "event_proximity": 0.924
+      },
+      "hurst_returns_96": 0.46656678922723405,
+      "sources": {
+        "cex_primary": true,
+        "coinbase": true,
+        "kraken": true,
+        "okx": true,
+        "derivs": true,
+        "derivs_funding": true,
+        "derivs_oi": true,
+        "derivs_liq": true,
+        "derivs_now": true,
+        "eth_chain": true,
+        "eth_mempool": true,
+        "stablecoins": true,
+        "btc_mempool": true,
+        "book": true
+      }
+    },
+    "ETHUSDT": {
+      "last_bar": "2026-10-01 23:15:00+00:00",
+      "close": 2701.99,
+      "data_mode": "live",
+      "data_quality": {
+        "score": 1.0,
+        "staleness_min": 0.8223417333333334,
+        "gap_frac": 0.0,
+        "max_venue_divergence": 0.00031828393147259604,
+        "sources_ok": 1.0,
+        "critical_ok": true
+      },
+      "p_up": 0.33526973037741986,
+      "meta_p": 0.18527139494203085,
+      "signal_trust": 0.6740492624179347,
+      "bars_processed": 12,
+      "least_trusted_features": {
+        "depth_imbalance": 0.033,
+        "ofi_book": 0.034,
+        "dex_intent": 0.09,
+        "ofi_trade": 0.307,
+        "ofi_trade_ema": 0.338
+      },
+      "most_trusted_features": {
+        "ret_12": 0.852,
+        "rv_ratio": 0.877,
+        "hour_sin": 0.915,
+        "hour_cos": 0.915,
+        "event_proximity": 0.915
+      },
+      "hurst_returns_96": 0.5260458833535658,
+      "sources": {
+        "cex_primary": true,
+        "coinbase": true,
+        "kraken": true,
+        "okx": true,
+        "derivs": true,
+        "derivs_funding": true,
+        "derivs_oi": true,
+        "derivs_liq": true,
+        "derivs_now": true,
+        "eth_chain": true,
+        "eth_mempool": true,
+        "stablecoins": true,
+        "btc_mempool": true,
+        "book": true
+      }
+    }
+  },
+  "mode": "auto",
+  "equity": 100000.0,
+  "cash": 100000.0,
+  "positions": {},
+  "pending": {},
+  "kill_switch": {
+    "active": false,
+    "reason": "",
+    "since": "",
+    "day": "2026-10-01",
+    "day_start_equity": 100000.0,
+    "consecutive_losses": 0,
+    "history": []
+  },
+  "systemic_trust": 0.7004381653582644,
+  "new_trades": 0,
+  "new_events": 0,
+  "decisions": [
+    {
+      "ts": "2026-10-01 23:15:00+00:00",
+      "symbol": "BTCUSDT",
+      "side": 0,
+      "edge_bps": -11.14854103694538,
+      "cost_bps": 10.69240366979353,
+      "premium_bps": 3.9849380245736383,
+      "trust": 0.7268270682985941,
+      "meta_p": 0.2315940601774707,
+      "p_up": 0.43036909075296825,
+      "kelly_frac": 0.0,
+      "reason": "meta-label rejects (p=0.23)",
+      "taken": false,
+      "final_reason": "meta-label rejects (p=0.23)",
+      "notional": 0.0,
+      "data_quality": 1.0
+    },
+    {
+      "ts": "2026-10-01 23:15:00+00:00",
+      "symbol": "ETHUSDT",
+      "side": 0,
+      "edge_bps": -14.189092230328217,
+      "cost_bps": 11.088571641138099,
+      "premium_bps": 5.249755333211695,
+      "trust": 0.6740492624179347,
+      "meta_p": 0.18527139494203085,
+      "p_up": 0.33526973037741986,
+      "kelly_frac": 0.0,
+      "reason": "meta-label rejects (p=0.19)",
+      "taken": false,
+      "final_reason": "meta-label rejects (p=0.19)",
+      "notional": 0.0,
+      "data_quality": 1.0
+    }
+  ],
+  "model_info": {
+    "BTCUSDT": {
+      "n_train": 8627,
+      "oos_auc": 0.5299278136702459,
+      "meta_rows": 7659,
+      "meta_base_rate": 0.34612873743308525,
+      "cost_bps_round_trip": 10.697989898732233,
+      "train_start": "2026-09-01 20:15:00+00:00",
+      "train_end": "2026-10-01 19:05:00+00:00",
+      "data_mode": "live",
+      "top_features": {
+        "funding_z": 6802.16,
+        "rv_ratio": 4090.42,
+        "hour_sin": 3613.11,
+        "hour_cos": 3517.65,
+        "funding_proximity": 2868.75,
+        "ret_12": 2772.31,
+        "volume_z": 1435.4,
+        "ofi_trade_ema": 1281.22,
+        "basis_bps": 1074.05,
+        "leadlag_corr": 1005.59,
+        "ret_3": 945.08,
+        "venue_premium_z": 810.88
+      },
+      "hawkes": {
+        "mu": 0.0007971230537537689,
+        "alpha": 0.1257851841130719,
+        "beta": 0.2358771306401467
+      }
+    },
+    "ETHUSDT": {
+      "n_train": 8628,
+      "oos_auc": 0.5337859494630905,
+      "meta_rows": 7638,
+      "meta_base_rate": 0.38295365278868815,
+      "cost_bps_round_trip": 10.697989898732233,
+      "train_start": "2026-09-01 20:15:00+00:00",
+      "train_end": "2026-10-01 19:10:00+00:00",
+      "data_mode": "live",
+      "top_features": {
+        "funding_z": 7726.76,
+        "rv_ratio": 3526.25,
+        "funding_proximity": 3431.91,
+        "hour_sin": 3127.39,
+        "hour_cos": 3071.62,
+        "ret_12": 2341.65,
+        "ofi_trade_ema": 2227.49,
+        "volume_z": 1097.17,
+        "ret_3": 1055.68,
+        "leadlag_corr": 729.15,
+        "leadlag_kr": 666.02,
+        "venue_premium_z": 665.35
+      },
+      "hawkes": {
+        "mu": 0.0007734066719941397,
+        "alpha": 0.20034222285718234,
+        "beta": 0.22869749551282298
+      }
+    }
+  }
+}

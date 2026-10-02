@@ -1,0 +1,50 @@
+name: Nightly retrain + backtest + red team
+
+on:
+  schedule:
+    - cron: "17 2 * * *"         # 02:17 UTC daily
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "data mode: auto | live | synthetic"
+        required: false
+        default: "auto"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: omega-state-writer
+  cancel-in-progress: false
+
+jobs:
+  retrain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      OMEGA_DATA_MODE: ${{ github.event.inputs.mode || vars.OMEGA_DATA_MODE || 'auto' }}
+      OMEGA_SYMBOLS: ${{ vars.OMEGA_SYMBOLS || 'BTCUSDT,ETHUSDT' }}
+      OMEGA_TRAIN_DAYS: ${{ vars.OMEGA_TRAIN_DAYS || '30' }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        run: pip install -e .
+      - name: Retrain models (rolling window)
+        run: python -m omega.train
+      - name: Walk-forward backtest
+        run: python -m backtest.engine --folds 4
+      - name: Red-team (synthetic attacks)
+        run: python -m backtest.redteam --rate 0.05
+      - name: Notify
+        if: always()
+        run: python -m scripts.notify_retrain "${{ job.status }}"
+      - name: Commit state
+        if: always()
+        run: |
+          bash infra/commit_state.sh "retrain: nightly $(date -u +%Y-%m-%d)"

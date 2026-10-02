@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mempool-omega"
+version = "0.1.0"
+description = "Zero-cost, adversarial-aware intraday crypto research & PAPER-trading engine. Not financial advice."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+  "numpy>=1.26",
+  "pandas>=2.1",
+  "scipy>=1.11",
+  "scikit-learn>=1.3",
+  "lightgbm>=4.1",
+  "networkx>=3.2",
+  "pyarrow>=14",
+  "requests>=2.31",
+  "pyyaml>=6",
+]
+
+[project.optional-dependencies]
+stream = ["websockets>=12"]
+dashboard = ["streamlit>=1.32", "duckdb>=0.10", "matplotlib>=3.8"]
+dev = ["pytest>=8", "ruff>=0.4", "matplotlib>=3.8"]
+all = ["mempool-omega[stream,dashboard,dev]"]
+
+[tool.setuptools]
+packages = ["core", "ingest", "features", "asi", "omega", "backtest", "paper", "risk", "alerts", "dashboard", "scripts"]
+
+[tool.setuptools.package-data]
+features = ["*.yaml"]
+asi = ["*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["ignore::DeprecationWarning", "ignore::UserWarning"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E501", "B008", "UP007", "B905"]

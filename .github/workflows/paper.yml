@@ -1,0 +1,52 @@
+name: Paper trader (hourly)
+
+# Runs one paper-trading pass every hour and commits the ledger/state back to the repo.
+# PAPER ONLY - no real orders, no exchange keys required.
+on:
+  schedule:
+    - cron: "7 * * * *"          # minute 7 of every hour (avoids the top-of-hour rush)
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "data mode: auto | live | synthetic"
+        required: false
+        default: "auto"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: omega-state-writer     # shared with retrain.yml so they never race on state/
+  cancel-in-progress: false
+
+jobs:
+  paper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      OMEGA_DATA_MODE: ${{ github.event.inputs.mode || vars.OMEGA_DATA_MODE || 'auto' }}
+      OMEGA_SYMBOLS: ${{ vars.OMEGA_SYMBOLS || 'BTCUSDT,ETHUSDT' }}
+      OMEGA_DAILY_DD_KILL: ${{ vars.OMEGA_DAILY_DD_KILL || '0.03' }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
+      THEGRAPH_API_KEY: ${{ secrets.THEGRAPH_API_KEY }}
+      ETH_RPC_URL: ${{ secrets.ETH_RPC_URL }}
+      SOL_RPC_URL: ${{ secrets.SOL_RPC_URL }}
+      ENABLE_TESTNET: ${{ vars.ENABLE_TESTNET || '0' }}
+      BINANCE_TESTNET_API_KEY: ${{ secrets.BINANCE_TESTNET_API_KEY }}
+      BINANCE_TESTNET_API_SECRET: ${{ secrets.BINANCE_TESTNET_API_SECRET }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        run: pip install -e ".[stream]"
+      - name: Paper pass
+        run: python -m paper.trader --once --capture "${{ vars.OMEGA_WS_CAPTURE || '30' }}"
+      - name: Commit state
+        if: always()
+        run: |
+          bash infra/commit_state.sh "paper: hourly pass $(date -u +%Y-%m-%dT%H:%MZ)"

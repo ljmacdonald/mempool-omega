@@ -1,0 +1,25 @@
+# Reproducible local runs. State is bind-mounted so results land in ./state like in GitHub Actions.
+# No secrets file: pass optional secrets from your shell environment (e.g. TELEGRAM_BOT_TOKEN=... docker compose run paper)
+services:
+  paper:
+    build: { context: ., dockerfile: infra/Dockerfile }
+    command: ["python", "-m", "paper.trader", "--once", "--capture", "30"]
+    environment:
+      - OMEGA_DATA_MODE=${OMEGA_DATA_MODE:-auto}
+      - TELEGRAM_BOT_TOKEN
+      - TELEGRAM_CHAT_ID
+      - ETHERSCAN_API_KEY
+    volumes: ["./state:/app/state"]
+
+  trainer:
+    build: { context: ., dockerfile: infra/Dockerfile }
+    command: ["sh", "-c", "python -m omega.train && python -m backtest.engine && python -m backtest.redteam"]
+    environment:
+      - OMEGA_DATA_MODE=${OMEGA_DATA_MODE:-auto}
+    volumes: ["./state:/app/state"]
+
+  dashboard:
+    build: { context: ., dockerfile: infra/Dockerfile }
+    command: ["streamlit", "run", "dashboard/app.py", "--server.address=0.0.0.0", "--server.port=8501"]
+    ports: ["8501:8501"]
+    volumes: ["./state:/app/state:ro"]
