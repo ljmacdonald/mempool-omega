@@ -61,7 +61,7 @@ def candles(symbol: str, interval: str = "1h", n: int = 240) -> pd.DataFrame:
                                      "taker_buy_volume", "tbqv", "_"])
     df.index = pd.to_datetime(df["t"].astype("int64"), unit="ms", utc=True)
     df.index.name = "ts"
-    df = df[["open", "high", "low", "close", "volume", "qv", "taker_buy_volume"]].astype(float)
+    df = df[["open", "high", "low", "close", "volume", "qv", "taker_buy_volume", "n_trades"]].astype(float)
     df = df[~df.index.duplicated()].sort_index()
     now = pd.Timestamp.now(tz="UTC")
     return df[df.index + pd.Timedelta(minutes=INTERVAL_MIN[interval]) <= now]
