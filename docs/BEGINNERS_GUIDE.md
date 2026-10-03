@@ -1,5 +1,7 @@
 # Beginner's guide: no market knowledge needed
 
+**The app:** https://ljmacdonald.github.io/mempool-omega/ (open it on your phone or computer, nothing to install).
+
 ## What this app does, in one paragraph
 A computer program watches about 60 popular cryptocurrencies. On the **live dashboard** it re-ranks them as often
 as you choose (every 1, 2, 5, 15, 30 or 60 minutes, or when you click *Refresh now*) and shows the **5 best buy

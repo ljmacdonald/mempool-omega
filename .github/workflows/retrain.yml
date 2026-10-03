@@ -40,6 +40,9 @@ jobs:
       - name: Retrain the top-5 coin scanner
         continue-on-error: true
         run: python -m scanner.run train
+      - name: Export models for the website
+        continue-on-error: true
+        run: python -m scanner.export_web
       - name: Walk-forward backtest
         run: python -m backtest.engine --folds 4
       - name: Red-team (synthetic attacks)
