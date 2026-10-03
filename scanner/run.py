@@ -57,18 +57,26 @@ def hourly(top_n: int = 5) -> dict:
     uni = select_universe()
     hist = track.load_history()
     results = {}
+    failures = []
     for key in STYLES:
-        opened = hist[(hist["status"] == "open") & (hist["style"] == key)]["symbol"].tolist() if len(hist) else []
-        res = scan(key, load_model(key), uni, top_n, extra_symbols=opened)
-        settled = track.resolve(res.candles, key)
-        track.append(res.payload["ideas"], res.payload["coins_scanned"])
-        res.payload["settled_this_run"] = settled
-        results[key] = res.payload
-        state_path("suggestions", f"latest_{key}.json").write_text(json.dumps(res.payload, indent=2, default=str))
+        try:  # one speed failing must never stop the others
+            opened = hist[(hist["status"] == "open") & (hist["style"] == key)]["symbol"].tolist() if len(hist) else []
+            res = scan(key, load_model(key), uni, top_n, extra_symbols=opened)
+            track.append(res.payload["ideas"], res.payload["coins_scanned"])
+            res.payload["settled_this_run"] = track.resolve(res.candles, key)
+            results[key] = res.payload
+            state_path("suggestions", f"latest_{key}.json").write_text(json.dumps(res.payload, indent=2, default=str))
+        except Exception as e:  # noqa: BLE001
+            log.exception("scanner speed %s failed", key)
+            failures.append(f"{key}: {e}")
+    if not results:
+        raise RuntimeError("; ".join(failures))
     board = track.scoreboard()
     combined = {"generated_at": str(pd.Timestamp.now(tz="UTC")), "styles": results, "scoreboard": board}
     state_path("suggestions", "latest.json").write_text(json.dumps(combined, indent=2, default=str))
     state_path("suggestions", "LATEST.md").write_text(render_markdown(combined))
+    if failures:
+        send("error", "scanner: " + "; ".join(failures))
     if os.environ.get("OMEGA_SCANNER_ALERTS", "1") == "1":
         alert_style = os.environ.get("OMEGA_SCANNER_ALERT_STYLE", DEFAULT_STYLE)
         send("info", render_telegram(results.get(alert_style) or next(iter(results.values())), board))
