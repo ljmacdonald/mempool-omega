@@ -259,6 +259,18 @@ svg text { fill: var(--muted); font-family: var(--f-num); font-size: 11px; }
         <li><b>Whales:</b> if recent trades are many times bigger than usual, a few big players are driving the price.</li>
         <li>Plus warnings for coins that <b>already spiked</b>, look <b>overheated</b>, trade very little, or when <b>Bitcoin is falling</b>.</li>
       </ul>
+      <h2>Staying ahead of manipulators who know they're being watched</h2>
+      <p>This system's rules are public, so we assume clever manipulators have read them and will try to game them: passing every check on purpose, pumping a coin until it tops our list and then selling to followers, or pushing the price through obvious exit levels to trigger everyone's safety exits. The defences:</p>
+      <ul>
+        <li><b>Secret, changing limits:</b> every check's exact threshold is different on your device and changes every hour, so nobody can aim just under it.</li>
+        <li><b>Three order-book readings at random times:</b> fake orders would have to stay up long enough to risk actually being filled.</li>
+        <li><b>Real money moves prices:</b> lots of trading that barely moves the price is treated as fake, however it's disguised.</li>
+        <li><b>“Too good to be true”:</b> a setup built only from cheap-to-fake signals (volume bursts, buy spikes), with no lasting trend, is marked down.</li>
+        <li><b>Bait monitor:</b> every night the system checks whether its own past suggestions dropped right after being suggested. If a pattern keeps doing that, it's penalised automatically.</li>
+        <li><b>Safety exits away from crowded levels:</b> your exit isn't placed on round numbers or just under the recent low, where stop-hunters aim.</li>
+        <li><b>No panic from one reading:</b> “Consider leaving early” only appears if the warning shows up on two refreshes in a row.</li>
+      </ul>
+      <p>No system can stop someone who spends real money to genuinely move a price and then sells. That's what the safety exit and the time limit are for.</p>
       <p class="small muted">Blockchain-level checks (mempool, stablecoin flows, wallet clustering, liquidation cascades, funding games) run in the Bitcoin/Ether practice account, where that data exists. Most other coins have no free data of that kind.</p>
       <h2>Simple rules that protect you</h2>
       <ul>

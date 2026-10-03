@@ -160,5 +160,5 @@ docs/       ARCHITECTURE.md, EXITS.md, screenshots/
 ```
 
 ## Documentation
-[RUNBOOK.md](RUNBOOK.md) · [DECISIONS.md](DECISIONS.md) · [SECURITY.md](SECURITY.md) · [LEGAL.md](LEGAL.md) ·
+[docs/ADVERSARY.md](docs/ADVERSARY.md) (how the system defends against manipulators who know they're watched) · [RUNBOOK.md](RUNBOOK.md) · [DECISIONS.md](DECISIONS.md) · [SECURITY.md](SECURITY.md) · [LEGAL.md](LEGAL.md) ·
 [MISSING_SECRETS.md](MISSING_SECRETS.md) · [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) · [docs/EXITS.md](docs/EXITS.md)

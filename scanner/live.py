@@ -47,6 +47,7 @@ def latest_rows(candles: dict[str, pd.DataFrame], style: Style, symbols: list[st
         f = coin_features(df, btc).iloc[-1].copy()
         f["risk_unit"] = float(risk_unit(df, style).iloc[-1])
         f["close"] = float(df["close"].iloc[-1])
+        f["low_24b"] = float(df["low"].iloc[-24:].min())
         f["ts"] = df.index[-1]
         rows.append(f.rename(s))
     return pd.DataFrame(rows)
@@ -63,12 +64,16 @@ def scan(style_key: str, model: ScannerModel, universe: pd.DataFrame | None = No
         raise RuntimeError("no market data")
     p = model.predict(latest)
     qv = dict(zip(uni["symbol"], uni["quoteVolume"]))
-    ideas = rank(latest, p, qv, big_movers(), candidates if integrity else top_n, model.win_r, model.loss_r, style)
+    from scanner.defence import load_adaptive
+
+    ideas = rank(latest, p, qv, big_movers(), candidates if integrity else top_n, model.win_r, model.loss_r, style,
+                 load_adaptive())
     if integrity:
         from scanner.integrity import run_checks
 
         try:
-            res = run_checks([d["symbol"] for d in ideas], candles, uni)
+            feats = {d["symbol"]: latest.loc[d["symbol"]].to_dict() for d in ideas}
+            res = run_checks([d["symbol"] for d in ideas], candles, uni, feats)
         except Exception as e:  # noqa: BLE001
             log.warning("fake-signal checks failed: %s", e)
             res = {}
@@ -88,8 +93,10 @@ def make_trade(idea: dict, entry: float | None = None, opened: pd.Timestamp | No
     entry = float(entry or idea["price_now"])
     opened = opened or pd.Timestamp.now(tz="UTC")
     ru = float(idea["risk_unit"])
+    tp_pct = idea.get("take_profit_pct", PT * ru)
+    sl_pct = idea.get("safety_exit_pct", -SL * ru)
     return {"symbol": idea["symbol"], "style": idea["style"], "entry": entry,
-            "take_profit": entry * (1 + PT * ru), "safety_exit": entry * (1 - SL * ru),
+            "take_profit": entry * (1 + tp_pct), "safety_exit": entry * (1 + sl_pct),
             "opened": str(opened.floor("s")),
             "exit_by": str((opened + pd.Timedelta(minutes=STYLES[idea["style"]].horizon_minutes)).floor("s"))}
 
