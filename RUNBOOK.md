@@ -1,5 +1,8 @@
 # RUNBOOK: operating Mempool Omega without writing code
 
+**Just want to use it?** Open **https://ljmacdonald.github.io/mempool-omega/**. That's all you need. Everything
+below is optional background for people who want to change settings.
+
 Everything happens in your browser on github.com. No computer setup is needed.
 
 > Reminder: this is **paper trading** (simulated money). Nothing here can spend real funds.

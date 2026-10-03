@@ -1,0 +1,152 @@
+{
+ "styles": {
+  "quick": {
+   "key": "quick",
+   "label": "Quick: exit within 1 hour",
+   "interval": "5m",
+   "bar_minutes": 5,
+   "horizon_bars": 12,
+   "min_risk": 0.006,
+   "max_risk": 0.05,
+   "train_bars": 2000,
+   "live_bars": 240,
+   "hold_text": "1 hour"
+  },
+  "short": {
+   "key": "short",
+   "label": "Short: exit within 4 hours",
+   "interval": "15m",
+   "bar_minutes": 15,
+   "horizon_bars": 16,
+   "min_risk": 0.01,
+   "max_risk": 0.08,
+   "train_bars": 1500,
+   "live_bars": 240,
+   "hold_text": "4 hours"
+  },
+  "day": {
+   "key": "day",
+   "label": "Day: exit within 24 hours",
+   "interval": "1h",
+   "bar_minutes": 60,
+   "horizon_bars": 24,
+   "min_risk": 0.015,
+   "max_risk": 0.12,
+   "train_bars": 1000,
+   "live_bars": 240,
+   "hold_text": "24 hours"
+  }
+ },
+ "default_style": "short",
+ "pt": 2.0,
+ "sl": 1.0,
+ "cost": 0.002,
+ "fee_r": 0.002,
+ "grades": [
+  [
+   6.5,
+   "Strong"
+  ],
+  [
+   5.6,
+   "Moderate"
+  ],
+  [
+   5.0,
+   "Weak"
+  ],
+  [
+   -1,
+   "Avoid - watch only"
+  ]
+ ],
+ "universe": {
+  "min_quote_volume_usd": 5000000,
+  "max_coins": 60,
+  "min_history_days": 30,
+  "exclude_stablecoins": [
+   "USDC",
+   "FDUSD",
+   "TUSD",
+   "USDP",
+   "DAI",
+   "BUSD",
+   "USD1",
+   "RLUSD",
+   "U",
+   "USDE",
+   "PYUSD",
+   "XUSD",
+   "BFUSD",
+   "EURI",
+   "AEUR",
+   "EUR",
+   "USDS",
+   "USTC",
+   "UST",
+   "PAX",
+   "SUSD",
+   "GUSD",
+   "FRAX",
+   "LUSD"
+  ],
+  "exclude_other": [
+   "PAXG",
+   "XAUT",
+   "WBTC",
+   "WBETH",
+   "BETH",
+   "BNSOL"
+  ],
+  "exclude_stock_tokens": [
+   "NVDAB",
+   "MSTRB",
+   "CRCLB",
+   "SNDKB",
+   "MUB",
+   "SPCXB",
+   "TSLAB",
+   "AAPLB",
+   "COINB",
+   "HOODB",
+   "GOOGLB",
+   "AMZNB",
+   "METAB",
+   "MSFTB",
+   "AMDB",
+   "PLTRB",
+   "NFLXB",
+   "SPYB",
+   "QQQB",
+   "ORCLB",
+   "INTCB",
+   "AVGOB"
+  ],
+  "always_include": [
+   "BTC",
+   "ETH",
+   "SOL"
+  ]
+ },
+ "features": [
+  "ret_1b",
+  "ret_4b",
+  "ret_24b",
+  "ret_72b",
+  "ema24_dist",
+  "ema72_dist",
+  "atr_pct",
+  "vol_ratio",
+  "buy_pressure_6b",
+  "buy_pressure_24b",
+  "volume_surge",
+  "rsi_14",
+  "dist_high_168b",
+  "dist_low_168b",
+  "rel_strength_24b",
+  "btc_ret_24b",
+  "hour_sin",
+  "hour_cos",
+  "liquidity"
+ ]
+}
