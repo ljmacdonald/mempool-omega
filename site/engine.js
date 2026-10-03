@@ -190,7 +190,7 @@
       const close = c.close[c.close.length - 1];
       const madeAt = c.t[c.t.length - 1] + style.bar_minutes * 60000;
       const bm = bigMovers[coin.symbol] || {};
-      rows.push({ symbol: coin.symbol, coin: coin.symbol.replace(/USDT$/, ""), style: style.key, p, baseR,
+      rows.push({ symbol: coin.symbol, coin: coin.symbol.replace(/USDT$/, ""), style: style.key, p, baseR, adjR: adj,
         score: Math.round(score * 10) / 10, rawScore: score, grade: grade(score, cfg.grades), chance_beats_market: p,
         risk_level: riskLevel(ru, style), risk_unit: ru, price_now: close,
         take_profit: close * (1 + cfg.pt * ru), take_profit_pct: cfg.pt * ru,
@@ -247,7 +247,74 @@
       toTp: t.take_profit / price - 1, toSl: t.safety_exit / price - 1 };
   }
 
-  const api = { FEATURES, diff, ewmMean, ewmStd, rStd, lastFeatures, riskUnit, predict, rankCoins, selectUniverse,
+  // ---------------------------------------------------------------- fake-signal checks (scanner/integrity.py)
+  const PENALTY = { walls: 0.15, thin_book: 0.05, wash: 0.10, venues: 0.15, venues_none: 0.03, whale: 0.05 };
+  const MAX_PENALTY = 0.15 + 0.05 + 0.10 + 0.15 + 0.05;
+  const median = (v) => { const a = v.filter(isNum).slice().sort((x, y) => x - y); if (!a.length) return NaN_; const m = a.length >> 1; return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2; };
+  const money = (x) => `$${Math.round(x).toLocaleString("en-US")}`;
+  const near = (levels, mid, band = 0.02) => levels.filter(([p]) => Math.abs(p / mid - 1) <= band);
+
+  function checkWalls(b1, b2) {
+    const mid = (b1.bids[0][0] + b1.asks[0][0]) / 2;
+    const lv = near(b1.bids, mid).concat(near(b1.asks, mid));
+    if (lv.length < 5) return { key: "walls", ok: null, text: "Not enough orders near the price to check for fake walls." };
+    const notional = lv.map(([p, q]) => p * q); const med = median(notional); const total = sum(notional);
+    const walls = lv.map(([p, q], i) => [p, q, notional[i]]).filter((w) => w[2] > 5 * med && w[2] > 1000);
+    if (!walls.length) return { key: "walls", ok: true, text: "No suspicious giant orders near the price (no sign of spoofing)." };
+    const after = new Map(b2.bids.concat(b2.asks).map(([p, q]) => [p, q]));
+    const wsum = sum(walls.map((w) => w[2]));
+    const kept = sum(walls.map(([p, q, n]) => n * Math.min(after.get(p) || 0, q) / q)) / wsum;
+    const share = wsum / total;
+    if (share > 0.3 && kept < 0.5) return { key: "walls", ok: false, text: `Large orders (${Math.round(share * 100)}% of the nearby order book) vanished within seconds. That is a classic spoofing trick to fake demand or supply.` };
+    return { key: "walls", ok: true, text: "Big orders near the price stayed in place (they look real)." };
+  }
+  function checkThinBook(b) {
+    const mid = (b.bids[0][0] + b.asks[0][0]) / 2;
+    const depth = sum(near(b.bids, mid).concat(near(b.asks, mid)).map(([p, q]) => p * q));
+    const spread = (b.asks[0][0] - b.bids[0][0]) / mid;
+    if (depth < 50000 || spread > 0.003) return { key: "thin_book", ok: false, text: `Only about ${money(depth)} of orders within 2% of the price (spread ${(spread * 100).toFixed(2)}%). One large trade can push it around.` };
+    return { key: "thin_book", ok: true, text: `About ${money(depth)} of orders within 2% of the price. Healthy depth.` };
+  }
+  function checkWash(trades) {
+    if (trades.length < 100) return { key: "wash", ok: null, text: "Too few recent trades to check for fake volume." };
+    let pairs = 0;
+    for (let i = 1; i < trades.length; i++) { const a = trades[i - 1], b = trades[i]; if (b.qty === a.qty && b.buyer_maker !== a.buyer_maker && b.time - a.time <= 2000) pairs++; }
+    const share = pairs / (trades.length - 1);
+    if (share > 0.02) return { key: "wash", ok: false, text: `${(share * 100).toFixed(1)}% of recent trades were back-and-forth trades of the exact same size within 2 seconds. That's typical of fake (wash) trading to make a coin look busy.` };
+    return { key: "wash", ok: true, text: "Recent trades look natural (no back-and-forth fake trading)." };
+  }
+  function checkVenues(price, changePct, others) {
+    if (!others || !others.length) return { key: "venues", ok: null, penalty: PENALTY.venues_none, text: "Not traded on the other exchanges checked (OKX, Gate.io), so the move can't be confirmed." };
+    const dev = Math.max(...others.map((o) => Math.abs(o.price / price - 1)));
+    const chgDiff = Math.abs(changePct - median(others.map((o) => o.change_pct)));
+    if (dev > 0.015 || chgDiff > 8) return { key: "venues", ok: false, text: `The price or daily move on Binance differs from other exchanges (up to ${(dev * 100).toFixed(1)}% apart, ${Math.round(chgDiff)} points different over 24 hours). It may be pushed on one exchange only.` };
+    return { key: "venues", ok: true, text: `Other exchanges confirm the price (${others.length} checked).` };
+  }
+  function checkWhale(c) {
+    if (!c || !c.n_trades || c.close.length < 60) return { key: "whale", ok: null, text: "Not enough history to check trade sizes." };
+    const avg = c.qv.map((q, i) => (c.n_trades[i] > 0 ? q / c.n_trades[i] : NaN_));
+    const rec = avg.slice(-6).filter(isNum); const recent = rec.length ? sum(rec) / rec.length : NaN_;
+    const usual = median(avg.slice(-168)); const ratio = usual > 0 ? recent / usual : NaN_;
+    if (isNum(ratio) && ratio > 4) return { key: "whale", ok: false, text: `Recent trades are ${Math.round(ratio)}x bigger than usual. A few very large players are behind the activity (a whale or a coordinated push).` };
+    return { key: "whale", ok: true, text: "Activity comes from many normal-sized trades." };
+  }
+  function combineChecks(checks) {
+    let pen = 0;
+    for (const c of checks) { if (c.ok === false) pen += PENALTY[c.key]; else if (c.ok === null) pen += c.penalty || 0; }
+    const known = checks.filter((c) => c.ok !== null);
+    return { checks, penalty: Math.round(pen * 1e6) / 1e6, passed: known.filter((c) => c.ok).length, checked: known.length,
+      trust: Math.round(Math.max(0, 1 - pen / MAX_PENALTY) * 1000) / 1000 };
+  }
+  function applyIntegrity(ideas, results, topN, grades) {
+    for (const d of ideas) {
+      const r = results[d.symbol]; d.integrity = r || null;
+      if (r) { d.adjR = d.adjR - r.penalty; d.rawScore = scoreFromR(d.adjR); d.score = Math.round(d.rawScore * 10) / 10; d.grade = grade(d.rawScore, grades); }
+    }
+    ideas.sort((a, b) => b.rawScore - a.rawScore);
+    return ideas.slice(0, topN).map((d, i) => ({ ...d, rank: i + 1 }));
+  }
+
+  const api = { FEATURES, checkWalls, checkThinBook, checkWash, checkVenues, checkWhale, combineChecks, applyIntegrity, diff, ewmMean, ewmStd, rStd, lastFeatures, riskUnit, predict, rankCoins, selectUniverse,
     makeTrade, advise, humanDuration, scoreFromR, expectedR };
   root.OmegaEngine = api;
   if (typeof module !== "undefined") module.exports = api;

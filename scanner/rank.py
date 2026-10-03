@@ -113,9 +113,24 @@ def rank(latest: pd.DataFrame, p: np.ndarray, quote_vol: dict[str, float], big_m
             "size_for_10usd_risk": 10 / (SL * ru),
             "why": reasons(f, style), "warnings": warns,
             "week_up20_pct": bm.get("up_pct"), "week_down20_pct": bm.get("down_pct"),
-            "ts": str(f["ts"]),
+            "ts": str(f["ts"]), "suggested_at": str(made),
         })
     ideas.sort(key=lambda d: -d["score"])
     for i, d in enumerate(ideas[:top_n], 1):
+        d["rank"] = i
+    return ideas[:top_n]
+
+
+def apply_integrity(ideas: list[dict], results: dict[str, dict], top_n: int = 5) -> list[dict]:
+    """Lower each candidate's score by its fake-signal penalty, re-rank, keep the best ``top_n``."""
+    for d in ideas:
+        r = results.get(d["symbol"])
+        d["integrity"] = r
+        if r:
+            d["expected_r"] = round(d["expected_r"] - r["penalty"], 3)
+            d["score"] = round(score_from_r(d["expected_r"]), 1)
+            d["grade"] = grade(d["score"])
+    ideas.sort(key=lambda d: -d["score"])
+    for i, d in enumerate(ideas, 1):
         d["rank"] = i
     return ideas[:top_n]

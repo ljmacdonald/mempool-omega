@@ -15,7 +15,7 @@ from core.log import get_logger
 from scanner.data import last_prices, load_all, select_universe
 from scanner.features import coin_features
 from scanner.model import PT, SL, ScannerModel, risk_unit
-from scanner.rank import expected_r, market_mood, rank, score_from_r
+from scanner.rank import apply_integrity, expected_r, market_mood, rank, score_from_r
 from scanner.styles import STYLES, Style, human_duration
 
 log = get_logger("scanner.live")
@@ -53,7 +53,7 @@ def latest_rows(candles: dict[str, pd.DataFrame], style: Style, symbols: list[st
 
 
 def scan(style_key: str, model: ScannerModel, universe: pd.DataFrame | None = None, top_n: int = 5,
-         extra_symbols: list[str] | None = None) -> ScanResult:
+         extra_symbols: list[str] | None = None, integrity: bool = True, candidates: int = 10) -> ScanResult:
     style = STYLES[style_key]
     uni = universe if universe is not None else select_universe()
     syms = sorted(set(uni["symbol"]) | set(extra_symbols or []) | {"BTCUSDT"})
@@ -63,7 +63,16 @@ def scan(style_key: str, model: ScannerModel, universe: pd.DataFrame | None = No
         raise RuntimeError("no market data")
     p = model.predict(latest)
     qv = dict(zip(uni["symbol"], uni["quoteVolume"]))
-    ideas = rank(latest, p, qv, big_movers(), top_n, model.win_r, model.loss_r, style)
+    ideas = rank(latest, p, qv, big_movers(), candidates if integrity else top_n, model.win_r, model.loss_r, style)
+    if integrity:
+        from scanner.integrity import run_checks
+
+        try:
+            res = run_checks([d["symbol"] for d in ideas], candles, uni)
+        except Exception as e:  # noqa: BLE001
+            log.warning("fake-signal checks failed: %s", e)
+            res = {}
+        ideas = apply_integrity(ideas, res, top_n)
     ru = latest["risk_unit"].to_numpy()
     scores = {s: score_from_r(expected_r(pr, model.win_r, model.loss_r, r)) for s, pr, r in zip(latest.index, p, ru)}
     payload = {"generated_at": str(pd.Timestamp.now(tz="UTC")), "style": style.key, "style_label": style.label,

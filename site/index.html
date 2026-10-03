@@ -125,6 +125,23 @@ form.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,
 form.grid label { display: grid; gap: 4px; font-size: 0.85rem; color: var(--muted); }
 .skeleton { background: var(--sunken); border-radius: var(--r); height: 180px; }
 footer { margin-top: 32px; font-size: 0.82rem; color: var(--muted); max-width: 70ch; }
+/* live chart + price strip + calculator + fake-signal checks */
+.chart { height: 260px; width: 100%; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); }
+.chart-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.78rem; color: var(--muted); }
+.chart-legend i { display: inline-block; width: 14px; height: 0; border-top: 2px solid; vertical-align: middle; margin-right: 4px; }
+.chart-legend .l-base { border-color: var(--calm); border-top-style: dashed; } .chart-legend .l-tp { border-color: var(--good); } .chart-legend .l-sl { border-color: var(--bad); }
+.live { display: inline-flex; align-items: center; gap: 6px; }
+.live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--good); }
+.live.stale::before { background: var(--muted); }
+.strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; background: var(--sunken); border-radius: 8px; padding: 10px 12px; }
+.calc { display: grid; gap: 8px; border-top: 1px dashed var(--line); padding-top: 12px; }
+.calc .row { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.calc input { width: 9em; }
+.calc table td { white-space: normal; }
+details.checks summary { font-weight: 600; }
+.checks ul { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; }
+.checks li { display: grid; grid-template-columns: 1.4em 1fr; gap: 6px; }
+.checks .ok { color: var(--good); } .checks .bad { color: var(--bad); } .checks .na { color: var(--muted); }
 svg text { fill: var(--muted); font-family: var(--f-num); font-size: 11px; }
 @media (max-width: 560px) { .status { margin-left: 0; width: 100%; } .seg button { padding: 6px 10px; } }
 @media (prefers-reduced-motion: no-preference) { .card { transition: border-color .2s; } }
@@ -185,6 +202,7 @@ svg text { fill: var(--muted); font-family: var(--f-num); font-size: 11px; }
         <label for="mPrice">Price you paid ($)<input id="mPrice" type="number" step="any" min="0" required></label>
         <label for="mAgo">Minutes ago you bought<input id="mAgo" type="number" min="0" step="1" value="0"></label>
         <label for="mRisk">Safety exit: % below your price<input id="mRisk" type="number" min="0.3" max="30" step="0.1" value="3"></label>
+        <label for="mAmount">Amount you put in ($)<input id="mAmount" type="number" min="1" step="any" value="100"></label>
         <button class="btn primary" type="submit">Watch this trade</button>
       </form>
       <p class="small muted" id="manualMsg"></p>
@@ -214,7 +232,10 @@ svg text { fill: var(--muted); font-family: var(--f-num); font-size: 11px; }
       <ul>
         <li><b>Pick a speed</b> at the top: <i>Quick</i> means you sell within 1 hour, <i>Short</i> within 4 hours, <i>Day</i> within 24 hours.</li>
         <li><b>Pick how often to refresh.</b> Every refresh downloads fresh prices and re-ranks about 60 of the most-traded coins on your device. Rankings change when a new price candle closes (every 5, 15 or 60 minutes, depending on the speed).</li>
-        <li><b>Read the top 5.</b> Each card says where to buy, where to take profit, where to get out to limit a loss, and the latest time to sell.</li>
+        <li><b>Read the top 5.</b> Each card shows <b>when the idea was suggested and at what price</b>, the <b>live price now</b> and how much it has moved since, where to take profit, where to get out to limit a loss, and the latest time to sell.</li>
+        <li><b>Watch the live chart.</b> Each card has candles that move in real time. The dashed blue line is the price when the idea was suggested (the baseline), green is the take profit, and red is the safety exit.</li>
+        <li><b>Use the profit calculator.</b> Type how much you'd put in. It shows how many coins you'd get and what you'd make at the take profit, lose at the safety exit, or make if you sold right now, all after fees. You can also type your own target price.</li>
+        <li><b>Check the fake-signal scorecard.</b> Each idea is checked for common market tricks before it's shown (see below).</li>
         <li><b>If you buy one,</b> tap <i>“I bought this”</i>. The <i>My trades</i> tab then tells you what to do: <b>Hold</b>, <b>Take profit now</b>, <b>Exit now</b>, <b>Time's up: sell now</b>, or <b>Consider leaving early</b>.</li>
       </ul>
       <h2>What the numbers mean</h2>
@@ -228,6 +249,17 @@ svg text { fill: var(--muted); font-family: var(--f-num); font-size: 11px; }
         <li><b>Risk level:</b> how much this coin usually swings for the chosen speed. Higher risk means bigger moves both ways.</li>
         <li><b>Market mood:</b> how many coins look positive right now. When it says <i>Unfavourable</i>, doing nothing is a good choice.</li>
       </ul>
+      <h2>Fake-signal checks (market manipulation)</h2>
+      <p>Before an idea is shown, the 10 best candidates are checked with live data, and failed checks push an idea down the list:</p>
+      <ul>
+        <li><b>Spoofing:</b> the order book is read twice, 3 seconds apart. Big orders that vanish immediately are fake walls meant to trick people.</li>
+        <li><b>Thin order book:</b> if few real orders sit near the price, one large trade can move it.</li>
+        <li><b>Fake (wash) trading:</b> identical-size trades bouncing buy/sell within seconds mean someone is trading with themselves to fake activity.</li>
+        <li><b>Other exchanges:</b> the price and daily move are compared with OKX and Gate.io. A move on only one exchange is suspicious.</li>
+        <li><b>Whales:</b> if recent trades are many times bigger than usual, a few big players are driving the price.</li>
+        <li>Plus warnings for coins that <b>already spiked</b>, look <b>overheated</b>, trade very little, or when <b>Bitcoin is falling</b>.</li>
+      </ul>
+      <p class="small muted">Blockchain-level checks (mempool, stablecoin flows, wallet clustering, liquidation cascades, funding games) run in the Bitcoin/Ether practice account, where that data exists. Most other coins have no free data of that kind.</p>
       <h2>Simple rules that protect you</h2>
       <ul>
         <li>Never use money you cannot afford to lose. Many traders risk only 1–2% of their money on one idea.</li>
@@ -242,6 +274,7 @@ svg text { fill: var(--muted); font-family: var(--f-num); font-size: 11px; }
 
   <footer>Mempool Omega is research and education software. It never places real orders. Nothing here is financial advice and no profit is promised. Prices: Binance public market data. If prices don't load, Binance may be blocked on your network; the page then shows the most recent hourly ideas instead.</footer>
 </div>
+<script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
 <script src="engine.js"></script>
 <script src="app.js"></script>
 </body>
