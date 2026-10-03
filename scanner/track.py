@@ -25,6 +25,22 @@ def load_history() -> pd.DataFrame:
     if "style" not in h:
         h["style"] = "day"          # rows made before trading speeds existed
     h["style"] = h["style"].fillna("day")
+    return _normalise(h)
+
+
+TEXT_COLS = ("ts", "style", "symbol", "grade", "status", "outcome")
+NUM_COLS = ("net_ret", "hours", "baseline_ret", "risk_unit", "score")
+
+
+def _normalise(h: pd.DataFrame) -> pd.DataFrame:
+    """Fix column types after reading CSV. An all-empty column comes back as numbers, and pandas 3 then
+    refuses to store words in it (this once stopped ideas from being settled)."""
+    for c in TEXT_COLS:
+        if c in h:
+            h[c] = h[c].astype(object).where(h[c].notna(), "").astype(str)
+    for c in NUM_COLS:
+        if c in h:
+            h[c] = pd.to_numeric(h[c], errors="coerce").astype(float)
     return h
 
 
@@ -35,6 +51,7 @@ def append(ideas: list[dict], universe_size: int) -> None:
              "net_ret": np.nan, "hours": np.nan, "baseline_ret": np.nan} for d in ideas]
     h = load_history()
     new = pd.DataFrame(rows)
+    new = _normalise(new)
     if len(h):
         key = ["ts", "symbol", "style"]
         new = new[~new.set_index(key).index.isin(h.set_index(key).index)]

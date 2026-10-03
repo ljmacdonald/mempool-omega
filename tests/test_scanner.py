@@ -104,3 +104,23 @@ def test_quick_style_dataset_labels_vs_market():
     data = build_dataset(candles, STYLES["quick"])
     assert {"excess", "market_ret", "win"} <= set(data.columns)
     assert abs(data.groupby(level=0)["excess"].mean()).max() < 1e-9   # excess is relative to the same-moment average
+
+
+def test_track_record_settles_after_csv_roundtrip(tmp_path, monkeypatch):
+    """Regression: an all-empty 'outcome' column read back from CSV must still accept words (pandas 3)."""
+    import scanner.track as T
+    from core import config
+
+    monkeypatch.setattr(config, "STATE_DIR", tmp_path)
+    df = _candles(n=300, seed=3)
+    ts = str(df.index[200])
+    idea = {"ts": ts, "style": "day", "rank": 1, "symbol": "C1USDT", "score": 6.0, "grade": "Moderate",
+            "chance_beats_market": 0.6, "risk_unit": 0.02, "price_now": float(df["close"].iloc[200])}
+    T.append([idea], 10)
+    T.append([idea], 10)                      # duplicates are ignored
+    assert len(T.load_history()) == 1
+    assert T.resolve({"C1USDT": df}, "day") == 1
+    h = T.load_history()
+    assert h.loc[0, "status"] == "closed" and h.loc[0, "outcome"] in {"take_profit", "safety_exit", "time_limit"}
+    board = T.scoreboard()
+    assert board["by_style"]["day"]["closed"] == 1
