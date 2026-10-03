@@ -35,9 +35,11 @@ def risk_unit(df: pd.DataFrame, style: Style = STYLES["day"]) -> pd.Series:
     return (bar_sigma(df) * np.sqrt(style.horizon_bars)).clip(style.min_risk, style.max_risk)
 
 
-def _exit_scan(o, h, lo, c, t: int, ru: float, last: int):
+def _exit_scan(o, h, lo, c, t: int, ru: float, last: int, tp_pct: float | None = None,
+               sl_pct: float | None = None):
     entry = o[t + 1]
-    tgt, stp = entry * (1 + PT * ru), entry * (1 - SL * ru)
+    tgt = entry * (1 + (PT * ru if tp_pct is None else tp_pct))
+    stp = entry * (1 + (-SL * ru if sl_pct is None else sl_pct))
     for k in range(t + 1, last + 1):
         if lo[k] <= stp:                       # stop first if both touched in one candle (pessimistic)
             px = min(stp, o[k]) if k > t + 1 else stp   # a gap down through the stop fills at the open
@@ -56,14 +58,18 @@ def _sim(o, h, lo, c, t: int, ru: float, horizon: int) -> tuple[float, str, int]
     return c[t + horizon] / o[t + 1] - 1 - COST, "time_limit", horizon
 
 
-def simulate_idea(df: pd.DataFrame, t: int, ru: float, horizon: int = 24) -> tuple[float, str, int] | None:
+def simulate_idea(df: pd.DataFrame, t: int, ru: float, horizon: int = 24, tp_pct: float | None = None,
+                  sl_pct: float | None = None) -> tuple[float, str, int] | None:
     """Outcome of a BUY idea created at the close of candle t: (net return, outcome, candles held), or None if
-    the time limit has not passed yet and neither exit was hit."""
+    the time limit has not passed yet and neither exit was hit. Exits default to 2:1 x risk_unit, or are given
+    as fractions of the entry price (tp_pct > 0, sl_pct < 0)."""
     o, h, lo, c = (df[k].to_numpy() for k in ("open", "high", "low", "close"))
-    res = _sim(o, h, lo, c, t, ru, horizon)
-    if res is not None or t + 1 >= len(o):
-        return res
-    return _exit_scan(o, h, lo, c, t, ru, len(o) - 1)
+    if t + 1 >= len(o) or not np.isfinite(ru):
+        return None
+    if t + horizon < len(o):
+        res = _exit_scan(o, h, lo, c, t, ru, t + horizon, tp_pct, sl_pct)
+        return res or (c[t + horizon] / o[t + 1] - 1 - COST, "time_limit", horizon)
+    return _exit_scan(o, h, lo, c, t, ru, len(o) - 1, tp_pct, sl_pct)
 
 
 def build_dataset(candles: dict[str, pd.DataFrame], style: Style = STYLES["day"],

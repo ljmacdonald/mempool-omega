@@ -4,6 +4,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
+from scanner.defence import adaptive_penalty, declutter_exits
 from scanner.model import PT, SL
 from scanner.styles import STYLES, Style
 
@@ -91,26 +92,34 @@ def expected_r(prob: float, win_r: float, loss_r: float, ru: float = 0.02) -> fl
 
 
 def rank(latest: pd.DataFrame, p: np.ndarray, quote_vol: dict[str, float], big_movers: dict[str, dict],
-         top_n: int = 5, win_r: float = 1.0, loss_r: float = 1.0, style: Style = STYLES["day"]) -> list[dict]:
-    """``latest``: one row per symbol (features + risk_unit + close + ts)."""
+         top_n: int = 5, win_r: float = 1.0, loss_r: float = 1.0, style: Style = STYLES["day"],
+         adaptive: dict | None = None) -> list[dict]:
+    """``latest``: one row per symbol (features + risk_unit + close + ts + low_24b)."""
     ideas = []
     for (sym, f), prob in zip(latest.iterrows(), p):
         ru = float(f["risk_unit"])
         pen, warns = red_flags(f, quote_vol.get(sym, 0.0), style)
+        apen, awarn = adaptive_penalty(f, adaptive or {})
+        pen += apen
+        warns += awarn
         adj_r = expected_r(prob, win_r, loss_r, ru) - pen
         score = score_from_r(adj_r)
         close = float(f["close"])
         bm = big_movers.get(sym, {})
         made = pd.Timestamp(f["ts"]) + pd.Timedelta(minutes=style.bar_minutes)   # candle close = decision time
+        stop, target = declutter_exits(close, close * (1 - SL * ru), close * (1 + PT * ru),
+                                       float(f.get("low_24b", np.nan)), ru, SL)
         ideas.append({
             "symbol": sym, "coin": sym[:-4], "style": style.key, "score": round(score, 1), "grade": grade(score),
             "chance_beats_market": round(float(prob), 3), "expected_r": round(float(adj_r), 3),
             "risk_level": risk_level(ru, style), "risk_unit": ru, "price_now": close,
-            "take_profit": close * (1 + PT * ru), "take_profit_pct": PT * ru,
-            "safety_exit": close * (1 - SL * ru), "safety_exit_pct": -SL * ru,
+            "take_profit": target, "take_profit_pct": target / close - 1,
+            "safety_exit": stop, "safety_exit_pct": stop / close - 1,
             "hold_minutes": style.horizon_minutes, "hold_text": style.hold_text,
             "exit_by": str(made + pd.Timedelta(minutes=style.horizon_minutes)),
-            "size_for_10usd_risk": 10 / (SL * ru),
+            "size_for_10usd_risk": 10 / (1 - stop / close),
+            "pre_ret": float(f["ret_24b"]) if np.isfinite(f["ret_24b"]) else None,
+            "vol_surge": float(f["volume_surge"]) if np.isfinite(f["volume_surge"]) else None,
             "why": reasons(f, style), "warnings": warns,
             "week_up20_pct": bm.get("up_pct"), "week_down20_pct": bm.get("down_pct"),
             "ts": str(f["ts"]), "suggested_at": str(made),

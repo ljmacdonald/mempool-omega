@@ -29,7 +29,8 @@ def load_history() -> pd.DataFrame:
 
 
 TEXT_COLS = ("ts", "style", "symbol", "grade", "status", "outcome")
-NUM_COLS = ("net_ret", "hours", "baseline_ret", "risk_unit", "score")
+NUM_COLS = ("net_ret", "hours", "baseline_ret", "risk_unit", "score", "tp_pct", "sl_pct", "pre_ret", "vol_surge",
+            "integrity_penalty")
 
 
 def _normalise(h: pd.DataFrame) -> pd.DataFrame:
@@ -48,7 +49,10 @@ def append(ideas: list[dict], universe_size: int) -> None:
     rows = [{"ts": d["ts"], "style": d["style"], "rank": d["rank"], "symbol": d["symbol"], "score": d["score"],
              "grade": d["grade"], "chance_beats_market": d["chance_beats_market"], "risk_unit": d["risk_unit"],
              "price_at_idea": d["price_now"], "universe_size": universe_size, "status": "open", "outcome": "",
-             "net_ret": np.nan, "hours": np.nan, "baseline_ret": np.nan} for d in ideas]
+             "net_ret": np.nan, "hours": np.nan, "baseline_ret": np.nan,
+             "tp_pct": d.get("take_profit_pct"), "sl_pct": d.get("safety_exit_pct"),
+             "pre_ret": d.get("pre_ret"), "vol_surge": d.get("vol_surge"),
+             "integrity_penalty": (d.get("integrity") or {}).get("penalty")} for d in ideas]
     h = load_history()
     new = pd.DataFrame(rows)
     new = _normalise(new)
@@ -77,7 +81,10 @@ def resolve(candles: dict[str, pd.DataFrame], style_key: str) -> int:
                 h.loc[i, ["status", "outcome"]] = ["expired", "no_data"]
             continue
         t = df.index.get_loc(ts)
-        res = simulate_idea(df, t, float(row["risk_unit"]), style.horizon_bars)
+        tp = row.get("tp_pct")
+        sl = row.get("sl_pct")
+        res = simulate_idea(df, t, float(row["risk_unit"]), style.horizon_bars,
+                            float(tp) if pd.notna(tp) else None, float(sl) if pd.notna(sl) else None)
         if res is None:
             continue
         net, outcome, bars = res

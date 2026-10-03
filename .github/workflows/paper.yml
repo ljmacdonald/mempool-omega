@@ -51,7 +51,11 @@ jobs:
         env:
           OMEGA_SCANNER_ALERTS: ${{ vars.OMEGA_SCANNER_ALERTS || '1' }}
           OMEGA_SCANNER_ALERT_STYLE: ${{ vars.OMEGA_SCANNER_ALERT_STYLE || 'short' }}
-        run: python -m scanner.run hourly
+          OMEGA_SECRET_SEED: ${{ secrets.OMEGA_SECRET_SEED }}
+        # random 0-10 min delay: publication time can't be predicted and front-run
+        run: |
+          sleep $(( RANDOM % 600 ))
+          python -m scanner.run hourly
       - name: Commit state
         if: always()
         run: |

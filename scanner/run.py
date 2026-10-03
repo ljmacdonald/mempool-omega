@@ -43,6 +43,9 @@ def train(styles: list[str] | None = None) -> dict:
             log.warning("daily %s: %s", s, e)
     state_path("reports", "scanner_bigmovers.json").write_text(json.dumps(bm, indent=2))
     state_path("reports", "scanner_train.json").write_text(json.dumps(infos, indent=2, default=str))
+    from scanner.defence import update_adaptive
+
+    infos["bait_monitor"] = update_adaptive()
     return infos
 
 

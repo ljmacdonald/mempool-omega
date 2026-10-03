@@ -23,7 +23,7 @@
     lastScan: {}, scanning: false, timer: null, nextAt: 0,
     trades: store.get("omega.trades", []), lastAction: {},
     anchors: store.get("omega.sugg", {}), earlier: store.get("omega.sugg.earlier", []),
-    live: {}, charts: {}, ws: null, wsKey: "", wsOk: false, pollTimer: null,
+    live: {}, charts: {}, ws: null, wsKey: "", wsOk: false, pollTimer: null, adaptive: null, adaptiveAt: 0, lowStreak: {},
   };
 
   // ------------------------------------------------------------------ formatting
@@ -104,21 +104,43 @@
   const book = async (s) => { const d = await getJSON(`${BINANCE}/depth?symbol=${s}&limit=100`); return { bids: d.bids.map(([p, q]) => [+p, +q]), asks: d.asks.map(([p, q]) => [+p, +q]) }; };
   const trades = async (s) => (await getJSON(`${BINANCE}/trades?symbol=${s}&limit=1000`)).map((t) => ({ price: +t.price, qty: +t.qty, buyer_maker: !!t.isBuyerMaker, time: +t.time }));
 
-  async function integrityFor(symbols, bySym, uni) {
+  // Private per-device seed, rotated every hour: thresholds and snapshot timing are unknowable from outside.
+  function deviceSeed() {
+    let s0 = store.get("omega.seed", null);
+    if (!Number.isInteger(s0)) { const a = new Uint32Array(1); crypto.getRandomValues(a); s0 = a[0]; store.set("omega.seed", s0); }
+    return (s0 ^ Math.floor(Date.now() / 3600000)) >>> 0;
+  }
+  async function integrityFor(ideas, bySym, uni) {
+    const symbols = ideas.map((d) => d.symbol);
+    const seed = deviceSeed(); const t = E.thresholds(seed); const gaps = E.snapshotGaps(E.mulberry32((seed ^ 0x9E3779B9) >>> 0));
     const [ven, b1] = await Promise.all([venues(), pool(symbols, 6, book)]);
-    await sleep(3000);
-    const [b2, tr] = await Promise.all([pool(symbols, 6, book), pool(symbols, 6, trades)]);
+    const snaps = [b1];
+    for (let g = 0; g < gaps.length; g++) {
+      setStatus(`Fake-signal checks: order-book snapshot ${g + 2} of 3…`);
+      await sleep(gaps[g] * 1000);
+      snaps.push(await pool(symbols, 6, book));
+    }
+    const tr = await pool(symbols, 6, trades);
     const u = Object.fromEntries(uni.map((x) => [x.symbol, x]));
     const out = {};
     symbols.forEach((s, i) => {
       const checks = [];
-      if (b1[i] && b2[i] && b1[i].bids.length && b1[i].asks.length) checks.push(E.checkWalls(b1[i], b2[i]), E.checkThinBook(b1[i]));
-      if (tr[i]) checks.push(E.checkWash(tr[i]));
-      if (u[s]) checks.push(E.checkVenues(u[s].lastPrice, u[s].change, ven[coinName(s)] || []));
-      if (bySym[s]) checks.push(E.checkWhale(bySym[s]));
+      const books = snaps.map((sn) => sn[i]).filter((b) => b && b.bids.length && b.asks.length);
+      if (books.length >= 2) checks.push(E.checkWalls(books, t), E.checkThinBook(books[0], t));
+      if (tr[i]) checks.push(E.checkWash(tr[i], t));
+      if (bySym[s]) checks.push(E.checkImpact(bySym[s], t));
+      if (u[s]) checks.push(E.checkVenues(u[s].lastPrice, u[s].change, ven[coinName(s)] || [], t));
+      if (bySym[s]) checks.push(E.checkWhale(bySym[s], t));
+      if (ideas[i].features) checks.push(E.checkEngineered(ideas[i].features, t));
       out[s] = E.combineChecks(checks);
     });
     return out;
+  }
+  async function loadAdaptive() {
+    if (state.adaptive && Date.now() - state.adaptiveAt < 3600000) return state.adaptive;
+    try { state.adaptive = await getJSON(REPO + "web/adaptive.json"); } catch { state.adaptive = null; }
+    state.adaptiveAt = Date.now();
+    return state.adaptive;
   }
 
   // ------------------------------------------------------------------ scanning
@@ -132,10 +154,10 @@
     const bySym = Object.fromEntries(syms.map((s, i) => [s, data[i]]));
     const coins = uni.map((u) => ({ symbol: u.symbol, quoteVolume: u.quoteVolume, candles: bySym[u.symbol] })).filter((c) => c.candles);
     if (coins.length < 10) throw new Error("not enough market data came back");
-    const res = E.rankCoins(coins, bySym.BTCUSDT, model, style, state.cfg, state.bigMovers, 10);
+    const res = E.rankCoins(coins, bySym.BTCUSDT, model, style, state.cfg, state.bigMovers, 10, await loadAdaptive());
     setStatus("Running fake-signal checks on the best 10 candidates…");
     let checks = {};
-    try { checks = await integrityFor(res.ideas.map((d) => d.symbol), bySym, uni); } catch { /* checks unavailable */ }
+    try { checks = await integrityFor(res.ideas, bySym, uni); } catch { /* checks unavailable */ }
     res.ideas = E.applyIntegrity(res.ideas, checks, 5, state.cfg.grades);
     res.candles = bySym; res.at = Date.now(); res.style = styleKey;
     state.lastScan[styleKey] = res;
@@ -419,7 +441,12 @@
     for (const t of state.trades) {
       const px = prices[t.symbol] ?? state.live[t.symbol]?.price;
       if (Number.isFinite(px)) state.live[t.symbol] = { price: px, at: Date.now() };
-      const score = state.lastScan[t.style]?.scores?.[t.symbol];
+      const scan = state.lastScan[t.style]; let score = scan?.scores?.[t.symbol];
+      if (scan && Number.isFinite(score)) {
+        const seen = state.lowStreak[t.id] || { at: 0, n: 0 };
+        if (seen.at !== scan.at) state.lowStreak[t.id] = { at: scan.at, n: score < 4.5 ? seen.n + 1 : 0 };
+        if (state.lowStreak[t.id].n < 2) score = Math.max(score, 4.5);   // one bad reading could be a planted signal
+      }
       const a = E.advise(t, px, Date.now(), score);
       notifyIfChanged(t, a);
       const amt = +(amounts[t.id] ?? t.amount ?? state.amount);
