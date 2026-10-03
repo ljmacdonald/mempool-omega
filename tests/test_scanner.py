@@ -75,3 +75,32 @@ def test_big_mover_stats():
     daily = pd.DataFrame({"open": c, "high": c * 1.01, "low": c * 0.99, "close": c}, index=idx)
     s = big_mover_stats(daily)
     assert s["up_pct"] > 0 and s["down_pct"] == 0
+
+
+def test_styles_and_durations():
+    from scanner.styles import STYLES, human_duration
+
+    assert STYLES["quick"].horizon_minutes == 60 and STYLES["short"].horizon_minutes == 240
+    assert STYLES["day"].hold_text == "24 hours" and human_duration(30) == "30 minutes"
+
+
+def test_trade_monitor_advice():
+    from scanner.live import advise, manual_trade
+
+    now = pd.Timestamp("2026-01-01 12:00", tz="UTC")
+    t = manual_trade("SOLUSDT", "short", 100.0, now, 2.0)   # stop 98, target 104, sell by 16:00
+    assert round(t["safety_exit"], 6) == 98 and round(t["take_profit"], 6) == 104
+    assert advise(t, 101, now + pd.Timedelta(minutes=30))["action"] == "HOLD"
+    assert advise(t, 104.5, now)["action"] == "TAKE PROFIT NOW"
+    assert advise(t, 97.9, now)["action"].startswith("EXIT NOW")
+    assert advise(t, 101, now + pd.Timedelta(hours=5))["action"].startswith("TIME")
+    assert advise(t, 101, now, score=3.0)["action"] == "CONSIDER LEAVING EARLY"
+
+
+def test_quick_style_dataset_labels_vs_market():
+    from scanner.styles import STYLES
+
+    candles = {f"C{i}USDT": _candles(n=500, seed=i, vol=0.004) for i in range(6)}
+    data = build_dataset(candles, STYLES["quick"])
+    assert {"excess", "market_ret", "win"} <= set(data.columns)
+    assert abs(data.groupby(level=0)["excess"].mean()).max() < 1e-9   # excess is relative to the same-moment average

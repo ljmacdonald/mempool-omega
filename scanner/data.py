@@ -1,7 +1,8 @@
-"""Universe selection and hourly candles (Binance public data mirror, no key)."""
+"""Universe selection and candles (Binance public data mirror, no key). Thread-pooled for live use."""
 from __future__ import annotations
 
 import re
+from concurrent.futures import ThreadPoolExecutor
 from functools import lru_cache
 from pathlib import Path
 
@@ -13,6 +14,7 @@ from ingest.cex import _binance_get
 
 log = get_logger("scanner.data")
 CFG_PATH = Path(__file__).with_name("universe.yaml")
+INTERVAL_MIN = {"1m": 1, "5m": 5, "15m": 15, "30m": 30, "1h": 60, "4h": 240, "1d": 1440}
 
 
 @lru_cache(maxsize=1)
@@ -40,12 +42,12 @@ def select_universe(max_coins: int | None = None) -> pd.DataFrame:
     return top[["symbol", "base", "quoteVolume", "lastPrice", "priceChangePercent"]].reset_index(drop=True)
 
 
-def hourly_candles(symbol: str, n: int = 240) -> pd.DataFrame:
-    """1-hour OHLCV + taker-buy volume, closed bars only."""
+def candles(symbol: str, interval: str = "1h", n: int = 240) -> pd.DataFrame:
+    """OHLCV + taker-buy volume, CLOSED candles only."""
     rows: list = []
     end = None
     while len(rows) < n:
-        params = {"symbol": symbol, "interval": "1h", "limit": min(1000, n - len(rows))}
+        params = {"symbol": symbol, "interval": interval, "limit": min(1000, n - len(rows))}
         if end is not None:
             params["endTime"] = end
         batch = _binance_get("/api/v3/klines", params)
@@ -62,7 +64,11 @@ def hourly_candles(symbol: str, n: int = 240) -> pd.DataFrame:
     df = df[["open", "high", "low", "close", "volume", "qv", "taker_buy_volume"]].astype(float)
     df = df[~df.index.duplicated()].sort_index()
     now = pd.Timestamp.now(tz="UTC")
-    return df[df.index + pd.Timedelta(hours=1) <= now]
+    return df[df.index + pd.Timedelta(minutes=INTERVAL_MIN[interval]) <= now]
+
+
+def hourly_candles(symbol: str, n: int = 240) -> pd.DataFrame:
+    return candles(symbol, "1h", n)
 
 
 def daily_candles(symbol: str, n: int = 120) -> pd.DataFrame:
@@ -72,13 +78,21 @@ def daily_candles(symbol: str, n: int = 120) -> pd.DataFrame:
     return df[["open", "high", "low", "close", "volume"]].astype(float)
 
 
-def load_all(symbols: list[str], n_hours: int = 240) -> dict[str, pd.DataFrame]:
-    out = {}
-    for s in symbols:
+def load_all(symbols: list[str], n: int = 240, interval: str = "1h", workers: int = 8) -> dict[str, pd.DataFrame]:
+    def one(s):
         try:
-            df = hourly_candles(s, n_hours)
-            if len(df) >= 200:
-                out[s] = df
+            df = candles(s, interval, n)
+            return s, df if len(df) >= min(200, n - 5) else None
         except Exception as e:  # noqa: BLE001
             log.warning("skip %s: %s", s, e)
-    return out
+            return s, None
+
+    with ThreadPoolExecutor(workers) as ex:
+        return {s: df for s, df in ex.map(one, symbols) if df is not None}
+
+
+def last_prices(symbols: list[str]) -> dict[str, float]:
+    """Current prices (one request for everything)."""
+    d = _binance_get("/api/v3/ticker/price", {})
+    want = set(symbols)
+    return {x["symbol"]: float(x["price"]) for x in d if x["symbol"] in want}

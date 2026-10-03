@@ -1,10 +1,25 @@
 # Beginner's guide: no market knowledge needed
 
 ## What this app does, in one paragraph
-Every hour a computer program looks at about 60 popular cryptocurrencies. It picks the **5 it rates best right
-now** for a short "buy, then sell within a day" trade and explains each pick in plain English. It also practises
-trading Bitcoin and Ether with **$100,000 of pretend money**, so you can watch how it would have done without
-risking anything. It never touches real money.
+A computer program watches about 60 popular cryptocurrencies. On the **live dashboard** it re-ranks them as often
+as you choose (every 1, 2, 5, 15, 30 or 60 minutes, or when you click *Refresh now*) and shows the **5 best buy
+ideas** for the trading speed you pick. Each idea gives you the buy price, when to take profit, when to get out to
+limit a loss, and **the latest time to sell**. When you take a trade, the **My trades** page watches it and tells
+you what to do *right now*: hold, take profit, exit, or sell because time is up. It never touches real money.
+
+### Pick your trading speed
+| Speed | You hold a trade for at most | Prices looked at | Good for |
+|---|---|---|---|
+| **Quick** | 1 hour | 5-minute candles | Watching the screen closely. Fees eat a lot of small moves. |
+| **Short** (default) | 4 hours | 15-minute candles | Checking a few times a day |
+| **Day** | 24 hours | 1-hour candles | Checking morning and evening |
+
+### How often it refreshes
+In the dashboard's left panel choose **Refresh the ideas**: Off, every 1, 2, 5, 15 or 30 minutes, or every hour.
+Faster refresh means newer prices. The ranking itself only changes when a new candle closes (every 5 minutes for
+Quick, 15 for Short, 60 for Day), so refreshing every minute mostly updates prices and your trade monitor.
+Separately, every hour GitHub saves a copy of the ideas to `state/suggestions/LATEST.md`, sends them to Telegram
+(if you set it up) and checks old ideas for the track record.
 
 > **The honest truth first.** Nobody, human or computer, can reliably predict which coin will rise 20–50%.
 > Coins that *can* jump 20% in a week *can also drop 20%* in a week, and they often do. This app ranks ideas
@@ -28,8 +43,8 @@ risking anything. It never touches real money.
 Buy near        $142.10
 Take profit at  $148.60   (+4.6%)
 Safety exit at  $138.90   (-2.3%)
-Give up after   24 hours
-Chance this idea ends in profit: 58%   (average coin right now: 49%)
+Sell by         15:30 UTC (at the latest)
+Chance it beats the market: 58%
 To risk only $10, buy about $435 worth.
 Why: Buyers have been more eager than sellers... Price is above its 1-day and 3-day average...
 ⚠️ Be careful: ...
@@ -43,12 +58,26 @@ Why: Buyers have been more eager than sellers... Price is above its 1-day and 3-
 | **Buy near** | The latest price. Prices change every second, so this is approximate. |
 | **Take profit** | If the price climbs to here, sell and keep the gain. It's set at **twice** the safety-exit distance (a "2 to 1" reward-to-risk). |
 | **Safety exit** (a "stop-loss") | If the price falls to here, sell and accept a small loss. **This is the most important line.** It stops a small loss turning into a big one. |
-| **Give up after 24 hours** | If neither happens within a day, sell at whatever the price is. These are short-term ideas. |
-| **Chance of profit** | The computer's estimate, learned from past data. It is *not* a guarantee. Compare it with "average coin right now". |
+| **Sell by** | The time limit for the speed you chose (1 hour, 4 hours or 24 hours). If neither the take-profit nor the safety exit has happened by then, sell at whatever the price is. |
+| **Chance it beats the market** | The computer's estimate that this coin will do better than the *average* coin over the same period. 50% = no better than average. It is *not* a guarantee. |
 | **To risk $10, buy …** | Sizing help: if you buy this amount and the safety exit is hit, you lose about $10. Pick how much you are willing to lose *first*, then size the purchase. Never the other way round. |
 | **Why** | The patterns that made the computer pick it, in plain words. |
 | **⚠️ Be careful** | Warning signs: it already spiked (you might be buying the top), suspicious fake-looking volume, thin trading, overheating, or the whole market falling. |
 | **Big-mover history** | In the last 90 days, how often it rose 20%+ within a week *and how often it fell 20%+*. Both numbers matter. |
+
+## The "My trades" monitor: when to get out
+Click **"I bought …"** on an idea (or add your own trade with the form). The **🧭 My trades** tab then shows, live:
+
+| It says | What to do |
+|---|---|
+| **HOLD** | Nothing yet. Neither exit has been reached. It shows the time left. |
+| **TAKE PROFIT NOW** | The price reached your take-profit. Sell and keep the gain. |
+| **EXIT NOW (safety exit)** | The price fell to your safety exit. Sell to keep the loss small. |
+| **TIME'S UP: SELL NOW** | The time limit passed without either exit. The idea didn't work out in time, so sell. |
+| **CONSIDER LEAVING EARLY** | The reasons for the trade have faded (its score dropped below 4.5). Leaving early is reasonable. |
+
+Your trades are stored in the page's web address. **Bookmark the page after adding a trade** to keep them.
+Click "I've sold it" to remove a trade.
 
 ## Market mood
 At the top of the list: **Favourable / Mixed / Unfavourable**. This is how many of the ~60 coins the computer
@@ -100,11 +129,12 @@ Give it **at least 2–4 weeks** (hundreds of ideas) before drawing conclusions.
 1. Take Binance's most-traded coins (about 60), skipping stablecoins, gold tokens, stock tokens and tiny or new coins.
 2. For each coin, measure simple things: recent price change, trend, buying pressure, activity versus normal,
    overheating, strength versus Bitcoin, and how much it usually swings.
-3. A model trained every night on the last ~6 weeks of hourly data for all these coins estimates the chance each
-   buy idea ends in profit.
-4. Turn that into an expected result per $1 risked (fees included), subtract penalties for warning signs, and
-   convert it to the 0–10 score.
-5. Show the 5 highest scores, then check every one of them 24 hours later in the track record.
+3. A model for each speed, retrained every night on recent data for all these coins, estimates the chance each
+   coin does **better than the average coin** over the hold time. Comparing with the average removes "everything
+   went up lately" luck.
+4. Turn that into an expected result per $1 risked, **assuming the market as a whole goes nowhere** and including
+   fees, subtract penalties for warning signs, and convert it to the 0–10 score.
+5. Show the 5 highest scores, then check every one of them after its time limit in the track record.
 
 **Known weakness (being honest):** the coin list is picked by *today's* trading volume, which favours coins that
 recently rose. That makes the computer's past-data tests look better than reality. The **live track record** has

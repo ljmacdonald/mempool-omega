@@ -10,11 +10,18 @@ a ledger committed back to the repo.
 > ⚠️ **Paper trading only. Not financial advice. No profit is promised.** See [LEGAL.md](LEGAL.md).
 
 ## 👋 Start here (no market knowledge needed)
+- **Live screen (recommended):** the dashboard re-ranks ~60 coins every 1, 2, 5, 15, 30 or 60 minutes (you choose).
+  It offers three trading speeds (exit within 1 hour, 4 hours or 24 hours), and its **My trades** monitor tells you
+  when to sell. Put it online for free in 3 clicks: see [RUNBOOK.md](RUNBOOK.md) §A.5.
+| Live ideas | My trades: when to sell |
+|--|--|
+| ![Live ideas](docs/screenshots/live_ideas.png) | ![My trades](docs/screenshots/my_trades.png) |
+
 - **This hour's top 5 coin ideas, explained in plain English:** [state/suggestions/LATEST.md](state/suggestions/LATEST.md)
 - **How past ideas actually turned out:** [state/suggestions/scoreboard.json](state/suggestions/scoreboard.json) (or the dashboard's *Track record* tab)
 - **What everything means:** [docs/BEGINNERS_GUIDE.md](docs/BEGINNERS_GUIDE.md)
 
-Every hour the scanner ranks ~60 of the most-traded coins and lists 5 *buy* ideas. Each one has a score out of 10, a risk level, a take-profit price, a safety-exit price, a 24-hour time limit and the reasons it was picked. Every idea is checked afterwards, so you can judge the scanner by results.
+Each idea has a score out of 10, a risk level, a take-profit price, a safety-exit price, a sell-by time and the reasons it was picked. Every idea is checked afterwards, so you can judge the scanner by results.
 
 ![Walk-forward equity on synthetic data](docs/screenshots/equity_curve.png)
 
@@ -38,7 +45,7 @@ Every hour the scanner ranks ~60 of the most-traded coins and lists 5 *buy* idea
 make setup          # pip install -e ".[all]"
 make demo           # offline end-to-end on synthetic data (+ charts)
 make test           # unit tests incl. no-look-ahead tests
-python -m scanner.run hourly   # this hour's top-5 ideas → state/suggestions/LATEST.md
+python -m scanner.run once --style short   # top-5 ideas right now (styles: quick, short, day)
 make paper          # one live paper pass on public data
 make dashboard      # http://localhost:8501
 ```

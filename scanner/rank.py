@@ -1,36 +1,38 @@
-"""Turn model probabilities into a ranked, plain-English top-5 list."""
+"""Turn model probabilities into a ranked, plain-English top-5 list for one trading speed."""
 from __future__ import annotations
 
 import numpy as np
 import pandas as pd
 
 from scanner.model import PT, SL
+from scanner.styles import STYLES, Style
 
 GRADES = [(6.5, "Strong"), (5.6, "Moderate"), (5.0, "Weak"), (-1, "Avoid - watch only")]
 
 
-def risk_level(ru: float) -> str:
-    if ru < 0.03:
-        return "Low"
-    if ru < 0.06:
-        return "Medium"
-    if ru < 0.09:
-        return "High"
-    return "Very high"
+def risk_level(ru: float, style: Style = STYLES["day"]) -> str:
+    # relative to the speed's own typical range
+    span = style.max_risk - style.min_risk
+    x = (ru - style.min_risk) / span
+    return "Low" if x < 0.15 else "Medium" if x < 0.35 else "High" if x < 0.6 else "Very high"
 
 
 def grade(score: float) -> str:
     return next(g for th, g in GRADES if score >= th)
 
 
-def red_flags(f: pd.Series, quote_vol_24h: float) -> tuple[float, list[str]]:
-    """ASI-lite: penalties (in R units) and plain-English warnings for manipulation-prone situations."""
+def score_from_r(exp_r: float) -> float:
+    return float(10 / (1 + np.exp(-6 * exp_r)))
+
+
+def red_flags(f: pd.Series, quote_vol_24h: float, style: Style) -> tuple[float, list[str]]:
+    """ASI-lite: penalties (in units of money risked) and plain-English warnings."""
     pen, warn = 0.0, []
-    if f["ret_24h"] > np.log(1.30) or f["ret_1h"] > np.log(1.08):
+    if f["ret_24b"] > np.log(1.30) or f["ret_1b"] > np.log(1.08):
         pen += 0.15
-        warn.append(f"Already up {np.expm1(f['ret_24h']):.0%} in 24h. Chasing coins that just spiked often ends in "
-                    "buying the top.")
-    if f["volume_surge"] > 4 and abs(f["ret_24h"]) < 0.01:
+        warn.append(f"Already up {np.expm1(f['ret_24b']):.0%} in the last {style.bars_text(24)}. Chasing coins "
+                    "that just spiked often ends in buying the top.")
+    if f["volume_surge"] > 4 and abs(f["ret_24b"]) < 0.01:
         pen += 0.10
         warn.append("Trading activity is unusually high but the price isn't moving. That can be fake "
                     "(wash) trading.")
@@ -40,68 +42,76 @@ def red_flags(f: pd.Series, quote_vol_24h: float) -> tuple[float, list[str]]:
     if f["rsi_14"] > 80:
         pen += 0.05
         warn.append("Looks 'overheated' (RSI above 80). Short pullbacks are common after this.")
-    if f["btc_ret_24h"] < np.log(0.95):
-        warn.append("The whole crypto market (Bitcoin) fell more than 5% in the last day. Most coins follow Bitcoin.")
+    if f["btc_ret_24b"] < np.log(0.97):
+        warn.append(f"Bitcoin fell more than 3% in the last {style.bars_text(24)}. Most coins follow Bitcoin.")
     return pen, warn
 
 
-def reasons(f: pd.Series) -> list[str]:
-    """Pick the clearest plain-English reasons behind the idea."""
+def reasons(f: pd.Series, style: Style) -> list[str]:
     out: list[tuple[float, str]] = []
-    if f["buy_pressure_6h"] > 0.02:
-        out.append((f["buy_pressure_6h"] * 20, f"Buyers have been more eager than sellers over the last 6 hours "
-                                                f"({50 + 100 * f['buy_pressure_6h']:.0f}% of trades were buys)."))
+    if f["buy_pressure_6b"] > 0.02:
+        out.append((f["buy_pressure_6b"] * 20, f"Buyers have been more eager than sellers over the last "
+                                                f"{style.bars_text(6)} ({50 + 100 * f['buy_pressure_6b']:.0f}% "
+                                                "of trades were buys)."))
     if f["ema24_dist"] > 0 and f["ema72_dist"] > 0:
-        out.append((0.8, "Price is above its 1-day and 3-day average, so the short-term trend is up."))
-    if f["rel_strength_24h"] > 0.02:
-        out.append((f["rel_strength_24h"] * 20, f"It did {np.expm1(f['rel_strength_24h']):.1%} better than Bitcoin "
-                                                  "over the last day (it's stronger than the market)."))
+        out.append((0.8, f"Price is above its average of the last {style.bars_text(24)} and of the last "
+                         f"{style.bars_text(72)}, so the trend is up."))
+    if f["rel_strength_24b"] > 0.01:
+        out.append((f["rel_strength_24b"] * 30, f"It did {np.expm1(f['rel_strength_24b']):.1%} better than "
+                                                  f"Bitcoin over the last {style.bars_text(24)}."))
     if f["volume_surge"] > 1.5:
         out.append((min(f["volume_surge"] / 3, 1.0), f"Trading activity is {f['volume_surge']:.1f}x higher than "
-                                                      "a normal day, so people are paying attention to it."))
-    if f["dist_low_7d"] < 0.05 and f["ret_4h"] > 0:
-        out.append((0.6, "It is bouncing up from near its lowest price of the week."))
+                                                      "usual, so people are paying attention to it."))
+    if f["dist_low_168b"] < 0.03 and f["ret_4b"] > 0:
+        out.append((0.6, f"It is bouncing up from near its lowest price of the last {style.bars_text(168)}."))
     if 45 <= f["rsi_14"] <= 65:
         out.append((0.3, "Momentum is healthy: not overheated, not collapsing."))
-    if f["dist_high_7d"] > -0.03:
-        out.append((0.5, "It is trading close to its highest price of the week. A breakout above it is possible."))
+    if f["dist_high_168b"] > -0.02:
+        out.append((0.5, f"It is close to its highest price of the last {style.bars_text(168)}. A breakout "
+                         "is possible."))
     out.sort(key=lambda x: -x[0])
     return [t for _, t in out[:3]] or ["The model sees a slightly better-than-usual pattern, with no single "
                                        "strong reason."]
 
 
-def market_mood(p: np.ndarray, win_r: float, loss_r: float) -> dict:
-    """How the computer rates the market overall this hour (average over every coin scanned)."""
-    e = p * win_r - (1 - p) * loss_r
+def market_mood(p: np.ndarray, win_r: float, loss_r: float, ru: np.ndarray | None = None) -> dict:
+    e = p * win_r - (1 - p) * loss_r - (FEE_R / ru if ru is not None else 0.0)
     share = float((e > 0).mean())
     label = "Favourable" if share > 0.6 else "Mixed" if share > 0.35 else "Unfavourable"
-    return {"label": label, "share_positive": share, "avg_chance_of_profit": float(np.mean(p))}
+    return {"label": label, "share_positive": share, "avg_chance_beats_market": float(np.mean(p))}
+
+
+FEE_R = 0.002  # round-trip fees as a fraction; divided by the safety-exit distance to get "per $1 risked"
+
+
+def expected_r(prob: float, win_r: float, loss_r: float, ru: float = 0.02) -> float:
+    """Expected result per $1 put at risk, fees included, ASSUMING THE MARKET AS A WHOLE GOES NOWHERE.
+    The edge comes only from beating the typical coin. 0 = break-even. An estimate, not a promise."""
+    return prob * win_r - (1 - prob) * loss_r - FEE_R / (SL * ru)
 
 
 def rank(latest: pd.DataFrame, p: np.ndarray, quote_vol: dict[str, float], big_movers: dict[str, dict],
-         top_n: int = 5, win_r: float = 1.0, loss_r: float = 1.0, base_rate: float = 0.5) -> list[dict]:
+         top_n: int = 5, win_r: float = 1.0, loss_r: float = 1.0, style: Style = STYLES["day"]) -> list[dict]:
     """``latest``: one row per symbol (features + risk_unit + close + ts)."""
     ideas = []
     for (sym, f), prob in zip(latest.iterrows(), p):
         ru = float(f["risk_unit"])
-        # Expected result per $1 put at risk, fees included (from the model's chance and the typical size
-        # of past wins/losses). 0 = break-even. It is an estimate, not a promise.
-        exp_r = prob * win_r - (1 - prob) * loss_r
-        pen, warns = red_flags(f, quote_vol.get(sym, 0.0))
-        adj_r = exp_r - pen
-        score = float(10 / (1 + np.exp(-6 * adj_r)))
+        pen, warns = red_flags(f, quote_vol.get(sym, 0.0), style)
+        adj_r = expected_r(prob, win_r, loss_r, ru) - pen
+        score = score_from_r(adj_r)
         close = float(f["close"])
         bm = big_movers.get(sym, {})
+        made = pd.Timestamp(f["ts"]) + pd.Timedelta(minutes=style.bar_minutes)   # candle close = decision time
         ideas.append({
-            "symbol": sym, "coin": sym[:-4], "score": round(score, 1), "grade": grade(score),
-            "chance_of_profit": round(float(prob), 3), "expected_r": round(float(adj_r), 3),
-            "risk_level": risk_level(ru), "risk_unit": ru,
-            "price_now": close,
+            "symbol": sym, "coin": sym[:-4], "style": style.key, "score": round(score, 1), "grade": grade(score),
+            "chance_beats_market": round(float(prob), 3), "expected_r": round(float(adj_r), 3),
+            "risk_level": risk_level(ru, style), "risk_unit": ru, "price_now": close,
             "take_profit": close * (1 + PT * ru), "take_profit_pct": PT * ru,
             "safety_exit": close * (1 - SL * ru), "safety_exit_pct": -SL * ru,
-            "time_limit_hours": 24,
+            "hold_minutes": style.horizon_minutes, "hold_text": style.hold_text,
+            "exit_by": str(made + pd.Timedelta(minutes=style.horizon_minutes)),
             "size_for_10usd_risk": 10 / (SL * ru),
-            "why": reasons(f), "warnings": warns,
+            "why": reasons(f, style), "warnings": warns,
             "week_up20_pct": bm.get("up_pct"), "week_down20_pct": bm.get("down_pct"),
             "ts": str(f["ts"]),
         })
