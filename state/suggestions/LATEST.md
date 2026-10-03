@@ -1,110 +1,62 @@
-# Top 5 trade ideas: 2026-10-02 03:28 UTC
+# Trade ideas: 2026-10-03 20:27 UTC
 
-> **Paper / education only. Not financial advice.** These are *ideas ranked by the computer*, not promises. Coins that can rise 20% can also fall 20%. Never put in money you can't afford to lose.
+> **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
-Scanned **59 coins**. Each idea is a *buy*, with a planned exit either way.
+> This page updates once an hour. **For live updates every 1–60 minutes and a monitor that tells you when to exit, use the dashboard** (see the README).
 
-**Market mood: Unfavourable.** The computer sees a positive expected result for 24% of coins this hour. When the mood is *Unfavourable*, sitting out is a perfectly good choice.
+## Quick: exit within 1 hour
 
-## 1. SYN: score 8.8/10 (Strong) · risk: Very high
+Market mood: **Unfavourable** (2% of 60 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
-| | Price | Change |
-|---|---|---|
-| Buy near | $0.18494 | |
-| Take profit at | $0.223957 | +21.1% |
-| Safety exit at | $0.165431 | -10.5% |
-| Give up after | 24 hours | sell at whatever the price is |
+| # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
+|---|---|---|---|---|---|---|---|---|
+| 1 | **PUMP** | 5.7/10 | Moderate | High | $0.006318 | $0.00665747 (+5.4%) | $0.00614826 (-2.7%) | 21:25 03-Oct |
+| 2 | **ONE** | 5.0/10 | Avoid - watch only | Very high | $0.00263 | $0.0028084 (+6.8%) | $0.0025408 (-3.4%) | 21:25 03-Oct |
+| 3 | **MOVR** | 4.8/10 | Avoid - watch only | Very high | $1.99 | $2.15 (+8.3%) | $1.91 (-4.1%) | 21:25 03-Oct |
+| 4 | **SUPER** | 4.8/10 | Avoid - watch only | High | $0.2652 | $0.278323 (+4.9%) | $0.258639 (-2.5%) | 21:25 03-Oct |
+| 5 | **STRK** | 4.5/10 | Avoid - watch only | High | $0.05066 | $0.0536315 (+5.9%) | $0.0491743 (-2.9%) | 21:25 03-Oct |
 
-- **Chance this idea ends in profit (computer's estimate):** 66% (average coin right now: 37%)
-- **Sizing tip:** to risk only $10 on this idea, buy about **$95** worth.
-- **Big-mover history (last 90 days):** within a week it rose 20%+ 30% of the time and fell 20%+ 46% of the time.
+- **PUMP:** It did 4.3% better than Bitcoin over the last 2 hours. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Trading activity is 2.1x higher than usual, so people are paying attention to it.
+- **ONE:** It did 2.3% better than Bitcoin over the last 2 hours. Momentum is healthy: not overheated, not collapsing.
+- **MOVR:** Buyers have been more eager than sellers over the last 30 minutes (56% of trades were buys). Momentum is healthy: not overheated, not collapsing.
 
-**Why it was picked:**
-- It did 15.2% better than Bitcoin over the last day (it's stronger than the market).
-- Trading activity is 3.0x higher than a normal day, so people are paying attention to it.
-- Price is above its 1-day and 3-day average, so the short-term trend is up.
+## Short: exit within 4 hours
 
-**⚠️ Be careful:**
-- Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+Market mood: **Unfavourable** (12% of 60 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
-## 2. ALICE: score 7.6/10 (Strong) · risk: Very high
+| # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
+|---|---|---|---|---|---|---|---|---|
+| 1 | **ONE** | 6.4/10 | Moderate | Very high | $0.002635 | $0.00304568 (+15.6%) | $0.00242966 (-7.8%) | 00:15 04-Oct |
+| 2 | **STRK** | 6.3/10 | Moderate | Very high | $0.05105 | $0.0566864 (+11.0%) | $0.0482318 (-5.5%) | 00:15 04-Oct |
+| 3 | **PUMP** | 5.5/10 | Weak | High | $0.006299 | $0.00692974 (+10.0%) | $0.00598363 (-5.0%) | 00:15 04-Oct |
+| 4 | **SUPER** | 5.2/10 | Weak | High | $0.2663 | $0.292213 (+9.7%) | $0.253344 (-4.9%) | 00:15 04-Oct |
+| 5 | **MOVR** | 5.1/10 | Weak | Very high | $2.02 | $2.34 (+16.0%) | $1.86 (-8.0%) | 00:15 04-Oct |
 
-| | Price | Change |
-|---|---|---|
-| Buy near | $0.1957 | |
-| Take profit at | $0.242668 | +24.0% |
-| Safety exit at | $0.172216 | -12.0% |
-| Give up after | 24 hours | sell at whatever the price is |
+- **ONE:** Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Buyers have been more eager than sellers over the last 1.5 hours (52% of trades were buys). Momentum is healthy: not overheated, not collapsing.
+- **STRK:** It did 16.2% better than Bitcoin over the last 6 hours. Trading activity is 4.5x higher than usual, so people are paying attention to it. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up.
+- **PUMP:** It did 10.8% better than Bitcoin over the last 6 hours. Buyers have been more eager than sellers over the last 1.5 hours (55% of trades were buys). Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up.
 
-- **Chance this idea ends in profit (computer's estimate):** 54% (average coin right now: 37%)
-- **Sizing tip:** to risk only $10 on this idea, buy about **$83** worth.
-- **Big-mover history (last 90 days):** within a week it rose 20%+ 31% of the time and fell 20%+ 1% of the time.
+## Day: exit within 24 hours
 
-**Why it was picked:**
-- It did 15.0% better than Bitcoin over the last day (it's stronger than the market).
-- Trading activity is 4.4x higher than a normal day, so people are paying attention to it.
-- Price is above its 1-day and 3-day average, so the short-term trend is up.
+Market mood: **Unfavourable** (13% of 60 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
-## 3. JASMY: score 7.6/10 (Strong) · risk: Very high
+| # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
+|---|---|---|---|---|---|---|---|---|
+| 1 | **STRK** | 6.4/10 | Moderate | Very high | $0.05142 | $0.0635448 (+23.6%) | $0.0453576 (-11.8%) | 20:00 04-Oct |
+| 2 | **SUPER** | 6.0/10 | Moderate | Very high | $0.2641 | $0.30976 (+17.3%) | $0.24127 (-8.6%) | 20:00 04-Oct |
+| 3 | **2Z** | 5.9/10 | Moderate | Very high | $0.04551 | $0.0542402 (+19.2%) | $0.0411449 (-9.6%) | 20:00 04-Oct |
+| 4 | **AT** | 5.7/10 | Moderate | Very high | $0.1247 | $0.154628 (+24.0%) | $0.109736 (-12.0%) | 20:00 04-Oct |
+| 5 | **PUMP** | 5.1/10 | Weak | Very high | $0.00627 | $0.0077748 (+24.0%) | $0.0055176 (-12.0%) | 20:00 04-Oct |
 
-| | Price | Change |
-|---|---|---|
-| Buy near | $0.00564 | |
-| Take profit at | $0.00668242 | +18.5% |
-| Safety exit at | $0.00511879 | -9.2% |
-| Give up after | 24 hours | sell at whatever the price is |
-
-- **Chance this idea ends in profit (computer's estimate):** 57% (average coin right now: 37%)
-- **Sizing tip:** to risk only $10 on this idea, buy about **$108** worth.
-- **Big-mover history (last 90 days):** within a week it rose 20%+ 18% of the time and fell 20%+ 0% of the time.
-
-**Why it was picked:**
-- It did 8.0% better than Bitcoin over the last day (it's stronger than the market).
-- Trading activity is 2.5x higher than a normal day, so people are paying attention to it.
-- Price is above its 1-day and 3-day average, so the short-term trend is up.
-
-**⚠️ Be careful:**
-- Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-
-## 4. QNT: score 7.4/10 (Strong) · risk: Very high
-
-| | Price | Change |
-|---|---|---|
-| Buy near | $251.69 | |
-| Take profit at | $312.10 | +24.0% |
-| Safety exit at | $221.49 | -12.0% |
-| Give up after | 24 hours | sell at whatever the price is |
-
-- **Chance this idea ends in profit (computer's estimate):** 53% (average coin right now: 37%)
-- **Sizing tip:** to risk only $10 on this idea, buy about **$83** worth.
-- **Big-mover history (last 90 days):** within a week it rose 20%+ 15% of the time and fell 20%+ 0% of the time.
-
-**Why it was picked:**
-- The model sees a slightly better-than-usual pattern, with no single strong reason.
-
-## 5. MOVR: score 6.5/10 (Moderate) · risk: Very high
-
-| | Price | Change |
-|---|---|---|
-| Buy near | $2.87 | |
-| Take profit at | $3.56 | +24.0% |
-| Safety exit at | $2.53 | -12.0% |
-| Give up after | 24 hours | sell at whatever the price is |
-
-- **Chance this idea ends in profit (computer's estimate):** 48% (average coin right now: 37%)
-- **Sizing tip:** to risk only $10 on this idea, buy about **$83** worth.
-- **Big-mover history (last 90 days):** within a week it rose 20%+ 31% of the time and fell 20%+ 11% of the time.
-
-**Why it was picked:**
-- It did 18.0% better than Bitcoin over the last day (it's stronger than the market).
-- Trading activity is 3.7x higher than a normal day, so people are paying attention to it.
-- Price is above its 1-day and 3-day average, so the short-term trend is up.
+- **STRK:** It did 24.0% better than Bitcoin over the last 24 hours. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Trading activity is 2.2x higher than usual, so people are paying attention to it. ⚠️ Looks 'overheated' (RSI above 80). Short pullbacks are common after this.
+- **SUPER:** It did 16.9% better than Bitcoin over the last 24 hours. Trading activity is 2.5x higher than usual, so people are paying attention to it. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up.
+- **2Z:** Trading activity is 1.9x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ---
 ## Track record (how past ideas actually did)
 
-Not enough history yet. Ideas are settled 24 hours after they're made.
-
-*Model test on past data: top-5 ideas won 55% vs 57% for all coins; average +1.35% vs +1.57% per idea. Past results do not guarantee future ones.*
+| Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
+|---|---|---|---|---|
+| Day: exit within 24 hours | 15 | 13% | -7.37% | -1.93% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
