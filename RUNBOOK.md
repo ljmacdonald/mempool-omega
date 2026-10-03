@@ -25,12 +25,15 @@ Follow section 1 of `MISSING_SECRETS.md`. Skip it if you're happy reading the da
    It takes about 10–20 minutes. It trains the models on the last 30 days of public data and writes reports.
 3. Then click **Paper trader (hourly)** → **Run workflow**. After that it runs on its own every hour at :07.
 
-### 5. Put the dashboard online (free)
+### 5. Put the live dashboard online (free, about 3 minutes, needed for live refresh)
 1. Go to https://share.streamlit.io and sign in with GitHub.
 2. **Create app → Deploy a public app from GitHub**.
-3. Repository: your repo. Branch: `main`. Main file path: `dashboard/app.py`. Click **Deploy**.
-4. The dashboard reads the committed `state/` folder. It refreshes when the app reloads (Streamlit Cloud pulls the
-   latest commit automatically; use **⋮ → Reboot app** to force it).
+3. Repository: `ljmacdonald/mempool-omega`. Branch: `main`. Main file path: `dashboard/app.py`. Click **Deploy**.
+4. Bookmark the web address it gives you (something like `https://….streamlit.app`). That's your live screen.
+5. In its left panel choose your **trading speed** and how often to **refresh** (every 1, 2, 5, 15, 30 or 60
+   minutes). It pulls live prices directly; the GitHub hourly job only keeps the track record and alerts.
+   A free Streamlit app goes to sleep after a few days without visitors. Opening the link wakes it up in about
+   30 seconds.
 
 ---
 

@@ -69,65 +69,216 @@ else:
     if ks.get("active"):
         st.error(f"Kill switch active since {ks.get('since')}: {ks.get('reason')}")
 
-tab_top, tab_track, tab_eq, tab_sig, tab_trust, tab_trades, tab_bt, tab_rt, tab_help = st.tabs(
-    ["⭐ Top 5 ideas", "📈 Track record", "💼 Pretend account", "BTC/ETH engine", "🛡 Fake-signal check",
-     "Trades", "Past-data test", "Manipulation test", "❓ Help & glossary"])
+tab_top, tab_mine, tab_track, tab_eq, tab_sig, tab_trust, tab_trades, tab_bt, tab_rt, tab_help = st.tabs(
+    ["⭐ Live ideas", "🧭 My trades", "📈 Track record", "💼 Pretend account", "BTC/ETH engine",
+     "🛡 Fake-signal check", "Trades", "Past-data test", "Manipulation test", "❓ Help & glossary"])
 
-suggest = _json(STATE / "suggestions" / "latest.json")
+# ---------------------------------------------------------------------------------- live scanner
+import base64  # noqa: E402
+
+from scanner import live as LV  # noqa: E402
+from scanner.model import ScannerModel  # noqa: E402
+from scanner.styles import DEFAULT_STYLE, STYLES, human_duration  # noqa: E402
+
+REFRESH = {"Off (only when I click Refresh)": 0, "Every 1 minute": 60, "Every 2 minutes": 120,
+           "Every 5 minutes": 300, "Every 15 minutes": 900, "Every 30 minutes": 1800, "Every hour": 3600}
 
 
 def _px(x: float) -> str:
-    return f"${x:,.2f}" if x >= 1 else f"${x:.6g}"
+    return f"${x:,.2f}" if x >= 1 else f"${x:.4g}"
 
+
+@st.cache_resource(show_spinner="Preparing the model for this speed (first time only, about a minute)…")
+def _model(style: str) -> ScannerModel:
+    if not ScannerModel.exists(LV.models_dir(), style):
+        from scanner.run import train
+        train([style])
+    return ScannerModel.load(LV.models_dir(), style)
+
+
+@st.cache_data(ttl=600, show_spinner=False)
+def _universe():
+    from scanner.data import select_universe
+    return select_universe()
+
+
+@st.cache_data(ttl=3600, max_entries=12, show_spinner="Fetching fresh prices and re-ranking ~60 coins…")
+def _scan(style: str, bucket: int, extra: tuple = ()) -> tuple[dict, dict]:
+    res = LV.scan(style, _model(style), _universe(), 5, list(extra))
+    return res.payload, res.scores
+
+
+@st.cache_data(ttl=15, show_spinner=False)
+def _prices(symbols: tuple) -> dict:
+    return LV.current_prices(list(symbols))
+
+
+def _load_trades() -> list[dict]:
+    if "trades" not in st.session_state:
+        raw = st.query_params.get("t")
+        try:
+            st.session_state.trades = json.loads(base64.urlsafe_b64decode(raw.encode()).decode()) if raw else []
+        except Exception:  # noqa: BLE001
+            st.session_state.trades = []
+    return st.session_state.trades
+
+
+def _save_trades(trades: list[dict]) -> None:
+    st.session_state.trades = trades
+    if trades:
+        st.query_params["t"] = base64.urlsafe_b64encode(json.dumps(trades, separators=(",", ":")).encode()).decode()
+    elif "t" in st.query_params:
+        del st.query_params["t"]
+
+
+with st.sidebar:
+    st.header("⚙️ Settings")
+    style_key = st.radio("Trading speed (how long you hold a trade)", list(STYLES),
+                         index=list(STYLES).index(DEFAULT_STYLE), format_func=lambda k: STYLES[k].label)
+    refresh_label = st.selectbox("Refresh the ideas", list(REFRESH), index=3)
+    refresh_s = REFRESH[refresh_label]
+    if st.button("🔄 Refresh now", use_container_width=True):
+        _scan.clear()
+        _prices.clear()
+    st.caption("Faster refresh = newer prices. The ideas themselves are re-ranked when a new candle closes "
+               f"(every {STYLES[style_key].bar_minutes} minutes for this speed).")
+
+def _bucket() -> int:
+    """Cache key that changes once per refresh period, so every panel shares one scan."""
+    return int(pd.Timestamp.now(tz="UTC").timestamp() // max(refresh_s or 600, 60))
+
+
+if st.session_state.get("flash"):
+    st.toast(st.session_state.pop("flash"), icon="✅")
 
 with tab_top:
-    if not suggest:
-        st.info("The first list appears after the next hourly run.")
-    else:
-        mood = suggest.get("market_mood", {})
-        st.subheader(f"This hour's 5 best-ranked BUY ideas · market mood: {mood.get('label', '?')}")
-        st.caption(f"Made {suggest['generated_at'][:16]} UTC from {suggest['coins_scanned']} coins. "
-                   "Score: 10 = the computer likes it a lot, 5 = break-even, below 5 = avoid. "
-                   "Every idea comes with a planned take-profit, a safety exit, and a 24-hour time limit.")
-        if mood.get("label") == "Unfavourable":
-            st.warning("The computer thinks most coins look weak right now. Sitting out is a good choice.")
-        for d in suggest["ideas"]:
+    @st.fragment(run_every=refresh_s or None)
+    def live_ideas():
+        style = STYLES[style_key]
+        try:
+            payload, _ = _scan(style_key, _bucket())
+        except Exception as e:  # noqa: BLE001
+            st.error(f"Couldn't reach the market data right now ({e}). It will retry on the next refresh.")
+            return
+        mood = payload["market_mood"]
+        st.subheader(f"Top 5 BUY ideas · {style.label}")
+        st.caption(f"Updated {payload['generated_at'][11:19]} UTC · {payload['coins_scanned']} coins checked · "
+                   f"refresh: {refresh_label.lower()} · market mood: **{mood['label']}**. "
+                   "Score: 10 = the computer likes it a lot, 5 = break-even after fees, below 5 = avoid.")
+        if mood["label"] == "Unfavourable":
+            st.warning("Most coins look weak at this speed right now. Doing nothing is a good choice.")
+        for d in payload["ideas"]:
             with st.container(border=True):
                 a, b, c, e = st.columns([2, 1, 1, 1])
                 a.markdown(f"### {d['rank']}. {d['coin']}")
-                a.markdown(f"**{d['grade']}** · risk **{d['risk_level']}**")
+                a.markdown(f"**{d['grade']}** · risk **{d['risk_level']}** · hold up to **{d['hold_text']}**")
                 b.metric("Score", f"{d['score']}/10")
-                c.metric("Chance of profit", f"{d['chance_of_profit']:.0%}")
+                c.metric("Chance it beats the market", f"{d['chance_beats_market']:.0%}",
+                         help="Chance this coin does better than the average coin over the same period.")
                 e.metric("To risk $10, buy", f"${d['size_for_10usd_risk']:,.0f}")
-                x, y, z = st.columns(3)
+                x, y, z, w = st.columns(4)
                 x.metric("Buy near", _px(d["price_now"]))
-                y.metric("Take profit", _px(d["take_profit"]), f"+{d['take_profit_pct']:.1%}")
-                z.metric("Safety exit", _px(d["safety_exit"]), f"{d['safety_exit_pct']:.1%}")
+                y.metric("Take profit at", _px(d["take_profit"]), f"+{d['take_profit_pct']:.1%}")
+                z.metric("Safety exit at", _px(d["safety_exit"]), f"{d['safety_exit_pct']:.1%}")
+                w.metric("Sell by (UTC)", pd.Timestamp(d["exit_by"]).strftime("%H:%M"),
+                         help="If neither exit is hit by then, sell at whatever the price is.")
                 st.markdown("**Why:** " + " ".join(d["why"]))
-                for w in d["warnings"]:
-                    st.warning(w)
-                if d.get("week_up20_pct") is not None:
-                    st.caption(f"Last 90 days: rose 20%+ within a week {d['week_up20_pct']:.0%} of the time, "
-                               f"fell 20%+ {d['week_down20_pct']:.0%} of the time.")
+                for warn in d["warnings"]:
+                    st.warning(warn)
+                if st.button(f"✅ I bought {d['coin']}: watch this trade for me", key=f"take_{style_key}_{d['coin']}"):
+                    trades = _load_trades()
+                    trades.append(LV.make_trade(d))
+                    _save_trades(trades)
+                    st.session_state.flash = (f"Watching your {d['coin']} trade. Open the 🧭 My trades tab: it tells "
+                                              "you when to sell. Bookmark the page to keep your trades.")
+                    st.rerun()  # whole page, so the My trades tab updates immediately
+
+    live_ideas()
+
+with tab_mine:
+    st.markdown("Tell the app which trades you took. It watches the live price and tells you **what to do now**: "
+                "hold, take profit, use the safety exit, or sell because time is up. "
+                "**Bookmark this page after adding a trade.** Your trades are saved in the page address.")
+
+    @st.fragment(run_every=min(refresh_s, 60) if refresh_s else None)
+    def my_trades():
+        trades = _load_trades()
+        if not trades:
+            st.info("No trades yet. Click “I bought …” on an idea, or add one below.")
+        else:
+            prices = _prices(tuple(sorted({t["symbol"] for t in trades})))
+            for i, t in enumerate(list(trades)):
+                px = prices.get(t["symbol"])
+                if px is None:
+                    st.error(f"No price for {t['symbol']}")
+                    continue
+                score = None
+                try:
+                    _, scores = _scan(t["style"], _bucket())
+                    score = scores.get(t["symbol"])
+                except Exception:  # noqa: BLE001
+                    pass
+                adv = LV.advise(t, px, score=score)
+                box = {"success": st.success, "error": st.error, "warning": st.warning, "info": st.info}[adv["level"]]
+                with st.container(border=True):
+                    box(f"**{t['symbol'][:-4]} → {adv['action']}**. {adv['why']}")
+                    a, b, c, c2, d = st.columns(5)
+                    a.metric("Bought at", _px(t["entry"]))
+                    b.metric("Price now", _px(px), f"{adv['pnl_pct']:+.2%} after fees")
+                    c.metric("Take profit at", _px(t["take_profit"]), f"{adv['to_take_profit_pct']:+.1%} away",
+                             delta_color="off")
+                    c2.metric("Safety exit at", _px(t["safety_exit"]), f"{adv['to_safety_exit_pct']:+.1%} away",
+                              delta_color="off")
+                    d.metric("Time left", human_duration(adv["minutes_left"]) if adv["minutes_left"] > 0 else "none",
+                             help=f"Sell by {t['exit_by'][:16]} UTC at the latest.")
+                    st.progress(adv["progress"], text="safety exit ◀──── price ────▶ take profit")
+                    if st.button("I've sold it: remove", key=f"rm_{i}_{t['symbol']}_{t['opened']}"):
+                        trades.pop(i)
+                        _save_trades(trades)
+                        st.rerun()
+        st.caption(f"Prices checked {pd.Timestamp.now(tz='UTC'):%H:%M:%S} UTC.")
+
+    my_trades()
+
+    with st.expander("➕ Add a trade I made myself"):
+        uni = _universe()
+        with st.form("manual"):
+            coin = st.selectbox("Coin", uni["symbol"].tolist(), format_func=lambda s: s[:-4])
+            sk = st.selectbox("How long do you plan to hold?", list(STYLES), index=list(STYLES).index(style_key),
+                              format_func=lambda k: STYLES[k].label)
+            price_now = float(uni.set_index("symbol").loc[coin, "lastPrice"]) if coin else 0.0
+            entry = st.number_input("Price I paid (in $)", value=price_now, format="%.8g", min_value=0.0)
+            ago = st.number_input("How many minutes ago did you buy?", value=0, min_value=0, step=5)
+            risk = st.slider("Safety exit: sell if it falls this % below my price", 0.5, 15.0, 3.0, 0.5,
+                             help="The take-profit is set at twice this distance above your price (2 to 1).")
+            if st.form_submit_button("Watch this trade"):
+                opened = pd.Timestamp.now(tz="UTC") - pd.Timedelta(minutes=int(ago))
+                trades = _load_trades()
+                trades.append(LV.manual_trade(coin, sk, float(entry), opened, float(risk)))
+                _save_trades(trades)
+                st.rerun()
 
 with tab_track:
     board = _json(STATE / "suggestions" / "scoreboard.json")
-    st.markdown("Every idea is checked afterwards against what the price really did: bought at the next "
-                "hour's price, sold at take-profit, at the safety exit, or after 24 hours, minus fees. "
+    st.markdown("Every idea is checked afterwards against what the price really did: bought at the next candle's "
+                "price, sold at take-profit, at the safety exit, or at the time limit, minus fees. "
                 "**This is the honest test of whether the ideas are any good.**")
     if board.get("closed"):
-        a, b, c, d = st.columns(4)
-        a.metric("Ideas checked", board["closed"])
-        b.metric("Ended in profit", f"{board['win_rate']:.0%}")
-        c.metric("Average per idea", f"{board['avg_return_per_idea']:+.2%}",
-                 f"random pick: {board['random_pick_avg_return']:+.2%}", delta_color="off")
-        d.metric("$100 in each idea", f"${board['if_100usd_each_total_pnl']:+,.0f}")
+        rows = []
+        for k, v in board.get("by_style", {}).items():
+            if v.get("closed"):
+                rows.append({"Speed": STYLES[k].label, "Ideas checked": v["closed"],
+                             "Ended in profit": f"{v['win_rate']:.0%}",
+                             "Average per idea": f"{v['avg_return_per_idea']:+.2%}",
+                             "Random pick average": f"{v['random_pick_avg_return']:+.2%}",
+                             "$100 in each idea": f"${v['if_100usd_each_total_pnl']:+,.0f}"})
+        st.table(pd.DataFrame(rows))
+        st.caption("If an idea list doesn't beat 'random pick' over a few weeks, its ranking isn't adding value.")
         hp = STATE / "suggestions" / "history.csv"
         if hp.exists():
-            h = pd.read_csv(hp)
-            st.dataframe(h.iloc[::-1], use_container_width=True)
+            st.dataframe(pd.read_csv(hp).iloc[::-1], use_container_width=True)
     else:
-        st.info("Ideas are settled 24 hours after they are made. Check back tomorrow.")
+        st.info("Ideas are settled once their time limit has passed. Check back later.")
 
 with tab_help:
     st.markdown((ROOT / "docs" / "BEGINNERS_GUIDE.md").read_text() if (ROOT / "docs" / "BEGINNERS_GUIDE.md").exists()

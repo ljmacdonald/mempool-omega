@@ -18,7 +18,7 @@ log = get_logger("ingest.http")
 
 # Conservative minimum spacing between requests per host (seconds)
 HOST_MIN_INTERVAL = {
-    "data-api.binance.vision": 0.15,
+    "data-api.binance.vision": 0.05,   # weight limit 6000/min; klines = 2
     "api.binance.com": 0.15,
     "fapi.binance.com": 0.15,
     "www.okx.com": 0.12,
