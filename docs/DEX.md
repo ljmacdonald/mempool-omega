@@ -15,6 +15,15 @@ This page explains how both are handled. It is written for defence, at the level
 | Every night (03:41 UTC) | `dex/improve.py` | Retrains the DEX models (champion/challenger, as in `scanner/improve.py`). Updates the bait monitor, probation and the learned sniper cost (`state/dex/adaptive.json`). |
 | Every refresh, in your browser | `site/dex/app.js` + `site/dexengine.js` | Live prices and pool money for every candidate. Live security re-check of the top 8. All costs for **your** amount. Final ranking. In *My DEX trades*: price every 30 s, security every 2 min, and an immediate exit warning if anything turns bad. |
 
+**Staying inside the free limits.** GeckoTerminal allows about 30 requests a minute, so the jobs use it sparingly:
+- The candidate list is rediscovered every 6 hours. In between, one batch request refreshes 30 pools at once.
+- Security checks (other services) run first. Price history is downloaded only for tokens that could pass.
+- Each pool's history is downloaded once, then topped up with only the newest candles. It's kept in GitHub's free build cache (`.cache/dex`), not in the repository.
+- Nightly training reads from that store.
+- Live prices, pool money and trade counts come from DexScreener (300 requests a minute).
+
+A normal hour needs roughly 25–45 GeckoTerminal requests. Every download step also has a time budget, so a slow day shortens the list instead of failing the run.
+
 The security rules and the cost maths exist twice: in Python (server) and JavaScript (browser). `tests/test_dex.py` checks that both give identical answers, including on recorded real responses from GoPlus, honeypot.is and RugCheck.
 
 ## Hard rules (any one rejects a token)

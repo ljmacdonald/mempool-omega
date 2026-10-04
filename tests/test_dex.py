@@ -231,3 +231,27 @@ console.log(JSON.stringify(bad.slice(0, 5)));"""
     out = subprocess.run(["node", "-e", js, str(ROOT / "site" / "dexengine.js"), str(fx)], capture_output=True,
                          text=True, timeout=120)
     assert out.stdout.strip() == "[]", (out.stdout[:2000], out.stderr[:2000])
+
+
+def test_candle_store_downloads_history_once_then_only_tops_up(tmp_path, monkeypatch):
+    from dex import cache
+
+    monkeypatch.setenv("OMEGA_DEX_CACHE", str(tmp_path))
+    end = pd.Timestamp.now(tz="UTC").floor("h") - pd.Timedelta(hours=1)
+    calls = []
+
+    def fake_fetch(chain, pool, n):
+        calls.append(n)
+        idx = pd.date_range(end=end, periods=n, freq="1h")
+        return pd.DataFrame({"open": 1.0, "high": 1.1, "low": 0.9, "close": 1.0, "qv": 1e4, "volume": 1e4,
+                             "taker_buy_volume": 5e3}, index=idx)
+
+    a = cache.candles("solana", "POOL", 300, fake_fetch)
+    assert len(a) == 300 and calls == [cache.FULL_FETCH]
+    b = cache.candles("solana", "POOL", 300, fake_fetch)          # nothing new: no request at all
+    assert len(b) == 300 and len(calls) == 1
+    old = cache.load("solana", "POOL")
+    old.iloc[:-5].to_parquet(cache._path("solana", "POOL"))       # 5 hours behind
+    cache.candles("solana", "POOL", 300, fake_fetch)
+    assert calls[-1] < 10                                         # only the missing candles
+    assert "solana:POOL" in cache.all_cached()

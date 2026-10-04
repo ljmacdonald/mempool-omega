@@ -38,39 +38,47 @@ def load_adaptive() -> dict:
 
 
 def training_candles() -> tuple[dict, dict]:
-    """Hourly candles (up to ~80 days) for current and previously seen pools, grouped by network."""
-    from dex.data import gt_ohlcv, gt_pools
-    from dex.live import _load
+    """Hourly candles for training, grouped by network, read from the candle store that the hourly runs keep
+    topped up (no re-downloading). It includes pools that later crashed or were rugged. Networks with few stored
+    pools are topped up from the candidate list within a time budget."""
+    from dex import cache
+    from dex.live import _load, universe
 
+    u = _load("universe.json", {})
+    if not u.get("cands"):
+        universe()
+        u = _load("universe.json", {})
+    refs_pool = {ch: r["pool"] for ch, r in (u.get("refs") or {}).items()}
     by_chain: dict[str, dict] = {k: {} for k in CHAINS}
     refs: dict[str, pd.DataFrame] = {}
-    seen = set(_load("liquidity.json", {}))
+    for key, df in cache.all_cached().items():
+        chain, pool = key.split(":", 1)
+        if chain not in by_chain:
+            continue
+        if refs_pool.get(chain) == pool:
+            refs[chain] = df
+        elif len(df) >= 400:
+            by_chain[chain][key] = df
     start, budget = time.time(), 60 * float(os.environ.get("OMEGA_DEX_TRAIN_MINUTES", "25"))
-    for n, (chain, c) in enumerate(CHAINS.items(), 1):
+    for n, chain in enumerate(CHAINS, 1):
         deadline = start + budget * n / len(CHAINS)          # each network gets its share of the time
-        pools = {p["pool"]: p for p in gt_pools(chain, "h24_volume_usd_desc", 3)}
-        quotes = c["quotes"]
-        natives = [p for p in pools.values() if p["token"] in quotes and (p["quote_symbol"] or "").upper() in
-                   {"USDC", "USDT", "USDG", "DAI"}]
-        keep = [p["pool"] for p in pools.values() if p["quote"] in quotes and p["token"] not in quotes
-                and (p["reserve_usd"] or 0) >= 200_000]
-        keep += [k.split(":", 1)[1] for k in seen if k.startswith(chain + ":")]
-        for pool in list(dict.fromkeys(keep))[:20]:
-            if time.time() > deadline:
-                log.warning("training data time budget used up on %s", chain)
-                break
+        if chain in refs_pool and chain not in refs:
             try:
-                df = gt_ohlcv(chain, pool, 2000)
-                if len(df) >= 400:
-                    by_chain[chain][f"{chain}:{pool}"] = df
-            except Exception as e:  # noqa: BLE001
-                log.warning("training candles %s: %s", pool, e)
-        if natives:
-            ref = max(natives, key=lambda p: p["reserve_usd"] or 0)
-            try:
-                refs[chain] = gt_ohlcv(chain, ref["pool"], 2000)
+                refs[chain] = cache.candles(chain, refs_pool[chain], 2000)
             except Exception as e:  # noqa: BLE001
                 log.warning("reference %s: %s", chain, e)
+        for c in [c for c in u.get("cands", []) if c["chain"] == chain]:
+            if len(by_chain[chain]) >= 25 or time.time() > deadline:
+                break
+            key = f"{chain}:{c['pool']}"
+            if key in by_chain[chain]:
+                continue
+            try:
+                df = cache.candles(chain, c["pool"], 2000)
+                if len(df) >= 400:
+                    by_chain[chain][key] = df
+            except Exception as e:  # noqa: BLE001
+                log.warning("training candles %s: %s", key, e)
         log.info("training candles %s: %d pools", chain, len(by_chain[chain]))
     return by_chain, refs
 

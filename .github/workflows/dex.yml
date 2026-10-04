@@ -32,6 +32,14 @@ jobs:
           cache: pip
       - name: Install
         run: pip install -e .
+      # Price history store: each pool's history is downloaded once, then only topped up (GitHub's free
+      # build cache, not the repository). Restores the newest copy and saves a new one after every run.
+      - name: Restore the DEX price history store
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache/dex
+          key: dex-candles-${{ github.run_id }}
+          restore-keys: dex-candles-
       - name: Nightly retrain of the DEX models
         if: github.event.schedule == '41 3 * * *' || github.event.inputs.task == 'train'
         continue-on-error: true
@@ -44,6 +52,12 @@ jobs:
         run: |
           sleep $(( RANDOM % 300 ))
           python -m dex.run hourly
+      - name: Save the DEX price history store
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .cache/dex
+          key: dex-candles-${{ github.run_id }}
       - name: Commit state
         if: always()
         run: |

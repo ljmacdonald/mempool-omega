@@ -61,6 +61,24 @@ def pool_record(chain: str, p: dict, toks: dict) -> dict:
             "vol_h24": _f(vol.get("h24"))}
 
 
+def gt_multi(chain: str, pools: list[str]) -> dict[str, dict]:
+    """Fresh stats (price, money in the pool, buyers/sellers) for up to 30 pools per request."""
+    net = CHAINS[chain]["gt"]
+    out: dict[str, dict] = {}
+    for i in range(0, len(pools), 30):
+        chunk = pools[i:i + 30]
+        try:
+            d = _http.get(f"{GT}/networks/{net}/pools/multi/{','.join(chunk)}", {"include": "base_token,quote_token"})
+        except Exception as e:  # noqa: BLE001
+            log.warning("geckoterminal multi %s: %s", chain, e)
+            continue
+        toks = {t["id"]: t["attributes"] for t in d.get("included", [])}
+        for p in d.get("data", []):
+            r = pool_record(chain, p, toks)
+            out[r["pool"]] = r
+    return out
+
+
 def gt_ohlcv(chain: str, pool: str, n: int = 300, timeframe: str = "hour", aggregate: int = 1) -> pd.DataFrame:
     """CLOSED candles in USD, oldest first. Columns match scanner candles (taker volume unknown on DEX data,
     so buy pressure is set neutral)."""

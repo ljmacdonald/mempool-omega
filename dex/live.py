@@ -19,7 +19,7 @@ from core.log import get_logger
 from dex import security as S
 from dex.chains import CHAINS, NATIVE_WRAPPED, NOT_IDEAS, PROTECTED, STABLES, norm
 from dex.costs import dex_cost
-from dex.data import ds_boosted, ds_pairs, gas_usd, gt_ohlcv, gt_pools
+from dex.data import ds_boosted, ds_pairs, gas_usd, gt_pools
 from dex.fetch import facts_for
 from scanner.defence import adaptive_penalty, declutter_exits
 from scanner.features import coin_features
@@ -106,7 +106,7 @@ def discover() -> tuple[list[dict], list[dict], dict]:
             created = [pd.Timestamp(p["created"]) for p in ps if p.get("created")]
             age = (now - min(created)).total_seconds() / 86400 if created else 0.0
             tx = main["tx_h24"]
-            cand = {**main, "pools": [{"pool": p["pool"], "dex": p["dex"], "reserve_usd": p["reserve_usd"],
+            cand = {**main, "first_created": str(min(created)) if created else None, "pools": [{"pool": p["pool"], "dex": p["dex"], "reserve_usd": p["reserve_usd"],
                                        "fee": pool_fee(p), "quote_symbol": p["quote_symbol"]} for p in ps[:4]],
                     "age_days": age, "copycat": copy, "boosted": (c["ds"], t) in boosted,
                     "pool_fee": pool_fee(main)}
@@ -124,6 +124,43 @@ def discover() -> tuple[list[dict], list[dict], dict]:
             cands.append(cand)
     cands.sort(key=lambda p: -(p["reserve_usd"] or 0))
     return cands[:MAX_CANDIDATES], rejected, refs
+
+
+UNIVERSE_HOURS = 6       # the candidate list changes slowly: rediscover every 6 h, refresh stats hourly
+
+
+def universe() -> tuple[list[dict], list[dict], dict]:
+    """Candidates, early rejections and reference pools: rediscovered every 6 hours, otherwise the saved list
+    with fresh numbers (GeckoTerminal batch requests: 30 pools each)."""
+    from dex.data import gt_multi
+
+    u = _load("universe.json", {})
+    age_h = (time.time() - u.get("at", 0)) / 3600
+    if age_h >= UNIVERSE_HOURS or not u.get("cands"):
+        cands, rejected, refs = discover()
+        _save("universe.json", {"at": time.time(), "cands": cands, "rejected": rejected, "refs": refs})
+        return cands, rejected, refs
+    cands, rejected, refs = u["cands"], u["rejected"], u["refs"]
+    now = pd.Timestamp.now(tz="UTC")
+    by_chain = defaultdict(list)
+    for c in cands:
+        by_chain[c["chain"]].append(c["pool"])
+    for chain, r in refs.items():
+        by_chain[chain].append(r["pool"])
+    fresh: dict[str, dict] = {}
+    for chain, pools in by_chain.items():
+        fresh.update({f"{chain}:{k}": v for k, v in gt_multi(chain, pools).items()})
+    for c in cands + list(refs.values()):
+        f = fresh.get(f"{c['chain']}:{c['pool']}")
+        if f:
+            for k in ("price", "quote_price", "reserve_usd", "tx_h24", "tx_h1", "vol_h24"):
+                c[k] = f[k]
+        if c.get("first_created"):
+            c["age_days"] = (now - pd.Timestamp(c["first_created"])).total_seconds() / 86400
+    boosted = ds_boosted()
+    for c in cands:
+        c["boosted"] = (CHAINS[c["chain"]]["ds"], c["token"]) in boosted
+    return cands, rejected, refs
 
 
 def _brief(p: dict) -> dict:
@@ -289,35 +326,19 @@ def load_models() -> dict:
 
 
 def hourly() -> dict:
+    from dex import cache
     from dex.improve import load_adaptive
     from scanner import track
 
     seed = S.run_seed()
     t = S.thresholds(seed)
     adaptive = load_adaptive()
-    cands, rejected, refs = discover()
-    log.info("discovered %d candidates, %d early rejections", len(cands), len(rejected))
+    cands, rejected, refs = universe()
+    log.info("%d candidates, %d early rejections", len(cands), len(rejected))
     enrich_liquidity(cands)
     liquidity_history(cands)
     chains = chain_params(refs, adaptive)
-    # candles: candidates + each network's reference coin
-    candles: dict[str, pd.DataFrame] = {}
-    for chain, r in refs.items():
-        try:
-            candles[f"ref:{chain}"] = gt_ohlcv(chain, r["pool"], 300)
-        except Exception as e:  # noqa: BLE001
-            log.warning("reference candles %s: %s", chain, e)
-    deadline = time.time() + 60 * float(os.environ.get("OMEGA_DEX_CANDLE_MINUTES", "15"))
-    for i, c in enumerate(cands):     # deepest pools first; stop if the free data service is too slow today
-        if time.time() > deadline:
-            log.warning("candle time budget used up after %d of %d candidates", i, len(cands))
-            break
-        try:
-            candles[f"{c['chain']}:{c['pool']}"] = gt_ohlcv(c["chain"], c["pool"], 300)
-        except Exception as e:  # noqa: BLE001
-            log.warning("candles %s %s: %s", c["chain"], c["base_symbol"], e)
-    log.info("candles for %d candidates", sum(1 for c in cands if f"{c['chain']}:{c['pool']}" in candles))
-    # security, per network
+    # security first (other services): price history is only downloaded for tokens that could pass
     fps = _load("fingerprints.json", {})
     by_chain = defaultdict(list)
     for c in cands:
@@ -329,6 +350,27 @@ def hourly() -> dict:
             c["rules_changed"] = rules_changed(chain, c["token"], S.fingerprint(c["facts"]), fps) \
                 if c["facts"]["goplus"] else False
     _save("fingerprints.json", fps)
+    for c in cands:
+        c["active_days"] = None
+        c["assess"] = S.assess(c["facts"], market_facts(c), t, c["chain"])
+    pre = [c for c in cands if c["assess"]["verdict"] == "pass"]
+    log.info("%d of %d candidates pass the pre-check; downloading their price history", len(pre), len(cands))
+    candles: dict[str, pd.DataFrame] = {}
+    deadline = time.time() + 60 * float(os.environ.get("OMEGA_DEX_CANDLE_MINUTES", "15"))
+    for chain, r in refs.items():
+        try:
+            candles[f"ref:{chain}"] = cache.candles(chain, r["pool"], 300)
+        except Exception as e:  # noqa: BLE001
+            log.warning("reference candles %s: %s", chain, e)
+    open_pools = _open_pools()
+    for c in pre + [c for c in cands if c not in pre and f"{c['chain']}:{c['token']}" in open_pools]:
+        if time.time() > deadline:
+            log.warning("candle time budget used up")
+            break
+        try:
+            candles[f"{c['chain']}:{c['pool']}"] = cache.candles(c["chain"], c["pool"], 300)
+        except Exception as e:  # noqa: BLE001
+            log.warning("candles %s %s: %s", c["chain"], c["base_symbol"], e)
     models = load_models()
     score_candidates(cands, candles, refs, models, chains, adaptive)
     for c in cands:
@@ -361,6 +403,13 @@ def hourly() -> dict:
     return {"ideas": ideas, "scoreboard": board, "candidates": len(cands)}
 
 
+def _open_pools() -> set[str]:
+    from scanner import track
+
+    h = track.load_history("dex/history.csv")
+    return set(h.loc[h["status"] == "open", "symbol"]) if len(h) else set()
+
+
 def market_facts(c: dict) -> dict:
     tx = c.get("tx_h24") or {}
     return {"liq_real": c.get("liq_real", 0.0), "age_days": c.get("age_days", 0.0), "active_days": c.get("active_days"),
@@ -383,6 +432,7 @@ def snapshot_row(c: dict) -> dict:
 
 def _fill_open_candles(settle: dict, hist: str) -> None:
     """Open ideas whose token left the candidate list still need prices to be settled."""
+    from dex import cache
     from scanner import track
 
     h = track.load_history(hist)
@@ -392,7 +442,7 @@ def _fill_open_candles(settle: dict, hist: str) -> None:
     for (sym, pool), _ in list(open_.groupby(["symbol", "pool"]))[:25]:
         chain = sym.split(":", 1)[0]
         try:
-            settle[sym] = gt_ohlcv(chain, pool, 300)
+            settle[sym] = cache.candles(chain, pool, 300)
         except Exception as e:  # noqa: BLE001
             log.warning("settle candles %s: %s", sym, e)
 
