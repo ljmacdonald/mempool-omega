@@ -16,11 +16,18 @@
   const CHAIN_SIM = { ethereum: true, bsc: true };
   const TRADER_SCALE = { ethereum: 0.5 };
 
-  function thresholds(seed) {
-    if (seed === null || seed === undefined) return { ...BASE };
-    const rnd = E.mulberry32(seed); const out = {};
-    for (const k of Object.keys(BASE)) { const r = rnd(); out[k] = k.startsWith("min_") ? BASE[k] * (1 + 0.3 * r) : BASE[k] * (1 - 0.25 * r); }
-    out.min_active_days = Math.min(out.min_active_days, 14);
+  // "Higher risk": only size, age, activity and spread limits are lowered; every scam test stays as strict
+  const RISKY = { ...BASE, min_liq: 100000, min_age_days: 5, min_active_days: 3, min_buyers: 100, min_sellers: 60, min_holders: 500, max_top10: 0.60 };
+  const PROFILES = { standard: BASE, risky: RISKY };
+  function thresholds(seed, profile = "standard") {
+    const base = PROFILES[profile]; let out;
+    if (seed === null || seed === undefined) out = { ...base };
+    else {
+      const rnd = E.mulberry32(seed); out = {};
+      for (const k of Object.keys(base)) { const r = rnd(); out[k] = k.startsWith("min_") ? base[k] * (1 + 0.3 * r) : base[k] * (1 - 0.25 * r); }
+      out.min_active_days = Math.min(out.min_active_days, 14);
+    }
+    out.profile = profile;
     return out;
   }
 
@@ -138,6 +145,7 @@
     const rej = (key, text) => hard.push({ key, text });
     const chk = (key, ok, text, pen = 0) => checks.push({ key, ok, text, penalty: ok === false ? pen : 0 });
     const evm = chain !== "solana"; const owner = f.owner_active;
+    const pub = PROFILES[t.profile || "standard"];
     if (!f.goplus) rej("unverified", "The security check couldn't run for this token, so it isn't suggested (we never guess).");
     if (evm && CHAIN_SIM[chain] && !f.honeypot_src) rej("unverified", "The buy-and-sell test couldn't run for this token, so it isn't suggested.");
     if (chain === "solana" && !f.rugcheck_src) rej("unverified", "The Solana token check (RugCheck) couldn't run, so it isn't suggested.");
@@ -171,10 +179,10 @@
     if (f.same_creator_honeypots > 0) rej("serial_scammer", `The same creator made ${f.same_creator_honeypots} known scam token(s) before.`);
     if (f.rugged) rej("rugged", "RugCheck marks this token as already rugged.");
     const liq = m.liq_real || 0;
-    if (liq < t.min_liq) rej("liquidity", `Only ${M(liq)} of real money in the pool. The minimum is ${M(BASE.min_liq)}, raised by a secret amount that changes every hour.`);
+    if (liq < t.min_liq) rej("liquidity", `Only ${M(liq)} of real money in the pool. The minimum is ${M(pub.min_liq)}, raised by a secret amount that changes every hour.`);
     else chk("liquidity", true, `${M(liq)} of real money in the pool (SOL/ETH/BNB or stablecoins only).`);
     const age = m.age_days || 0;
-    if (age < t.min_age_days) rej("young", `The pool is only ${Math.round(age)} days old. The minimum is ${BASE.min_age_days} days, raised by a secret amount that changes every hour.`);
+    if (age < t.min_age_days) rej("young", `The pool is only ${Math.round(age)} days old. The minimum is ${pub.min_age_days} days, raised by a secret amount that changes every hour.`);
     const act = m.active_days;
     if (act !== null && act !== undefined && act < t.min_active_days) rej("revived", `Real trading on only ${act} of the last 14 days. Old, quiet tokens get 'revived' to look established before a dump.`);
     else if (act !== null && act !== undefined && age >= t.min_age_days) chk("history", true, `${Math.round(age)} days old and actively traded on ${act} of the last 14 days.`);
@@ -246,7 +254,7 @@
 
   const expectedR = (p, winR, lossR, costRt, ru, sl = 1) => p * winR - (1 - p) * lossR - costRt / (sl * ru);
 
-  const api = { BASE, PEN, mevShare, thresholds, emptyFacts, fromGoplusEvm, fromGoplusSol, addHoneypotIs, addRugcheck, assess, dexCost, expectedR };
+  const api = { BASE, RISKY, PEN, mevShare, thresholds, emptyFacts, fromGoplusEvm, fromGoplusSol, addHoneypotIs, addRugcheck, assess, dexCost, expectedR };
   root.OmegaDex = api;
   if (typeof module !== "undefined") module.exports = api;
 })(typeof window !== "undefined" ? window : globalThis);

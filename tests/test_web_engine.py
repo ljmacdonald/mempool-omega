@@ -169,3 +169,20 @@ console.log('ok');"""
     out = subprocess.run(["node", "-e", js, str(ROOT / "site" / "engine.js")], capture_output=True, text=True,
                          timeout=60)
     assert out.stdout.strip() == "ok", out.stderr
+
+
+def test_js_swing_statistics_match_python():
+    from scanner.features import big_mover_stats
+
+    rng = np.random.default_rng(5)
+    c = np.exp(np.cumsum(rng.normal(0, 0.08, 96)))
+    daily = pd.DataFrame({"close": c, "high": c * (1 + rng.uniform(0, 0.15, 96)), "low": c * (1 - rng.uniform(0, 0.15, 96))})
+    py = big_mover_stats(daily)
+    js = """
+const E = require(process.argv[1]); const d = JSON.parse(process.argv[2]);
+console.log(JSON.stringify(E.bigMoverStats(d)));"""
+    out = subprocess.run(["node", "-e", js, str(ROOT / "site" / "engine.js"),
+                          json.dumps({k: daily[k].tolist() for k in ("close", "high", "low")})],
+                         capture_output=True, text=True, timeout=60)
+    j = json.loads(out.stdout)
+    assert abs(j["up_pct"] - py["up_pct"]) < 1e-12 and abs(j["down_pct"] - py["down_pct"]) < 1e-12

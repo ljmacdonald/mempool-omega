@@ -208,7 +208,8 @@
     const scores = Object.fromEntries(rows.map((r) => [r.symbol, r.rawScore]));
     rows.sort((a, b) => b.rawScore - a.rawScore);
     const ideas = rows.slice(0, topN).map((r, i) => ({ ...r, rank: i + 1 }));
-    return { ideas, mood, scores };
+    const all = rows.map((r, i) => ({ symbol: r.symbol, score: r.rawScore, place: i + 1, warnings: r.warnings }));
+    return { ideas, mood, scores, all };
   }
 
   // ---------------------------------------------------------------- universe filter (scanner/data.py)
@@ -224,6 +225,29 @@
     const top = rows.slice(0, ucfg.max_coins);
     for (const r of rows) if (must.has(r.base) && !top.includes(r)) top.push(r);
     return top;
+  }
+
+  // "Small coins" page (scanner/data.py select_small_universe): the next tier after the main universe
+  function selectSmallUniverse(tickers, ucfg) {
+    const main = new Set(selectUniverse(tickers, ucfg).map((r) => r.symbol));
+    const excluded = new Set([...ucfg.exclude_stablecoins, ...ucfg.exclude_other, ...ucfg.exclude_stock_tokens]);
+    return tickers.filter((t) => t.symbol.endsWith("USDT")).map((t) => ({
+      symbol: t.symbol, base: t.symbol.slice(0, -4), quoteVolume: +t.quoteVolume, lastPrice: +t.lastPrice, change: +t.priceChangePercent }))
+      .filter((t) => /^[A-Z0-9]{2,15}$/.test(t.base) && !excluded.has(t.base) && !/(UP|DOWN|BULL|BEAR)$/.test(t.base))
+      .filter((t) => !main.has(t.symbol) && t.quoteVolume >= ucfg.small_min_quote_volume_usd)
+      .sort((a, b) => b.quoteVolume - a.quoteVolume).slice(0, ucfg.small_max_coins);
+  }
+  // How often (last ~90 days) the coin rose / fell 20%+ at some point within a week (scanner/features.py big_mover_stats)
+  function bigMoverStats(daily, threshold = 0.20, window = 7) {
+    const c = daily.close, hi = daily.high, lo = daily.low, n = c.length;
+    if (n < window + 10) return { up_pct: NaN_, down_pct: NaN_, days: n };
+    let ups = 0, downs = 0, cnt = 0;
+    for (let i = 0; i < n - window; i++) {
+      let mh = -Infinity, ml = Infinity;
+      for (let j = i + 1; j < i + 1 + window; j++) { mh = Math.max(mh, hi[j]); ml = Math.min(ml, lo[j]); }
+      ups += mh / c[i] - 1 >= threshold ? 1 : 0; downs += 1 - ml / c[i] >= threshold ? 1 : 0; cnt++;
+    }
+    return { up_pct: ups / cnt, down_pct: downs / cnt, days: n };
   }
 
   // ---------------------------------------------------------------- trade monitor (scanner/live.py advise)
@@ -450,7 +474,7 @@
 
   const api = { FEATURES, applyProbation, VENUES, DEX_FEE, CHAINS, walkBuy, walkSell, cexNet, dexNet, checkWalls, checkThinBook, checkWash, checkImpact, checkVenues, checkWhale, checkEngineered, combineChecks, applyIntegrity,
     mulberry32, thresholds, snapshotGaps, declutterExits, adaptivePenalty, BASE, diff, ewmMean, ewmStd, rStd, lastFeatures, riskUnit, predict, rankCoins, selectUniverse,
-    makeTrade, advise, humanDuration, scoreFromR, expectedR };
+    makeTrade, advise, humanDuration, scoreFromR, expectedR, selectSmallUniverse, bigMoverStats };
   root.OmegaEngine = api;
   if (typeof module !== "undefined") module.exports = api;
 })(typeof window !== "undefined" ? window : globalThis);

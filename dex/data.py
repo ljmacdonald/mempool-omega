@@ -59,7 +59,9 @@ def pool_record(chain: str, p: dict, toks: dict) -> dict:
             "fee_pct": _f(a.get("pool_fee_percentage")),
             "tx_h24": {k: int(v or 0) for k, v in (tx.get("h24") or {}).items()},
             "tx_h1": {k: int(v or 0) for k, v in (tx.get("h1") or {}).items()},
-            "vol_h24": _f(vol.get("h24"))}
+            "vol_h24": _f(vol.get("h24")),
+            "chg_h24": _f((a.get("price_change_percentage") or {}).get("h24")) / 100,
+            "chg_h1": _f((a.get("price_change_percentage") or {}).get("h1")) / 100}
 
 
 def gt_multi(chain: str, pools: list[str]) -> dict[str, dict]:

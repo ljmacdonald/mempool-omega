@@ -53,16 +53,27 @@ PEN = {"top10": 0.10, "holders": 0.05, "lp_unverified": 0.05, "lp_partial": 0.05
 EVM_DEAD = {"", "0x0000000000000000000000000000000000000000", "0x000000000000000000000000000000000000dead"}
 
 
-def thresholds(seed: int | None) -> dict:
-    """Secret limits: min_* x 1.0-1.3, max_* x 0.75-1.0 (never looser than published). seed=None -> BASE."""
+# "Higher risk" (opt-in on the website): younger and smaller tokens. ONLY size, age, activity and spread limits are
+# lowered. Every scam test (sell test, real sellers ratio, taxes, owner powers, authorities, liquidity being pulled,
+# copies, rule changes, fail-closed) stays exactly as strict.
+RISKY = {**BASE, "min_liq": 100_000.0, "min_age_days": 5.0, "min_active_days": 3.0, "min_buyers": 100.0,
+         "min_sellers": 60.0, "min_holders": 500.0, "max_top10": 0.60}
+PROFILES = {"standard": BASE, "risky": RISKY}
+
+
+def thresholds(seed: int | None, profile: str = "standard") -> dict:
+    """Secret limits: min_* x 1.0-1.3, max_* x 0.75-1.0 (never looser than published). seed=None -> published."""
+    base = PROFILES[profile]
     if seed is None:
-        return dict(BASE)
-    rnd = mulberry32(seed)
-    out = {}
-    for k, v in BASE.items():
-        r = rnd()
-        out[k] = v * (1 + 0.3 * r) if k.startswith("min_") else v * (1 - 0.25 * r)
-    out["min_active_days"] = min(out["min_active_days"], 14.0)
+        out = dict(base)
+    else:
+        rnd = mulberry32(seed)
+        out = {}
+        for k, v in base.items():
+            r = rnd()
+            out[k] = v * (1 + 0.3 * r) if k.startswith("min_") else v * (1 - 0.25 * r)
+        out["min_active_days"] = min(out["min_active_days"], 14.0)
+    out["profile"] = profile
     return out
 
 
@@ -278,6 +289,7 @@ def assess(f: dict, m: dict, t: dict, chain: str) -> dict:
 
     evm = chain != "solana"
     owner = f["owner_active"]
+    pub = PROFILES[t.get("profile", "standard")]          # published limits, for the messages
     # 1. could it be verified at all? (fail closed)
     if not f["goplus"]:
         rej("unverified", "The security check couldn't run for this token, so it isn't suggested (we never guess).")
@@ -356,13 +368,13 @@ def assess(f: dict, m: dict, t: dict, chain: str) -> dict:
     # 5. liquidity: real, aged, active, and not being pulled
     liq = m.get("liq_real") or 0.0
     if liq < t["min_liq"]:
-        rej("liquidity", f"Only ${liq:,.0f} of real money in the pool. The minimum is ${BASE['min_liq']:,.0f}, raised by a "
+        rej("liquidity", f"Only ${liq:,.0f} of real money in the pool. The minimum is ${pub['min_liq']:,.0f}, raised by a "
                          "secret amount that changes every hour.")
     else:
         chk("liquidity", True, f"${liq:,.0f} of real money in the pool (SOL/ETH/BNB or stablecoins only).")
     age = m.get("age_days") or 0.0
     if age < t["min_age_days"]:
-        rej("young", f"The pool is only {age:.0f} days old. The minimum is {BASE['min_age_days']:.0f} days, raised by a "
+        rej("young", f"The pool is only {age:.0f} days old. The minimum is {pub['min_age_days']:.0f} days, raised by a "
                      "secret amount that changes every hour.")
     act = m.get("active_days")
     if act is not None and act < t["min_active_days"]:

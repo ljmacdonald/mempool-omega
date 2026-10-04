@@ -3,7 +3,7 @@
 **The app:** https://ljmacdonald.github.io/mempool-omega/ (open it on your phone or computer, nothing to install).
 
 ## What this app does, in one paragraph
-A computer program watches about 60 popular cryptocurrencies. On the **live dashboard** it re-ranks them as often
+A computer program watches about 150 popular cryptocurrencies. On the **live dashboard** it re-ranks them as often
 as you choose (every 1, 2, 5, 15, 30 or 60 minutes, or when you click *Refresh now*) and shows the **5 best buy
 ideas** for the trading speed you pick. Each idea gives you the buy price, when to take profit, when to get out to
 limit a loss, and **the latest time to sell**. When you take a trade, the **My trades** page watches it and tells
@@ -82,7 +82,7 @@ Your trades are stored in the page's web address. **Bookmark the page after addi
 Click "I've sold it" to remove a trade.
 
 ## Market mood
-At the top of the list: **Favourable / Mixed / Unfavourable**. This is how many of the ~60 coins the computer
+At the top of the list: **Favourable / Mixed / Unfavourable**. This is how many of the ~150 coins the computer
 expects to end in profit this hour. When it says *Unfavourable*, the best move is usually **to do nothing**.
 Even when every idea is weak, the app still shows its top 5, ranked. Look at the scores, not just the order.
 
@@ -102,6 +102,20 @@ exit, after every cost:
 The fees are standard entry-level rates. Yours may be lower. Fake tokens often copy popular names, so on a DEX
 always check the token address.
 
+## Moving between pages
+Every page has the same menu at the top: **Exchange coins**, **Small coins** and **DEX tokens**. Tap one to switch.
+You never need to remember a link.
+
+## The Small coins page
+The next tier down: coins trading roughly $300,000 to $1M a day that, over the last 90 days, rose 20% or more within
+a week at least 15% of the time. It shows the top 10. These coins can jump 20–50%, and they can fall just as fast. Each
+card shows how often the coin rose **and** fell 20%+ in a week. Use smaller amounts here.
+
+## The Biggest movers tab
+Every page has a **Biggest movers** tab: today's top gainers and, for each one, why it is or isn't suggested. Usually
+it already jumped (buying after a spike often means buying the top), it trades too little to be safe, it failed a
+safety check, or other coins simply scored higher. It's for information, not a list of suggestions.
+
 ## The DEX tokens page
 At the top of the app, switch between **Exchange coins** and **DEX tokens**. The DEX page looks for tokens traded on
 decentralised exchanges on Solana, BNB Chain, Ethereum and Robinhood Chain. Use the network buttons to pick one, or
@@ -116,6 +130,9 @@ DEX tokens move much more, and scams are common, so every token must pass strict
 
 The rules are designed assuming the scammer has read them (see *How it works* on that page). If nothing passes, the
 page says so. That's the system protecting you, not a fault.
+
+The **Higher risk** switch adds younger and smaller tokens: at least $100,000 in the pool and 5 days old. Every scam
+test stays exactly as strict, but young, small tokens collapse much more often. It has its own track record.
 
 Each card shows the **real token address**: always check it before buying, because fakes copy names. The calculator
 shows the money you'd actually take out after every DEX cost, including front-running bots and snipers. If you tap
@@ -177,7 +194,7 @@ Give it **at least 2–4 weeks** (hundreds of ideas) before drawing conclusions.
 | **Backtest** | Testing the rules on past data, using only information that was available at the time. |
 
 ## How the 5 ideas are chosen
-1. Take Binance's most-traded coins (about 60), skipping stablecoins, gold tokens, stock tokens and tiny or new coins.
+1. Take Binance's most-traded coins (about 150, each trading at least $1M a day), skipping stablecoins, gold tokens, stock tokens and tiny or new coins.
 2. For each coin, measure simple things: recent price change, trend, buying pressure, activity versus normal,
    overheating, strength versus Bitcoin, and how much it usually swings.
 3. A model for each speed, retrained every night on recent data for all these coins, estimates the chance each
