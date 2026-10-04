@@ -798,3 +798,107 @@
 {"ts": "2026-10-04T02:34:03Z", "level": "WARNING", "logger": "omega.ingest.ws", "msg": "binance ws failed: server rejected WebSocket connection: HTTP 451"}
 {"ts": "2026-10-04T02:35:21Z", "level": "WARNING", "logger": "omega.ingest.ws", "msg": "binance ws failed: server rejected WebSocket connection: HTTP 451"}
 {"ts": "2026-10-04T02:35:57Z", "level": "INFO", "logger": "omega.paper.trader", "msg": "pass done: equity=100000.00 positions=0 events=0"}
+{"ts": "2026-10-04T04:09:51Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=8630 oos_auc=0.514 meta_rows=7767"}
+{"ts": "2026-10-04T04:09:51Z", "level": "INFO", "logger": "omega.train", "msg": "saved model BTCUSDT (auc=0.514, data_mode=live)"}
+{"ts": "2026-10-04T04:09:55Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=8631 oos_auc=0.526 meta_rows=7605"}
+{"ts": "2026-10-04T04:09:55Z", "level": "INFO", "logger": "omega.train", "msg": "saved model ETHUSDT (auc=0.526, data_mode=live)"}
+{"ts": "2026-10-04T04:10:14Z", "level": "INFO", "logger": "omega.scanner.model", "msg": "scanner model quick: {'style': 'quick', 'config': 'base', 'trained_rows': 105386, 'coins': 59, 'oos_auc': 0.5089303112408321, 'top5_beat_market_rate': 0.47531692766592093, 'top5_avg_excess_ret': 0.0006402930281132211, 'all_ideas_win_rate': 0.3770102154344088, 'all_ideas_avg_net_ret': -0.0017489221410377962, 'top5_win_rate': 0.38926174496644295, 'top5_avg_net_ret': -0.0011072046266532606, 'start': '2026-09-27 22:10:00+00:00', 'end': '2026-10-04 03:00:00+00:00', 'caveat': \"Coins are chosen by TODAY's trading volume, which favours coins that recently rose (survivorship bias), so these past-data numbers look better than reality. Judge the scanner by the live track record instead.\"}"}
+{"ts": "2026-10-04T04:10:14Z", "level": "INFO", "logger": "omega.scanner.improve", "msg": "model selection quick: {'winner': 'base', 'tested_on': '2026-10-02 13:50:00+00:00 onwards (never seen in training)', 'results': {'base': {'top5_excess': 0.00018, 'top5_beat_market': 0.463, 'train_rows': 78328}, 'simpler': {'top5_excess': -1e-05, 'top5_beat_market': 0.464, 'train_rows': 78328}, 'richer': {'top5_excess': -0.00078, 'top5_beat_market': 0.445, 'train_rows': 78328}, 'recent-only': {'top5_excess': 0.00056, 'top5_beat_market': 0.468, 'train_rows': 39176}}, 'beats_random': True}"}
+{"ts": "2026-10-04T04:10:28Z", "level": "INFO", "logger": "omega.scanner.model", "msg": "scanner model short: {'style': 'short', 'config': 'base', 'trained_rows': 75071, 'coins': 59, 'oos_auc': 0.5196910957347486, 'top5_beat_market_rate': 0.46153846153846156, 'top5_avg_excess_ret': 0.0004855055309164024, 'all_ideas_win_rate': 0.44784201305940435, 'all_ideas_avg_net_ret': -2.3336504733138038e-05, 'top5_win_rate': 0.47484407484407487, 'top5_avg_net_ret': 0.0004782500241374755, 'start': '2026-09-20 15:15:00+00:00', 'end': '2026-10-03 23:30:00+00:00', 'caveat': \"Coins are chosen by TODAY's trading volume, which favours coins that recently rose (survivorship bias), so these past-data numbers look better than reality. Judge the scanner by the live track record instead.\"}"}
+{"ts": "2026-10-04T04:10:28Z", "level": "INFO", "logger": "omega.scanner.improve", "msg": "model selection short: {'winner': 'base', 'tested_on': '2026-09-30 15:30:00+00:00 onwards (never seen in training)', 'results': {'base': {'top5_excess': 0.00285, 'top5_beat_market': 0.517, 'train_rows': 55188}, 'simpler': {'top5_excess': 0.00203, 'top5_beat_market': 0.504, 'train_rows': 55188}, 'richer': {'top5_excess': 0.00215, 'top5_beat_market': 0.515, 'train_rows': 55188}, 'recent-only': {'top5_excess': -6e-05, 'top5_beat_market': 0.476, 'train_rows': 27812}}, 'beats_random': True}"}
+{"ts": "2026-10-04T04:10:36Z", "level": "INFO", "logger": "omega.scanner.model", "msg": "scanner model day: {'style': 'day', 'config': 'recent-only', 'trained_rows': 22454, 'coins': 59, 'oos_auc': 0.5063468774685902, 'top5_beat_market_rate': 0.40893470790378006, 'top5_avg_excess_ret': 0.0002970997905530941, 'all_ideas_win_rate': 0.5094160843302143, 'all_ideas_avg_net_ret': 0.008606185140224994, 'top5_win_rate': 0.5505154639175258, 'top5_avg_net_ret': 0.008887646132160459, 'start': '2026-09-17 00:00:00+00:00', 'end': '2026-10-03 02:00:00+00:00', 'caveat': \"Coins are chosen by TODAY's trading volume, which favours coins that recently rose (survivorship bias), so these past-data numbers look better than reality. Judge the scanner by the live track record instead.\"}"}
+{"ts": "2026-10-04T04:10:36Z", "level": "INFO", "logger": "omega.scanner.improve", "msg": "model selection day: {'winner': 'recent-only', 'tested_on': '2026-09-25 01:00:00+00:00 onwards (never seen in training)', 'results': {'base': {'top5_excess': 0.00128, 'top5_beat_market': 0.403, 'train_rows': 31960}, 'simpler': {'top5_excess': 0.00341, 'top5_beat_market': 0.439, 'train_rows': 31960}, 'richer': {'top5_excess': 0.00099, 'top5_beat_market': 0.399, 'train_rows': 31960}, 'recent-only': {'top5_excess': 0.00468, 'top5_beat_market': 0.447, 'train_rows': 16114}}, 'beats_random': True}"}
+{"ts": "2026-10-04T04:11:01Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=2851 oos_auc=0.549 meta_rows=2660"}
+{"ts": "2026-10-04T04:11:02Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 0: train=2855 test=1440 auc=0.549"}
+{"ts": "2026-10-04T04:11:04Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=4283 oos_auc=0.553 meta_rows=4020"}
+{"ts": "2026-10-04T04:11:05Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 1: train=4295 test=1440 auc=0.553"}
+{"ts": "2026-10-04T04:11:07Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=5734 oos_auc=0.538 meta_rows=5286"}
+{"ts": "2026-10-04T04:11:07Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 2: train=5735 test=1440 auc=0.538"}
+{"ts": "2026-10-04T04:11:10Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=7163 oos_auc=0.525 meta_rows=6530"}
+{"ts": "2026-10-04T04:11:10Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 3: train=7175 test=1440 auc=0.525"}
+{"ts": "2026-10-04T04:11:12Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=2850 oos_auc=0.511 meta_rows=2672"}
+{"ts": "2026-10-04T04:11:13Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 0: train=2855 test=1440 auc=0.511"}
+{"ts": "2026-10-04T04:11:14Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=4285 oos_auc=0.526 meta_rows=3931"}
+{"ts": "2026-10-04T04:11:15Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 1: train=4295 test=1440 auc=0.526"}
+{"ts": "2026-10-04T04:11:17Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=5733 oos_auc=0.519 meta_rows=5176"}
+{"ts": "2026-10-04T04:11:18Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 2: train=5735 test=1440 auc=0.519"}
+{"ts": "2026-10-04T04:11:20Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=7164 oos_auc=0.520 meta_rows=6455"}
+{"ts": "2026-10-04T04:11:21Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 3: train=7175 test=1440 auc=0.520"}
+{"ts": "2026-10-04T04:11:27Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=1967 oos_auc=0.477 meta_rows=1833"}
+{"ts": "2026-10-04T04:11:27Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 0: train=1976 test=1333 auc=0.477"}
+{"ts": "2026-10-04T04:11:29Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=3297 oos_auc=0.484 meta_rows=3046"}
+{"ts": "2026-10-04T04:11:30Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 1: train=3309 test=1333 auc=0.484"}
+{"ts": "2026-10-04T04:11:33Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=4630 oos_auc=0.490 meta_rows=4260"}
+{"ts": "2026-10-04T04:11:33Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 2: train=4642 test=1334 auc=0.490"}
+{"ts": "2026-10-04T04:11:37Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=1967 oos_auc=0.477 meta_rows=1833"}
+{"ts": "2026-10-04T04:11:38Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 0: train=1976 test=1333 auc=0.477"}
+{"ts": "2026-10-04T04:11:40Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=3297 oos_auc=0.484 meta_rows=3046"}
+{"ts": "2026-10-04T04:11:41Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 1: train=3309 test=1333 auc=0.484"}
+{"ts": "2026-10-04T04:11:44Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=4630 oos_auc=0.490 meta_rows=4260"}
+{"ts": "2026-10-04T04:11:44Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 2: train=4642 test=1334 auc=0.490"}
+{"ts": "2026-10-04T04:11:46Z", "level": "INFO", "logger": "omega.redteam", "msg": "spoofing               naive bait=2 pnl=-84 ret=0.15% | asi bait=0 pnl=0 ret=-0.25%"}
+{"ts": "2026-10-04T04:11:48Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=1967 oos_auc=0.477 meta_rows=1833"}
+{"ts": "2026-10-04T04:11:49Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 0: train=1976 test=1333 auc=0.477"}
+{"ts": "2026-10-04T04:11:51Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=3297 oos_auc=0.484 meta_rows=3046"}
+{"ts": "2026-10-04T04:11:52Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 1: train=3309 test=1333 auc=0.484"}
+{"ts": "2026-10-04T04:11:55Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=4630 oos_auc=0.490 meta_rows=4260"}
+{"ts": "2026-10-04T04:11:55Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 2: train=4642 test=1334 auc=0.490"}
+{"ts": "2026-10-04T04:11:59Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=1967 oos_auc=0.477 meta_rows=1833"}
+{"ts": "2026-10-04T04:11:59Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 0: train=1976 test=1333 auc=0.477"}
+{"ts": "2026-10-04T04:12:02Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=3297 oos_auc=0.484 meta_rows=3046"}
+{"ts": "2026-10-04T04:12:03Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 1: train=3309 test=1333 auc=0.484"}
+{"ts": "2026-10-04T04:12:05Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=4630 oos_auc=0.490 meta_rows=4260"}
+{"ts": "2026-10-04T04:12:06Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 2: train=4642 test=1334 auc=0.490"}
+{"ts": "2026-10-04T04:12:08Z", "level": "INFO", "logger": "omega.redteam", "msg": "wash_trading           naive bait=6 pnl=-54 ret=-0.62% | asi bait=2 pnl=-15 ret=-0.28%"}
+{"ts": "2026-10-04T04:12:10Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=1967 oos_auc=0.477 meta_rows=1833"}
+{"ts": "2026-10-04T04:12:10Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 0: train=1976 test=1333 auc=0.477"}
+{"ts": "2026-10-04T04:12:13Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=3297 oos_auc=0.484 meta_rows=3046"}
+{"ts": "2026-10-04T04:12:13Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 1: train=3309 test=1333 auc=0.484"}
+{"ts": "2026-10-04T04:12:16Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=4630 oos_auc=0.490 meta_rows=4260"}
+{"ts": "2026-10-04T04:12:17Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 2: train=4642 test=1334 auc=0.490"}
+{"ts": "2026-10-04T04:12:20Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=1967 oos_auc=0.477 meta_rows=1833"}
+{"ts": "2026-10-04T04:12:21Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 0: train=1976 test=1333 auc=0.477"}
+{"ts": "2026-10-04T04:12:23Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=3297 oos_auc=0.484 meta_rows=3046"}
+{"ts": "2026-10-04T04:12:24Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 1: train=3309 test=1333 auc=0.484"}
+{"ts": "2026-10-04T04:12:27Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=4630 oos_auc=0.490 meta_rows=4260"}
+{"ts": "2026-10-04T04:12:28Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 2: train=4642 test=1334 auc=0.490"}
+{"ts": "2026-10-04T04:12:29Z", "level": "INFO", "logger": "omega.redteam", "msg": "mempool_spam           naive bait=4 pnl=-186 ret=0.18% | asi bait=2 pnl=-125 ret=-0.28%"}
+{"ts": "2026-10-04T04:12:31Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=1967 oos_auc=0.477 meta_rows=1833"}
+{"ts": "2026-10-04T04:12:32Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 0: train=1976 test=1333 auc=0.477"}
+{"ts": "2026-10-04T04:12:34Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=3297 oos_auc=0.484 meta_rows=3046"}
+{"ts": "2026-10-04T04:12:35Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 1: train=3309 test=1333 auc=0.484"}
+{"ts": "2026-10-04T04:12:37Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=4630 oos_auc=0.490 meta_rows=4260"}
+{"ts": "2026-10-04T04:12:38Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 2: train=4642 test=1334 auc=0.490"}
+{"ts": "2026-10-04T04:12:42Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=1967 oos_auc=0.477 meta_rows=1833"}
+{"ts": "2026-10-04T04:12:42Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 0: train=1976 test=1333 auc=0.477"}
+{"ts": "2026-10-04T04:12:45Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=3297 oos_auc=0.484 meta_rows=3046"}
+{"ts": "2026-10-04T04:12:45Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 1: train=3309 test=1333 auc=0.484"}
+{"ts": "2026-10-04T04:12:48Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=4630 oos_auc=0.490 meta_rows=4260"}
+{"ts": "2026-10-04T04:12:49Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 2: train=4642 test=1334 auc=0.490"}
+{"ts": "2026-10-04T04:12:51Z", "level": "INFO", "logger": "omega.redteam", "msg": "liquidation_hunt       naive bait=2 pnl=-108 ret=0.62% | asi bait=2 pnl=-123 ret=0.29%"}
+{"ts": "2026-10-04T04:12:53Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=1967 oos_auc=0.477 meta_rows=1833"}
+{"ts": "2026-10-04T04:12:53Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 0: train=1976 test=1333 auc=0.477"}
+{"ts": "2026-10-04T04:12:56Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=3297 oos_auc=0.484 meta_rows=3046"}
+{"ts": "2026-10-04T04:12:56Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 1: train=3309 test=1333 auc=0.484"}
+{"ts": "2026-10-04T04:12:59Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=4630 oos_auc=0.490 meta_rows=4260"}
+{"ts": "2026-10-04T04:12:59Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 2: train=4642 test=1334 auc=0.490"}
+{"ts": "2026-10-04T04:13:03Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=1967 oos_auc=0.477 meta_rows=1833"}
+{"ts": "2026-10-04T04:13:04Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 0: train=1976 test=1333 auc=0.477"}
+{"ts": "2026-10-04T04:13:06Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=3297 oos_auc=0.484 meta_rows=3046"}
+{"ts": "2026-10-04T04:13:07Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 1: train=3309 test=1333 auc=0.484"}
+{"ts": "2026-10-04T04:13:10Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=4630 oos_auc=0.490 meta_rows=4260"}
+{"ts": "2026-10-04T04:13:10Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 2: train=4642 test=1334 auc=0.490"}
+{"ts": "2026-10-04T04:13:12Z", "level": "INFO", "logger": "omega.redteam", "msg": "funding_manipulation   naive bait=5 pnl=-309 ret=0.25% | asi bait=4 pnl=-248 ret=-0.24%"}
+{"ts": "2026-10-04T04:13:14Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=1967 oos_auc=0.477 meta_rows=1833"}
+{"ts": "2026-10-04T04:13:14Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 0: train=1976 test=1333 auc=0.477"}
+{"ts": "2026-10-04T04:13:17Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=3297 oos_auc=0.484 meta_rows=3046"}
+{"ts": "2026-10-04T04:13:17Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 1: train=3309 test=1333 auc=0.484"}
+{"ts": "2026-10-04T04:13:20Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=4630 oos_auc=0.490 meta_rows=4260"}
+{"ts": "2026-10-04T04:13:21Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 2: train=4642 test=1334 auc=0.490"}
+{"ts": "2026-10-04T04:13:24Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=1967 oos_auc=0.477 meta_rows=1833"}
+{"ts": "2026-10-04T04:13:25Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 0: train=1976 test=1333 auc=0.477"}
+{"ts": "2026-10-04T04:13:27Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=3297 oos_auc=0.484 meta_rows=3046"}
+{"ts": "2026-10-04T04:13:28Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 1: train=3309 test=1333 auc=0.484"}
+{"ts": "2026-10-04T04:13:31Z", "level": "INFO", "logger": "omega.model", "msg": "trained: n=4630 oos_auc=0.490 meta_rows=4260"}
+{"ts": "2026-10-04T04:13:32Z", "level": "INFO", "logger": "omega.backtest", "msg": "fold 2: train=4642 test=1334 auc=0.490"}
+{"ts": "2026-10-04T04:13:33Z", "level": "INFO", "logger": "omega.redteam", "msg": "leadlag_spoof          naive bait=6 pnl=-66 ret=0.47% | asi bait=2 pnl=-173 ret=0.17%"}
