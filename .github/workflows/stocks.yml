@@ -1,0 +1,68 @@
+name: US stocks (every 30 min while the market is open) + nightly retrain
+
+# Scans the most-traded US stocks and a high-volatility list (free Nasdaq + Yahoo data) and publishes the
+# snapshot for the website's US stocks page on the `data` branch (one commit, replaced every run, so the
+# repository doesn't grow). PAPER ONLY: no broker, no keys, no orders.
+on:
+  schedule:
+    - cron: "5,35 13-20 * * 1-5"   # 13:05-20:35 UTC covers 9:30 am - 4 pm New York in summer and winter
+    - cron: "50 21 * * 1-5"        # after the close: swing statistics, earnings calendar, retrain
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "scan | train"
+        required: false
+        default: "scan"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: omega-stocks-writer
+  cancel-in-progress: false
+
+jobs:
+  stocks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        run: pip install -e .
+      - name: Restore the stock price history store
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache/stocks
+          key: stocks-candles-${{ github.run_id }}
+          restore-keys: stocks-candles-
+      - name: Nightly retrain
+        if: github.event.schedule == '50 21 * * 1-5' || github.event.inputs.task == 'train'
+        run: python -m stocks.run train
+      - name: Scan
+        if: github.event.schedule != '50 21 * * 1-5' && github.event.inputs.task != 'train'
+        run: python -m stocks.run scan
+      - name: Publish the snapshot for the website (data branch)
+        if: always()
+        run: |
+          [ -f .cache/stocks_out/snapshot.json ] || { echo "no snapshot"; exit 0; }
+          mkdir -p /tmp/pub/stocks && cp .cache/stocks_out/snapshot.json /tmp/pub/stocks/
+          cd /tmp/pub
+          git init -q -b data
+          git config user.name "mempool-omega-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A && git commit -q -m "US stocks snapshot $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" data
+      - name: Save the stock price history store
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .cache/stocks
+          key: stocks-candles-${{ github.run_id }}
+      - name: Commit state (track record, models, earnings, swing statistics)
+        if: always()
+        run: |
+          bash infra/commit_state.sh "stocks: ${{ github.event.inputs.task || 'scheduled' }} $(date -u +%Y-%m-%dT%H:%MZ)"

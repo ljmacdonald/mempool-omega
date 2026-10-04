@@ -103,13 +103,26 @@ The fees are standard entry-level rates. Yours may be lower. Fake tokens often c
 always check the token address.
 
 ## Moving between pages
-Every page has the same menu at the top: **Exchange coins**, **Small coins** and **DEX tokens**. Tap one to switch.
+Every page has the same menu at the top: **Exchange coins**, **Small coins**, **DEX tokens** and **US stocks**. Tap one to switch.
 You never need to remember a link.
 
 ## The Small coins page
 The next tier down: coins trading roughly $300,000 to $1M a day that, over the last 90 days, rose 20% or more within
 a week at least 15% of the time. It shows the top 10. These coins can jump 20–50%, and they can fall just as fast. Each
 card shows how often the coin rose **and** fell 20%+ in a week. Use smaller amounts here.
+
+## The US stocks page
+Two lists: **Large stocks** (the 200 most-traded US companies worth $10 billion or more) and **High volatility**
+(companies worth $300 million to $10 billion that often rose 20%+ within a week). Two speeds: **Today** (sell within
+2 hours, before the 4 pm New York close) and **Few days** (up to 3 trading days).
+- The US market is open Monday to Friday, 9:30 am to 4:00 pm New York time. The banner at the top says whether it's
+  open. When it's closed, the ideas are for information only.
+- Rankings update every 30 minutes while the market is open. For live prices, paste a free key from finnhub.io into
+  "Live prices" at the top. It stays in your browser.
+- Pick your broker's **currency fee** if your account isn't in US dollars. It's often the biggest cost.
+- **Results days ("earnings")** can move a price 5–20% in a moment. The page warns you, and lowers the score of
+  "Few days" ideas whose results fall inside the holding time.
+- **Day-trading rule:** US margin accounts under $25,000 are limited to 3 same-day round trips in 5 business days.
 
 ## The Biggest movers tab
 Every page has a **Biggest movers** tab: today's top gainers and, for each one, why it is or isn't suggested. Usually

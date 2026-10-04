@@ -59,5 +59,12 @@ DEX_STYLES: dict[str, Style] = {
 DEX_DEFAULT_STYLE = "dex_short"
 
 
+# US stocks (stocks/): Yahoo candles, regular trading hours only.
+STOCK_STYLES: dict[str, Style] = {
+    "stk_today": Style("stk_today", "Today: sell within 2 hours, before the close", "15m", 15, 8, 0.004, 0.04, 1500),
+    "stk_days": Style("stk_days", "Few days: sell within 3 trading days", "1h", 60, 21, 0.01, 0.10, 1400),
+}
+
+
 def get_style(key: str) -> Style:
-    return STYLES.get(key) or DEX_STYLES[key]
+    return STYLES.get(key) or DEX_STYLES.get(key) or STOCK_STYLES[key]
