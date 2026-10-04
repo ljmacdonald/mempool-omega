@@ -20,7 +20,7 @@ from scanner import track
 from scanner.data import daily_candles, load_all, select_universe
 from scanner.features import big_mover_stats
 from scanner.live import models_dir, scan
-from scanner.model import ScannerModel, build_dataset
+from scanner.model import ScannerModel, build_dataset  # noqa: F401
 from scanner.styles import DEFAULT_STYLE, STYLES
 
 log = get_logger("scanner.run")
@@ -28,11 +28,13 @@ log = get_logger("scanner.run")
 
 def train(styles: list[str] | None = None) -> dict:
     uni = select_universe()
-    infos = {}
+    from scanner.improve import nightly, select_model
+
+    infos, selection = {}, {}
     for key in styles or list(STYLES):
         st = STYLES[key]
         candles = load_all(uni["symbol"].tolist(), st.train_bars, st.interval)
-        m = ScannerModel(style=key).fit(build_dataset(candles, st))
+        m, selection[key] = select_model(key, build_dataset(candles, st))   # champion vs challengers
         m.save(models_dir())
         infos[key] = m.info
     bm = {}
@@ -43,9 +45,7 @@ def train(styles: list[str] | None = None) -> dict:
             log.warning("daily %s: %s", s, e)
     state_path("reports", "scanner_bigmovers.json").write_text(json.dumps(bm, indent=2))
     state_path("reports", "scanner_train.json").write_text(json.dumps(infos, indent=2, default=str))
-    from scanner.defence import update_adaptive
-
-    infos["bait_monitor"] = update_adaptive()
+    infos["self_improvement"] = nightly(selection)
     return infos
 
 

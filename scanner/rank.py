@@ -143,3 +143,19 @@ def apply_integrity(ideas: list[dict], results: dict[str, dict], top_n: int = 5)
     for i, d in enumerate(ideas, 1):
         d["rank"] = i
     return ideas[:top_n]
+
+
+def apply_probation(ideas: list[dict], adaptive: dict, style_key: str) -> list[dict]:
+    """A speed whose recent ideas did worse than random picks gets lower scores (self-improvement)."""
+    pr = (adaptive.get("probation") or {}).get(style_key) or {}
+    if pr.get("active"):
+        for d in ideas:
+            d["expected_r"] = round(d["expected_r"] - pr.get("penalty", 0.1), 3)
+            d["score"] = round(score_from_r(d["expected_r"]), 1)
+            d["grade"] = grade(d["score"])
+            d["warnings"] = d["warnings"] + [f"This speed is on probation: its last {pr.get('n')} ideas did worse "
+                                             "than picking coins at random, so its scores are lowered."]
+        ideas.sort(key=lambda d: -d["score"])
+    for i, d in enumerate(ideas, 1):
+        d["rank"] = i
+    return ideas

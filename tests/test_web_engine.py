@@ -144,3 +144,28 @@ console.log(JSON.stringify({got, rnd, thr, ex, ad}));"""
             assert abs(out["thr"][sd][k] - v) < 1e-12 * max(1, abs(v))
     np.testing.assert_allclose(np.array(out["ex"]), np.array(ex_py), rtol=1e-12)
     np.testing.assert_allclose(out["ad"], ad_py)
+
+
+def test_js_costs_probation_and_learned_penalties():
+    js = """
+const E = require(process.argv[1]); const ok = (c, m) => { if (!c) throw new Error(m); };
+// CEX: $150 walks the ask book, taker fee both ways, withdrawal fee
+const c = E.cexNet({ amount: 150, asks: [[100, 1], [101, 1], [102, 5]], bids: [[99.9, 10]], taker: 0.001, withdraw_usd: 1, refMid: 99.95 });
+ok(c.buyAvg > 100 && c.buyAvg < 101, 'walk avg'); ok(c.filled, 'filled');
+ok(c.netAt(99.95) < 0, 'flat price must lose to fees'); ok(c.breakEven > 99.95, 'break-even above mid');
+ok(Math.abs(c.netAt(c.breakEven)) < 1e-6, 'break-even nets zero');
+// DEX: MEV protection (mev 0) is always better than an unprotected swap
+const base = { amount: 1000, priceUsd: 1, liqUsd: 200000, swapFee: 0.003, gasUsd: 2, refMid: 1 };
+const prot = E.dexNet({ ...base, mev: 0 }), open = E.dexNet({ ...base, mev: 0.005 });
+ok(prot.netAt(1.1) > open.netAt(1.1), 'mev costs money'); ok(open.mevCost > 0, 'mev cost shown');
+ok(E.dexNet({ ...base, mev: 0, liqUsd: 20000 }).netAt(1.1) < prot.netAt(1.1), 'thin pool costs more');
+// learned check weights and probation (mirrors scanner/integrity.py and scanner/rank.py)
+const chk = [{ key: 'wash', ok: false }, { key: 'walls', ok: true }];
+ok(E.combineChecks(chk, { wash: 0.25 }).penalty === 0.25, 'learned penalty'); ok(E.combineChecks(chk).penalty === 0.1, 'default');
+const ideas = [{ symbol: 'A', adjR: 0.3, rawScore: 8, score: 8, warnings: [] }];
+const out = E.applyProbation(ideas, { probation: { quick: { active: true, n: 50, penalty: 0.1 } } }, 'quick', [[0, 'Any']]);
+ok(out[0].adjR < 0.3 && /probation/.test(out[0].warnings[0]), 'probation');
+console.log('ok');"""
+    out = subprocess.run(["node", "-e", js, str(ROOT / "site" / "engine.js")], capture_output=True, text=True,
+                         timeout=60)
+    assert out.stdout.strip() == "ok", out.stderr
