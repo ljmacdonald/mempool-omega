@@ -56,6 +56,8 @@ def append(ideas: list[dict], universe_size: int, hist: str = HIST) -> None:
              "failed_checks": "|".join(c["key"] for c in (d.get("integrity") or {}).get("checks", [])
                                        if c["ok"] is False) or "none",
              **({"cost_rt": d["cost_rt"], "pool": d.get("pool", "")} if "cost_rt" in d else {})} for d in ideas]
+    if not rows:
+        return
     h = load_history(hist)
     new = pd.DataFrame(rows)
     new = _normalise(new)

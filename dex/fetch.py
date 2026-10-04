@@ -16,16 +16,20 @@ def goplus(chain: str, tokens: list[str]) -> dict[str, dict]:
     url = ("https://api.gopluslabs.io/api/v1/solana/token_security" if chain == "solana"
            else f"https://api.gopluslabs.io/api/v1/token_security/{cid}")
     out: dict[str, dict] = {}
-    for i in range(0, len(tokens), 20):
-        chunk = tokens[i:i + 20]
-        try:
-            d = http().get(url, {"contract_addresses": ",".join(chunk)})
-        except Exception as e:  # noqa: BLE001
-            log.warning("goplus %s: %s", chain, e)
-            continue
-        res = d.get("result") or {}
-        for k, v in res.items():
-            out[k if chain == "solana" else k.lower()] = v
+    for tok in tokens:             # the free service answers one token per request
+        for attempt in range(3):   # when busy it answers "OK"-shaped errors with no result: wait and retry
+            try:
+                d = http().get(url, {"contract_addresses": tok})
+            except Exception as e:  # noqa: BLE001
+                log.warning("goplus %s %s: %s", chain, tok, e)
+                d = {}
+            res = d.get("result") or {}
+            if d.get("code") == 1 and res:
+                for k, v in res.items():
+                    out[k if chain == "solana" else k.lower()] = v
+                break
+            log.warning("goplus %s %s: code %s %s (attempt %d)", chain, tok, d.get("code"), d.get("message"), attempt + 1)
+            time.sleep(10 * (attempt + 1))
     return out
 
 

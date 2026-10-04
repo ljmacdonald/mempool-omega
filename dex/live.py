@@ -29,7 +29,7 @@ from scanner.styles import DEX_STYLES, Style
 
 log = get_logger("dex.live")
 REF_AMOUNT = 100.0          # costs used for the server's own ranking and the track record
-MAX_CANDIDATES = 45
+MAX_CANDIDATES = 60
 DEX_FEE = {"uniswap_v2": 0.003, "pancakeswap_v2": 0.0025, "sushiswap": 0.003, "raydium": 0.0025,
            "pumpswap": 0.0025, "meteora": 0.005, "orca": 0.003}
 
@@ -45,8 +45,23 @@ def _load(name: str, default):
         return default
 
 
+def clean(x):
+    """JSON for browsers: NaN/inf become null (JSON has no NaN), numpy numbers become plain numbers."""
+    if isinstance(x, dict):
+        return {k: clean(v) for k, v in x.items()}
+    if isinstance(x, (list, tuple)):
+        return [clean(v) for v in x]
+    if isinstance(x, (float, np.floating)):
+        return float(x) if np.isfinite(x) else None
+    if isinstance(x, np.integer):
+        return int(x)
+    if isinstance(x, np.bool_):
+        return bool(x)
+    return x
+
+
 def _save(name: str, obj) -> None:
-    dex_state(name).write_text(json.dumps(obj, indent=1, default=str))
+    dex_state(name).write_text(json.dumps(clean(obj), indent=1, default=str, allow_nan=False))
 
 
 def pool_fee(p: dict) -> float:
@@ -72,6 +87,9 @@ def discover() -> tuple[list[dict], list[dict], dict]:
         for sort, pages in (("h24_volume_usd_desc", 4), ("h24_tx_count_desc", 1)):
             for p in gt_pools(chain, sort, pages):
                 seen[p["pool"]] = p
+        for dex in c.get("dexes", []):        # established exchanges: lists not flooded by brand-new launches
+            for p in gt_pools(chain, "h24_volume_usd_desc", 1, dex):
+                seen[p["pool"]] = p
         pools = list(seen.values())
         quotes = c["quotes"]
         # reference pool: wrapped native / stablecoin with the most money in it
@@ -88,7 +106,7 @@ def discover() -> tuple[list[dict], list[dict], dict]:
                 rejected.append({**_brief(p), "reasons": ["Uses the name of a major coin or stablecoin but isn't "
                                                           "the real one."]})
                 continue
-            if sym in NOT_IDEAS:
+            if sym in NOT_IDEAS or "xstock" in (p["base_name"] or "").lower():   # stables, wrapped majors, stocks
                 continue
             by_token[p["token"]].append(p)
         # copycats: same symbol or name as a token with more money behind it, on the same network
@@ -106,10 +124,14 @@ def discover() -> tuple[list[dict], list[dict], dict]:
             created = [pd.Timestamp(p["created"]) for p in ps if p.get("created")]
             age = (now - min(created)).total_seconds() / 86400 if created else 0.0
             tx = main["tx_h24"]
-            cand = {**main, "first_created": str(min(created)) if created else None, "pools": [{"pool": p["pool"], "dex": p["dex"], "reserve_usd": p["reserve_usd"],
-                                       "fee": pool_fee(p), "quote_symbol": p["quote_symbol"]} for p in ps[:4]],
+            cand = {**main, "first_created": str(min(created)) if created else None,
+                    "pools": [{"pool": p["pool"], "dex": p["dex"], "reserve_usd": p["reserve_usd"], "fee": pool_fee(p),
+                               "quote_symbol": p["quote_symbol"], "tx_h24": p["tx_h24"], "vol_h24": p["vol_h24"]}
+                              for p in ps[:4]],
                     "age_days": age, "copycat": copy, "boosted": (c["ds"], t) in boosted,
                     "pool_fee": pool_fee(main)}
+            _sum_pools(cand)
+            tx = cand["tx_h24"]
             why = []
             if (main["reserve_usd"] or 0) < 0.8 * S.BASE["min_liq"]:
                 why.append(f"Only ${main['reserve_usd'] or 0:,.0f} in its biggest pool.")
@@ -144,23 +166,40 @@ def universe() -> tuple[list[dict], list[dict], dict]:
     now = pd.Timestamp.now(tz="UTC")
     by_chain = defaultdict(list)
     for c in cands:
-        by_chain[c["chain"]].append(c["pool"])
+        by_chain[c["chain"]].extend(p["pool"] for p in c.get("pools", [{"pool": c["pool"]}]))
     for chain, r in refs.items():
         by_chain[chain].append(r["pool"])
     fresh: dict[str, dict] = {}
     for chain, pools in by_chain.items():
-        fresh.update({f"{chain}:{k}": v for k, v in gt_multi(chain, pools).items()})
+        fresh.update({f"{chain}:{k}": v for k, v in gt_multi(chain, list(dict.fromkeys(pools))).items()})
     for c in cands + list(refs.values()):
         f = fresh.get(f"{c['chain']}:{c['pool']}")
         if f:
             for k in ("price", "quote_price", "reserve_usd", "tx_h24", "tx_h1", "vol_h24"):
                 c[k] = f[k]
+        for p in c.get("pools", []):
+            f = fresh.get(f"{c['chain']}:{p['pool']}")
+            if f:
+                p.update(reserve_usd=f["reserve_usd"], tx_h24=f["tx_h24"], vol_h24=f["vol_h24"])
+        if c.get("pools"):
+            _sum_pools(c)
         if c.get("first_created"):
             c["age_days"] = (now - pd.Timestamp(c["first_created"])).total_seconds() / 86400
     boosted = ds_boosted()
     for c in cands:
         c["boosted"] = (CHAINS[c["chain"]]["ds"], c["token"]) in boosted
     return cands, rejected, refs
+
+
+def _sum_pools(c: dict) -> None:
+    """Traders and volume across all of a token's real pools (popular tokens trade in several). Distinct-wallet
+    counts can double-count a wallet that used two pools; a scammer can't cheaply fake several real pools."""
+    tx: dict[str, int] = defaultdict(int)
+    for p in c["pools"]:
+        for k, v in (p.get("tx_h24") or {}).items():
+            tx[k] += int(v or 0)
+    c["tx_h24"] = dict(tx)
+    c["vol_h24"] = float(sum(p.get("vol_h24") or 0 for p in c["pools"]))
 
 
 def _brief(p: dict) -> dict:
@@ -359,7 +398,7 @@ def hourly() -> dict:
     deadline = time.time() + 60 * float(os.environ.get("OMEGA_DEX_CANDLE_MINUTES", "15"))
     for chain, r in refs.items():
         try:
-            candles[f"ref:{chain}"] = cache.candles(chain, r["pool"], 300)
+            candles[f"ref:{chain}"] = cache.candles(chain, r["pool"], 400)
         except Exception as e:  # noqa: BLE001
             log.warning("reference candles %s: %s", chain, e)
     open_pools = _open_pools()
@@ -368,7 +407,7 @@ def hourly() -> dict:
             log.warning("candle time budget used up")
             break
         try:
-            candles[f"{c['chain']}:{c['pool']}"] = cache.candles(c["chain"], c["pool"], 300)
+            candles[f"{c['chain']}:{c['pool']}"] = cache.candles(c["chain"], c["pool"], 400)   # >= 15 days
         except Exception as e:  # noqa: BLE001
             log.warning("candles %s %s: %s", c["chain"], c["base_symbol"], e)
     models = load_models()
@@ -384,7 +423,7 @@ def hourly() -> dict:
                "tokens": [snapshot_row(c) for c in cands if c.get("styles")],
                "rejected": [{**_brief(c), "reasons": [h["text"] for h in c["assess"]["hard"]]}
                             for c in cands if c["assess"]["verdict"] == "reject"] + rejected[:40]}
-    dex_state("snapshot.json").write_text(json.dumps(payload, separators=(",", ":"), default=str))
+    dex_state("snapshot.json").write_text(json.dumps(clean(payload), separators=(",", ":"), default=str, allow_nan=False))
     # track record (server ranking at $100, all networks)
     hist = "dex/history.csv"
     ideas = {}

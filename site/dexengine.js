@@ -14,6 +14,7 @@
     metadata: 0.02, external_call: 0.05, liq_jump: 0.15, insiders: 0.10, creator_soft: 0.05 };
   const EVM_DEAD = new Set(["", "0x0000000000000000000000000000000000000000", "0x000000000000000000000000000000000000dead"]);
   const CHAIN_SIM = { ethereum: true, bsc: true };
+  const TRADER_SCALE = { ethereum: 0.5 };
 
   function thresholds(seed) {
     if (seed === null || seed === undefined) return { ...BASE };
@@ -144,7 +145,8 @@
     else chk("sell_test", f.sim_ok ? true : null, f.sim_ok ? "A simulated buy and sell worked." : "No sell simulation is possible for this pool type, so stricter real-seller rules apply instead (below).");
     const sellers = m.sellers_h24 || 0, buyers = m.buyers_h24 || 0;
     const strict = f.sim_ok ? 1.0 : 1.5; const minRatio = t.min_sell_ratio + (f.sim_ok ? 0 : 0.10);
-    if (buyers < t.min_buyers || sellers < t.min_sellers * strict) rej("few_traders", `Too few real traders: ${buyers} wallets bought and ${sellers} sold in the last 24 hours.`);
+    const scale = TRADER_SCALE[chain] || 1.0;
+    if (buyers < t.min_buyers * scale || sellers < t.min_sellers * strict * scale) rej("few_traders", `Too few real traders: ${buyers} wallets bought and ${sellers} sold in the last 24 hours.`);
     else if (sellers / Math.max(buyers, 1) < minRatio) rej("sell_block", `Only ${sellers} wallets sold against ${buyers} that bought in 24 hours. Contracts that let checkers sell but block ordinary buyers look exactly like this.`);
     else chk("real_sellers", true, `${sellers} different wallets really sold in the last 24 hours, so ordinary people can get out.`);
     const tax = mx(f.buy_tax, f.sell_tax);
@@ -169,10 +171,10 @@
     if (f.same_creator_honeypots > 0) rej("serial_scammer", `The same creator made ${f.same_creator_honeypots} known scam token(s) before.`);
     if (f.rugged) rej("rugged", "RugCheck marks this token as already rugged.");
     const liq = m.liq_real || 0;
-    if (liq < t.min_liq) rej("liquidity", `Only ${M(liq)} of real money in the pool (minimum ${M(BASE.min_liq)}).`);
+    if (liq < t.min_liq) rej("liquidity", `Only ${M(liq)} of real money in the pool. The minimum is ${M(BASE.min_liq)}, raised by a secret amount that changes every hour.`);
     else chk("liquidity", true, `${M(liq)} of real money in the pool (SOL/ETH/BNB or stablecoins only).`);
     const age = m.age_days || 0;
-    if (age < t.min_age_days) rej("young", `The pool is only ${Math.round(age)} days old (minimum ${BASE.min_age_days}).`);
+    if (age < t.min_age_days) rej("young", `The pool is only ${Math.round(age)} days old. The minimum is ${BASE.min_age_days} days, raised by a secret amount that changes every hour.`);
     const act = m.active_days;
     if (act !== null && act !== undefined && act < t.min_active_days) rej("revived", `Real trading on only ${act} of the last 14 days. Old, quiet tokens get 'revived' to look established before a dump.`);
     else if (act !== null && act !== undefined && age >= t.min_age_days) chk("history", true, `${Math.round(age)} days old and actively traded on ${act} of the last 14 days.`);
@@ -212,31 +214,39 @@
   }
 
   // ------------------------------------------------------------------ costs (dex/costs.py)
+  // Sandwich bots only attack swaps big enough to pay their own two pool fees (see dex/costs.py)
+  function mevShare(size, poolFee, depth) { const need = 2 * poolFee * depth; return need <= 0 ? 1 : Math.min(Math.max(size / need - 1, 0), 1); }
   function dexCost(amount, price, liqUsd, poolFee, buyTax, sellTax, gasUsd, mev, sniper) {
     const q = Math.max(liqUsd / 2, 1); const aIn = Math.max(amount - gasUsd, 0); const afterFee = aIn * (1 - poolFee);
     const imp = afterFee / (q + afterFee);
-    const coins = afterFee * (1 - imp) / price * (1 - mev) * (1 - sniper) * (1 - buyTax);
-    const buy = { gas: Math.min(gasUsd, amount), fee: aIn * poolFee, impact: afterFee * imp, mev: afterFee * (1 - imp) * mev,
-      sniper: afterFee * (1 - imp) * (1 - mev) * sniper };
-    buy.tax = afterFee * (1 - imp) * (1 - mev) * (1 - sniper) * buyTax;
+    const mb = mev * mevShare(afterFee, poolFee, q);
+    const coins = afterFee * (1 - imp) / price * (1 - mb) * (1 - sniper) * (1 - buyTax);
+    const buy = { gas: Math.min(gasUsd, amount), fee: aIn * poolFee, impact: afterFee * imp, mev: afterFee * (1 - imp) * mb,
+      sniper: afterFee * (1 - imp) * (1 - mb) * sniper };
+    buy.tax = afterFee * (1 - imp) * (1 - mb) * (1 - sniper) * buyTax;
     const at = (exitPx) => {
       const gross = coins * exitPx; const y = gross * (1 - sellTax); const z = y * (1 - poolFee); const simp = z / (q + z);
-      const recv = z * (1 - simp) * (1 - mev) - gasUsd;
-      const sell = { tax: gross * sellTax, fee: y * poolFee, impact: z * simp, mev: z * (1 - simp) * mev, gas: gasUsd };
+      const ms = mev * mevShare(z, poolFee, q);
+      const recv = z * (1 - simp) * (1 - ms) - gasUsd;
+      const sell = { tax: gross * sellTax, fee: y * poolFee, impact: z * simp, mev: z * (1 - simp) * ms, gas: gasUsd };
       const costs = {}; for (const k of ["fee", "impact", "tax", "mev", "gas"]) costs[k] = (buy[k] || 0) + (sell[k] || 0);
       costs.sniper = buy.sniper;
       return { net: recv - amount, received: recv, costs };
     };
-    const k = (amount + gasUsd) / Math.max(1 - mev, 1e-9);
-    let be = Infinity;
-    if (coins > 0 && k < q) { const z = k / (1 - k / q); be = z / (1 - poolFee) / (1 - sellTax) / coins; }
+    // break-even exit price by bisection (money out rises with the exit price)
+    let lo = 0, hi = price, be = Infinity;
+    if (coins > 0) {
+      let ok = false;
+      for (let i = 0; i < 200; i++) { if (at(hi).received >= amount) { ok = true; break; } hi *= 2; }
+      if (ok) { for (let i = 0; i < 200; i++) { const mid = (lo + hi) / 2; if (at(mid).received >= amount) hi = mid; else lo = mid; } be = hi; }
+    }
     const rt = amount > 0 ? -at(price).net / amount : 0;
     return { coins, impact_buy: imp, break_even: be, round_trip: rt, at };
   }
 
   const expectedR = (p, winR, lossR, costRt, ru, sl = 1) => p * winR - (1 - p) * lossR - costRt / (sl * ru);
 
-  const api = { BASE, PEN, thresholds, emptyFacts, fromGoplusEvm, fromGoplusSol, addHoneypotIs, addRugcheck, assess, dexCost, expectedR };
+  const api = { BASE, PEN, mevShare, thresholds, emptyFacts, fromGoplusEvm, fromGoplusSol, addHoneypotIs, addRugcheck, assess, dexCost, expectedR };
   root.OmegaDex = api;
   if (typeof module !== "undefined") module.exports = api;
 })(typeof window !== "undefined" ? window : globalThis);

@@ -31,7 +31,7 @@ HOST_MIN_INTERVAL = {
     "api.mainnet-beta.solana.com": 0.25,
     "api.geckoterminal.com": 3.0,      # free tier: 30 calls/min, often shared IPs: stay well below
     "api.dexscreener.com": 0.25,       # 300/min for pair endpoints
-    "api.gopluslabs.io": 1.0,
+    "api.gopluslabs.io": 2.5,
     "api.honeypot.is": 0.6,
     "api.rugcheck.xyz": 0.6,
 }

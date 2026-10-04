@@ -69,11 +69,29 @@
         try {
           const pairs = await getJSON(`${DS}/tokens/v1/${ds}/${chunk.map((t) => t.token).join(",")}`);
           for (const t of chunk) {
-            const pr = (pairs || []).find((p) => norm(chain, p.pairAddress) === t.pool);
-            if (!pr) continue;
+            const mine = (pairs || []).filter((p) => norm(chain, (p.baseToken || {}).address) === t.token);
+            const pr = mine.find((p) => norm(chain, p.pairAddress) === t.pool);
+            if (!pr) {           // DexScreener doesn't list this pool: price from its deepest pool, money from GeckoTerminal below
+              const any = mine.sort((a, b) => ((b.liquidity || {}).usd || 0) - ((a.liquidity || {}).usd || 0))[0];
+              if (any && +any.priceUsd > 0) state.live[key(t)] = { ...(state.live[key(t)] || {}), price: +any.priceUsd, at: Date.now() };
+              continue;
+            }
             const qp = t.quote_price > 0 ? t.quote_price : NaN;
             const liq = pr.liquidity && pr.liquidity.quote && Number.isFinite(qp) ? 2 * pr.liquidity.quote * qp : NaN;
             state.live[key(t)] = { price: +pr.priceUsd, liq, at: Date.now(), tx_h24: pr.txns && pr.txns.h24, vol_h24: pr.volume && pr.volume.h24 };
+          }
+        } catch { /* keep the snapshot values */ }
+      }
+      // pools DexScreener doesn't list: GeckoTerminal batch (30 per request), pool money scaled from the hourly value
+      const miss = ts.filter((t) => !Number.isFinite((state.live[key(t)] || {}).liq) && t.reserve_usd > 0);
+      for (let i = 0; i < miss.length; i += 30) {
+        const chunk = miss.slice(i, i + 30);
+        try {
+          const d = await cached(`gtm:${chain}:${chunk.map((t) => t.pool).join(",")}`, 50000, () => gt(`/networks/${state.snap.chains[chain].gt}/pools/multi/${chunk.map((t) => t.pool).join(",")}`));
+          for (const p of d.data || []) {
+            const a = p.attributes; const t = chunk.find((x) => x.pool === norm(chain, a.address)); if (!t) continue;
+            const lv = state.live[key(t)] || {};
+            state.live[key(t)] = { ...lv, price: Number.isFinite(lv.price) ? lv.price : +a.base_token_price_usd, liq: t.liq_real * (+a.reserve_in_usd / t.reserve_usd), at: Date.now() };
           }
         } catch { /* keep the snapshot values */ }
       }
@@ -88,16 +106,17 @@
     const nowS = Date.now() / 1000;
     await Promise.all(Object.entries(byChain).map(async ([chain, ts]) => {
       const c = state.snap.chains[chain];
-      let gp = {};
-      try {
-        gp = await cached(`gp:${chain}:${ts.map((t) => t.token).join(",")}`, 120000, async () => {
-          const url = chain === "solana" ? "https://api.gopluslabs.io/api/v1/solana/token_security" : `https://api.gopluslabs.io/api/v1/token_security/${c.goplus}`;
-          const d = await getJSON(`${url}?contract_addresses=${ts.map((t) => t.token).join(",")}`);
-          const out = {}; for (const [k, v] of Object.entries(d.result || {})) out[norm(chain, k)] = v; return out;
-        });
-      } catch { gp = null; }
+      // the free GoPlus service answers one token per request
+      const url = chain === "solana" ? "https://api.gopluslabs.io/api/v1/solana/token_security" : `https://api.gopluslabs.io/api/v1/token_security/${c.goplus}`;
+      const gp = {};
+      for (const t of ts) {
+        try {
+          const r = await cached(`gp:${chain}:${t.token}`, 120000, () => getJSON(`${url}?contract_addresses=${t.token}`));
+          for (const [k, v] of Object.entries(r.result || {})) gp[norm(chain, k)] = v;
+        } catch { /* missing -> fails closed */ }
+      }
       await Promise.all(ts.map(async (t) => {
-        if (!gp || !gp[t.token]) { state.sec[key(t)] = { facts: null, at: Date.now() }; return; }
+        if (!gp[t.token]) { state.sec[key(t)] = { facts: null, at: Date.now() }; return; }
         let f = chain === "solana" ? X.fromGoplusSol(gp[t.token]) : X.fromGoplusEvm(gp[t.token], t.pools.map((p) => p.pool), nowS);
         try {
           if (chain === "solana") f = X.addRugcheck(f, await cached(`rc:${t.token}`, 180000, () => getJSON(`https://api.rugcheck.xyz/v1/tokens/${t.token}/report`)));
@@ -223,7 +242,10 @@
     if (!el) return null;
     if (!window.LightweightCharts) { el.innerHTML = `<p class="small muted" style="padding:12px">The chart library couldn't load on this network.</p>`; return null; }
     let bars;
-    try { bars = await candles15(t); } catch { el.innerHTML = `<p class="small muted" style="padding:12px">Chart data is busy right now; it will load on the next refresh.</p>`; return null; }
+    for (let attempt = 0; attempt < 3 && !bars; attempt++) {
+      try { bars = await candles15(t); } catch { if (attempt < 2) await sleep(15000 * (attempt + 1)); }
+    }
+    if (!bars) { el.innerHTML = `<p class="small muted" style="padding:12px">Chart data is busy right now; it will load on the next refresh.</p>`; return null; }
     if (!bars.length) return null;
     const chart = LightweightCharts.createChart(el, { autoSize: true,
       layout: { background: { color: cssVar("--surface") }, textColor: cssVar("--muted"), fontFamily: cssVar("--f-num") },
@@ -411,7 +433,7 @@
     const html = [];
     for (const tr of state.trades) {
       const t = toks.find((x) => x.chain === tr.chain && x.token === tr.token);
-      const lv = state.live[key(tr)] || {}; const px = Number.isFinite(lv.price) ? lv.price : NaN;
+      const lv = state.live[key(tr)] || {}; const px = Number.isFinite(lv.price) ? lv.price : (t && t.close) || NaN;
       // rug signals since you bought: pool money falling, security turning bad
       const liqNow = Number.isFinite(lv.liq) ? lv.liq : null;
       const liqDrop = liqNow && tr.liq_at_entry ? liqNow / tr.liq_at_entry - 1 : 0;

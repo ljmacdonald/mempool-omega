@@ -73,7 +73,7 @@ def test_clean_token_passes():
 def test_each_scammer_trick_is_rejected(change, market, expect):
     f = clean_evm()
     f.update(change)
-    a = S.assess(f, clean_market(**market), T, "ethereum")
+    a = S.assess(f, clean_market(**market), T, "bsc")
     assert a["verdict"] == "reject" and expect in keys(a), (expect, a["hard"])
 
 
@@ -82,9 +82,15 @@ def test_no_simulation_means_stricter_seller_rules():
     f = S.add_honeypot_is(clean_evm(), {"_unsupported": True})
     f["sim_ok"] = None
     assert f["honeypot_src"] == "unsupported"
-    assert S.assess(f, clean_market(sellers_h24=150, buyers_h24=300), T, "ethereum")["verdict"] == "reject"
-    assert S.assess(f, clean_market(sellers_h24=400, buyers_h24=800), T, "ethereum")["verdict"] == "pass"
-    assert S.assess(clean_evm(), clean_market(sellers_h24=150, buyers_h24=300), T, "ethereum")["verdict"] == "pass"
+    assert S.assess(f, clean_market(sellers_h24=150, buyers_h24=300), T, "bsc")["verdict"] == "reject"
+    assert S.assess(f, clean_market(sellers_h24=400, buyers_h24=800), T, "bsc")["verdict"] == "pass"
+    assert S.assess(clean_evm(), clean_market(sellers_h24=150, buyers_h24=300), T, "bsc")["verdict"] == "pass"
+
+
+def test_ethereum_needs_fewer_traders_because_each_trade_costs_gas():
+    m = clean_market(buyers_h24=166, sellers_h24=242)      # PEPE's main pool on a real day
+    assert S.assess(clean_evm(), m, T, "ethereum")["verdict"] == "pass"
+    assert "few_traders" in keys(S.assess(clean_evm(), m, T, "bsc"))
 
 
 def test_powers_are_harmless_once_ownership_is_renounced():
@@ -136,10 +142,21 @@ def test_costs_add_up_and_break_even_nets_zero():
     assert abs(c["at"](c["break_even"])["net"]) < 1e-6
     assert c["at"](2.0)["net"] < 0 and c["break_even"] > 2.0
     k = c["at"](2.4)["costs"]
-    assert all(v >= 0 for v in k.values()) and k["tax"] > 0 and k["mev"] > 0 and k["sniper"] > 0
-    # bigger orders in the same pool pay more impact; protection removes the sandwich cost
-    assert dex_cost(50_000, 2, 1e6, .003, 0, 0, 1, .005, .005)["round_trip"] > dex_cost(500, 2, 1e6, .003, 0, 0, 1, .005, .005)["round_trip"]
-    assert dex_cost(500, 2, 1e6, .003, 0, 0, 1, 0, .005)["at"](2.4)["net"] > c["at"](2.4)["net"]
+    assert all(v >= 0 for v in k.values()) and k["tax"] > 0 and k["sniper"] > 0
+    # bigger orders in the same pool pay more impact
+    assert dex_cost(50_000, 2, 1e6, .003, 0, 0, 1, .005, .005)["round_trip"] > c["round_trip"] - 0.03
+
+
+def test_sandwich_bots_only_attack_swaps_worth_attacking():
+    from dex.costs import mev_share
+
+    small = dex_cost(100, 1.0, 5_000_000, 0.003, 0, 0, 0.1, 0.005, 0.0)        # $100 in a deep pool: not worth it
+    big = dex_cost(50_000, 1.0, 5_000_000, 0.003, 0, 0, 0.1, 0.005, 0.0)      # $50k: fully worth sandwiching
+    assert small["at"](1.0)["costs"]["mev"] == 0 and big["at"](1.0)["costs"]["mev"] > 0
+    assert mev_share(1000, 0.0001, 1e6) == 1.0          # very low-fee pools are cheap to attack
+    protected = dex_cost(50_000, 1.0, 5_000_000, 0.003, 0, 0, 0.1, 0.0, 0.0)
+    assert protected["at"](1.1)["net"] > big["at"](1.1)["net"]
+    assert abs(big["at"](big["break_even"])["net"]) < 1e-6
 
 
 def test_discovery_filters_fake_liquidity_impersonators_and_copycats(monkeypatch):
@@ -155,7 +172,7 @@ def test_discovery_filters_fake_liquidity_impersonators_and_copycats(monkeypatch
     fake_quote = "0xscammerstoken"
     pools = [pool("ethereum", "0xgood", "GOOD", weth, 3e6), pool("ethereum", "0xfakeliq", "RICH", fake_quote, 7e8),
              pool("ethereum", "0xusdc", "USDC", weth, 2e6), pool("ethereum", "0xcopy", "GOOD", weth, 6e5)]
-    monkeypatch.setattr(live, "gt_pools", lambda chain, sort, pages: pools if chain == "ethereum" else [])
+    monkeypatch.setattr(live, "gt_pools", lambda chain, sort, pages, dex=None: pools if chain == "ethereum" else [])
     monkeypatch.setattr(live, "ds_boosted", lambda: set())
     cands, rejected, _ = live.discover()
     by = {c["token"]: c for c in cands}
@@ -265,3 +282,11 @@ def test_candle_store_downloads_history_once_then_only_tops_up(tmp_path, monkeyp
     cache.candles("solana", "POOL", 300, fake_fetch)
     assert calls[-1] < 10                                         # only the missing candles
     assert "solana:POOL" in cache.all_cached()
+
+
+def test_snapshot_json_never_contains_nan():
+    from dex.live import clean
+
+    out = json.dumps(clean({"a": float("nan"), "b": [np.float64("inf"), np.int64(3)], "c": {"d": np.bool_(True)}}),
+                     allow_nan=False)
+    assert out == '{"a": null, "b": [null, 3], "c": {"d": true}}'

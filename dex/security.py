@@ -294,8 +294,9 @@ def assess(f: dict, m: dict, t: dict, chain: str) -> dict:
             "type, so stricter real-seller rules apply instead (below).")
     sellers, buyers = m.get("sellers_h24") or 0, m.get("buyers_h24") or 0
     strict = 1.5 if not f["sim_ok"] else 1.0      # no simulation: a scammer may have chosen that on purpose
+    scale = TRADER_SCALE.get(chain, 1.0)           # Ethereum: every trade costs real gas, so fewer, larger traders
     min_ratio = t["min_sell_ratio"] + (0.10 if not f["sim_ok"] else 0.0)
-    if buyers < t["min_buyers"] or sellers < t["min_sellers"] * strict:
+    if buyers < t["min_buyers"] * scale or sellers < t["min_sellers"] * strict * scale:
         rej("few_traders", f"Too few real traders: {buyers} wallets bought and {sellers} sold in the last 24 hours.")
     elif sellers / max(buyers, 1) < min_ratio:
         rej("sell_block", f"Only {sellers} wallets sold against {buyers} that bought in 24 hours. Contracts that let "
@@ -355,12 +356,14 @@ def assess(f: dict, m: dict, t: dict, chain: str) -> dict:
     # 5. liquidity: real, aged, active, and not being pulled
     liq = m.get("liq_real") or 0.0
     if liq < t["min_liq"]:
-        rej("liquidity", f"Only ${liq:,.0f} of real money in the pool (minimum ${BASE['min_liq']:,.0f}).")
+        rej("liquidity", f"Only ${liq:,.0f} of real money in the pool. The minimum is ${BASE['min_liq']:,.0f}, raised by a "
+                         "secret amount that changes every hour.")
     else:
         chk("liquidity", True, f"${liq:,.0f} of real money in the pool (SOL/ETH/BNB or stablecoins only).")
     age = m.get("age_days") or 0.0
     if age < t["min_age_days"]:
-        rej("young", f"The pool is only {age:.0f} days old (minimum {BASE['min_age_days']:.0f}).")
+        rej("young", f"The pool is only {age:.0f} days old. The minimum is {BASE['min_age_days']:.0f} days, raised by a "
+                     "secret amount that changes every hour.")
     act = m.get("active_days")
     if act is not None and act < t["min_active_days"]:
         rej("revived", f"Real trading on only {act} of the last 14 days. Old, quiet tokens get 'revived' to look "
@@ -437,3 +440,4 @@ def assess(f: dict, m: dict, t: dict, chain: str) -> dict:
 
 
 CHAIN_SIM = {"ethereum": True, "bsc": True}     # networks where a buy+sell simulation is available
+TRADER_SCALE = {"ethereum": 0.5}                 # trader minimums relative to the published ones

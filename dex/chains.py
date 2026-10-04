@@ -18,6 +18,7 @@ CHAINS: dict[str, dict] = {
         "native": "SOL", "gas_usd": 0.03, "mev": 0.005, "sniper": 0.005,
         "protect": "a wallet with MEV protection (Jito-protected / private transactions) and a 1% slippage limit",
         "explorer": "https://solscan.io/token/{}",
+        "dexes": ["raydium", "raydium-clmm", "orca", "meteora", "meteora-damm-v2"],
     },
     "bsc": {
         "name": "BNB Chain", "gt": "bsc", "ds": "bsc", "goplus": "56", "honeypot": 56, "rugcheck": False,
@@ -27,6 +28,7 @@ CHAINS: dict[str, dict] = {
         "native": "BNB", "gas_units": 180000, "rpc": "https://bsc-rpc.publicnode.com", "mev": 0.005, "sniper": 0.005,
         "protect": "a private RPC (for example bloXroute or 48 Club) and a 1% slippage limit",
         "explorer": "https://bscscan.com/token/{}",
+        "dexes": ["pancakeswap_v2", "pancakeswap-v3-bsc"],
     },
     "ethereum": {
         "name": "Ethereum", "gt": "eth", "ds": "ethereum", "goplus": "1", "honeypot": 1, "rugcheck": False,
@@ -37,6 +39,7 @@ CHAINS: dict[str, dict] = {
         "native": "ETH", "gas_units": 180000, "rpc": "https://ethereum-rpc.publicnode.com", "mev": 0.005, "sniper": 0.005,
         "protect": "Flashbots Protect or MEV Blocker (free private RPCs) and a 1% slippage limit",
         "explorer": "https://etherscan.io/token/{}",
+        "dexes": ["uniswap_v3", "uniswap_v2"],
     },
     "robinhood": {
         "name": "Robinhood Chain", "gt": "robinhood", "ds": "robinhood", "goplus": "4663", "honeypot": None,
@@ -47,6 +50,7 @@ CHAINS: dict[str, dict] = {
         "protect": "a 1% slippage limit (Robinhood Chain orders transactions first-come, first-served, so classic "
                    "sandwiches are harder, but not impossible)",
         "explorer": None,   # no verified explorer link yet: the DexScreener page is used
+        "dexes": ["uniswap-v3-robinhood", "uniswap-v2-robinhood"],
     },
 }
 STABLES = {"USDC", "USDT", "DAI", "USDG", "USDE", "FDUSD", "USD1", "PYUSD", "TUSD", "BUSD", "USDS", "USDD", "FRAX",

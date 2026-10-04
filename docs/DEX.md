@@ -33,7 +33,7 @@ The security rules and the cost maths exist twice: in Python (server) and JavaSc
 | Real liquidity: only the SOL/ETH/BNB/stablecoin side of the pool, counted twice | at least $500,000 |
 | Pool age | at least 14 days |
 | Days with real trading (at least $50k) out of the last 14 | at least 10 |
-| Distinct buying / selling wallets in 24 h | at least 200 / 120 (180 sellers when no sell simulation is possible) |
+| Distinct buying / selling wallets in 24 h, across the token's real pools | at least 200 / 120; 180 sellers when no sell simulation is possible; half on Ethereum, where every trade costs real gas |
 | Sellers ÷ buyers | at least 0.30 (0.40 when no sell simulation is possible) |
 | Buy or sell tax | at most 5% |
 | 10 biggest ordinary wallets (excluding pools, locks and burns) | at most 50% (unless listed on major exchanges) |

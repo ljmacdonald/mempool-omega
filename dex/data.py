@@ -25,13 +25,14 @@ def _f(x) -> float:
         return float("nan")
 
 
-def gt_pools(chain: str, sort: str = "h24_volume_usd_desc", pages: int = 5) -> list[dict]:
-    """Busiest pools on a network (GeckoTerminal), with base/quote token addresses."""
+def gt_pools(chain: str, sort: str = "h24_volume_usd_desc", pages: int = 5, dex: str | None = None) -> list[dict]:
+    """Busiest pools on a network, or on one exchange of it (GeckoTerminal), with base/quote token addresses."""
     net = CHAINS[chain]["gt"]
+    path = f"{GT}/networks/{net}/dexes/{dex}/pools" if dex else f"{GT}/networks/{net}/pools"
     out = []
     for page in range(1, pages + 1):
         try:
-            d = _http.get(f"{GT}/networks/{net}/pools", {"page": page, "sort": sort, "include": "base_token,quote_token"})
+            d = _http.get(path, {"page": page, "sort": sort, "include": "base_token,quote_token"})
         except Exception as e:  # noqa: BLE001
             log.warning("geckoterminal %s page %s: %s", chain, page, e)
             break
