@@ -33,8 +33,8 @@ The security rules and the cost maths exist twice: in Python (server) and JavaSc
 | Real liquidity: only the SOL/ETH/BNB/stablecoin side of the pool, counted twice | at least $500,000 |
 | Pool age | at least 14 days |
 | Days with real trading (at least $50k) out of the last 14 | at least 10 |
-| Distinct buying / selling wallets in 24 h | at least 200 / 120 |
-| Sellers ÷ buyers | at least 0.30 |
+| Distinct buying / selling wallets in 24 h | at least 200 / 120 (180 sellers when no sell simulation is possible) |
+| Sellers ÷ buyers | at least 0.30 (0.40 when no sell simulation is possible) |
 | Buy or sell tax | at most 5% |
 | 10 biggest ordinary wallets (excluding pools, locks and burns) | at most 50% (unless listed on major exchanges) |
 | Creator or owner holding | at most 20% |
@@ -58,7 +58,7 @@ Also rejected:
 | # | What a sophisticated scammer would do | Why it would beat a naive checker | What this system does |
 |---|---|---|---|
 | 1 | **Fake liquidity:** pair the token with a second token they also created, so the pool "holds" millions. | Liquidity totals count both sides at the pool's own price. | Only pools paired with SOL, ETH, BNB or a major stablecoin are considered, and only that side is counted. Seen live: pools showing $700M+ "liquidity" with zero trades. |
-| 2 | **Fool the honeypot test:** whitelist the simulator's address, or block only wallets that bought after a certain block. | The test buys and sells fine. | **Revealed behaviour.** At least 120 different real wallets must have sold in the last 24 hours, and sellers must be at least 30% of buyers. Real selling by hundreds of strangers can't be faked cheaply. |
+| 2 | **Fool the honeypot test:** whitelist the simulator's address, block only wallets that bought after a certain block, or trade only in a pool type the simulator can't test. | The test buys and sells fine, or can't run. | **Revealed behaviour.** Where no simulation is possible (Solana, Robinhood Chain, v3/v4-only pools), the bar is raised to 180 sellers and a 0.40 seller-to-buyer ratio. At least 120 different real wallets must have sold in the last 24 hours, and sellers must be at least 30% of buyers. Real selling by hundreds of strangers can't be faked cheaply. |
 | 3 | **Low tax now, high tax later:** launch at 0% tax, then raise it to 99% once people hold. | A one-time tax check sees 0%. | If an owner can change the tax, the token is rejected whatever today's tax is. All security settings are fingerprinted every hour; any change in the last 3 days rejects the token. |
 | 4 | **"Renounce" ownership but keep a back door** (hidden owner, reclaimable ownership, upgradeable proxy). | It looks renounced. | Hidden owners, reclaimable ownership and upgradeable code are rejected outright. Code that calls out to an owner-controlled contract is rejected. |
 | 5 | **Age the token:** create it months ago, leave it dormant, then "revive" it for the pump. | An age filter passes. | Activity history: real trading on at least 10 of the last 14 days. A quiet old token doesn't count as established. |

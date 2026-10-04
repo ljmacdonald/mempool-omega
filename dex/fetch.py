@@ -34,7 +34,13 @@ def honeypot_is(chain: str, token: str) -> dict | None:
     if not cid:
         return None
     try:
-        return http().get("https://api.honeypot.is/v2/IsHoneypot", {"address": token, "chainID": cid})
+        r = http().session.get("https://api.honeypot.is/v2/IsHoneypot", params={"address": token, "chainID": cid},
+                               timeout=30)
+        if r.status_code == 404:          # no pool type it can simulate (e.g. v3/v4 only): not a failure
+            return {"_unsupported": True}
+        r.raise_for_status()
+        time.sleep(0.6)
+        return r.json()
     except Exception as e:  # noqa: BLE001
         log.warning("honeypot.is %s %s: %s", chain, token, e)
         return None

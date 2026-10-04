@@ -101,7 +101,11 @@
         let f = chain === "solana" ? X.fromGoplusSol(gp[t.token]) : X.fromGoplusEvm(gp[t.token], t.pools.map((p) => p.pool), nowS);
         try {
           if (chain === "solana") f = X.addRugcheck(f, await cached(`rc:${t.token}`, 180000, () => getJSON(`https://api.rugcheck.xyz/v1/tokens/${t.token}/report`)));
-          else if (c.honeypot) f = X.addHoneypotIs(f, await cached(`hp:${t.token}`, 180000, () => getJSON(`https://api.honeypot.is/v2/IsHoneypot?address=${t.token}&chainID=${c.honeypot}`)));
+          else if (c.honeypot) f = X.addHoneypotIs(f, await cached(`hp:${t.token}`, 180000, async () => {
+            const r = await fetch(`https://api.honeypot.is/v2/IsHoneypot?address=${t.token}&chainID=${c.honeypot}`, { cache: "no-store" });
+            if (r.status === 404) return { _unsupported: true };      // pool type it can't simulate: stricter seller rules
+            if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json();
+          }));
         } catch { /* that checker is down: the facts stay incomplete and assess() fails closed */ }
         state.sec[key(t)] = { facts: f, at: Date.now() };
       }));

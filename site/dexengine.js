@@ -98,6 +98,7 @@
 
   function addHoneypotIs(f0, d) {
     const f = { ...f0 }; if (d === null || d === undefined) return f;
+    if (d._unsupported) { f.honeypot_src = "unsupported"; return f; }
     f.honeypot_src = true;
     const hp = (d.honeypotResult || {}).isHoneypot; const sim = d.simulationResult || {};
     f.honeypot = anyOf(f.honeypot, hp === undefined ? null : hp);
@@ -140,10 +141,11 @@
     if (evm && CHAIN_SIM[chain] && !f.honeypot_src) rej("unverified", "The buy-and-sell test couldn't run for this token, so it isn't suggested.");
     if (chain === "solana" && !f.rugcheck_src) rej("unverified", "The Solana token check (RugCheck) couldn't run, so it isn't suggested.");
     if (f.honeypot || f.cannot_sell_all || f.cannot_buy || f.sim_ok === false) rej("honeypot", "Honeypot: a test buy-and-sell failed or the token blocks selling. You could buy but not sell.");
-    else chk("sell_test", f.sim_ok ? true : null, f.sim_ok ? "A simulated buy and sell worked." : "No sell simulation exists for this network, so we rely on real sellers instead (below).");
+    else chk("sell_test", f.sim_ok ? true : null, f.sim_ok ? "A simulated buy and sell worked." : "No sell simulation is possible for this pool type, so stricter real-seller rules apply instead (below).");
     const sellers = m.sellers_h24 || 0, buyers = m.buyers_h24 || 0;
-    if (buyers < t.min_buyers || sellers < t.min_sellers) rej("few_traders", `Too few real traders: ${buyers} wallets bought and ${sellers} sold in the last 24 hours.`);
-    else if (sellers / Math.max(buyers, 1) < t.min_sell_ratio) rej("sell_block", `Only ${sellers} wallets sold against ${buyers} that bought in 24 hours. Contracts that let checkers sell but block ordinary buyers look exactly like this.`);
+    const strict = f.sim_ok ? 1.0 : 1.5; const minRatio = t.min_sell_ratio + (f.sim_ok ? 0 : 0.10);
+    if (buyers < t.min_buyers || sellers < t.min_sellers * strict) rej("few_traders", `Too few real traders: ${buyers} wallets bought and ${sellers} sold in the last 24 hours.`);
+    else if (sellers / Math.max(buyers, 1) < minRatio) rej("sell_block", `Only ${sellers} wallets sold against ${buyers} that bought in 24 hours. Contracts that let checkers sell but block ordinary buyers look exactly like this.`);
     else chk("real_sellers", true, `${sellers} different wallets really sold in the last 24 hours, so ordinary people can get out.`);
     const tax = mx(f.buy_tax, f.sell_tax);
     if (tax !== null && tax > t.max_tax) rej("tax", `Tax of ${P0(tax)} on buying or selling. That eats most short-term gains.`);

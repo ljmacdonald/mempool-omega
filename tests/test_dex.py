@@ -77,6 +77,16 @@ def test_each_scammer_trick_is_rejected(change, market, expect):
     assert a["verdict"] == "reject" and expect in keys(a), (expect, a["hard"])
 
 
+def test_no_simulation_means_stricter_seller_rules():
+    """A scammer may pick a pool type the simulator can't test; then more real sellers are required."""
+    f = S.add_honeypot_is(clean_evm(), {"_unsupported": True})
+    f["sim_ok"] = None
+    assert f["honeypot_src"] == "unsupported"
+    assert S.assess(f, clean_market(sellers_h24=150, buyers_h24=300), T, "ethereum")["verdict"] == "reject"
+    assert S.assess(f, clean_market(sellers_h24=400, buyers_h24=800), T, "ethereum")["verdict"] == "pass"
+    assert S.assess(clean_evm(), clean_market(sellers_h24=150, buyers_h24=300), T, "ethereum")["verdict"] == "pass"
+
+
 def test_powers_are_harmless_once_ownership_is_renounced():
     """PEPE-like: blacklist/pause code exists but nobody owns the contract any more."""
     f = S.from_goplus_evm(RAW["goplus_evm_pepe"], [], 0)

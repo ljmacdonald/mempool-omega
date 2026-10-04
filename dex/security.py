@@ -207,6 +207,9 @@ def add_honeypot_is(f: dict, d: dict | None) -> dict:
     f = dict(f)
     if d is None:
         return f
+    if d.get("_unsupported"):
+        f["honeypot_src"] = "unsupported"      # checked, but no simulation possible: stricter seller rules apply
+        return f
     f["honeypot_src"] = True
     hp = (d.get("honeypotResult") or {}).get("isHoneypot")
     sim = d.get("simulationResult") or {}
@@ -287,12 +290,14 @@ def assess(f: dict, m: dict, t: dict, chain: str) -> dict:
         rej("honeypot", "Honeypot: a test buy-and-sell failed or the token blocks selling. You could buy but not sell.")
     else:
         chk("sell_test", True if f["sim_ok"] else None,
-            "A simulated buy and sell worked." if f["sim_ok"] else "No sell simulation exists for this network, "
-            "so we rely on real sellers instead (below).")
+            "A simulated buy and sell worked." if f["sim_ok"] else "No sell simulation is possible for this pool "
+            "type, so stricter real-seller rules apply instead (below).")
     sellers, buyers = m.get("sellers_h24") or 0, m.get("buyers_h24") or 0
-    if buyers < t["min_buyers"] or sellers < t["min_sellers"]:
+    strict = 1.5 if not f["sim_ok"] else 1.0      # no simulation: a scammer may have chosen that on purpose
+    min_ratio = t["min_sell_ratio"] + (0.10 if not f["sim_ok"] else 0.0)
+    if buyers < t["min_buyers"] or sellers < t["min_sellers"] * strict:
         rej("few_traders", f"Too few real traders: {buyers} wallets bought and {sellers} sold in the last 24 hours.")
-    elif sellers / max(buyers, 1) < t["min_sell_ratio"]:
+    elif sellers / max(buyers, 1) < min_ratio:
         rej("sell_block", f"Only {sellers} wallets sold against {buyers} that bought in 24 hours. Contracts that let "
                           "checkers sell but block ordinary buyers look exactly like this.")
     else:
