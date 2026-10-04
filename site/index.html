@@ -15,11 +15,11 @@
 <div class="wrap">
   <header class="top">
     <div>
-      <h1>Mempool Omega</h1>
-      <p class="muted small">Live crypto trade ideas in plain English · practice and education only, not financial advice</p>
+      <h1 id="pageTitle">Mempool Omega</h1>
+      <p class="muted small" id="pageSub">Live crypto trade ideas in plain English · practice and education only, not financial advice</p>
     </div>
     <div class="top-right">
-      <nav class="sites" aria-label="Choose market"><a href="./" aria-current="page">Exchange coins</a><a href="dex/">DEX tokens</a></nav>
+      <nav class="sites" aria-label="Choose a page"><a href="./" data-site="main" aria-current="page">Exchange coins</a><a href="small/" data-site="small">Small coins</a><a href="dex/" data-site="dex">DEX tokens</a></nav>
       <div class="theme-switch" data-theme-switch role="group" aria-label="Day or night colours"></div>
       <span class="tag" id="clock">UTC --:--</span>
     </div>
@@ -44,6 +44,7 @@
 
   <nav class="tabs" role="tablist" aria-label="Sections">
     <button role="tab" data-tab="ideas" aria-selected="true">Top 5 ideas</button>
+    <button role="tab" data-tab="movers" aria-selected="false">Biggest movers</button>
     <button role="tab" data-tab="trades" aria-selected="false">My trades <span class="count" id="tradeCount" hidden>0</span></button>
     <button role="tab" data-tab="record" aria-selected="false">Track record</button>
     <button role="tab" data-tab="improve" aria-selected="false">Self-improvement</button>
@@ -52,8 +53,13 @@
   </nav>
 
   <section class="panel" id="tab-ideas" role="tabpanel">
-    <div id="mood" class="banner calm">Loading live prices for about 60 coins…</div>
+    <div id="mood" class="banner calm">Loading live prices for about 150 coins…</div>
     <div id="ideas"><div class="skeleton"></div></div>
+  </section>
+
+  <section class="panel" id="tab-movers" role="tabpanel" hidden>
+    <p class="muted lead">Today's biggest gainers, and why each one is or isn't among the suggestions. Usually it's because it already jumped (often a trap), because it trades too little to be safe, or because other coins score higher.</p>
+    <div id="movers"><div class="skeleton"></div></div>
   </section>
 
   <section class="panel" id="tab-trades" role="tabpanel" hidden>
@@ -102,10 +108,15 @@
 
   <section class="panel" id="tab-guide" role="tabpanel" hidden>
     <div class="prose">
+      <div data-only="small">
+        <h2>About the Small coins page</h2>
+        <p>The Exchange coins page scans the 150 most-traded coins on Binance. This page looks at the <b>next tier down</b>: coins trading between about $300,000 and $1M a day. It keeps only those that, over the last 90 days, <b>rose 20% or more within a week at least 15% of the time</b>, and shows the 10 with the best score.</p>
+        <p>These coins move a lot more, in both directions. Thin trading makes them easier to push around, so the fake-signal checks run on the best 15 before the top 10 are shown, and every card shows how often the coin rose <i>and</i> fell 20%+ in a week. Use smaller amounts here.</p>
+      </div>
       <h2>How to use this page</h2>
       <ul>
         <li><b>Pick a speed</b> at the top: <i>Quick</i> means you sell within 1 hour, <i>Short</i> within 4 hours, <i>Day</i> within 24 hours.</li>
-        <li><b>Pick how often to refresh.</b> Every refresh downloads fresh prices and re-ranks about 60 of the most-traded coins on your device. Rankings change when a new price candle closes (every 5, 15 or 60 minutes, depending on the speed).</li>
+        <li><b>Pick how often to refresh.</b> Every refresh downloads fresh prices and re-ranks the coins on your device (about 150 on this page). Rankings change when a new price candle closes (every 5, 15 or 60 minutes, depending on the speed).</li>
         <li><b>Read the top 5.</b> Each card shows <b>when the idea was suggested and at what price</b>, the <b>live price now</b> and how much it has moved since, where to take profit, where to get out to limit a loss, and the latest time to sell.</li>
         <li><b>Watch the live chart.</b> Each card has candles that move in real time. The dashed blue line is the price when the idea was suggested (the baseline), green is the take profit, and red is the safety exit.</li>
         <li><b>Use the profit calculator.</b> Type how much you'd put in. It shows how many coins you'd get and what you'd make at the take profit, lose at the safety exit, or make if you sold right now, all after fees. You can also type your own target price.</li>

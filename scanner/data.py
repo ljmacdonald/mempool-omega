@@ -42,6 +42,24 @@ def select_universe(max_coins: int | None = None) -> pd.DataFrame:
     return top[["symbol", "base", "quoteVolume", "lastPrice", "priceChangePercent"]].reset_index(drop=True)
 
 
+def select_small_universe() -> pd.DataFrame:
+    """'Small coins': the next tier after the main universe, down to small_min_quote_volume_usd."""
+    cfg = config()
+    tick = pd.DataFrame(_binance_get("/api/v3/ticker/24hr", {}))
+    tick = tick[tick["symbol"].str.endswith("USDT")].copy()
+    tick["base"] = tick["symbol"].str[:-4]
+    excluded = set(cfg["exclude_stablecoins"]) | set(cfg["exclude_other"]) | set(cfg["exclude_stock_tokens"])
+    ok = tick["base"].map(lambda b: bool(re.fullmatch(r"[A-Z0-9]{2,15}", b)) and b not in excluded)
+    ok &= ~tick["base"].str.contains(r"(?:UP|DOWN|BULL|BEAR)$")
+    tick = tick[ok]
+    for c in ("quoteVolume", "lastPrice", "priceChangePercent", "count"):
+        tick[c] = pd.to_numeric(tick[c], errors="coerce")
+    main = set(select_universe()["symbol"])
+    tick = tick[(tick["quoteVolume"] >= cfg["small_min_quote_volume_usd"]) & ~tick["symbol"].isin(main)]
+    tick = tick.sort_values("quoteVolume", ascending=False).head(cfg["small_max_coins"])
+    return tick[["symbol", "base", "quoteVolume", "lastPrice", "priceChangePercent"]].reset_index(drop=True)
+
+
 def candles(symbol: str, interval: str = "1h", n: int = 240) -> pd.DataFrame:
     """OHLCV + taker-buy volume, CLOSED candles only."""
     rows: list = []

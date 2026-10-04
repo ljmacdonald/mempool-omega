@@ -7,6 +7,10 @@
   const BINANCE = "https://data-api.binance.vision/api/v3";
   const WS = "wss://data-stream.binance.vision/stream?streams=";
   const REPO = window.OMEGA_REPO || "https://raw.githubusercontent.com/ljmacdonald/mempool-omega/main/state/";
+  // Two pages share this app: "main" (the ~150 most-traded coins) and "small" (the next tier, coins that often swing 20%+)
+  const MODE = window.OMEGA_MODE || (location.pathname.includes("/small/") ? "small" : "main");
+  const SMALL = MODE === "small";
+  const PFX = SMALL ? "omega.small." : "omega.";
   const FEE = 0.001;                     // 0.1 % exchange fee each time you buy or sell
   const INTERVAL_MS = { "5m": 300000, "15m": 900000, "1h": 3600000 };
   const $ = (id) => document.getElementById(id);
@@ -22,7 +26,7 @@
     cfg: null, models: {}, bigMovers: {}, universe: null, universeAt: 0, venues: null, venuesAt: 0,
     lastScan: {}, scanning: false, timer: null, nextAt: 0,
     trades: store.get("omega.trades", []), lastAction: {},
-    anchors: store.get("omega.sugg", {}), earlier: store.get("omega.sugg.earlier", []),
+    anchors: store.get(PFX + "sugg", {}), earlier: store.get(PFX + "sugg.earlier", []), tickers: null, swing: store.get("omega.swing", {}),
     live: {}, charts: {}, ws: null, wsKey: "", wsOk: false, pollTimer: null, adaptive: null, adaptiveAt: 0, lowStreak: {},
   };
 
@@ -62,8 +66,25 @@
   async function loadUniverse() {
     if (state.universe && Date.now() - state.universeAt < 10 * 60000) return state.universe;
     const tickers = await getJSON(`${BINANCE}/ticker/24hr`);
-    state.universe = E.selectUniverse(tickers, state.cfg.universe); state.universeAt = Date.now();
+    state.tickers = tickers;
+    state.universe = SMALL ? E.selectSmallUniverse(tickers, state.cfg.universe) : E.selectUniverse(tickers, state.cfg.universe);
+    state.universeAt = Date.now();
     return state.universe;
+  }
+  // Small coins: how often each one rose 20%+ within a week over ~90 days (daily candles, remembered for a day)
+  async function swingStats(symbols) {
+    const day = new Date().toISOString().slice(0, 10);
+    if (state.swing.day !== day) state.swing = { day, stats: {} };
+    const todo = symbols.filter((s) => !(s in state.swing.stats));
+    const got = await pool(todo, 8, async (s) => {
+      const rows = await getJSON(`${BINANCE}/klines?symbol=${s}&interval=1d&limit=97`);
+      const d = { close: [], high: [], low: [] };
+      for (const r of rows.slice(0, -1).slice(-96)) { d.close.push(+r[4]); d.high.push(+r[2]); d.low.push(+r[3]); }
+      return E.bigMoverStats(d);
+    });
+    todo.forEach((s, k) => { if (got[k]) state.swing.stats[s] = { up_pct: got[k].up_pct, down_pct: got[k].down_pct }; });
+    store.set("omega.swing", state.swing);
+    return state.swing.stats;
   }
   async function candles(symbol, interval, n) {
     const rows = await getJSON(`${BINANCE}/klines?symbol=${symbol}&interval=${interval}&limit=${n + 1}`);
@@ -147,18 +168,27 @@
   async function scan(styleKey) {
     await loadConfig();
     const style = state.cfg.styles[styleKey];
-    const [model, uni] = await Promise.all([loadModel(styleKey), loadUniverse()]);
+    const [model, uni0] = await Promise.all([loadModel(styleKey), loadUniverse()]);
+    let uni = uni0, movers = state.bigMovers;
+    if (SMALL) {     // keep only small coins that often swing 20%+ within a week
+      setStatus(`Checking how often ${uni0.length} smaller coins swing 20%+ in a week…`);
+      movers = await swingStats(uni0.map((u) => u.symbol));
+      uni = uni0.filter((u) => (movers[u.symbol]?.up_pct ?? 0) >= state.cfg.universe.small_min_swing);
+    }
+    const topN = SMALL ? state.cfg.universe.small_top_n : 5;
     const syms = uni.map((u) => u.symbol);
     if (!syms.includes("BTCUSDT")) syms.push("BTCUSDT");
     const data = await pool(syms, 8, (s) => candles(s, style.interval, style.live_bars));
     const bySym = Object.fromEntries(syms.map((s, i) => [s, data[i]]));
     const coins = uni.map((u) => ({ symbol: u.symbol, quoteVolume: u.quoteVolume, candles: bySym[u.symbol] })).filter((c) => c.candles);
-    if (coins.length < 10) throw new Error("not enough market data came back");
-    const res = E.rankCoins(coins, bySym.BTCUSDT, model, style, state.cfg, state.bigMovers, 10, await loadAdaptive());
-    setStatus("Running fake-signal checks on the best 10 candidates…");
+    if (coins.length < (SMALL ? 3 : 10)) throw new Error("not enough market data came back");
+    const nCheck = SMALL ? 15 : 10;
+    const res = E.rankCoins(coins, bySym.BTCUSDT, model, style, state.cfg, movers, nCheck, await loadAdaptive());
+    setStatus(`Running fake-signal checks on the best ${nCheck} candidates…`);
     let checks = {};
     try { checks = await integrityFor(res.ideas, bySym, uni); } catch { /* checks unavailable */ }
-    res.ideas = E.applyProbation(E.applyIntegrity(res.ideas, checks, 10, state.cfg.grades), state.adaptive, styleKey, state.cfg.grades).slice(0, 5);
+    res.ideas = E.applyProbation(E.applyIntegrity(res.ideas, checks, nCheck, state.cfg.grades), state.adaptive, styleKey, state.cfg.grades).slice(0, topN);
+    res.swingFiltered = uni0.length - uni.length;
     res.probation = ((state.adaptive || {}).probation || {})[styleKey] || null;
     res.candles = bySym; res.at = Date.now(); res.style = styleKey;
     state.lastScan[styleKey] = res;
@@ -168,7 +198,7 @@
   async function refreshIdeas() {
     if (state.scanning) return;
     state.scanning = true; $("refreshNow").disabled = true;
-    setStatus("Fetching live prices and re-ranking about 60 coins…");
+    setStatus(SMALL ? "Fetching live prices for the smaller coins…" : "Fetching live prices and re-ranking about 150 coins…");
     try {
       const res = await scan(state.style);
       anchorIdeas(res);
@@ -214,7 +244,7 @@
       else if (!k.startsWith(`${res.style}:`)) keep[k] = a;
     }
     state.earlier = state.earlier.filter((e) => now - e.at < 48 * 3600000).slice(0, 40);
-    state.anchors = keep; store.set("omega.sugg", keep); store.set("omega.sugg.earlier", state.earlier);
+    state.anchors = keep; store.set(PFX + "sugg", keep); store.set(PFX + "sugg.earlier", state.earlier);
   }
 
   // ------------------------------------------------------------------ charts
@@ -475,7 +505,8 @@
     const cls = m.label === "Favourable" ? "good" : m.label === "Mixed" ? "calm" : "warn";
     $("mood").className = `banner ${cls}`;
     const pb = res.probation && res.probation.active ? `<br><b>On probation:</b> this speed's last ${res.probation.n} ideas did ${pct(res.probation.avg_vs_random, 2)} vs picking coins at random, so the system has lowered its scores until it does better.` : "";
-    $("mood").innerHTML = `${pb ? "" : ""}<b>Market mood: ${m.label}.</b> ${Math.round(m.share_positive * 100)}% of ${m.coins} coins look positive for the ${esc(style.label.split(":")[0])} speed (sell within ${esc(style.hold_text)}). ${m.label === "Unfavourable" ? "Doing nothing is a perfectly good choice right now." : "Scores above 5 are better than break-even after fees."}${pb}`;
+    const smallNote = SMALL ? ` These are smaller coins that rose 20%+ within a week at least ${Math.round(state.cfg.universe.small_min_swing * 100)}% of the time over the last 90 days (${m.coins} qualified now). <b>They swing both ways: expect bigger losses too.</b>` : "";
+    $("mood").innerHTML = `<b>Market mood: ${m.label}.</b> ${Math.round(m.share_positive * 100)}% of ${m.coins} coins look positive for the ${esc(style.label.split(":")[0])} speed (sell within ${esc(style.hold_text)}). ${m.label === "Unfavourable" ? "Doing nothing is a perfectly good choice right now." : "Scores above 5 are better than break-even after fees."}${smallNote}${pb}`;
     dropCharts("idea|");
     $("ideas").innerHTML = `<div style="display:grid;gap:14px">${res.ideas.map((d) => ideaCard(d, false)).join("")}</div>${earlierBlock()}`;
     for (const d of res.ideas) {
@@ -510,7 +541,7 @@
 
   async function renderHourlyFallback(err) {
     try {
-      const pl = await getJSON(REPO + `suggestions/latest_${state.style}.json`);
+      const pl = await getJSON(REPO + `suggestions/${SMALL ? "small_" : ""}latest_${state.style}.json`);
       const ideas = pl.ideas.map((d) => ({ ...d, exit_by: Date.parse(d.exit_by), chance_beats_market: d.chance_beats_market ?? d.chance_of_profit ?? 0.5 }));
       $("mood").className = "banner warn";
       $("mood").innerHTML = `<b>Live prices are unavailable</b> (${esc(err.message || err)}). Showing the ideas saved at ${esc(pl.generated_at.slice(11, 16))} UTC instead. Prices may have moved since. Binance may be blocked on your network; try another network or try again later.`;
@@ -608,7 +639,7 @@
     const box = $("record");
     try {
       await loadConfig();
-      const b = await getJSON(REPO + "suggestions/scoreboard.json");
+      const b = await getJSON(REPO + `suggestions/${SMALL ? "small_" : ""}scoreboard.json`);
       const rows = Object.entries(b.by_style || {}).filter(([, v]) => v.closed);
       let html = "";
       if (!rows.length) html += `<div class="banner calm">No ideas have reached their time limit yet. Check back in a few hours.</div>`;
@@ -624,7 +655,7 @@
         html += `</tbody></table></div><p class="small muted">If a speed doesn't beat “random pick” over a few weeks, its ranking isn't adding value.</p>`;
       }
       try {
-        const h = parseCSV(await getText(REPO + "suggestions/history.csv")).filter((r) => r.status === "closed").slice(-25).reverse();
+        const h = parseCSV(await getText(REPO + `suggestions/${SMALL ? "small_" : ""}history.csv`)).filter((r) => r.status === "closed").slice(-25).reverse();
         if (h.length) {
           html += `<h3>Latest checked ideas</h3><div class="table-wrap"><table><thead><tr><th>Suggested (UTC)</th><th>Speed</th><th>Coin</th><th class="num">Score</th><th class="num">Price then</th><th>What happened</th><th class="num">Result</th><th class="num">On $100</th></tr></thead><tbody>`;
           const what = { take_profit: "Hit take profit", safety_exit: "Hit safety exit", time_limit: "Time limit reached" };
@@ -648,6 +679,40 @@
         <h3>What the system changed about itself</h3>
         ${log.slice(0, 14).map((e) => `<article class="card"><b>${esc(e.date)} UTC</b><ul class="why">${e.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></article>`).join("")}`;
     } catch { box.innerHTML = `<div class="banner calm">The first nightly self-review hasn't run yet. It runs every night at about 02:17 UTC.</div>`; }
+  }
+
+  // ------------------------------------------------------------------ biggest movers (why each is or isn't suggested)
+  const money = (x) => (x >= 1e9 ? `$${(x / 1e9).toFixed(1)}B` : x >= 1e6 ? `$${(x / 1e6).toFixed(1)}M` : `$${Math.round(x / 1e3)}k`);
+  async function renderMovers() {
+    const box = $("movers");
+    try {
+      await loadConfig();
+      if (!state.tickers || Date.now() - state.universeAt > 120000) { state.universe = null; await loadUniverse(); }
+      const ucfg = state.cfg.universe; const tk = state.tickers;
+      const main = new Set(E.selectUniverse(tk, ucfg).map((r) => r.symbol));
+      const small = new Set(E.selectSmallUniverse(tk, ucfg).map((r) => r.symbol));
+      const excluded = new Set([...ucfg.exclude_stablecoins, ...ucfg.exclude_other, ...ucfg.exclude_stock_tokens]);
+      const rows = tk.filter((x) => x.symbol.endsWith("USDT") && +x.quoteVolume >= 100000 && /^[A-Z0-9]{2,15}$/.test(x.symbol.slice(0, -4)) &&
+        !excluded.has(x.symbol.slice(0, -4)) && !/(UP|DOWN|BULL|BEAR)$/.test(x.symbol.slice(0, -4)))
+        .sort((a, b) => +b.priceChangePercent - +a.priceChangePercent).slice(0, 20);
+      const res = state.lastScan[state.style];
+      const all = Object.fromEntries((res?.all || []).map((r) => [r.symbol, r]));
+      const top = new Set((res?.ideas || []).map((d) => d.symbol));
+      const why = (s, qv) => {
+        if (top.has(s)) return `<span class="pill good">In the current top ${res.ideas.length}</span>`;
+        const a = all[s];
+        if (a) return `Score ${a.score.toFixed(1)}/10, #${a.place} of ${res.all.length} for this speed. ${esc(a.warnings[0] || "Other coins scored higher.")}`;
+        if (SMALL && main.has(s)) return `Big enough for the <a href="./">Exchange coins</a> page: look there.`;
+        if (!SMALL && small.has(s)) return `A smaller coin: covered by the <a href="small/">Small coins</a> page.`;
+        if (SMALL && small.has(s)) { const sw = state.swing.stats?.[s]; return sw ? `Swung 20%+ within a week only ${Math.round(sw.up_pct * 100)}% of the time (the page needs ${Math.round(ucfg.small_min_swing * 100)}%).` : "Not checked yet: refresh the ideas first."; }
+        if (SMALL) return `Not scanned: only ${money(qv)} traded a day. Coins this thin are easy to push around.`;
+        return `Not scanned here: only ${money(qv)} traded a day. ${qv >= ucfg.small_min_quote_volume_usd ? 'See the <a href="small/">Small coins</a> page.' : "Coins this thin are easy to push around."}`;
+      };
+      box.innerHTML = `<div class="table-wrap"><table><thead><tr><th>Coin</th><th class="num">24 h change</th><th class="num">Price</th><th class="num">Traded (24 h)</th><th style="min-width:18em">Why it is or isn't suggested</th></tr></thead><tbody>
+        ${rows.map((x) => `<tr><td><b>${esc(coinName(x.symbol))}</b></td><td class="num ${+x.priceChangePercent >= 0 ? "up" : "down"}">${pct(+x.priceChangePercent / 100)}</td><td class="num">${price(+x.lastPrice)}</td><td class="num">${money(+x.quoteVolume)}</td><td class="small" style="white-space:normal">${why(x.symbol, +x.quoteVolume)}</td></tr>`).join("")}
+        </tbody></table></div>
+        <p class="small muted">Biggest 24-hour gainers on Binance. Information only, not suggestions. A coin that already jumped is often <b>marked down</b>: buying after a spike usually means buying near the top, and pumps are a favourite trap. ${res ? `Scores are for the ${esc(state.cfg.styles[state.style].label.split(":")[0])} speed from your last refresh at ${local(res.at)}.` : "Refresh the ideas to see scores."}</p>`;
+    } catch { box.innerHTML = `<div class="banner warn">Couldn't load the biggest movers right now.</div>`; }
   }
 
   function sparkline(points) {
@@ -692,9 +757,10 @@
     if (name === "record") renderRecord();
     if (name === "account") renderAccount();
     if (name === "improve") renderImprove();
+    if (name === "movers") renderMovers();
     if (name === "trades") refreshTrades(false);
     store.set("omega.tab", name);
-    if (location.hash !== `#${name}`) history.replaceState(null, "", `#${name}`);
+    if (location.hash !== `#${name}`) history.replaceState(null, "", `${location.pathname}${location.search}#${name}`);   // page has <base> on Small coins
   }
   function selectStyle(key) {
     state.style = key; store.set("omega.style", key);
@@ -782,10 +848,19 @@
   });
 
   // ------------------------------------------------------------------ start
+  document.documentElement.dataset.mode = MODE;
+  for (const a of document.querySelectorAll("nav.sites a")) { if (a.dataset.site === MODE) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); }
+  if (SMALL) {
+    document.title = "Mempool Omega · Small coins";
+    $("pageTitle").textContent = "Mempool Omega · Small coins";
+    $("pageSub").textContent = "Top 10 smaller coins that often swing 20–50% · bigger moves both ways · practice and education only, not financial advice";
+    $("mood").textContent = "Checking smaller coins…";
+    document.querySelector('nav.tabs button[data-tab="ideas"]').textContent = "Top 10 ideas";
+  }
   $("refresh").value = String(state.refresh);
   for (const b of document.querySelectorAll("#speed button")) b.setAttribute("aria-pressed", String(b.dataset.style === state.style));
   const startTab = (location.hash || "").slice(1) || store.get("omega.tab", "ideas");
-  selectTab(["ideas", "trades", "record", "improve", "account", "guide"].includes(startTab) ? startTab : "ideas");
+  selectTab(["ideas", "movers", "trades", "record", "improve", "account", "guide"].includes(startTab) ? startTab : "ideas");
   renderTradeCount();
   refreshIdeas();
   setInterval(paintStatus, 1000);

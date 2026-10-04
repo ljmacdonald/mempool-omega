@@ -29,7 +29,7 @@ from scanner.styles import DEX_STYLES, Style
 
 log = get_logger("dex.live")
 REF_AMOUNT = 100.0          # costs used for the server's own ranking and the track record
-MAX_CANDIDATES = 60
+MAX_CANDIDATES = 90
 DEX_FEE = {"uniswap_v2": 0.003, "pancakeswap_v2": 0.0025, "sushiswap": 0.003, "raydium": 0.0025,
            "pumpswap": 0.0025, "meteora": 0.005, "orca": 0.003}
 
@@ -133,11 +133,12 @@ def discover() -> tuple[list[dict], list[dict], dict]:
             _sum_pools(cand)
             tx = cand["tx_h24"]
             why = []
-            if (main["reserve_usd"] or 0) < 0.8 * S.BASE["min_liq"]:
+            lo = S.RISKY                                    # early filter at the looser (higher-risk) limits
+            if (main["reserve_usd"] or 0) < 0.8 * lo["min_liq"]:
                 why.append(f"Only ${main['reserve_usd'] or 0:,.0f} in its biggest pool.")
-            if age < S.BASE["min_age_days"]:
+            if age < lo["min_age_days"]:
                 why.append(f"Only {age:.0f} days old.")
-            if tx.get("buyers", 0) < S.BASE["min_buyers"] / 2:
+            if tx.get("buyers", 0) < lo["min_buyers"] / 2:
                 why.append(f"Only {tx.get('buyers', 0)} buyers in 24 hours.")
             if why:
                 if (main["reserve_usd"] or 0) >= 100_000:
@@ -175,7 +176,7 @@ def universe() -> tuple[list[dict], list[dict], dict]:
     for c in cands + list(refs.values()):
         f = fresh.get(f"{c['chain']}:{c['pool']}")
         if f:
-            for k in ("price", "quote_price", "reserve_usd", "tx_h24", "tx_h1", "vol_h24"):
+            for k in ("price", "quote_price", "reserve_usd", "tx_h24", "tx_h1", "vol_h24", "chg_h24", "chg_h1"):
                 c[k] = f[k]
         for p in c.get("pools", []):
             f = fresh.get(f"{c['chain']}:{p['pool']}")
@@ -204,7 +205,25 @@ def _sum_pools(c: dict) -> None:
 
 def _brief(p: dict) -> dict:
     return {"chain": p["chain"], "symbol": p["base_symbol"], "token": p["token"], "pool": p["pool"],
-            "dex": p["dex"], "reserve_usd": p["reserve_usd"]}
+            "dex": p["dex"], "reserve_usd": p["reserve_usd"], "chg_h24": p.get("chg_h24"), "vol_h24": p.get("vol_h24")}
+
+
+def movers(cands: list[dict], rejected: list[dict]) -> list[dict]:
+    """Biggest 24 h gainers among every token looked at this run, with the verdict and the reasons."""
+    rows = []
+    for c in cands:
+        if c.get("chg_h24") is None:
+            continue
+        a, r = c.get("assess") or {}, c.get("assess_risky") or {}
+        rows.append({**_brief(c), "status": "standard" if a.get("verdict") == "pass" else
+                     "risky" if r.get("verdict") == "pass" else "rejected",
+                     "reasons": [h["text"] for h in (r.get("hard") or a.get("hard") or [])]})
+    for r in rejected:
+        if r.get("chg_h24") is not None:
+            rows.append({**r, "status": "rejected"})
+    rows = [x for x in rows if x["chg_h24"] == x["chg_h24"]]
+    rows.sort(key=lambda x: -x["chg_h24"])
+    return rows[:25]
 
 
 def enrich_liquidity(cands: list[dict]) -> None:
@@ -286,7 +305,7 @@ def score_candidates(cands: list[dict], candles: dict, refs: dict, models: dict,
     for c in cands:
         df = candles.get(f"{c['chain']}:{c['pool']}")
         c["styles"] = {}
-        if df is None or len(df) < 200:
+        if df is None or len(df) < 110:          # ~4.6 days: enough for every feature (higher-risk tokens are young)
             continue
         ref = candles.get(f"ref:{c['chain']}")
         f = coin_features(df, ref).iloc[-1]
@@ -320,15 +339,15 @@ def active_days(df: pd.DataFrame, min_usd: float = 50_000.0) -> int:
     return int((d >= min_usd).sum())
 
 
-def ideas_for(cands: list[dict], style_key: str, top_n: int = 5) -> list[dict]:
+def ideas_for(cands: list[dict], style_key: str, top_n: int = 5, profile: str = "assess") -> list[dict]:
     st = DEX_STYLES[style_key]
     rows = []
     for c in cands:
         s = c.get("styles", {}).get(style_key)
-        if not s or c["assess"]["verdict"] != "pass":
+        if not s or c[profile]["verdict"] != "pass":
             continue
         r = expected_r(s["p"], s["win_r"], s["loss_r"], s["cost_rt_ref"], s["risk_unit"]) - s["flag_penalty"] \
-            - c["assess"]["penalty"]
+            - c[profile]["penalty"]
         sc = score_from_r(r)
         rows.append({"symbol": f"{c['chain']}:{c['token']}", "coin": c["base_symbol"], "chain": c["chain"],
                      "pool": c["pool"], "style": style_key, "score": round(sc, 1), "grade": grade(sc),
@@ -336,7 +355,7 @@ def ideas_for(cands: list[dict], style_key: str, top_n: int = 5) -> list[dict]:
                      "price_now": c["close"], "take_profit_pct": s["take_profit_pct"],
                      "safety_exit_pct": s["safety_exit_pct"], "cost_rt": s["cost_rt_ref"],
                      "pre_ret": s["pre_ret"], "vol_surge": s["vol_surge"], "ts": c["candle_time"],
-                     "integrity": {"penalty": c["assess"]["penalty"], "checks": c["assess"]["checks"]},
+                     "integrity": {"penalty": c[profile]["penalty"], "checks": c[profile]["checks"]},
                      "hold_minutes": st.horizon_minutes})
     rows.sort(key=lambda d: -d["score"])
     for i, d in enumerate(rows[:top_n], 1):
@@ -371,6 +390,7 @@ def hourly() -> dict:
 
     seed = S.run_seed()
     t = S.thresholds(seed)
+    tr = S.thresholds(seed, "risky")
     adaptive = load_adaptive()
     cands, rejected, refs = universe()
     log.info("%d candidates, %d early rejections", len(cands), len(rejected))
@@ -392,7 +412,8 @@ def hourly() -> dict:
     for c in cands:
         c["active_days"] = None
         c["assess"] = S.assess(c["facts"], market_facts(c), t, c["chain"])
-    pre = [c for c in cands if c["assess"]["verdict"] == "pass"]
+        c["assess_risky"] = S.assess(c["facts"], market_facts(c), tr, c["chain"])
+    pre = [c for c in cands if c["assess_risky"]["verdict"] == "pass"]     # the looser profile is a superset
     log.info("%d of %d candidates pass the pre-check; downloading their price history", len(pre), len(cands))
     candles: dict[str, pd.DataFrame] = {}
     deadline = time.time() + 60 * float(os.environ.get("OMEGA_DEX_CANDLE_MINUTES", "15"))
@@ -414,29 +435,37 @@ def hourly() -> dict:
     score_candidates(cands, candles, refs, models, chains, adaptive)
     for c in cands:
         c["assess"] = S.assess(c["facts"], market_facts(c), t, c["chain"])
+        c["assess_risky"] = S.assess(c["facts"], market_facts(c), tr, c["chain"])
     payload = {"generated_at": str(pd.Timestamp.now(tz="UTC")), "chains": chains,
                "models": {k: {"win_r": m.win_r, "loss_r": m.loss_r, "base_rate": m.base_rate, "info": m.info}
                           for k, m in models.items()},
                "styles": {k: {"label": s.label, "hold_minutes": s.horizon_minutes, "hold_text": s.hold_text,
                               "bar_minutes": s.bar_minutes} for k, s in DEX_STYLES.items()},
-               "thresholds_published": S.BASE, "ref_amount": REF_AMOUNT, "adaptive": adaptive,
+               "thresholds_published": S.BASE, "thresholds_risky": S.RISKY, "ref_amount": REF_AMOUNT,
+               "adaptive": adaptive, "movers": movers(cands, rejected),
                "tokens": [snapshot_row(c) for c in cands if c.get("styles")],
-               "rejected": [{**_brief(c), "reasons": [h["text"] for h in c["assess"]["hard"]]}
-                            for c in cands if c["assess"]["verdict"] == "reject"] + rejected[:40]}
+               "rejected": [{**_brief(c), "reasons": [h["text"] for h in c["assess"]["hard"]],
+                             "risky_ok": c["assess_risky"]["verdict"] == "pass"}
+                            for c in cands if c["assess"]["verdict"] == "reject"] + rejected[:60]}
     dex_state("snapshot.json").write_text(json.dumps(clean(payload), separators=(",", ":"), default=str, allow_nan=False))
     # track record (server ranking at $100, all networks)
-    hist = "dex/history.csv"
-    ideas = {}
+    hist, hist_r = "dex/history.csv", "dex/history_risky.csv"
+    ideas, ideas_r = {}, {}
     for key in DEX_STYLES:
         ideas[key] = ideas_for(cands, key)
         track.append(ideas[key], len(cands), hist)
+        ideas_r[key] = ideas_for(cands, key, profile="assess_risky")
+        track.append(ideas_r[key], len(cands), hist_r)
     settle = {f"{c['chain']}:{c['token']}": candles.get(f"{c['chain']}:{c['pool']}") for c in cands}
     settle = {k: v for k, v in settle.items() if v is not None and len(v)}
     _fill_open_candles(settle, hist)
+    _fill_open_candles(settle, hist_r)
     for key in DEX_STYLES:
         track.resolve(settle, key, hist)
+        track.resolve(settle, key, hist_r)
     first_hour_runup(settle, hist)
     board = track.scoreboard(hist, "dex/scoreboard.json", DEX_STYLES)
+    track.scoreboard(hist_r, "dex/scoreboard_risky.json", DEX_STYLES)
     log.info("dex hourly: %d candidates, %d passed, ideas %s", len(cands),
              sum(c["assess"]["verdict"] == "pass" for c in cands), {k: [d["coin"] for d in v] for k, v in ideas.items()})
     return {"ideas": ideas, "scoreboard": board, "candidates": len(cands)}
@@ -466,6 +495,7 @@ def snapshot_row(c: dict) -> dict:
             "pools", "candle_time", "facts", "styles")
     row = {k: c.get(k) for k in keep}
     row["assess"] = {k: c["assess"][k] for k in ("verdict", "hard", "penalty")}   # the browser re-runs the checks
+    row["assess_risky"] = {k: c["assess_risky"][k] for k in ("verdict", "hard", "penalty")}
     return row
 
 

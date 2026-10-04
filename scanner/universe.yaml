@@ -1,7 +1,12 @@
 # Which coins the scanner looks at. Edit freely.
 # Coins are taken from Binance USDT pairs, sorted by 24h trading volume, after removing the lists below.
-min_quote_volume_usd: 5000000      # skip coins with < $5M traded per day (too easy to manipulate)
-max_coins: 60                      # how many of the most-traded coins to scan each hour
+min_quote_volume_usd: 1000000      # skip coins with < $1M traded per day (too easy to manipulate)
+max_coins: 150                     # how many of the most-traded coins to scan each hour
+# "Small coins" page: the next tier down (not in the 150 above), kept only if they often swing 20%+ in a week
+small_min_quote_volume_usd: 300000
+small_max_coins: 250                # every coin above the volume floor, in practice
+small_min_swing: 0.15              # rose 20%+ within a week in at least 15% of the last ~90 days
+small_top_n: 10
 min_history_days: 30               # skip brand-new listings
 exclude_stablecoins: [USDC, FDUSD, TUSD, USDP, DAI, BUSD, USD1, RLUSD, U, USDE, PYUSD, XUSD, BFUSD, EURI, AEUR, EUR, USDS, USTC, UST, PAX, SUSD, GUSD, FRAX, LUSD]
 exclude_other: [PAXG, XAUT, WBTC, WBETH, BETH, BNSOL]   # gold tokens and wrapped duplicates

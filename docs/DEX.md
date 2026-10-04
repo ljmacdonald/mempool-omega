@@ -53,6 +53,19 @@ Also rejected:
 - any security setting that changed in the last 3 days;
 - **any token that couldn't be verified.**
 
+## Higher-risk mode (opt-in on the page)
+
+| Limit | Standard | Higher risk |
+|---|---|---|
+| Real liquidity | $500,000 | $100,000 |
+| Pool age | 14 days | 5 days |
+| Active days (of 14) | 10 | 3 |
+| Buyers / sellers in 24 h | 200 / 120 | 100 / 60 |
+| Holders | 2,000 (penalty below) | 500 (penalty below) |
+| 10 biggest wallets | ≤ 50 % | ≤ 60 % |
+
+Every other rule is identical in both modes, and a test checks this. That includes the sell test, the real-seller ratio, taxes, owner powers, Solana authorities, liquidity being pulled or parked, copies, rule changes and fail-closed. Higher-risk ideas have their own track record (`state/dex/history_risky.csv`).
+
 ## Moves and counter-moves: a scammer who has read all of the above
 
 | # | What a sophisticated scammer would do | Why it would beat a naive checker | What this system does |

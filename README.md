@@ -15,7 +15,7 @@ a ledger committed back to the repo.
 Nothing to install and nothing to set up. It works on a phone or a computer. Pick a trading speed and how often to refresh,
 read the top 5 ideas, tap **“I bought this”**, and the **My trades** tab tells you when to sell.
 
-- The app re-ranks ~60 coins every 1, 2, 5, 15, 30 or 60 minutes (you choose) right in your browser, using the same
+- The app re-ranks the ~150 most-traded coins every 1, 2, 5, 15, 30 or 60 minutes (you choose) right in your browser, using the same
   models the server trains every night. It offers three speeds (sell within 1 hour, 4 hours or 24 hours).
 - Every idea shows **where to buy it cheapest** (7 exchanges + DEX pools) and the money you'd actually take out
   after taker fees, slippage, withdrawal, gas and MEV/front-running costs.
@@ -24,7 +24,12 @@ read the top 5 ideas, tap **“I bought this”**, and the **My trades** tab tel
   Ethereum and Robinhood Chain decentralised exchanges, with scam and rug-pull checks designed against scammers who
   know the checks, and the money you'd actually take out after pool fees, price impact, token tax, gas, front-running
   bots and snipers. See [docs/DEX.md](docs/DEX.md).
-- **Day / Night switch** at the top of every page (or *Auto* to follow your device).
+- **Small coins page: https://ljmacdonald.github.io/mempool-omega/small/**. The top 10 smaller coins (about $300k–$1M
+  traded a day) that often swing 20%+ in a week. Bigger moves both ways.
+- **Biggest movers** tab on every page: today's top gainers and exactly why each one is or isn't suggested.
+- **Higher-risk mode** on the DEX page: younger and smaller tokens ($100k+, 5+ days), with every scam test unchanged.
+- A menu at the top of every page (**Exchange coins · Small coins · DEX tokens**), plus a **Day / Night** switch
+  (or *Auto* to follow your device).
 | Live ideas | My trades: when to sell |
 |--|--|
 | ![Live ideas](docs/screenshots/live_ideas.png) | ![My trades](docs/screenshots/my_trades.png) |

@@ -17,6 +17,7 @@
   };
   const state = {
     style: store.get("omega.dex.style", "dex_short"), chain: store.get("omega.dex.chain", "all"),
+    profile: store.get("omega.dex.profile", "standard"),
     refresh: store.get("omega.dex.refresh", 300), amount: store.get("omega.dex.amount", 100),
     snap: null, snapAt: 0, live: {}, sec: {}, ideas: [], scanning: false, timer: null, nextAt: 0, lastAt: 0,
     trades: store.get("omega.dex.trades", []), anchors: store.get("omega.dex.sugg", {}), charts: {}, lastAction: {},
@@ -170,8 +171,9 @@
   // ------------------------------------------------------------------ scan
   async function scan() {
     const snap = await loadSnapshot(false);
-    const amount = state.amount; const th = X.thresholds(deviceSeed());
-    const pool = snap.tokens.filter((t) => t.assess && t.assess.verdict === "pass" && (state.chain === "all" || t.chain === state.chain));
+    const amount = state.amount; const th = X.thresholds(deviceSeed(), state.profile);
+    const ak = state.profile === "risky" ? "assess_risky" : "assess";
+    const pool = snap.tokens.filter((t) => t[ak] && t[ak].verdict === "pass" && (state.chain === "all" || t.chain === state.chain));
     await liveMarket(pool.concat(tradeTokens()));
     // pre-rank, then re-check the best few live (security can change between hourly runs)
     let ev = pool.map((t) => evaluate(t, state.style, amount, th)).filter(Boolean).sort((x, y) => y.score - x.score);
@@ -360,10 +362,11 @@
     const held = state.trades.some((t) => t.chain === d.t.chain && t.token === d.t.token);
     const already = d.px >= a.take_profit ? `<div class="banner good">Since it was suggested, the price already reached the take-profit level.</div>` :
       d.px <= a.safety_exit ? `<div class="banner bad">Since it was suggested, the price already fell to the safety exit. Don't buy it now.</div>` : "";
-    const warns = d.s.warnings.concat(d.probation ? [`This speed is on probation: its last ${d.probation.n} ideas did worse than random picks, so scores are lowered.`] : []);
+    const riskyOnly = state.profile === "risky" && d.t.assess && d.t.assess.verdict !== "pass";
+    const warns = (riskyOnly ? [`Higher-risk only: ${d.t.assess.hard.map((h) => h.text).join(" ")}`] : []).concat(d.s.warnings).concat(d.probation ? [`This speed is on probation: its last ${d.probation.n} ideas did worse than random picks, so scores are lowered.`] : []);
     return `<article class="card">
       <div class="idea-head">
-        <h2><span class="rank">${d.rank}.</span>${esc(d.t.base_symbol)} <span class="pill chainpill">${esc(ch.name)}</span> <span class="pill calm">${esc(d.t.dex)}</span></h2>
+        <h2><span class="rank">${d.rank}.</span>${esc(d.t.base_symbol)} <span class="pill chainpill">${esc(ch.name)}</span> <span class="pill calm">${esc(d.t.dex)}</span>${riskyOnly ? ' <span class="pill bad">Higher risk</span>' : ""}</h2>
         <div class="score"><b>${(Math.round(d.score * 10) / 10).toFixed(1)}</b><span class="muted">/ 10</span>
           <span class="pill ${gradeClass(d.grade)}">${esc(d.grade)}</span><span class="pill ${riskClass(rl)}">Risk: ${rl}</span></div>
       </div>
@@ -397,8 +400,10 @@
     const label = share > 0.6 ? "Favourable" : share > 0.35 ? "Mixed" : "Unfavourable";
     const chName = state.chain === "all" ? "all four networks" : state.snap.chains[state.chain].name;
     $("mood").className = `banner ${m.n === 0 ? "warn" : label === "Favourable" ? "good" : label === "Mixed" ? "calm" : "warn"}`;
-    $("mood").innerHTML = m.n === 0 ? `<b>No token on ${esc(chName)} passes every safety rule right now.</b> That's the system working: it would rather show nothing than a likely scam.${state.chain === "robinhood" ? " Robinhood Chain is new, so most of its tokens are younger than 14 days or hold less than $500,000." : ""} See the rejected list below.`
-      : `<b>Market mood: ${label}.</b> ${m.positive} of ${m.n} checked tokens on ${esc(chName)} look positive after all costs for $${state.amount.toLocaleString()} (sell within ${esc(st.hold_text)}). ${label === "Unfavourable" ? "Doing nothing is a perfectly good choice right now." : "Scores above 5 beat break-even after every cost."}`;
+    const riskyNote = state.profile === "risky" ? `<br><b>Higher-risk mode is on:</b> tokens as young as 5 days and pools as small as $100,000 are included. Every scam test still applies, but young, small tokens collapse far more often. Use small amounts.` : "";
+    $("mood").innerHTML = (m.n === 0 ? `<b>No token on ${esc(chName)} passes every safety rule right now.</b> That's the system working: it would rather show nothing than a likely scam.${state.chain === "robinhood" ? " Robinhood Chain is new, so most of its tokens are younger than 14 days or hold less than $500,000." : ""} See the rejected list below.`
+      : `<b>Market mood: ${label}.</b> ${m.positive} of ${m.n} checked tokens on ${esc(chName)} look positive after all costs for $${state.amount.toLocaleString()} (sell within ${esc(st.hold_text)}). ${label === "Unfavourable" ? "Doing nothing is a perfectly good choice right now." : "Scores above 5 beat break-even after every cost."}`) + riskyNote;
+    if (state.profile === "risky") $("mood").className = "banner warn";
     dropCharts("idea|");
     $("ideas").innerHTML = `<div style="display:grid;gap:14px">${state.ideas.map(ideaCard).join("")}</div>`;
     for (const el of document.querySelectorAll("#ideas .calc")) updateCalc(el);
@@ -413,7 +418,8 @@
   function renderRejected() {
     const snap = state.snap;
     const live = (state.failedLive || []).map((e) => ({ chain: e.t.chain, symbol: e.t.base_symbol, reasons: e.a.hard.map((h) => h.text), live: true }));
-    const rows = live.concat(snap.rejected || []).filter((r) => state.chain === "all" || r.chain === state.chain);
+    const rows = live.concat((snap.rejected || []).filter((r) => !(state.profile === "risky" && r.risky_ok)))
+      .filter((r) => state.chain === "all" || r.chain === state.chain);
     if (!rows.length) { $("rejected").innerHTML = ""; return; }
     $("rejected").innerHTML = `<details class="card rejected"><summary>Tokens checked and rejected this hour (${rows.length}), and why</summary>
       <ul>${rows.slice(0, 60).map((r) => `<li><b>${esc(r.symbol)}</b> <span class="small muted">${esc(snap.chains[r.chain]?.name || r.chain)}${r.live ? " · failed the live re-check just now" : ""}</span>: ${esc((r.reasons || []).join(" "))}</li>`).join("")}</ul></details>`;
@@ -489,10 +495,31 @@
 
   // ------------------------------------------------------------------ track record
   function parseCSV(text) { const lines = text.trim().split(/\r?\n/); const head = lines.shift().split(","); return lines.map((l) => { const v = l.split(","); return Object.fromEntries(head.map((h, i) => [h, v[i]])); }); }
+  async function renderMovers() {
+    const box = $("movers");
+    try {
+      const snap = await loadSnapshot(false);
+      const rows = (snap.movers || []).filter((r) => state.chain === "all" || r.chain === state.chain);
+      if (!rows.length) { box.innerHTML = `<div class="banner calm">No price changes recorded yet for this network.</div>`; return; }
+      const pill = (s) => (s === "standard" ? '<span class="pill good">Passes every rule</span>' : s === "risky" ? '<span class="pill warn">Higher risk only</span>' : '<span class="pill bad">Rejected</span>');
+      box.innerHTML = `<div class="table-wrap"><table><thead><tr><th>Token</th><th>Network</th><th class="num">24 h change</th><th class="num">Biggest pool</th><th style="min-width:18em">Safety and why</th></tr></thead><tbody>
+        ${rows.map((r) => `<tr><td><b>${esc(r.symbol)}</b><div class="small muted">${esc(r.dex)}</div></td><td>${esc(snap.chains[r.chain]?.name || r.chain)}</td><td class="num ${r.chg_h24 >= 0 ? "up" : "down"}">${pct(r.chg_h24)}</td><td class="num">${money(r.reserve_usd)}</td>
+          <td class="small" style="white-space:normal">${pill(r.status)} ${esc((r.reasons || []).slice(0, 2).join(" ")) || (r.status === "rejected" ? "" : "Can be suggested if it scores well enough after costs.")}</td></tr>`).join("")}
+        </tbody></table></div><p class="small muted">From the hourly scan at ${hhmm(Date.parse(snap.generated_at))} UTC. Information only, not suggestions. A big jump is not a reason to buy: on DEXes it's often the pump before the dump.</p>`;
+    } catch { box.innerHTML = `<div class="banner warn">Couldn't load the biggest movers right now.</div>`; }
+  }
+
   async function renderRecord() {
     const box = $("record");
+    let html = "";
+    for (const [name, file, histFile] of [["Standard", "dex/scoreboard.json", "dex/history.csv"], ["Higher risk", "dex/scoreboard_risky.json", "dex/history_risky.csv"]]) {
+      html += `<h2>${name}</h2>` + await recordBlock(file, histFile);
+    }
+    box.innerHTML = html;
+  }
+  async function recordBlock(file, histFile) {
     try {
-      const b = await getJSON(REPO + "dex/scoreboard.json");
+      const b = await getJSON(REPO + file);
       const rows = Object.entries(b.by_style || {}).filter(([, v]) => v.closed);
       let html = rows.length ? "" : `<div class="banner calm">No DEX ideas have reached their time limit yet. Check back in a few hours.</div>`;
       if (rows.length) {
@@ -504,13 +531,13 @@
         html += `</tbody></table></div>`;
       }
       try {
-        const h = parseCSV(await getText(REPO + "dex/history.csv")).filter((r) => r.status === "closed").slice(-25).reverse();
+        const h = parseCSV(await getText(REPO + histFile)).filter((r) => r.status === "closed").slice(-15).reverse();
         const what = { take_profit: "Hit take profit", safety_exit: "Hit safety exit", time_limit: "Time limit reached" };
         if (h.length) html += `<h3>Latest checked ideas</h3><div class="table-wrap"><table><thead><tr><th>Suggested (UTC)</th><th>Network</th><th class="num">Score</th><th>What happened</th><th class="num">Result after all costs</th></tr></thead><tbody>
           ${h.map((r) => `<tr><td>${esc(r.ts.slice(5, 16))}</td><td>${esc(r.symbol.split(":")[0])}</td><td class="num">${esc(r.score)}</td><td>${esc(what[r.outcome] || r.outcome)}</td><td class="num ${+r.net_ret >= 0 ? "up" : "down"}">${pct(+r.net_ret, 2)}</td></tr>`).join("")}</tbody></table></div>`;
       } catch { /* optional */ }
-      box.innerHTML = html;
-    } catch { box.innerHTML = `<div class="banner calm">The DEX track record starts after the first hourly run.</div>`; }
+      return html;
+    } catch { return `<div class="banner calm">This track record starts after the first hourly run.</div>`; }
   }
 
   // ------------------------------------------------------------------ wiring
@@ -518,6 +545,7 @@
     for (const b of document.querySelectorAll("nav.tabs button")) b.setAttribute("aria-selected", String(b.dataset.tab === name));
     for (const p of document.querySelectorAll("section.panel")) p.hidden = p.id !== `tab-${name}`;
     if (name === "record") renderRecord();
+    if (name === "movers") renderMovers();
     if (name === "trades") refreshTrades(true);
     store.set("omega.dex.tab", name);
     if (location.hash !== `#${name}`) history.replaceState(null, "", `#${name}`);
@@ -544,8 +572,9 @@
   });
   document.addEventListener("input", (ev) => { const c = ev.target.closest(".calc"); if (c) updateCalc(c); });
   for (const b of document.querySelectorAll("#speed button")) b.addEventListener("click", () => { state.style = b.dataset.style; store.set("omega.dex.style", state.style); press("#speed button", "style", state.style); refreshIdeas(); });
-  for (const b of document.querySelectorAll("#chains button")) b.addEventListener("click", () => { state.chain = b.dataset.chain; store.set("omega.dex.chain", state.chain); press("#chains button", "chain", state.chain); refreshIdeas(); });
+  for (const b of document.querySelectorAll("#chains button")) b.addEventListener("click", () => { state.chain = b.dataset.chain; store.set("omega.dex.chain", state.chain); press("#chains button", "chain", state.chain); refreshIdeas(); if (!$("tab-movers").hidden) renderMovers(); });
   for (const b of document.querySelectorAll("nav.tabs button")) b.addEventListener("click", () => selectTab(b.dataset.tab));
+  for (const b of document.querySelectorAll("#profile button")) b.addEventListener("click", () => { state.profile = b.dataset.profile; store.set("omega.dex.profile", state.profile); press("#profile button", "profile", state.profile); refreshIdeas(); });
   $("refresh").addEventListener("change", (e) => { state.refresh = +e.target.value; store.set("omega.dex.refresh", state.refresh); schedule(); paintStatus(); });
   $("refreshNow").addEventListener("click", () => { state.snapAt = 0; refreshIdeas(); });
   $("amount").addEventListener("change", (e) => { state.amount = Math.max(1, +e.target.value || 100); store.set("omega.dex.amount", state.amount); refreshIdeas(); });
@@ -558,9 +587,9 @@
 
   // ------------------------------------------------------------------ start
   $("refresh").value = String(state.refresh); $("amount").value = String(state.amount);
-  press("#speed button", "style", state.style); press("#chains button", "chain", state.chain);
+  press("#speed button", "style", state.style); press("#chains button", "chain", state.chain); press("#profile button", "profile", state.profile);
   const startTab = (location.hash || "").slice(1) || store.get("omega.dex.tab", "ideas");
-  selectTab(["ideas", "trades", "record", "guide"].includes(startTab) ? startTab : "ideas");
+  selectTab(["ideas", "movers", "trades", "record", "guide"].includes(startTab) ? startTab : "ideas");
   saveTrades();
   refreshIdeas();
   setInterval(paintStatus, 1000);

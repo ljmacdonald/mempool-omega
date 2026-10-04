@@ -17,7 +17,7 @@ from alerts.telegram import send
 from core.config import state_path
 from core.log import get_logger
 from scanner import track
-from scanner.data import daily_candles, load_all, select_universe
+from scanner.data import config, daily_candles, load_all, select_small_universe, select_universe
 from scanner.features import big_mover_stats
 from scanner.live import models_dir, scan
 from scanner.model import ScannerModel, build_dataset  # noqa: F401
@@ -38,7 +38,12 @@ def train(styles: list[str] | None = None) -> dict:
         m.save(models_dir())
         infos[key] = m.info
     bm = {}
-    for s in uni["symbol"]:
+    try:
+        small = select_small_universe()["symbol"].tolist()
+    except Exception as e:  # noqa: BLE001
+        log.warning("small-coin universe: %s", e)
+        small = []
+    for s in list(uni["symbol"]) + small:   # swing statistics for both pages
         try:
             bm[s] = big_mover_stats(daily_candles(s, 97).iloc[:-1].tail(96))
         except Exception as e:  # noqa: BLE001
@@ -75,6 +80,11 @@ def hourly(top_n: int = 5) -> dict:
     if not results:
         raise RuntimeError("; ".join(failures))
     board = track.scoreboard()
+    try:
+        small_coins(top_n)
+    except Exception as e:  # noqa: BLE001
+        log.exception("small coins failed")
+        failures.append(f"small coins: {e}")
     combined = {"generated_at": str(pd.Timestamp.now(tz="UTC")), "styles": results, "scoreboard": board}
     state_path("suggestions", "latest.json").write_text(json.dumps(combined, indent=2, default=str))
     state_path("suggestions", "LATEST.md").write_text(render_markdown(combined))
@@ -84,6 +94,39 @@ def hourly(top_n: int = 5) -> dict:
         alert_style = os.environ.get("OMEGA_SCANNER_ALERT_STYLE", DEFAULT_STYLE)
         send("info", render_telegram(results.get(alert_style) or next(iter(results.values())), board))
     return combined
+
+
+SMALL_HIST = "suggestions/small_history.csv"
+
+
+def small_universe() -> pd.DataFrame:
+    """Small coins that often swing 20%+ within a week (90-day statistics from the nightly run)."""
+    from scanner.live import big_movers
+
+    cfg, bm = config(), big_movers()
+    uni = select_small_universe()
+    swing = uni["symbol"].map(lambda s: (bm.get(s) or {}).get("up_pct"))
+    return uni[pd.to_numeric(swing, errors="coerce").fillna(0) >= cfg["small_min_swing"]].reset_index(drop=True)
+
+
+def small_coins(top_n: int = 5) -> dict:
+    """Hourly top 10 for the Small coins page, with its own track record."""
+    cfg = config()
+    uni = small_universe()
+    if len(uni) < 5:
+        log.warning("only %d small coins swing enough; skipped", len(uni))
+        return {}
+    hist = track.load_history(SMALL_HIST)
+    out = {}
+    for key in STYLES:
+        opened = hist[(hist["status"] == "open") & (hist["style"] == key)]["symbol"].tolist() if len(hist) else []
+        res = scan(key, load_model(key), uni, cfg["small_top_n"], extra_symbols=opened, candidates=15)
+        track.append(res.payload["ideas"], res.payload["coins_scanned"], SMALL_HIST)
+        res.payload["settled_this_run"] = track.resolve(res.candles, key, SMALL_HIST)
+        state_path("suggestions", f"small_latest_{key}.json").write_text(json.dumps(res.payload, indent=2, default=str))
+        out[key] = res.payload
+    track.scoreboard(SMALL_HIST, "suggestions/small_scoreboard.json")
+    return out
 
 
 def _pct(x) -> str:

@@ -19,7 +19,7 @@
       <p class="muted small">Solana, BNB Chain, Ethereum and Robinhood Chain · scam-checked · practice and education only, not financial advice</p>
     </div>
     <div class="top-right">
-      <nav class="sites" aria-label="Choose market"><a href="../">Exchange coins</a><a href="./" aria-current="page">DEX tokens</a></nav>
+      <nav class="sites" aria-label="Choose a page"><a href="../" data-site="main">Exchange coins</a><a href="../small/" data-site="small">Small coins</a><a href="./" data-site="dex" aria-current="page">DEX tokens</a></nav>
       <div class="theme-switch" data-theme-switch role="group" aria-label="Day or night colours"></div>
       <span class="tag" id="clock">UTC --:--</span>
     </div>
@@ -37,6 +37,10 @@
       <button type="button" data-chain="ethereum" aria-pressed="false">Ethereum</button>
       <button type="button" data-chain="robinhood" aria-pressed="false">Robinhood</button>
     </div>
+    <div class="seg" id="profile" role="group" aria-label="Safety level">
+      <button type="button" data-profile="standard" aria-pressed="true">Standard<small>$500k+, 14+ days</small></button>
+      <button type="button" data-profile="risky" aria-pressed="false">Higher risk<small>$100k+, 5+ days</small></button>
+    </div>
     <label class="inline" for="refresh">Refresh
       <select id="refresh">
         <option value="0">Off</option><option value="60">every 1 min</option><option value="120">every 2 min</option>
@@ -51,6 +55,7 @@
 
   <nav class="tabs" role="tablist" aria-label="Sections">
     <button role="tab" data-tab="ideas" aria-selected="true">Top 5 DEX ideas</button>
+    <button role="tab" data-tab="movers" aria-selected="false">Biggest movers</button>
     <button role="tab" data-tab="trades" aria-selected="false">My DEX trades <span class="count" id="tradeCount" hidden>0</span></button>
     <button role="tab" data-tab="record" aria-selected="false">Track record</button>
     <button role="tab" data-tab="guide" aria-selected="false">How it works</button>
@@ -60,6 +65,11 @@
     <div id="mood" class="banner calm">Loading checked DEX tokens…</div>
     <div id="ideas"><div class="skeleton"></div></div>
     <div id="rejected"></div>
+  </section>
+
+  <section class="panel" id="tab-movers" role="tabpanel" hidden>
+    <p class="muted lead">The biggest 24-hour gainers among every DEX token the system looked at this hour, and why each one is or isn't suggested. Most big jumps on DEXes come from tokens that fail the safety rules.</p>
+    <div id="movers"><div class="skeleton"></div></div>
   </section>
 
   <section class="panel" id="tab-trades" role="tabpanel" hidden>
@@ -91,6 +101,8 @@
         <li><b>The pool's money isn't being pulled</b> (more than a 20% drop in 6 hours rejects the token) <b>or pumped in just before</b> (more than 4x in 3 days).</li>
         <li><b>No copies</b> of another token's name or of a major coin, no creator with past scam tokens, and no security settings changed in the last 3 days.</li>
       </ul>
+      <h2>Standard or Higher risk</h2>
+      <p>The <b>Higher risk</b> switch lets in younger and smaller tokens: at least <b>$100,000</b> in the pool, at least <b>5 days</b> old, trading on at least 3 days, 100 buyers and 60 sellers a day, and the 10 biggest wallets holding up to 60%. <b>Every scam test stays exactly as strict</b>: sell test, real sellers, taxes, owner powers, liquidity being pulled, copies and rule changes. Younger and smaller tokens still collapse far more often, and the model learned mostly from older tokens, so treat these as long shots and use small amounts. They have their own track record.</p>
       <h2>Thinking like the scammer</h2>
       <p>These rules are public, so we assume a skilled scammer has read them and will build a token that passes them, then use the "checked" label to attract buyers. The defences against that:</p>
       <ul>

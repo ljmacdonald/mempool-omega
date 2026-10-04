@@ -123,6 +123,20 @@ def test_cheap_fake_signals_cost_points():
         assert a["verdict"] == "pass" and a["penalty"] > base, m
 
 
+def test_higher_risk_profile_loosens_size_and_age_but_never_the_scam_tests():
+    young = clean_market(liq_real=150_000, age_days=6, active_days=5, buyers_h24=150, sellers_h24=110)
+    assert S.assess(clean_evm(), young, T, "bsc")["verdict"] == "reject"
+    assert S.assess(clean_evm(), young, S.thresholds(None, "risky"), "bsc")["verdict"] == "pass"
+    for change in ({"sim_ok": False}, {"tax_modifiable": True, "owner_active": True}, {"proxy": True},
+                   {"mintable": True, "owner_active": True}, {"goplus": False}):
+        f = clean_evm()
+        f.update(change)
+        assert S.assess(f, young, S.thresholds(None, "risky"), "bsc")["verdict"] == "reject", change
+    for k in S.BASE:      # nothing about scams differs between the two profiles
+        if k not in ("min_liq", "min_age_days", "min_active_days", "min_buyers", "min_sellers", "min_holders", "max_top10"):
+            assert S.RISKY[k] == S.BASE[k], k
+
+
 def test_secret_limits_only_ever_get_stricter():
     for seed in range(300):
         t = S.thresholds(seed)
@@ -217,8 +231,9 @@ def test_js_dex_engine_matches_python(tmp_path):
                          boosted=bool(rng.integers(0, 2)), buys_h24=int(rng.integers(100, 30000)))
         seed = int(rng.integers(0, 2**32))
         chain = ["ethereum", "robinhood", "solana"][i % 3]
-        a = S.assess(f, m, S.thresholds(seed), chain)
-        cases.append({"f": f, "m": m, "seed": seed, "chain": chain, "hard": sorted(keys(a)), "pen": a["penalty"],
+        prof = "risky" if i % 5 == 0 else "standard"
+        a = S.assess(f, m, S.thresholds(seed, prof), chain)
+        cases.append({"f": f, "m": m, "seed": seed, "prof": prof, "chain": chain, "hard": sorted(keys(a)), "pen": a["penalty"],
                       "checks": [[c_["key"], c_["ok"]] for c_ in a["checks"]]})
     norm = {"pepe": S.add_honeypot_is(S.from_goplus_evm(RAW["goplus_evm_pepe"], [], 1.7e9), RAW["honeypot_pepe"]),
             "rh": S.from_goplus_evm(RAW["goplus_evm_robinhood"], [], 1.7e9),
@@ -234,11 +249,12 @@ def test_js_dex_engine_matches_python(tmp_path):
                       "net": c["at"](args[1] * 1.1)["net"]})
     fx = tmp_path / "fx.json"
     fx.write_text(json.dumps({"cases": cases, "raw": RAW, "norm": norm, "costs": costs,
-                              "thresholds": {str(s): S.thresholds(s) for s in (0, 1, 99, 4294967295)}}))
+                              "thresholds": {f"{s}|{pr}": S.thresholds(s, pr) for s in (0, 1, 99, 4294967295)
+                                             for pr in ("standard", "risky")}}))
     js = """
 const X = require(process.argv[1]); const fx = require(process.argv[2]); let bad = [];
 const near = (a, b) => Math.abs(a - b) <= 1e-9 * Math.max(1, Math.abs(a), Math.abs(b));
-for (const [s, t] of Object.entries(fx.thresholds)) { const j = X.thresholds(+s); for (const k of Object.keys(t)) if (!near(j[k], t[k])) bad.push(['th', s, k]); }
+for (const [s, t] of Object.entries(fx.thresholds)) { const [seed, prof] = s.split('|'); const j = X.thresholds(+seed, prof); for (const k of Object.keys(t)) if (typeof t[k] === 'number' ? !near(j[k], t[k]) : j[k] !== t[k]) bad.push(['th', s, k]); }
 const raw = fx.raw;
 const js = { pepe: X.addHoneypotIs(X.fromGoplusEvm(raw.goplus_evm_pepe, [], 1.7e9), raw.honeypot_pepe),
   rh: X.fromGoplusEvm(raw.goplus_evm_robinhood, [], 1.7e9), jup: X.addRugcheck(X.fromGoplusSol(raw.goplus_sol_jup), raw.rugcheck_jup) };
@@ -246,7 +262,7 @@ for (const [n, f] of Object.entries(fx.norm)) for (const k of Object.keys(f)) {
   const a = js[n][k], b = f[k];
   if (typeof b === 'number' ? !near(a, b) : a !== b) bad.push(['norm', n, k, a, b]); }
 for (const c of fx.cases) {
-  const a = X.assess(c.f, c.m, X.thresholds(c.seed), c.chain);
+  const a = X.assess(c.f, c.m, X.thresholds(c.seed, c.prof), c.chain);
   const hard = [...new Set(a.hard.map((h) => h.key))].sort();
   if (JSON.stringify(hard) !== JSON.stringify([...new Set(c.hard)].sort())) bad.push(['hard', hard, c.hard]);
   if (!near(a.penalty, c.pen)) bad.push(['pen', a.penalty, c.pen]);

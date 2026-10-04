@@ -6,7 +6,7 @@ name: Publish website
 on:
   push:
     branches: [main]
-    paths: ["site/**", ".github/workflows/pages.yml"]
+    paths: ["site/**", "scripts/build_small_page.py", ".github/workflows/pages.yml"]
   workflow_dispatch:
 
 permissions:
@@ -22,6 +22,11 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Build the Small coins page (same app, different mode)
+        run: python scripts/build_small_page.py
       - name: Push site/ to gh-pages
         run: |
           cd site
