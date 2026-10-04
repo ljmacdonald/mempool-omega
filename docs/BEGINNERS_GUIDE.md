@@ -102,6 +102,29 @@ exit, after every cost:
 The fees are standard entry-level rates. Yours may be lower. Fake tokens often copy popular names, so on a DEX
 always check the token address.
 
+## The DEX tokens page
+At the top of the app, switch between **Exchange coins** and **DEX tokens**. The DEX page looks for tokens traded on
+decentralised exchanges on Solana, BNB Chain, Ethereum and Robinhood Chain. Use the network buttons to pick one, or
+*All*.
+
+DEX tokens move much more, and scams are common, so every token must pass strict safety rules first:
+- at least $500,000 of real money in its pool;
+- at least 14 days old and actively traded;
+- hundreds of real people buying **and selling**;
+- taxes of 5% or less that nobody can raise;
+- no owner who can print tokens, freeze wallets or block sales.
+
+The rules are designed assuming the scammer has read them (see *How it works* on that page). If nothing passes, the
+page says so. That's the system protecting you, not a fault.
+
+Each card shows the **real token address**: always check it before buying, because fakes copy names. The calculator
+shows the money you'd actually take out after every DEX cost, including front-running bots and snipers. If you tap
+*I bought this*, the page watches the pool and the token's safety every 2 minutes, and tells you to **EXIT NOW** if
+money is being pulled or selling gets blocked.
+
+## Day and night colours
+Use the **☀️ Day / 🌙 Night / Auto** switch at the top of any page. *Auto* follows your phone or computer.
+
 ## The self-improvement tab
 Every night the system reviews itself, using evidence only:
 - It tests several versions of each model on recent data they never saw and keeps the best. A new version must be

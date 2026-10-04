@@ -29,6 +29,11 @@ HOST_MIN_INTERVAL = {
     "api.etherscan.io": 0.25,
     "ethereum-rpc.publicnode.com": 0.1,
     "api.mainnet-beta.solana.com": 0.25,
+    "api.geckoterminal.com": 3.0,      # free tier: 30 calls/min, often shared IPs: stay well below
+    "api.dexscreener.com": 0.25,       # 300/min for pair endpoints
+    "api.gopluslabs.io": 1.0,
+    "api.honeypot.is": 0.6,
+    "api.rugcheck.xyz": 0.6,
 }
 
 
@@ -58,9 +63,13 @@ class PoliteClient:
             try:
                 r = self.session.request(method, url, **kw)
                 if r.status_code == 429 or r.status_code == 418:
-                    backoff = float(r.headers.get("Retry-After", 2 ** (attempt + 1)))
+                    try:
+                        hinted = float(r.headers.get("Retry-After") or 0)
+                    except ValueError:
+                        hinted = 0.0
+                    backoff = max(hinted, 12.0 * (attempt + 1) if "geckoterminal" in url else 2 ** (attempt + 1))
                     log.warning("rate limited by %s, backing off %.1fs", urlparse(url).netloc, backoff)
-                    time.sleep(min(backoff, 30))
+                    time.sleep(min(backoff, 60))
                     continue
                 if r.status_code in (451, 403):
                     raise GeoBlocked(f"{url} -> HTTP {r.status_code}")

@@ -43,6 +43,8 @@ Our counter-strategy has four parts:
 | 11 | **Exploit the system's own consistency**, for example by spoofing at the moment of every hourly check. | Predictable checking times. | Website checks run when you refresh. Server checks have a random delay and random snapshot gaps. |
 | 12 | **Sandwich / front-run the follower's own swap** on a DEX. | A visible swap in the public mempool can be bought ahead of and sold into. | The "Where to buy" panel prices the **MEV cost per chain**, prefers the cheapest venue after it, and tells you how to protect yourself (private RPC, tight slippage limit). Exchanges (CEX) have no public mempool. |
 
+DEX tokens have their own, stricter adversary model: see [DEX.md](DEX.md).
+
 ## What this can't stop (honest limits)
 
 - **Real money moving real prices.** If someone pays for genuine buying on several exchanges with deep order

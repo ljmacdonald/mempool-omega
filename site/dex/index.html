@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mempool Omega DEX</title>
+<meta name="description" content="DEX token ideas for Solana, BNB Chain, Ethereum and Robinhood Chain, with scam and rug-pull checks and the real money you'd take out after every cost. Paper trading and education only.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../style.css">
+<script src="../theme.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Mempool Omega · DEX tokens</h1>
+      <p class="muted small">Solana, BNB Chain, Ethereum and Robinhood Chain · scam-checked · practice and education only, not financial advice</p>
+    </div>
+    <div class="top-right">
+      <nav class="sites" aria-label="Choose market"><a href="../">Exchange coins</a><a href="./" aria-current="page">DEX tokens</a></nav>
+      <div class="theme-switch" data-theme-switch role="group" aria-label="Day or night colours"></div>
+      <span class="tag" id="clock">UTC --:--</span>
+    </div>
+  </header>
+
+  <div class="rail" role="toolbar" aria-label="Settings">
+    <div class="seg" id="speed" role="group" aria-label="Trading speed">
+      <button type="button" data-style="dex_short" aria-pressed="true">Short<small>sell within 4 h</small></button>
+      <button type="button" data-style="dex_day" aria-pressed="false">Day<small>within 24 h</small></button>
+    </div>
+    <div class="seg" id="chains" role="group" aria-label="Network">
+      <button type="button" data-chain="all" aria-pressed="true">All</button>
+      <button type="button" data-chain="solana" aria-pressed="false">Solana</button>
+      <button type="button" data-chain="bsc" aria-pressed="false">BSC</button>
+      <button type="button" data-chain="ethereum" aria-pressed="false">Ethereum</button>
+      <button type="button" data-chain="robinhood" aria-pressed="false">Robinhood</button>
+    </div>
+    <label class="inline" for="refresh">Refresh
+      <select id="refresh">
+        <option value="0">Off</option><option value="60">every 1 min</option><option value="120">every 2 min</option>
+        <option value="300" selected>every 5 min</option><option value="900">every 15 min</option>
+        <option value="1800">every 30 min</option><option value="3600">every hour</option>
+      </select>
+    </label>
+    <label class="inline" for="amount">Amount $<input id="amount" type="number" min="1" step="any" value="100" style="width:7em"></label>
+    <button class="btn primary" id="refreshNow" type="button">Refresh now</button>
+    <span class="status" id="status" aria-live="polite">Starting…</span>
+  </div>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button role="tab" data-tab="ideas" aria-selected="true">Top 5 DEX ideas</button>
+    <button role="tab" data-tab="trades" aria-selected="false">My DEX trades <span class="count" id="tradeCount" hidden>0</span></button>
+    <button role="tab" data-tab="record" aria-selected="false">Track record</button>
+    <button role="tab" data-tab="guide" aria-selected="false">How it works</button>
+  </nav>
+
+  <section class="panel" id="tab-ideas" role="tabpanel">
+    <div id="mood" class="banner calm">Loading checked DEX tokens…</div>
+    <div id="ideas"><div class="skeleton"></div></div>
+    <div id="rejected"></div>
+  </section>
+
+  <section class="panel" id="tab-trades" role="tabpanel" hidden>
+    <p class="muted">Tap <b>“I bought this”</b> on an idea. This page checks the live price every 30 seconds and <b>re-runs the scam checks every 2 minutes</b>. If money is pulled from the pool, the tax goes up or selling gets blocked, it tells you to get out immediately. Trades are saved in this browser on this device.</p>
+    <div class="actions">
+      <button class="btn" id="notifyBtn" type="button">Turn on alerts for my trades</button>
+      <span class="small muted" id="notifyState"></span>
+    </div>
+    <div id="trades"></div>
+  </section>
+
+  <section class="panel" id="tab-record" role="tabpanel" hidden>
+    <p class="muted lead">Every hour the system saves its top DEX ideas. Once each idea's time limit has passed, it checks what really happened, <b>after every DEX cost</b> (pool fees, price impact, taxes, network fees, front-running bots and snipers, for $100). It also checks what picking a random checked token would have done. Give it a few weeks.</p>
+    <div id="record"><div class="skeleton"></div></div>
+  </section>
+
+  <section class="panel" id="tab-guide" role="tabpanel" hidden>
+    <div class="prose">
+      <h2>What this page does</h2>
+      <p>Every hour the system looks at the busiest pools on Solana, BNB Chain, Ethereum and Robinhood Chain, throws out anything that could be a scam, ranks the rest with a model trained on DEX price history, and works out what you'd really take out after every cost. Your browser then re-checks the best candidates live, for the amount you typed, every time it refreshes.</p>
+      <h2>The safety rules (a token must pass all of them)</h2>
+      <ul>
+        <li><b>At least $500,000 of real money in the pool.</b> Only the SOL, ETH, BNB or stablecoin side counts. Scammers create pools "worth" millions by pairing their token with another token they made.</li>
+        <li><b>At least 14 days old, and actively traded on at least 10 of the last 14 days.</b> Scammers buy old, quiet tokens and "revive" them so they look established.</li>
+        <li><b>Real people can sell.</b> A simulated buy-and-sell must work (Ethereum and BNB Chain), and at least 120 different wallets must have actually sold in the last 24 hours. A contract can let a checker sell while blocking ordinary buyers, but it can't fake hundreds of real sellers.</li>
+        <li><b>Taxes of 5% or less, and nobody can raise them.</b></li>
+        <li><b>No dangerous owner powers:</b> printing tokens, freezing wallets, blacklists, pausing trading, taking tokens out of wallets, hidden owners, or code that can be swapped after our check.</li>
+        <li><b>Not concentrated:</b> the 10 biggest ordinary wallets may hold at most 50%, and the creator at most 20%.</li>
+        <li><b>The pool's money isn't being pulled</b> (more than a 20% drop in 6 hours rejects the token) <b>or pumped in just before</b> (more than 4x in 3 days).</li>
+        <li><b>No copies</b> of another token's name or of a major coin, no creator with past scam tokens, and no security settings changed in the last 3 days.</li>
+      </ul>
+      <h2>Thinking like the scammer</h2>
+      <p>These rules are public, so we assume a skilled scammer has read them and will build a token that passes them, then use the "checked" label to attract buyers. The defences against that:</p>
+      <ul>
+        <li><b>What they could do counts, not what they do today.</b> A tax that can be raised, a blacklist or a pause button is rejected while someone still controls it, even if it's switched off now.</li>
+        <li><b>Real behaviour beats tests.</b> Many different real wallets selling is required, because tests can be fooled and real selling is expensive to fake.</li>
+        <li><b>The worst answer wins.</b> Several independent checkers are used (GoPlus, honeypot.is, RugCheck). One red flag from any of them is enough. If a checker can't run, the token isn't suggested.</li>
+        <li><b>Secret limits that only get stricter.</b> Every limit is tightened by a private amount that changes every hour on your device. The numbers above are the minimum, so nobody can build a token that sits just inside them.</li>
+        <li><b>Cheap signals are distrusted.</b> Paid promotion on DexScreener, lots of trades from few wallets, volume many times the pool size, and pool money that appeared suddenly all lower the score.</li>
+        <li><b>Live re-checks.</b> Your browser re-runs the security checks and watches the pool's money every refresh, and every 2 minutes for trades you hold. If anything turns bad, you're told to exit.</li>
+        <li><b>Bait monitor.</b> Every night the system checks whether its own past ideas dropped right after being suggested, and penalises patterns that keep doing that.</li>
+      </ul>
+      <h2>Real costs: what you actually take out</h2>
+      <ul>
+        <li><b>Pool fee</b> on the buy and the sell (0.01% to 1%, depending on the pool).</li>
+        <li><b>Price impact:</b> your own trade moves the price against you. Bigger amounts in smaller pools pay more.</li>
+        <li><b>Token tax</b> on buying and selling, if any.</li>
+        <li><b>Front-running bots (MEV "sandwiches"):</b> a bot sees your swap, buys just before you and sells just after. The table shows the cost with and without protection, and how to protect yourself on that network.</li>
+        <li><b>Snipers:</b> bots and fast traders who buy published ideas before you can. Their effect is measured from how our own past ideas moved right after publication, and charged as an extra entry cost.</li>
+        <li><b>Network (gas) fees</b> for both swaps.</li>
+      </ul>
+      <p>The <b>break-even price</b> is where you'd get back exactly what you put in after all of that. The score already includes these costs for your amount, so tokens with high costs rank lower.</p>
+      <h2>Honest limits</h2>
+      <ul>
+        <li>No check can stop someone with real money who builds a clean token, lets it run, and sells into buyers. The safety exit and time limit are your protection.</li>
+        <li>Modern pools can't be locked, so the pool's money can be withdrawn at any time. The app watches for that and tells you to exit, but a very fast pull can happen between checks.</li>
+        <li>Robinhood Chain is new: most of its tokens are younger than 14 days or hold less than $500,000, so often none pass.</li>
+        <li>Ranking updates once an hour (when a new hourly candle closes). Prices, pool money, security checks and costs update every refresh.</li>
+        <li>Paper trading and education only. Never use money you can't afford to lose.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>Mempool Omega is research and education software. It never places real orders and never asks for a wallet. Nothing here is financial advice and no profit is promised. Data: GeckoTerminal, DexScreener, GoPlus, honeypot.is, RugCheck (free public services).</footer>
+</div>
+<script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
+<script src="../engine.js"></script>
+<script src="../dexengine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

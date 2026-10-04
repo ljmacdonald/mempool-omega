@@ -20,6 +20,11 @@ read the top 5 ideas, tap **“I bought this”**, and the **My trades** tab tel
 - Every idea shows **where to buy it cheapest** (7 exchanges + DEX pools) and the money you'd actually take out
   after taker fees, slippage, withdrawal, gas and MEV/front-running costs.
 - It **improves itself every night**, using evidence only (see the *Self-improvement* tab).
+- **DEX tokens page: https://ljmacdonald.github.io/mempool-omega/dex/**. The same idea for tokens on Solana, BNB Chain,
+  Ethereum and Robinhood Chain decentralised exchanges, with scam and rug-pull checks designed against scammers who
+  know the checks, and the money you'd actually take out after pool fees, price impact, token tax, gas, front-running
+  bots and snipers. See [docs/DEX.md](docs/DEX.md).
+- **Day / Night switch** at the top of every page (or *Auto* to follow your device).
 | Live ideas | My trades: when to sell |
 |--|--|
 | ![Live ideas](docs/screenshots/live_ideas.png) | ![My trades](docs/screenshots/my_trades.png) |
@@ -163,5 +168,5 @@ docs/       ARCHITECTURE.md, EXITS.md, screenshots/
 ```
 
 ## Documentation
-[docs/ADVERSARY.md](docs/ADVERSARY.md) (how the system defends against manipulators who know they're watched) · [RUNBOOK.md](RUNBOOK.md) · [DECISIONS.md](DECISIONS.md) · [SECURITY.md](SECURITY.md) · [LEGAL.md](LEGAL.md) ·
+[docs/ADVERSARY.md](docs/ADVERSARY.md) (how the system defends against manipulators who know they're watched) · [docs/DEX.md](docs/DEX.md) (DEX scam defences and real costs) · [RUNBOOK.md](RUNBOOK.md) · [DECISIONS.md](DECISIONS.md) · [SECURITY.md](SECURITY.md) · [LEGAL.md](LEGAL.md) ·
 [MISSING_SECRETS.md](MISSING_SECRETS.md) · [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) · [docs/EXITS.md](docs/EXITS.md)

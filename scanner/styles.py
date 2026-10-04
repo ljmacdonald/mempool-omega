@@ -50,3 +50,14 @@ STYLES: dict[str, Style] = {
     "day": Style("day", "Day: exit within 24 hours", "1h", 60, 24, 0.015, 0.12, 1000),
 }
 DEFAULT_STYLE = "short"
+
+# DEX tokens (dex/): hourly candles from GeckoTerminal; bigger swings, so wider exits.
+DEX_STYLES: dict[str, Style] = {
+    "dex_short": Style("dex_short", "Short: exit within 4 hours", "1h", 60, 4, 0.02, 0.15, 1000),
+    "dex_day": Style("dex_day", "Day: exit within 24 hours", "1h", 60, 24, 0.04, 0.30, 1000),
+}
+DEX_DEFAULT_STYLE = "dex_short"
+
+
+def get_style(key: str) -> Style:
+    return STYLES.get(key) or DEX_STYLES[key]
