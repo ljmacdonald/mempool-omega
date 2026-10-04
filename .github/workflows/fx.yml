@@ -1,0 +1,62 @@
+name: Forex (every 30 min, Sunday evening to Friday evening) + nightly retrain
+
+# Ranks forex pairs, gold and silver both ways with manipulation checks (free Yahoo + ForexFactory data) and
+# publishes the snapshot for the website's Forex page on the `data` branch. PAPER ONLY: no broker, no orders.
+on:
+  schedule:
+    - cron: "10,40 * * * 1-5"      # Monday-Friday, around the clock (the job notes when the market is closed)
+    - cron: "10,40 21-23 * * 0"    # Sunday evening: the week's open
+    - cron: "25 22 * * 1-5"        # nightly retrain
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "scan | train"
+        required: false
+        default: "scan"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: omega-fx-writer
+  cancel-in-progress: false
+
+jobs:
+  stocks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        run: pip install -e .
+      - name: Restore the price history store
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache/stocks
+          key: fx-candles-${{ github.run_id }}
+          restore-keys: fx-candles-
+      - name: Nightly retrain
+        if: github.event.schedule == '25 22 * * 1-5' || github.event.inputs.task == 'train'
+        run: python -m fx.run train
+      - name: Scan
+        if: github.event.schedule != '25 22 * * 1-5' && github.event.inputs.task != 'train'
+        run: python -m fx.run scan
+      - name: Publish the snapshot for the website (data branch)
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash infra/publish_data.sh .cache/fx_out/snapshot.json fx/snapshot.json
+      - name: Save the price history store
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .cache/stocks
+          key: fx-candles-${{ github.run_id }}
+      - name: Commit state (track record, models, news calendar)
+        if: always()
+        run: |
+          bash infra/commit_state.sh "fx: ${{ github.event.inputs.task || 'scheduled' }} $(date -u +%Y-%m-%dT%H:%MZ)"

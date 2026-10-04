@@ -103,7 +103,7 @@ The fees are standard entry-level rates. Yours may be lower. Fake tokens often c
 always check the token address.
 
 ## Moving between pages
-Every page has the same menu at the top: **Exchange coins**, **Small coins**, **DEX tokens** and **US stocks**. Tap one to switch.
+Every page has the same menu at the top: **Exchange coins**, **Small coins**, **DEX tokens**, **US stocks** and **Forex**. Tap one to switch.
 You never need to remember a link.
 
 ## The Small coins page
@@ -123,6 +123,19 @@ Two lists: **Large stocks** (the 200 most-traded US companies worth $10 billion 
 - **Results days ("earnings")** can move a price 5–20% in a moment. The page warns you, and lowers the score of
   "Few days" ideas whose results fall inside the holding time.
 - **Day-trading rule:** US margin accounts under $25,000 are limited to 3 same-day round trips in 5 business days.
+
+## The Forex page
+Currency pairs (for example EUR/USD: euros priced in dollars), gold and silver. Each idea says **BUY** (you expect the
+first currency to strengthen) or **SELL** (you expect it to weaken), in plain words.
+- **Most people lose money trading forex**, mainly because of **leverage**: brokers let you trade much more than you
+  have. The calculator shows what leverage does and when your broker would close your trade (a "margin call").
+  Start with none.
+- The market runs 24 hours a day, Monday to Friday. Big announcements (interest rates, jobs, inflation) can move a
+  pair 1–2% in seconds. The **News & fixes** tab lists them, and ideas avoid them.
+- **Manipulation:** banks were fined about $10 billion for rigging currency rates. The page avoids the minutes around
+  the daily rate "fixes", spots stop hunts and off-market prices, and warns about thin trading hours.
+- Exotic pairs (naira, rand, cedi, shilling and others) are shown for information only: wide spreads and
+  government-managed rates.
 
 ## The Biggest movers tab
 Every page has a **Biggest movers** tab: today's top gainers and, for each one, why it is or isn't suggested. Usually
