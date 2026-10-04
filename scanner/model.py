@@ -20,7 +20,7 @@ import pandas as pd
 
 from core.log import get_logger
 from scanner.features import FEATURES, bar_sigma, coin_features
-from scanner.styles import STYLES, Style
+from scanner.styles import STYLES, Style, get_style
 
 log = get_logger("scanner.model")
 PT, SL = 2.0, 1.0
@@ -113,7 +113,7 @@ class ScannerModel:
     def fit(self, data: pd.DataFrame, n_rounds: int = 300, folds: int = 4, horizon_td: pd.Timedelta | None = None,
             params: dict | None = None, config: str = "base") -> ScannerModel:
         params = {**PARAMS, **(params or {})}
-        horizon_td = horizon_td if horizon_td is not None else pd.Timedelta(minutes=STYLES[self.style].horizon_minutes)
+        horizon_td = horizon_td if horizon_td is not None else pd.Timedelta(minutes=get_style(self.style).horizon_minutes)
         data = data.sort_index()
         ts = data.index.unique().sort_values()
         bounds = np.linspace(0, len(ts), folds + 1).astype(int)

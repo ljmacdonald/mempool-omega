@@ -1,0 +1,64 @@
+name: DEX scanner (hourly) + nightly DEX retrain
+
+# Finds, scam-checks and ranks tokens on Solana, BNB Chain, Ethereum and Robinhood Chain DEXes and writes
+# state/dex/snapshot.json for the website's DEX page. PAPER ONLY: no wallets, no keys, no orders.
+on:
+  schedule:
+    - cron: "37 * * * *"          # hourly, away from the other jobs
+    - cron: "41 3 * * *"          # nightly retrain
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "hourly | train"
+        required: false
+        default: "hourly"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: omega-dex-writer         # writes only state/dex/ and the DEX model files
+  cancel-in-progress: false
+
+jobs:
+  dex:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        run: pip install -e .
+      # Price history store: each pool's history is downloaded once, then only topped up (GitHub's free
+      # build cache, not the repository). Restores the newest copy and saves a new one after every run.
+      - name: Restore the DEX price history store
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache/dex
+          key: dex-candles-${{ github.run_id }}
+          restore-keys: dex-candles-
+      - name: Nightly retrain of the DEX models
+        if: github.event.schedule == '41 3 * * *' || github.event.inputs.task == 'train'
+        continue-on-error: true
+        run: python -m dex.run train
+      - name: Hourly DEX scan
+        if: github.event.schedule != '41 3 * * *' && github.event.inputs.task != 'train'
+        env:
+          OMEGA_SECRET_SEED: ${{ secrets.OMEGA_SECRET_SEED }}
+        # random 0-5 min delay: publication time can't be predicted and front-run
+        run: |
+          sleep $(( RANDOM % 300 ))
+          python -m dex.run hourly
+      - name: Save the DEX price history store
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .cache/dex
+          key: dex-candles-${{ github.run_id }}
+      - name: Commit state
+        if: always()
+        run: |
+          bash infra/commit_state.sh "dex: ${{ github.event.inputs.task || 'scheduled' }} $(date -u +%Y-%m-%dT%H:%MZ)"

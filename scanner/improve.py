@@ -24,7 +24,7 @@ from core.log import get_logger
 from scanner.features import FEATURES
 from scanner.integrity import PENALTY
 from scanner.model import PARAMS, ScannerModel
-from scanner.styles import STYLES
+from scanner.styles import STYLES, get_style
 
 log = get_logger("scanner.improve")
 
@@ -50,7 +50,7 @@ def _top5_excess(df: pd.DataFrame, p: np.ndarray) -> tuple[float, float]:
 
 def select_model(style_key: str, data: pd.DataFrame) -> tuple[ScannerModel, dict]:
     """Try each setting on unseen recent data, keep the best, retrain it on everything."""
-    st = STYLES[style_key]
+    st = get_style(style_key)
     data = data.sort_index()
     ts = data.index.unique().sort_values()
     split = ts[int(len(ts) * (1 - HOLDOUT))]
@@ -127,7 +127,7 @@ def probation(h: pd.DataFrame) -> dict:
 def _notes(selection: dict, checks: dict, prob: dict, bait: dict) -> list[str]:
     notes = []
     for k, sel in selection.items():
-        label = STYLES[k].label.split(":")[0]
+        label = get_style(k).label.split(":")[0]
         r = sel["results"].get(sel["winner"], {})
         if r:
             notes.append(f"{label}: tested {len(sel['results'])} model settings on the most recent data they had "

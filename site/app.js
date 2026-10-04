@@ -730,6 +730,12 @@
     if (tid && ev.target.classList.contains("amt")) { const t = state.trades.find((x) => x.id === tid); if (t) { t.amount = +ev.target.value || t.amount; saveTrades(); } }
     updateCalc(calc);
   });
+  // day/night switch: charts take their colours when drawn, so redraw them
+  window.addEventListener("omega-theme", () => {
+    const r = state.lastScan[state.style];
+    if (r) renderIdeas(r);
+    if (state.trades.length) refreshTrades(true);
+  });
   document.addEventListener("toggle", (ev) => { const d = ev.target; if (d.matches && d.matches("details.venues") && d.open) fillVenues(d); }, true);
   for (const b of document.querySelectorAll("#speed button")) b.addEventListener("click", () => selectStyle(b.dataset.style));
   for (const b of document.querySelectorAll("nav.tabs button")) b.addEventListener("click", () => selectTab(b.dataset.tab));

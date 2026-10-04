@@ -11,14 +11,14 @@ import numpy as np
 import pandas as pd
 
 from core.config import state_path
-from scanner.model import risk_unit, simulate_idea
-from scanner.styles import STYLES
+from scanner.model import COST, risk_unit, simulate_idea
+from scanner.styles import STYLES, get_style
 
 HIST = "suggestions/history.csv"
 
 
-def load_history() -> pd.DataFrame:
-    p = state_path(HIST)
+def load_history(hist: str = HIST) -> pd.DataFrame:
+    p = state_path(hist)
     if not p.exists():
         return pd.DataFrame()
     h = pd.read_csv(p)
@@ -30,7 +30,7 @@ def load_history() -> pd.DataFrame:
 
 TEXT_COLS = ("ts", "style", "symbol", "grade", "status", "outcome", "failed_checks")
 NUM_COLS = ("net_ret", "hours", "baseline_ret", "risk_unit", "score", "tp_pct", "sl_pct", "pre_ret", "vol_surge",
-            "integrity_penalty")
+            "integrity_penalty", "cost_rt", "first_hour_runup", "first_hour_runup_base")
 
 
 def _normalise(h: pd.DataFrame) -> pd.DataFrame:
@@ -45,7 +45,7 @@ def _normalise(h: pd.DataFrame) -> pd.DataFrame:
     return h
 
 
-def append(ideas: list[dict], universe_size: int) -> None:
+def append(ideas: list[dict], universe_size: int, hist: str = HIST) -> None:
     rows = [{"ts": d["ts"], "style": d["style"], "rank": d["rank"], "symbol": d["symbol"], "score": d["score"],
              "grade": d["grade"], "chance_beats_market": d["chance_beats_market"], "risk_unit": d["risk_unit"],
              "price_at_idea": d["price_now"], "universe_size": universe_size, "status": "open", "outcome": "",
@@ -54,8 +54,11 @@ def append(ideas: list[dict], universe_size: int) -> None:
              "pre_ret": d.get("pre_ret"), "vol_surge": d.get("vol_surge"),
              "integrity_penalty": (d.get("integrity") or {}).get("penalty"),
              "failed_checks": "|".join(c["key"] for c in (d.get("integrity") or {}).get("checks", [])
-                                       if c["ok"] is False) or "none"} for d in ideas]
-    h = load_history()
+                                       if c["ok"] is False) or "none",
+             **({"cost_rt": d["cost_rt"], "pool": d.get("pool", "")} if "cost_rt" in d else {})} for d in ideas]
+    if not rows:
+        return
+    h = load_history(hist)
     new = pd.DataFrame(rows)
     new = _normalise(new)
     if len(h):
@@ -64,15 +67,17 @@ def append(ideas: list[dict], universe_size: int) -> None:
         h = pd.concat([h, new], ignore_index=True)
     else:
         h = new
-    h.to_csv(state_path(HIST), index=False)
+    h.to_csv(state_path(hist), index=False)
 
 
-def resolve(candles: dict[str, pd.DataFrame], style_key: str) -> int:
-    """Settle this speed's open suggestions whose outcome is now known."""
-    h = load_history()
+def resolve(candles: dict[str, pd.DataFrame], style_key: str, hist: str = HIST) -> int:
+    """Settle this speed's open suggestions whose outcome is now known. DEX rows carry their all-in round-trip
+    cost (cost_rt: fees, impact, taxes, gas, front-running at $100); it replaces the CEX fee for the idea AND
+    for the random-pick baseline, so both are compared after the same costs."""
+    h = load_history(hist)
     if h.empty:
         return 0
-    style = STYLES[style_key]
+    style = get_style(style_key)
     settled = 0
     cache: dict[str, float] = {}
     for i, row in h[(h["status"] == "open") & (h["style"] == style_key)].iterrows():
@@ -92,10 +97,11 @@ def resolve(candles: dict[str, pd.DataFrame], style_key: str) -> int:
         net, outcome, bars = res
         if row["ts"] not in cache:
             cache[row["ts"]] = _baseline(candles, ts, style)
+        extra = float(row["cost_rt"]) - COST if "cost_rt" in h and pd.notna(row.get("cost_rt")) else 0.0
         h.loc[i, ["status", "outcome", "net_ret", "hours", "baseline_ret"]] = [
-            "closed", outcome, net, bars * style.bar_minutes / 60, cache[row["ts"]]]
+            "closed", outcome, net - extra, bars * style.bar_minutes / 60, cache[row["ts"]] - extra]
         settled += 1
-    h.to_csv(state_path(HIST), index=False)
+    h.to_csv(state_path(hist), index=False)
     return settled
 
 
@@ -120,13 +126,14 @@ def _summary(c: pd.DataFrame) -> dict:
             "outcomes": c["outcome"].value_counts().to_dict()}
 
 
-def scoreboard() -> dict:
-    h = load_history()
+def scoreboard(hist: str = HIST, out_path: str = "suggestions/scoreboard.json", styles=None) -> dict:
+    styles = styles or STYLES
+    h = load_history(hist)
     if h.empty:
         return {"closed": 0}
     c = h[h["status"] == "closed"]
     out = {"total_suggestions": int(len(h)), "still_open": int((h["status"] == "open").sum()), **_summary(c),
-           "by_style": {k: _summary(c[c["style"] == k]) for k in STYLES},
+           "by_style": {k: _summary(c[c["style"] == k]) for k in styles},
            "by_grade": {g: _summary(x) for g, x in c.groupby("grade")} if len(c) else {}}
-    state_path("suggestions/scoreboard.json").write_text(json.dumps(out, indent=2, default=str))
+    state_path(out_path).write_text(json.dumps(out, indent=2, default=str))
     return out
