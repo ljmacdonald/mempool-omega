@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mempool Omega</title>
+<meta name="description" content="Live crypto trade ideas in plain English, with a monitor that tells you when to sell. Paper trading and education only.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one calm column; a sticky control rail (speed, refresh, status) above tabbed panels.
+   Each idea shows a "price ladder": safety exit, buy, take profit drawn to scale (2:1). */
+:root {
+  --bg: #f5f6fa; --surface: #ffffff; --sunken: #eceef5; --line: #d9dce7;
+  --fg: #171a26; --muted: #5d6275; --accent: #2747d6; --accent-ink: #ffffff;
+  --good: #0d7f56; --good-bg: #e3f4ec; --bad: #b8372a; --bad-bg: #fbe8e5; --warn: #9a6200; --warn-bg: #fdf1dc;
+  --calm: #2747d6; --calm-bg: #e7ebfc;
+  --f-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Instrument Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-num: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --r: 10px; color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f121a; --surface: #171b26; --sunken: #1e2330; --line: #2c3243;
+  --fg: #e8eaf2; --muted: #9aa0b4; --accent: #7d93ff; --accent-ink: #0f121a;
+  --good: #4fd19c; --good-bg: #13291f; --bad: #ff8a7a; --bad-bg: #321a17; --warn: #f0b350; --warn-bg: #2f2512;
+  --calm: #9aabff; --calm-bg: #1c2340; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0f121a; --surface: #171b26; --sunken: #1e2330; --line: #2c3243;
+  --fg: #e8eaf2; --muted: #9aa0b4; --accent: #7d93ff; --accent-ink: #0f121a;
+  --good: #4fd19c; --good-bg: #13291f; --bad: #ff8a7a; --bad-bg: #321a17; --warn: #f0b350; --warn-bg: #2f2512;
+  --calm: #9aabff; --calm-bg: #1c2340; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--fg); font: 15px/1.5 var(--f-body); }
+.wrap { max-width: 980px; margin: 0 auto; padding-inline: 16px; padding-block: 0 48px; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; }
+h1 { font-size: 1.6rem; font-weight: 750; letter-spacing: -0.01em; }
+h2 { font-size: 1.25rem; font-weight: 750; }
+h3 { font-size: 1.05rem; font-weight: 600; }
+p { margin: 0; }
+.num { font-family: var(--f-num); font-variant-numeric: tabular-nums; }
+.muted { color: var(--muted); }
+.small { font-size: 0.85rem; }
+a { color: var(--accent); }
+button, select, input { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+header.top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px; padding-block: 20px 12px; }
+.tag { font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+
+.rail { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 10px; border-bottom: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; }
+.seg { display: inline-flex; background: var(--sunken); border-radius: 999px; padding: 3px; }
+.seg button { border: 0; background: transparent; padding: 6px 14px; border-radius: 999px; cursor: pointer; color: var(--muted); font-weight: 500; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--fg); box-shadow: 0 1px 2px rgb(0 0 0 / 0.12); }
+.seg button small { display: block; font-size: 0.72rem; color: var(--muted); font-weight: 400; }
+label.inline { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 0.9rem; }
+select, input[type="number"], input[type="text"] { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; }
+.btn { border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 7px 12px; cursor: pointer; font-weight: 500; }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn:disabled { opacity: 0.55; cursor: progress; }
+.status { margin-left: auto; font-size: 0.85rem; color: var(--muted); }
+
+nav.tabs { display: flex; gap: 4px; overflow-x: auto; padding-block: 12px 4px; }
+nav.tabs button { border: 0; background: transparent; padding: 8px 12px; border-radius: 8px; cursor: pointer; color: var(--muted); font-weight: 500; white-space: nowrap; }
+nav.tabs button[aria-selected="true"] { color: var(--fg); background: var(--sunken); }
+nav.tabs .count { font-family: var(--f-num); font-size: 0.78rem; background: var(--accent); color: var(--accent-ink); border-radius: 999px; padding: 0 6px; margin-left: 4px; }
+
+section.panel { display: grid; gap: 14px; padding-top: 10px; }
+.banner { border-radius: var(--r); padding: 10px 14px; }
+.banner.good { background: var(--good-bg); color: var(--good); }
+.banner.bad { background: var(--bad-bg); color: var(--bad); }
+.banner.warn { background: var(--warn-bg); color: var(--warn); }
+.banner.calm { background: var(--calm-bg); color: var(--calm); }
+
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; display: grid; gap: 12px; min-width: 0; }
+.idea-head { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: baseline; justify-content: space-between; }
+.idea-head .rank { font-family: var(--f-num); color: var(--muted); margin-right: 6px; }
+.score { display: flex; align-items: baseline; gap: 6px; }
+.score b { font-family: var(--f-display); font-size: 1.8rem; line-height: 1; }
+.pill { display: inline-block; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.02em; border-radius: 999px; padding: 2px 9px; }
+.pill.good { background: var(--good-bg); color: var(--good); } .pill.warn { background: var(--warn-bg); color: var(--warn); }
+.pill.bad { background: var(--bad-bg); color: var(--bad); } .pill.calm { background: var(--calm-bg); color: var(--calm); }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(118px, 1fr)); gap: 10px 16px; }
+.fact .k { font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+.fact .v { font-family: var(--f-num); font-variant-numeric: tabular-nums; font-size: 1.05rem; }
+.fact .d { font-family: var(--f-num); font-size: 0.82rem; }
+.up { color: var(--good); } .down { color: var(--bad); }
+
+.ladder { position: relative; height: 34px; margin-top: 4px; }
+.ladder .bar { position: absolute; top: 14px; height: 6px; border-radius: 3px; }
+.ladder .loss { background: var(--bad-bg); border: 1px solid var(--bad); }
+.ladder .gain { background: var(--good-bg); border: 1px solid var(--good); }
+.ladder .tick { position: absolute; top: 6px; width: 2px; height: 22px; background: var(--fg); border-radius: 1px; }
+.ladder .now { position: absolute; top: 11px; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: var(--accent); border: 2px solid var(--surface); }
+.ladder-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted); }
+
+ul.why { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; }
+.warnings { display: grid; gap: 6px; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+.trade.good { border-color: var(--good); } .trade.bad { border-color: var(--bad); } .trade.warn { border-color: var(--warn); }
+.verdict { font-family: var(--f-display); font-size: 1.3rem; font-weight: 750; }
+.verdict.good { color: var(--good); } .verdict.bad { color: var(--bad); } .verdict.warn { color: var(--warn); } .verdict.calm { color: var(--calm); }
+
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+td.num, th.num { text-align: right; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; }
+.stat .k { font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+.stat .v { font-family: var(--f-display); font-size: 1.5rem; font-weight: 750; }
+
+div.prose { max-width: 68ch; display: grid; gap: 12px; }
+p.lead { max-width: 75ch; }
+.prose ul { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
+details summary { cursor: pointer; font-weight: 600; }
+form.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; align-items: end; }
+form.grid label { display: grid; gap: 4px; font-size: 0.85rem; color: var(--muted); }
+.skeleton { background: var(--sunken); border-radius: var(--r); height: 180px; }
+footer { margin-top: 32px; font-size: 0.82rem; color: var(--muted); max-width: 70ch; }
+/* live chart + price strip + calculator + fake-signal checks */
+.chart { height: 260px; width: 100%; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); }
+.chart-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.78rem; color: var(--muted); }
+.chart-legend i { display: inline-block; width: 14px; height: 0; border-top: 2px solid; vertical-align: middle; margin-right: 4px; }
+.chart-legend .l-base { border-color: var(--calm); border-top-style: dashed; } .chart-legend .l-tp { border-color: var(--good); } .chart-legend .l-sl { border-color: var(--bad); }
+.live { display: inline-flex; align-items: center; gap: 6px; }
+.live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--good); }
+.live.stale::before { background: var(--muted); }
+.strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; background: var(--sunken); border-radius: 8px; padding: 10px 12px; }
+.calc { display: grid; gap: 8px; border-top: 1px dashed var(--line); padding-top: 12px; }
+.calc .row { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.calc input { width: 9em; }
+.calc table td { white-space: normal; }
+details.checks summary, details.venues summary { font-weight: 600; }
+details.venues { border-top: 1px dashed var(--line); padding-top: 12px; }
+details.venues .venues-out { display: grid; gap: 10px; margin-top: 10px; }
+.checks ul { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; }
+.checks li { display: grid; grid-template-columns: 1.4em 1fr; gap: 6px; }
+.checks .ok { color: var(--good); } .checks .bad { color: var(--bad); } .checks .na { color: var(--muted); }
+svg text { fill: var(--muted); font-family: var(--f-num); font-size: 11px; }
+@media (max-width: 560px) { .status { margin-left: 0; width: 100%; } .seg button { padding: 6px 10px; } }
+@media (prefers-reduced-motion: no-preference) { .card { transition: border-color .2s; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Mempool Omega</h1>
+      <p class="muted small">Live crypto trade ideas in plain English · practice and education only, not financial advice</p>
+    </div>
+    <span class="tag" id="clock">UTC --:--</span>
+  </header>
+
+  <div class="rail" role="toolbar" aria-label="Settings">
+    <div class="seg" id="speed" role="group" aria-label="Trading speed">
+      <button type="button" data-style="quick" aria-pressed="false">Quick<small>sell within 1 h</small></button>
+      <button type="button" data-style="short" aria-pressed="true">Short<small>within 4 h</small></button>
+      <button type="button" data-style="day" aria-pressed="false">Day<small>within 24 h</small></button>
+    </div>
+    <label class="inline" for="refresh">Refresh
+      <select id="refresh">
+        <option value="0">Off</option><option value="60">every 1 min</option><option value="120">every 2 min</option>
+        <option value="300" selected>every 5 min</option><option value="900">every 15 min</option>
+        <option value="1800">every 30 min</option><option value="3600">every hour</option>
+      </select>
+    </label>
+    <button class="btn primary" id="refreshNow" type="button">Refresh now</button>
+    <span class="status" id="status" aria-live="polite">Starting…</span>
+  </div>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button role="tab" data-tab="ideas" aria-selected="true">Top 5 ideas</button>
+    <button role="tab" data-tab="trades" aria-selected="false">My trades <span class="count" id="tradeCount" hidden>0</span></button>
+    <button role="tab" data-tab="record" aria-selected="false">Track record</button>
+    <button role="tab" data-tab="improve" aria-selected="false">Self-improvement</button>
+    <button role="tab" data-tab="account" aria-selected="false">Practice account</button>
+    <button role="tab" data-tab="guide" aria-selected="false">How it works</button>
+  </nav>
+
+  <section class="panel" id="tab-ideas" role="tabpanel">
+    <div id="mood" class="banner calm">Loading live prices for about 60 coins…</div>
+    <div id="ideas"><div class="skeleton"></div></div>
+  </section>
+
+  <section class="panel" id="tab-trades" role="tabpanel" hidden>
+    <p class="muted">Tap <b>“I bought this”</b> on an idea, or add a trade below. This page checks the live price every 30 seconds and tells you what to do now. Your trades are saved in this browser on this device.</p>
+    <div class="actions">
+      <button class="btn" id="notifyBtn" type="button">Turn on alerts for my trades</button>
+      <span class="small muted" id="notifyState"></span>
+    </div>
+    <div id="trades"></div>
+    <details class="card" id="addTrade">
+      <summary>Add a trade I made myself</summary>
+      <form class="grid" id="manualForm">
+        <label for="mCoin">Coin (for example SOL)<input id="mCoin" type="text" required autocomplete="off" placeholder="SOL"></label>
+        <label for="mSpeed">How long will you hold?<select id="mSpeed"><option value="quick">Up to 1 hour</option><option value="short" selected>Up to 4 hours</option><option value="day">Up to 24 hours</option></select></label>
+        <label for="mPrice">Price you paid ($)<input id="mPrice" type="number" step="any" min="0" required></label>
+        <label for="mAgo">Minutes ago you bought<input id="mAgo" type="number" min="0" step="1" value="0"></label>
+        <label for="mRisk">Safety exit: % below your price<input id="mRisk" type="number" min="0.3" max="30" step="0.1" value="3"></label>
+        <label for="mAmount">Amount you put in ($)<input id="mAmount" type="number" min="1" step="any" value="100"></label>
+        <button class="btn primary" type="submit">Watch this trade</button>
+      </form>
+      <p class="small muted" id="manualMsg"></p>
+    </details>
+    <details class="card">
+      <summary>Move my trades to another device</summary>
+      <p class="small muted">Copy this code, open the site on your other device, and paste it into the box there.</p>
+      <div class="actions"><input id="backupOut" type="text" readonly style="flex:1;min-width:0"><button class="btn" id="copyBackup" type="button">Copy</button></div>
+      <div class="actions"><input id="backupIn" type="text" placeholder="Paste a code here" style="flex:1;min-width:0"><button class="btn" id="loadBackup" type="button">Load trades</button></div>
+      <p class="small muted" id="backupMsg"></p>
+    </details>
+  </section>
+
+  <section class="panel" id="tab-record" role="tabpanel" hidden>
+    <p class="muted lead">Every hour the system saves its top ideas. Once each idea's time limit has passed, it checks what the price really did: bought at the next price, sold at take-profit, at the safety exit, or at the time limit, minus fees. It also checks what picking coins at random would have done over the same time. <b>This is the honest test.</b> Give it a few weeks.</p>
+    <div id="record"><div class="skeleton"></div></div>
+  </section>
+
+  <section class="panel" id="tab-improve" role="tabpanel" hidden>
+    <p class="muted lead">Every night the system reviews itself, using evidence only. It tests several versions of each model on recent data they've never seen and keeps the best. It re-weighs each fake-signal check by how well it predicted bad outcomes. It checks whether its own ideas are being used as bait. And it puts a trading speed "on probation" if its recent ideas did worse than random picks.</p>
+    <div id="improve"><div class="skeleton"></div></div>
+  </section>
+
+  <section class="panel" id="tab-account" role="tabpanel" hidden>
+    <p class="muted lead">Separately, the system practises trading Bitcoin and Ether with <b>$100,000 of pretend money</b>, checking every hour. This shows how that practice account is doing.</p>
+    <div id="account"><div class="skeleton"></div></div>
+  </section>
+
+  <section class="panel" id="tab-guide" role="tabpanel" hidden>
+    <div class="prose">
+      <h2>How to use this page</h2>
+      <ul>
+        <li><b>Pick a speed</b> at the top: <i>Quick</i> means you sell within 1 hour, <i>Short</i> within 4 hours, <i>Day</i> within 24 hours.</li>
+        <li><b>Pick how often to refresh.</b> Every refresh downloads fresh prices and re-ranks about 60 of the most-traded coins on your device. Rankings change when a new price candle closes (every 5, 15 or 60 minutes, depending on the speed).</li>
+        <li><b>Read the top 5.</b> Each card shows <b>when the idea was suggested and at what price</b>, the <b>live price now</b> and how much it has moved since, where to take profit, where to get out to limit a loss, and the latest time to sell.</li>
+        <li><b>Watch the live chart.</b> Each card has candles that move in real time. The dashed blue line is the price when the idea was suggested (the baseline), green is the take profit, and red is the safety exit.</li>
+        <li><b>Use the profit calculator.</b> Type how much you'd put in. It shows how many coins you'd get and what you'd make at the take profit, lose at the safety exit, or make if you sold right now, all after fees. You can also type your own target price.</li>
+        <li><b>Check the fake-signal scorecard.</b> Each idea is checked for common market tricks before it's shown (see below).</li>
+        <li><b>If you buy one,</b> tap <i>“I bought this”</i>. The <i>My trades</i> tab then tells you what to do: <b>Hold</b>, <b>Take profit now</b>, <b>Exit now</b>, <b>Time's up: sell now</b>, or <b>Consider leaving early</b>.</li>
+      </ul>
+      <h2>What the numbers mean</h2>
+      <ul>
+        <li><b>Score (0–10):</b> 5 means roughly break-even after fees. Higher is better. Below 5 is “avoid”.</li>
+        <li><b>Chance it beats the market:</b> the computer's estimate that this coin does better than the average coin over the same time. 50% means no better than average.</li>
+        <li><b>Take profit:</b> sell here for a gain. It is set twice as far as the safety exit, so you aim to win $2 for each $1 you risk.</li>
+        <li><b>Safety exit (stop-loss):</b> sell here to keep a loss small. This is the most important line.</li>
+        <li><b>Sell by:</b> if neither exit happens by this time, sell anyway.</li>
+        <li><b>To risk $10, buy …:</b> how much to buy so that hitting the safety exit loses about $10. Decide how much you can lose first.</li>
+        <li><b>Risk level:</b> how much this coin usually swings for the chosen speed. Higher risk means bigger moves both ways.</li>
+        <li><b>Market mood:</b> how many coins look positive right now. When it says <i>Unfavourable</i>, doing nothing is a good choice.</li>
+      </ul>
+      <h2>Fake-signal checks (market manipulation)</h2>
+      <p>Before an idea is shown, the 10 best candidates are checked with live data, and failed checks push an idea down the list:</p>
+      <ul>
+        <li><b>Spoofing:</b> the order book is read twice, 3 seconds apart. Big orders that vanish immediately are fake walls meant to trick people.</li>
+        <li><b>Thin order book:</b> if few real orders sit near the price, one large trade can move it.</li>
+        <li><b>Fake (wash) trading:</b> identical-size trades bouncing buy/sell within seconds mean someone is trading with themselves to fake activity.</li>
+        <li><b>Other exchanges:</b> the price and daily move are compared with OKX and Gate.io. A move on only one exchange is suspicious.</li>
+        <li><b>Whales:</b> if recent trades are many times bigger than usual, a few big players are driving the price.</li>
+        <li>Plus warnings for coins that <b>already spiked</b>, look <b>overheated</b>, trade very little, or when <b>Bitcoin is falling</b>.</li>
+      </ul>
+      <h2>Staying ahead of manipulators who know they're being watched</h2>
+      <p>This system's rules are public, so we assume clever manipulators have read them and will try to game them: passing every check on purpose, pumping a coin until it tops our list and then selling to followers, or pushing the price through obvious exit levels to trigger everyone's safety exits. The defences:</p>
+      <ul>
+        <li><b>Secret, changing limits:</b> every check's exact threshold is different on your device and changes every hour, so nobody can aim just under it.</li>
+        <li><b>Three order-book readings at random times:</b> fake orders would have to stay up long enough to risk actually being filled.</li>
+        <li><b>Real money moves prices:</b> lots of trading that barely moves the price is treated as fake, however it's disguised.</li>
+        <li><b>“Too good to be true”:</b> a setup built only from cheap-to-fake signals (volume bursts, buy spikes), with no lasting trend, is marked down.</li>
+        <li><b>Bait monitor:</b> every night the system checks whether its own past suggestions dropped right after being suggested. If a pattern keeps doing that, it's penalised automatically.</li>
+        <li><b>Safety exits away from crowded levels:</b> your exit isn't placed on round numbers or just under the recent low, where stop-hunters aim.</li>
+        <li><b>No panic from one reading:</b> “Consider leaving early” only appears if the warning shows up on two refreshes in a row.</li>
+      </ul>
+      <p>No system can stop someone who spends real money to genuinely move a price and then sells. That's what the safety exit and the time limit are for.</p>
+      <p class="small muted">Blockchain-level checks (mempool, stablecoin flows, wallet clustering, liquidation cascades, funding games) run in the Bitcoin/Ether practice account, where that data exists. Most other coins have no free data of that kind.</p>
+      <h2>Real costs and where to buy</h2>
+      <ul>
+        <li>Open <b>“Where to buy it cheapest”</b> on any idea. For the amount you typed, it checks the live order books of 7 exchanges (Binance, OKX, Bitget, Gate.io, HTX, Kraken, Coinbase) and the biggest decentralised exchange pools (Uniswap, PancakeSwap and others).</li>
+        <li>For each, it works out the <b>actual money you'd take out</b>: trading fee on the buy and the sell, slippage (your order eating through the order book), the fee to withdraw your money and, on decentralised exchanges, network gas and the risk of <b>front-running bots</b> (“sandwich attacks” that buy just before you and sell just after).</li>
+        <li>The cheapest place for your amount is highlighted. Small amounts are hit hardest by fixed costs like withdrawal fees and gas, which the table shows.</li>
+        <li>On decentralised exchanges, always <b>check the token's contract address</b>, because fakes copy popular names. Use a wallet or network option with <b>MEV protection</b> so bots can't see your trade before it happens.</li>
+      </ul>
+      <h2>Simple rules that protect you</h2>
+      <ul>
+        <li>Never use money you cannot afford to lose. Many traders risk only 1–2% of their money on one idea.</li>
+        <li>Always respect the safety exit.</li>
+        <li>Don't chase coins that already jumped a lot. The page warns you.</li>
+        <li>No idea is a sure thing. A 60% chance still loses 4 times out of 10.</li>
+      </ul>
+      <h2>Honest limits</h2>
+      <p>No computer can reliably predict which coin will rise. Tested on past data, this system's top picks only roughly match an average coin. The <b>Track record</b> tab shows how its live ideas really turn out, so judge it by that. Prices come directly from Binance's public market data; the models are retrained every night.</p>
+    </div>
+  </section>
+
+  <footer>Mempool Omega is research and education software. It never places real orders. Nothing here is financial advice and no profit is promised. Prices: Binance public market data. If prices don't load, Binance may be blocked on your network; the page then shows the most recent hourly ideas instead.</footer>
+</div>
+<script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
