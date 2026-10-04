@@ -26,9 +26,13 @@ read the top 5 ideas, tap **“I bought this”**, and the **My trades** tab tel
   bots and snipers. See [docs/DEX.md](docs/DEX.md).
 - **Small coins page: https://ljmacdonald.github.io/mempool-omega/small/**. The top 10 smaller coins (about $300k–$1M
   traded a day) that often swing 20%+ in a week. Bigger moves both ways.
+- **US stocks page: https://ljmacdonald.github.io/mempool-omega/stocks/**. The 200 most-traded US stocks worth $10B+
+  and a high-volatility list ($300M–$10B companies that often swing 20%+ in a week). Two speeds (today, or up to
+  3 trading days), market-hours banner, earnings warnings and real costs (spread, fees, your currency fee).
+  Rankings update every 30 minutes while the market is open; add your own free Finnhub key on the page for live prices.
 - **Biggest movers** tab on every page: today's top gainers and exactly why each one is or isn't suggested.
 - **Higher-risk mode** on the DEX page: younger and smaller tokens ($100k+, 5+ days), with every scam test unchanged.
-- A menu at the top of every page (**Exchange coins · Small coins · DEX tokens**), plus a **Day / Night** switch
+- A menu at the top of every page (**Exchange coins · Small coins · DEX tokens · US stocks**), plus a **Day / Night** switch
   (or *Auto* to follow your device).
 | Live ideas | My trades: when to sell |
 |--|--|
