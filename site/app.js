@@ -52,6 +52,11 @@
     try { const r = await fetch(url, { signal: ctl.signal, cache: "no-store" }); if (!r.ok) throw new Error(`HTTP ${r.status}`); return await r.json(); }
     finally { clearTimeout(t); }
   }
+  async function getJSONRevalidate(url, timeout = 30000) {   // reuse the browser's copy when the file hasn't changed
+    const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), timeout);
+    try { const r = await fetch(url, { signal: ctl.signal, cache: "no-cache" }); if (!r.ok) throw new Error(`HTTP ${r.status}`); return await r.json(); }
+    finally { clearTimeout(t); }
+  }
   async function getText(url) { const r = await fetch(url, { cache: "no-store" }); if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.text(); }
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -60,7 +65,7 @@
     if (!Object.keys(state.bigMovers).length) { try { state.bigMovers = await getJSON(REPO + "reports/scanner_bigmovers.json"); } catch { /* optional */ } }
   }
   async function loadModel(style) {
-    if (!state.models[style]) state.models[style] = await getJSON(REPO + `web/model_${style}.json`, 30000);
+    if (!state.models[style]) state.models[style] = await getJSONRevalidate(REPO + `web/model_${style}.json`);
     return state.models[style];
   }
   async function loadUniverse() {
@@ -75,8 +80,12 @@
   async function swingStats(symbols) {
     const day = new Date().toISOString().slice(0, 10);
     if (state.swing.day !== day) state.swing = { day, stats: {} };
+    for (const s of symbols) {        // the nightly server file already has most of them
+      const bm = state.bigMovers[s];
+      if (!(s in state.swing.stats) && bm && Number.isFinite(bm.up_pct)) state.swing.stats[s] = { up_pct: bm.up_pct, down_pct: bm.down_pct };
+    }
     const todo = symbols.filter((s) => !(s in state.swing.stats));
-    const got = await pool(todo, 8, async (s) => {
+    const got = await pool(todo, 16, async (s) => {
       const rows = await getJSON(`${BINANCE}/klines?symbol=${s}&interval=1d&limit=97`);
       const d = { close: [], high: [], low: [] };
       for (const r of rows.slice(0, -1).slice(-96)) { d.close.push(+r[4]); d.high.push(+r[2]); d.low.push(+r[3]); }
@@ -97,6 +106,22 @@
     const last = rows[rows.length - 1];
     if (last && last[0] + step > Date.now()) c.live = { t: last[0], open: +last[1], high: +last[2], low: +last[3], close: +last[4] };
     return c;
+  }
+  // After the first load only the newest candles are downloaded and added to what the page already has.
+  const candleStore = {};
+  async function candlesCached(symbol, interval, n) {
+    const k = `${symbol}|${interval}`; const old = candleStore[k]; const step = INTERVAL_MS[interval];
+    if (old && old.t.length >= n && Date.now() - old.t[old.t.length - 1] < step * 20) {
+      const fresh = await candles(symbol, interval, 4);
+      const lastT = old.t[old.t.length - 1];
+      if (!fresh.t.length || fresh.t[0] <= lastT + step) {          // no gap: append the new closed candles
+        const c = {}; for (const f of Object.keys(old)) if (Array.isArray(old[f])) c[f] = old[f].slice();
+        fresh.t.forEach((tt, i) => { if (tt > lastT) for (const f of Object.keys(c)) c[f].push(fresh[f][i]); });
+        for (const f of Object.keys(c)) c[f] = c[f].slice(-n);
+        c.live = fresh.live; candleStore[k] = c; return c;
+      }
+    }
+    const c = await candles(symbol, interval, n); candleStore[k] = c; return c;
   }
   async function pool(items, size, fn) {
     const out = new Array(items.length); let i = 0;
@@ -165,7 +190,7 @@
   }
 
   // ------------------------------------------------------------------ scanning
-  async function scan(styleKey) {
+  async function scan(styleKey, onPreview) {
     await loadConfig();
     const style = state.cfg.styles[styleKey];
     const [model, uni0] = await Promise.all([loadModel(styleKey), loadUniverse()]);
@@ -178,13 +203,18 @@
     const topN = SMALL ? state.cfg.universe.small_top_n : 5;
     const syms = uni.map((u) => u.symbol);
     if (!syms.includes("BTCUSDT")) syms.push("BTCUSDT");
-    const data = await pool(syms, 8, (s) => candles(s, style.interval, style.live_bars));
+    const data = await pool(syms, 16, (s) => candlesCached(s, style.interval, style.live_bars));
     const bySym = Object.fromEntries(syms.map((s, i) => [s, data[i]]));
     const coins = uni.map((u) => ({ symbol: u.symbol, quoteVolume: u.quoteVolume, candles: bySym[u.symbol] })).filter((c) => c.candles);
     if (coins.length < (SMALL ? 3 : 10)) throw new Error("not enough market data came back");
     const nCheck = SMALL ? 15 : 10;
     const res = E.rankCoins(coins, bySym.BTCUSDT, model, style, state.cfg, movers, nCheck, await loadAdaptive());
-    setStatus(`Running fake-signal checks on the best ${nCheck} candidates…`);
+    if (onPreview) {     // show the ranking now; the fake-signal checks finish in the background and update it
+      const pre = { ...res, ideas: E.applyProbation(res.ideas.map((d) => ({ ...d, checksPending: true })), state.adaptive, styleKey, state.cfg.grades).slice(0, topN),
+        candles: bySym, at: Date.now(), style: styleKey, preview: true };
+      onPreview(pre);
+    }
+    setStatus(`Showing the ranking · running fake-signal checks on the best ${nCheck} (about 15 seconds)…`);
     let checks = {};
     try { checks = await integrityFor(res.ideas, bySym, uni); } catch { /* checks unavailable */ }
     res.ideas = E.applyProbation(E.applyIntegrity(res.ideas, checks, nCheck, state.cfg.grades), state.adaptive, styleKey, state.cfg.grades).slice(0, topN);
@@ -195,12 +225,32 @@
     return res;
   }
 
+  // First open: show the server's hourly list at once (clearly labelled) while live prices load
+  async function quickHourly(style) {
+    try {
+      const pl = await getJSON(REPO + `suggestions/${SMALL ? "small_" : ""}latest_${style}.json`);
+      if (state.lastScan[style] || state.style !== style || !pl.ideas?.length) return;
+      const ideas = pl.ideas.map((d) => ({ ...d, exit_by: Date.parse(d.exit_by), chance_beats_market: d.chance_beats_market ?? 0.5 }));
+      $("mood").className = "banner calm";
+      $("mood").innerHTML = `<b>Showing the hourly list from ${esc(pl.generated_at.slice(11, 16))} UTC</b> while live prices load. It updates in a few seconds.`;
+      $("ideas").innerHTML = `<div style="display:grid;gap:14px">${ideas.map((d) => ideaCard(d, true, true)).join("")}</div>`;
+      for (const el of document.querySelectorAll("#ideas .calc")) updateCalc(el);
+    } catch { /* no hourly list yet: the live one is coming */ }
+  }
+
   async function refreshIdeas() {
     if (state.scanning) return;
+    if (!state.lastScan[state.style]) quickHourly(state.style);
     state.scanning = true; $("refreshNow").disabled = true;
     setStatus(SMALL ? "Fetching live prices for the smaller coins…" : "Fetching live prices and re-ranking about 150 coins…");
     try {
-      const res = await scan(state.style);
+      const res = await scan(state.style, (pre) => {
+        for (const d of pre.ideas) {      // preview: show existing anchors, don't create or move any yet
+          d.anchor = state.anchors[`${pre.style}:${d.symbol}`] || { at: Date.now(), price: d.price_now, take_profit: d.take_profit,
+            safety_exit: d.safety_exit, exit_by: Date.now() + d.hold_minutes * 60000, risk_unit: d.risk_unit, score: d.score };
+        }
+        state.lastScan[pre.style] = pre; renderIdeas(pre); connectLive();
+      });
       anchorIdeas(res);
       renderIdeas(res);
       setStatus(`Updated ${local(res.at)} · ${res.mood.coins} coins checked`);
@@ -445,7 +495,8 @@
   }
 
   // ------------------------------------------------------------------ rendering: ideas
-  function checksBlock(it) {
+  function checksBlock(it, pending) {
+    if (pending) return `<p class="small muted">⏳ Fake-signal checks are running for this coin (order book read 3 times at random moments). The score updates when they finish.</p>`;
     if (!it) return `<p class="small muted">Fake-signal checks couldn't run for this coin right now.</p>`;
     const icon = (ok) => (ok === true ? `<span class="ok">✓</span>` : ok === false ? `<span class="bad">✗</span>` : `<span class="na">–</span>`);
     const label = it.checked ? `${it.passed} of ${it.checked} checks passed` : "Checks unavailable";
@@ -455,7 +506,7 @@
       <p class="small muted">Checks: spoofing (fake orders that vanish), thin order book, fake back-and-forth trading, whether other exchanges (OKX, Gate.io) confirm the price, and whale-sized trades. Failed checks lower the score.</p></details>`;
   }
 
-  function ideaCard(d, hourly) {
+  function ideaCard(d, hourly, loading) {
     const a = d.anchor || { at: Date.parse(d.suggested_at || "") || Date.now(), price: d.price_now, take_profit: d.take_profit, safety_exit: d.safety_exit, exit_by: d.exit_by };
     const held = state.trades.some((t) => t.symbol === d.symbol && t.style === d.style);
     const nowPx = state.live[d.symbol]?.price ?? d.price_now;
@@ -488,12 +539,12 @@
       </div>
       <div><h3>Why it was picked</h3><ul class="why">${d.why.map((w) => `<li>${esc(w)}</li>`).join("")}</ul></div>
       ${d.warnings.length ? `<div class="warnings">${d.warnings.map((w) => `<div class="banner warn">⚠ ${esc(w)}</div>`).join("")}</div>` : ""}
-      ${checksBlock(d.integrity)}
+      ${checksBlock(d.integrity, d.checksPending)}
       ${bm}
       ${calcBlock(d.symbol, a.price, a.take_profit, a.safety_exit, state.amount, "Profit calculator")}
       ${hourly ? "" : `<details class="venues" data-sym="${esc(d.symbol)}"><summary>Where to buy it cheapest: actual money you'd take out after all fees</summary><div class="venues-out"></div></details>`}
       <div class="actions">
-        ${hourly ? `<span class="small muted">Hourly snapshot. Live prices are unavailable right now.</span>` :
+        ${hourly ? `<span class="small muted">${loading ? "Hourly snapshot. Live prices are loading…" : "Hourly snapshot. Live prices are unavailable right now."}</span>` :
         held ? `<span class="pill calm">You're watching this trade</span>` :
         `<button class="btn primary" type="button" data-take="${esc(d.symbol)}">I bought this: watch it for me</button>`}
       </div>
