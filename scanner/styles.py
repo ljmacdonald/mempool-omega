@@ -66,5 +66,12 @@ STOCK_STYLES: dict[str, Style] = {
 }
 
 
+# Forex (fx/): Yahoo candles, 24 hours a day Monday-Friday. Each pair is ranked both ways (buy or sell).
+FX_STYLES: dict[str, Style] = {
+    "fx_today": Style("fx_today", "Today: close within 4 hours", "15m", 15, 16, 0.0015, 0.02, 1500),
+    "fx_days": Style("fx_days", "Few days: close within 3 days", "1h", 60, 72, 0.004, 0.05, 2000),
+}
+
+
 def get_style(key: str) -> Style:
-    return STYLES.get(key) or DEX_STYLES.get(key) or STOCK_STYLES[key]
+    return STYLES.get(key) or DEX_STYLES.get(key) or STOCK_STYLES.get(key) or FX_STYLES[key]

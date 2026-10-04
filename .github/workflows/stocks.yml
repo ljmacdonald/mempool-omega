@@ -47,15 +47,9 @@ jobs:
         run: python -m stocks.run scan
       - name: Publish the snapshot for the website (data branch)
         if: always()
-        run: |
-          [ -f .cache/stocks_out/snapshot.json ] || { echo "no snapshot"; exit 0; }
-          mkdir -p /tmp/pub/stocks && cp .cache/stocks_out/snapshot.json /tmp/pub/stocks/
-          cd /tmp/pub
-          git init -q -b data
-          git config user.name "mempool-omega-bot"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A && git commit -q -m "US stocks snapshot $(date -u +%Y-%m-%dT%H:%MZ)"
-          git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" data
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash infra/publish_data.sh .cache/stocks_out/snapshot.json stocks/snapshot.json
       - name: Save the stock price history store
         if: always()
         uses: actions/cache/save@v4

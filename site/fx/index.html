@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mempool Omega · Forex</title>
+<meta name="description" content="Forex ideas in plain English: major and cross currency pairs, gold and silver, both directions, with checks against the manipulation tactics banks were fined for. Paper trading and education only.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../style.css">
+<script src="../theme.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Mempool Omega · Forex</h1>
+      <p class="muted small">Currency pairs, gold and silver, buy or sell · manipulation-checked · practice and education only, not financial advice</p>
+    </div>
+    <div class="top-right">
+      <nav class="sites" aria-label="Choose a page"><a href="../" data-site="main">Exchange coins</a><a href="../small/" data-site="small">Small coins</a><a href="../dex/" data-site="dex">DEX tokens</a><a href="../stocks/" data-site="stocks">US stocks</a><a href="./" data-site="fx" aria-current="page">Forex</a></nav>
+      <div class="theme-switch" data-theme-switch role="group" aria-label="Day or night colours"></div>
+      <span class="tag" id="clock">UTC --:--</span>
+    </div>
+  </header>
+
+  <div id="market" class="banner calm">Checking whether the forex market is open…</div>
+  <div class="banner bad" id="riskNote"><b>Most people lose money trading forex.</b> Brokers in the EU must publish it: typically 70–80% of retail accounts lose. Leverage multiplies losses as fast as gains. This page defaults to no leverage.</div>
+
+  <div class="rail" role="toolbar" aria-label="Settings">
+    <div class="seg" id="list" role="group" aria-label="Which pairs">
+      <button type="button" data-list="main" aria-pressed="true">Majors &amp; crosses<small>+ gold, silver</small></button>
+      <button type="button" data-list="exotic" aria-pressed="false">Exotics<small>information only</small></button>
+    </div>
+    <div class="seg" id="speed" role="group" aria-label="Trading speed">
+      <button type="button" data-style="fx_today" aria-pressed="true">Today<small>close within 4 h</small></button>
+      <button type="button" data-style="fx_days" aria-pressed="false">Few days<small>within 3 days</small></button>
+    </div>
+    <label class="inline" for="refresh">Refresh
+      <select id="refresh"><option value="0">Off</option><option value="300" selected>every 5 min</option><option value="900">every 15 min</option><option value="1800">every 30 min</option></select>
+    </label>
+    <label class="inline" for="amount">Your money $<input id="amount" type="number" min="1" step="any" value="100" style="width:7em"></label>
+    <label class="inline" for="lev">Leverage
+      <select id="lev"><option value="1" selected>none (1x)</option><option value="2">2x</option><option value="5">5x</option><option value="10">10x</option><option value="30">30x</option><option value="100">100x</option></select>
+    </label>
+    <button class="btn primary" id="refreshNow" type="button">Refresh now</button>
+    <span class="status" id="status" aria-live="polite">Starting…</span>
+  </div>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button role="tab" data-tab="ideas" aria-selected="true">Top 5 ideas</button>
+    <button role="tab" data-tab="news" aria-selected="false">News &amp; fixes</button>
+    <button role="tab" data-tab="movers" aria-selected="false">Biggest movers</button>
+    <button role="tab" data-tab="trades" aria-selected="false">My forex trades <span class="count" id="tradeCount" hidden>0</span></button>
+    <button role="tab" data-tab="record" aria-selected="false">Track record</button>
+    <button role="tab" data-tab="guide" aria-selected="false">How it works</button>
+  </nav>
+
+  <section class="panel" id="tab-ideas" role="tabpanel">
+    <div id="mood" class="banner calm">Loading…</div>
+    <div id="ideas"><div class="skeleton"></div></div>
+  </section>
+  <section class="panel" id="tab-news" role="tabpanel" hidden>
+    <p class="muted lead">High-impact announcements (central bank decisions, jobs, inflation) and the rate-fixing windows where banks were caught manipulating prices. Ideas avoid both.</p>
+    <div id="news"><div class="skeleton"></div></div>
+  </section>
+  <section class="panel" id="tab-movers" role="tabpanel" hidden>
+    <p class="muted lead">The biggest moves over the last 24 hours.</p>
+    <div id="movers"><div class="skeleton"></div></div>
+  </section>
+  <section class="panel" id="tab-trades" role="tabpanel" hidden>
+    <p class="muted">Tap <b>“I took this trade”</b> on an idea. This page tells you when to take profit, when to get out, and when time is up. Saved in this browser only.</p>
+    <div class="actions"><button class="btn" id="notifyBtn" type="button">Turn on alerts for my trades</button><span class="small muted" id="notifyState"></span></div>
+    <div id="trades"></div>
+  </section>
+  <section class="panel" id="tab-record" role="tabpanel" hidden>
+    <p class="muted lead">Every hour the system saves its top 5 (majors, crosses and metals). Once each idea's time limit has passed, it checks what really happened after the spread and overnight fees, without leverage, and what picking a pair and direction at random would have done.</p>
+    <div id="record"><div class="skeleton"></div></div>
+  </section>
+  <section class="panel" id="tab-guide" role="tabpanel" hidden>
+    <div class="prose">
+      <h2>What this page does</h2>
+      <p>Every 30 minutes while the market is open, the system checks the 7 major currency pairs, 21 popular crosses, gold and silver. For each one it checks <b>both directions</b>: buying the pair, betting the first currency strengthens, and selling it, betting it weakens. A model trained on recent price history ranks them after costs, and the manipulation checks below mark ideas down or rule them out.</p>
+      <p><b>Exotic pairs</b> (naira, rand, shilling, cedi, Egyptian pound, lira, peso, real, rupee) are shown separately, <b>for information only</b>. Their spreads are wide, and several are managed by their central banks, so the official rate can be far from the rate you can actually get.</p>
+      <h2>Manipulation checks</h2>
+      <p>Between 2014 and 2015, Citigroup, JPMorgan, Barclays, RBS, UBS, HSBC and Bank of America paid about $10 billion in fines for rigging currency benchmarks and trading ahead of client orders. The tactics are known, so the page defends against them:</p>
+      <ul>
+        <li><b>Rate-fixing windows:</b> traders pushed prices around the 4 pm London fix. No idea is suggested, and no sell-by time is set, inside the London, ECB (14:15 Frankfurt) or Tokyo (9:55) fix windows. A recent spike-and-reverse at a fix is flagged as a manipulation footprint.</li>
+        <li><b>Stop hunts:</b> prices are pushed through levels where many stop orders sit, and then snap back. The page detects recent "swept the low and bounced" moves and failed breakouts. Your safety exit is kept off round levels (every 50 pips) and off levels just swept.</li>
+        <li><b>Off-market prices:</b> every cross pair must agree with the price implied by the two related dollar pairs (for example, EUR/JPY = EUR/USD × USD/JPY). If it doesn't, it's excluded.</li>
+        <li><b>Thin markets:</b> the Sunday open, the daily 5 pm New York changeover and Friday evening have little trading and wide spreads, which makes them the easiest times to push prices. These get a warning.</li>
+        <li><b>News ambushes:</b> big announcements move prices 1–2% in seconds and spreads explode. No entry in the 30 minutes before, and a heavy penalty if one falls inside the holding time.</li>
+        <li><b>Hidden limits:</b> the exact thresholds are secret and change every hour, always in the stricter direction.</li>
+      </ul>
+      <h2>Leverage, in plain words</h2>
+      <p>Leverage lets you trade more money than you have. At 10x, $100 controls $1,000, so a 1% move makes or loses $10. If your losses reach about half your money, most brokers close your trade automatically (a "margin call"). At 30x, that happens after a move of under 2% against you. The calculator shows this for every idea. <b>Start with no leverage.</b></p>
+      <h2>Costs</h2>
+      <ul><li><b>Spread:</b> about 0.01% on major pairs, 0.025% on crosses, 0.04% on gold, and often 0.6% or more on exotics.</li><li><b>Overnight fee (swap):</b> charged for holding past 5 pm New York. It's roughly 0.01% a night here, but it depends on your broker and on interest rates.</li></ul>
+      <h2>Honest limits</h2>
+      <p>Currencies are among the hardest markets to predict, and the edge, if any, is small. The Track record tab shows real results over time. Prices here update every 30 minutes, so check your broker's live price before trading. Paper trading and education only.</p>
+    </div>
+  </section>
+  <footer>Mempool Omega is research and education software. It never connects to a broker or places orders. Nothing here is financial advice. Data: Yahoo Finance and the ForexFactory calendar, refreshed by the project's GitHub Actions.</footer>
+</div>
+<script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
+<script src="../engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
