@@ -28,7 +28,7 @@ def load_history() -> pd.DataFrame:
     return _normalise(h)
 
 
-TEXT_COLS = ("ts", "style", "symbol", "grade", "status", "outcome")
+TEXT_COLS = ("ts", "style", "symbol", "grade", "status", "outcome", "failed_checks")
 NUM_COLS = ("net_ret", "hours", "baseline_ret", "risk_unit", "score", "tp_pct", "sl_pct", "pre_ret", "vol_surge",
             "integrity_penalty")
 
@@ -52,7 +52,9 @@ def append(ideas: list[dict], universe_size: int) -> None:
              "net_ret": np.nan, "hours": np.nan, "baseline_ret": np.nan,
              "tp_pct": d.get("take_profit_pct"), "sl_pct": d.get("safety_exit_pct"),
              "pre_ret": d.get("pre_ret"), "vol_surge": d.get("vol_surge"),
-             "integrity_penalty": (d.get("integrity") or {}).get("penalty")} for d in ideas]
+             "integrity_penalty": (d.get("integrity") or {}).get("penalty"),
+             "failed_checks": "|".join(c["key"] for c in (d.get("integrity") or {}).get("checks", [])
+                                       if c["ok"] is False) or "none"} for d in ideas]
     h = load_history()
     new = pd.DataFrame(rows)
     new = _normalise(new)

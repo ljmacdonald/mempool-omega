@@ -191,11 +191,13 @@ def check_engineered(f: dict, t: dict = BASE) -> dict:
             "No artificial-looking burst of activity."}
 
 
-def combine(checks: list[dict]) -> dict:
+def combine(checks: list[dict], penalties: dict | None = None) -> dict:
+    """penalties: learned per-check penalties from the nightly self-tuning (state/web/adaptive.json)."""
+    pt = {**PENALTY, **(penalties or {})}
     pen = 0.0
     for c in checks:
         if c["ok"] is False:
-            pen += PENALTY[c["key"]]
+            pen += pt[c["key"]]
         elif c["ok"] is None:
             pen += c.get("penalty", 0.0)
     known = [c for c in checks if c["ok"] is not None]
@@ -241,7 +243,8 @@ def snapshot_gaps(rnd) -> list[float]:
 
 
 def run_checks(symbols: list[str], candles: dict[str, pd.DataFrame], universe: pd.DataFrame,
-               features: dict[str, dict] | None = None, seed: int | None = None) -> dict[str, dict]:
+               features: dict[str, dict] | None = None, seed: int | None = None,
+               penalties: dict | None = None) -> dict[str, dict]:
     seed = run_seed() if seed is None else seed
     t = thresholds(seed)
     gaps = snapshot_gaps(mulberry32(seed ^ 0x9E3779B9))
@@ -270,7 +273,7 @@ def run_checks(symbols: list[str], candles: dict[str, pd.DataFrame], universe: p
             checks.append(check_whale(candles[s], t))
         if features and s in features:
             checks.append(check_engineered(features[s], t))
-        out[s] = combine(checks)
+        out[s] = combine(checks, penalties)
     return out
 
 

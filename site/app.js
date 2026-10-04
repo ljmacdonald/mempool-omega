@@ -132,7 +132,7 @@
       if (u[s]) checks.push(E.checkVenues(u[s].lastPrice, u[s].change, ven[coinName(s)] || [], t));
       if (bySym[s]) checks.push(E.checkWhale(bySym[s], t));
       if (ideas[i].features) checks.push(E.checkEngineered(ideas[i].features, t));
-      out[s] = E.combineChecks(checks);
+      out[s] = E.combineChecks(checks, (state.adaptive || {}).check_penalties);
     });
     return out;
   }
@@ -158,7 +158,8 @@
     setStatus("Running fake-signal checks on the best 10 candidates…");
     let checks = {};
     try { checks = await integrityFor(res.ideas, bySym, uni); } catch { /* checks unavailable */ }
-    res.ideas = E.applyIntegrity(res.ideas, checks, 5, state.cfg.grades);
+    res.ideas = E.applyProbation(E.applyIntegrity(res.ideas, checks, 10, state.cfg.grades), state.adaptive, styleKey, state.cfg.grades).slice(0, 5);
+    res.probation = ((state.adaptive || {}).probation || {})[styleKey] || null;
     res.candles = bySym; res.at = Date.now(); res.style = styleKey;
     state.lastScan[styleKey] = res;
     return res;
@@ -300,7 +301,7 @@
         <label class="inline" for="tgt-${esc(sym)}-${label.length}">and sell at $<input class="tgt" id="tgt-${esc(sym)}-${label.length}" type="number" min="0" step="any" placeholder="${(+tp).toPrecision(5)}"></label>
       </div>
       <div class="table-wrap"><table><tbody class="calc-out"></tbody></table></div>
-      <p class="small muted">Includes the 0.1% exchange fee when you buy and again when you sell. Prices move; these are what-ifs, not promises.</p>
+      <p class="small muted">Quick estimate with Binance's 0.1% fee each way. For the exact money you'd take out after every fee, slippage, withdrawal, gas and front-running risk, open “Where to buy” below. Prices move; these are what-ifs, not promises.</p>
     </div>`;
   }
   function updateCalc(el) {
@@ -314,6 +315,103 @@
     if (Number.isFinite(now)) html += row("If you sold right now", now);
     if (tgt > 0) html += row("If you sell at your price", tgt);
     el.querySelector(".calc-out").innerHTML = html;
+  }
+
+  // ------------------------------------------------------------------ where to buy (all-in costs)
+  const VENUE_SYM = {
+    binance: (b) => `${b}USDT`, okx: (b) => `${b}-USDT`, bitget: (b) => `${b}USDT`, gate: (b) => `${b}_USDT`,
+    htx: (b) => `${b.toLowerCase()}usdt`, kraken: (b) => `${b === "BTC" ? "XBT" : b}USD`, coinbase: (b) => `${b}-USD`,
+  };
+  const VENUE_LINK = {
+    binance: (b) => `https://www.binance.com/en/trade/${b}_USDT`, okx: (b) => `https://www.okx.com/trade-spot/${b.toLowerCase()}-usdt`,
+    bitget: (b) => `https://www.bitget.com/spot/${b}USDT`, gate: (b) => `https://www.gate.io/trade/${b}_USDT`,
+    htx: (b) => `https://www.htx.com/trade/${b.toLowerCase()}_usdt`, kraken: (b) => `https://pro.kraken.com/app/trade/${b.toLowerCase()}-usd`,
+    coinbase: (b) => `https://www.coinbase.com/advanced-trade/spot/${b}-USD`,
+  };
+  const num2 = (rows) => rows.map((r) => [+r[0], +r[1]]).filter(([p, q]) => p > 0 && q > 0);
+  const BOOK = {
+    binance: async (s) => { const d = await getJSON(`${BINANCE}/depth?symbol=${s}&limit=100`); return { bids: num2(d.bids), asks: num2(d.asks) }; },
+    okx: async (s) => { const d = (await getJSON(`https://www.okx.com/api/v5/market/books?instId=${s}&sz=100`)).data[0]; return { bids: num2(d.bids), asks: num2(d.asks) }; },
+    bitget: async (s) => { const d = (await getJSON(`https://api.bitget.com/api/v2/spot/market/orderbook?symbol=${s}&limit=100`)).data; return { bids: num2(d.bids), asks: num2(d.asks) }; },
+    gate: async (s) => { const d = await getJSON(`https://api.gateio.ws/api/v4/spot/order_book?currency_pair=${s}&limit=100`); return { bids: num2(d.bids), asks: num2(d.asks) }; },
+    htx: async (s) => { const d = (await getJSON(`https://api.huobi.pro/market/depth?symbol=${s}&type=step0`)).tick; return { bids: num2(d.bids).slice(0, 100), asks: num2(d.asks).slice(0, 100) }; },
+    kraken: async (s) => { const r = (await getJSON(`https://api.kraken.com/0/public/Depth?pair=${s}&count=100`)).result; const d = r[Object.keys(r)[0]]; return { bids: num2(d.bids), asks: num2(d.asks) }; },
+    coinbase: async (s) => { const d = await getJSON(`https://api.exchange.coinbase.com/products/${s}/book?level=2`); return { bids: num2(d.bids).slice(0, 200), asks: num2(d.asks).slice(0, 200) }; },
+  };
+  const RPC = { ethereum: "https://ethereum-rpc.publicnode.com", bsc: "https://bsc-rpc.publicnode.com", base: "https://base-rpc.publicnode.com", arbitrum: "https://arbitrum-one-rpc.publicnode.com" };
+  const MAJOR_QUOTES = new Set(["USDT", "USDC", "WETH", "ETH", "WBNB", "BNB", "SOL", "WSOL", "DAI", "USD1", "FDUSD", "USDE"]);
+  const cache = {};
+  async function cached(key, ttl, fn) { const c = cache[key]; if (c && Date.now() - c.at < ttl) return c.v; const v = await fn(); cache[key] = { at: Date.now(), v }; return v; }
+  async function gasUsd(chain) {
+    const c = E.CHAINS[chain]; if (c.gasUsd !== undefined) return c.gasUsd;
+    return cached(`gas:${chain}`, 60000, async () => {
+      const r = await fetch(RPC[chain], { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "eth_gasPrice", params: [] }) });
+      const wei = parseInt((await r.json()).result, 16);
+      const px = +(await getJSON(`${BINANCE}/ticker/price?symbol=${c.native}USDT`)).price;
+      return wei * c.gasUnits / 1e18 * px;
+    });
+  }
+  async function dexPools(base) {
+    return cached(`dex:${base}`, 120000, async () => {
+      const d = await getJSON(`https://api.dexscreener.com/latest/dex/search?q=${encodeURIComponent(base)}`);
+      const seen = new Set(); const out = [];
+      for (const p of (d.pairs || []).filter((p) => p.baseToken?.symbol?.toUpperCase() === base && E.CHAINS[p.chainId] && MAJOR_QUOTES.has((p.quoteToken?.symbol || "").toUpperCase()) && (p.liquidity?.usd || 0) >= 100000 && +p.priceUsd > 0)
+        .sort((a, b) => b.liquidity.usd - a.liquidity.usd)) {
+        const k = `${p.chainId}:${p.dexId}`; if (seen.has(k)) continue; seen.add(k); out.push(p); if (out.length >= 3) break;
+      }
+      return out;
+    });
+  }
+
+  async function compareVenues(idea, amount) {
+    const base = coinName(idea.symbol); const a = idea.anchor || idea;
+    const refMid = state.live[idea.symbol]?.price ?? idea.price_now;
+    const tasks = Object.keys(E.VENUES).map(async (v) => {
+      try {
+        const book = await cached(`book:${v}:${base}`, 30000, () => BOOK[v](VENUE_SYM[v](base)));
+        if (!book.asks.length || !book.bids.length) return null;
+        const f = E.VENUES[v]; const r = E.cexNet({ amount, asks: book.asks, bids: book.bids, taker: f.taker, withdraw_usd: f.withdraw_usd, refMid });
+        if (Math.abs((book.asks[0][0] + book.bids[0][0]) / 2 / refMid - 1) > 0.2) return null;   // a different token with the same ticker
+        return { kind: "CEX", name: f.name, link: VENUE_LINK[v](base), fee: f.taker, r, net: r.netAt(a.take_profit), loss: r.netAt(a.safety_exit),
+          note: `${(f.taker * 100).toFixed(2)}% taker fee each way · ${usd(-f.withdraw_usd).replace("−", "")} to withdraw` + (r.filled ? "" : " · order book too thin for this amount") };
+      } catch { return null; }
+    });
+    let pools = [];
+    try { pools = await dexPools(base); } catch { /* DexScreener unavailable */ }
+    const dexTasks = pools.map(async (p) => {
+      try {
+        const ch = E.CHAINS[p.chainId]; const g = await gasUsd(p.chainId);
+        const fee = E.DEX_FEE[p.dexId] ?? 0.003;
+        const args = { amount, priceUsd: +p.priceUsd, liqUsd: p.liquidity.usd, swapFee: fee, gasUsd: g, refMid };
+        const r = E.dexNet({ ...args, mev: ch.mev }); const safe = E.dexNet({ ...args, mev: 0 });
+        if (Math.abs(+p.priceUsd / refMid - 1) > 0.2) return null;
+        const addr = p.baseToken.address;
+        return { kind: "DEX", name: `${p.dexId} on ${ch.name}`, link: p.url, fee, r, net: r.netAt(a.take_profit), loss: r.netAt(a.safety_exit), safeNet: safe.netAt(a.take_profit),
+          note: `${(fee * 100).toFixed(2)}% swap fee · ~${usd(-g).replace("−", "")} gas per swap · pool ${usd(-p.liquidity.usd).replace("−", "").replace(/\.\d+$/, "")} · token ${addr.slice(0, 6)}…${addr.slice(-4)} (check it's the real one) · front-running/sandwich bots could take ~${usd(-(safe.netAt(a.take_profit) - r.netAt(a.take_profit))).replace("−", "")}; use ${ch.protect} to avoid it` };
+      } catch { return null; }
+    });
+    const rows = (await Promise.all(tasks.concat(dexTasks))).filter(Boolean).sort((x, y) => y.net - x.net);
+    return { rows, amount, base };
+  }
+
+  function venueTable(cmp) {
+    if (!cmp.rows.length) return `<p class="small muted">Couldn't load prices from other exchanges right now.</p>`;
+    const best = cmp.rows.find((r) => r.r.filled !== false) || cmp.rows[0];
+    return `<div class="banner ${best.net >= 0 ? "good" : "warn"}"><b>Best place for $${cmp.amount.toLocaleString()}: ${esc(best.name)}.</b> If it reaches the take profit you'd take out about <b>${usd(best.net)}</b> after every fee (trading fees, slippage, ${best.kind === "DEX" ? "gas and front-running risk" : "withdrawal"}). If it hits the safety exit: ${usd(best.loss)}.</div>
+      <div class="table-wrap"><table><thead><tr><th>Where</th><th class="num">Money out at take profit</th><th class="num">At safety exit</th><th class="num">Break-even price</th><th>Costs included</th></tr></thead><tbody>
+      ${cmp.rows.map((r) => `<tr><td><a href="${esc(r.link)}" target="_blank" rel="noopener">${esc(r.name)}</a> <span class="pill ${r.kind === "DEX" ? "warn" : "calm"}">${r.kind}</span></td>
+        <td class="num ${r.net >= 0 ? "up" : "down"}">${usd(r.net)}</td><td class="num down">${usd(r.loss)}</td><td class="num">${price(r.r.breakEven)}</td>
+        <td class="small" style="white-space:normal;min-width:16em">${esc(r.note)}${r.safeNet !== undefined ? ` (with protection: ${usd(r.safeNet)})` : ""}</td></tr>`).join("")}
+      </tbody></table></div>
+      <p class="small muted">Live order books from each exchange: your amount is "walked" through real orders to get the price you'd actually pay and receive. Fees are standard entry-level rates (yours may be lower with VIP tiers or fee-token discounts). Withdrawal = typical fee to move stablecoins off the exchange on a cheap network; turning them into bank money can add more. Using limit orders instead of market orders can cut fees and slippage, but they may not fill. DEX rows only list pools with at least $100,000 in them. Fake tokens often copy popular names, so check the token address on the exchange or a block explorer before buying.</p>`;
+  }
+
+  async function fillVenues(details) {
+    const card = details.closest("article"); const sym = details.dataset.sym;
+    const idea = state.lastScan[state.style]?.ideas.find((d) => d.symbol === sym); if (!idea) return;
+    const amount = +card.querySelector(".calc .amt")?.value || state.amount;
+    const box = details.querySelector(".venues-out"); box.innerHTML = `<p class="small muted">Checking ${Object.keys(E.VENUES).length} exchanges and decentralised exchanges for $${amount.toLocaleString()}…</p>`;
+    const cmp = await compareVenues(idea, amount); box.innerHTML = venueTable(cmp); box.dataset.amount = amount;
   }
 
   // ------------------------------------------------------------------ rendering: ideas
@@ -363,6 +461,7 @@
       ${checksBlock(d.integrity)}
       ${bm}
       ${calcBlock(d.symbol, a.price, a.take_profit, a.safety_exit, state.amount, "Profit calculator")}
+      ${hourly ? "" : `<details class="venues" data-sym="${esc(d.symbol)}"><summary>Where to buy it cheapest: actual money you'd take out after all fees</summary><div class="venues-out"></div></details>`}
       <div class="actions">
         ${hourly ? `<span class="small muted">Hourly snapshot. Live prices are unavailable right now.</span>` :
         held ? `<span class="pill calm">You're watching this trade</span>` :
@@ -375,7 +474,8 @@
     const m = res.mood, style = state.cfg.styles[res.style];
     const cls = m.label === "Favourable" ? "good" : m.label === "Mixed" ? "calm" : "warn";
     $("mood").className = `banner ${cls}`;
-    $("mood").innerHTML = `<b>Market mood: ${m.label}.</b> ${Math.round(m.share_positive * 100)}% of ${m.coins} coins look positive for the ${esc(style.label.split(":")[0])} speed (sell within ${esc(style.hold_text)}). ${m.label === "Unfavourable" ? "Doing nothing is a perfectly good choice right now." : "Scores above 5 are better than break-even after fees."}`;
+    const pb = res.probation && res.probation.active ? `<br><b>On probation:</b> this speed's last ${res.probation.n} ideas did ${pct(res.probation.avg_vs_random, 2)} vs picking coins at random, so the system has lowered its scores until it does better.` : "";
+    $("mood").innerHTML = `${pb ? "" : ""}<b>Market mood: ${m.label}.</b> ${Math.round(m.share_positive * 100)}% of ${m.coins} coins look positive for the ${esc(style.label.split(":")[0])} speed (sell within ${esc(style.hold_text)}). ${m.label === "Unfavourable" ? "Doing nothing is a perfectly good choice right now." : "Scores above 5 are better than break-even after fees."}${pb}`;
     dropCharts("idea|");
     $("ideas").innerHTML = `<div style="display:grid;gap:14px">${res.ideas.map((d) => ideaCard(d, false)).join("")}</div>${earlierBlock()}`;
     for (const d of res.ideas) {
@@ -536,6 +636,20 @@
     } catch { box.innerHTML = `<div class="banner warn">Couldn't load the track record right now.</div>`; }
   }
 
+  async function renderImprove() {
+    const box = $("improve");
+    try {
+      const [log, ad] = await Promise.all([getJSON(REPO + "reports/improvements.json"), getJSON(REPO + "web/adaptive.json").catch(() => ({}))]);
+      if (!log.length) { box.innerHTML = `<div class="banner calm">The first nightly self-review hasn't run yet.</div>`; return; }
+      const prob = Object.entries(ad.probation || {});
+      const pen = ad.check_penalties || {};
+      box.innerHTML = `<div class="stats">${prob.map(([k, v]) => `<div class="stat"><div class="k">${esc(state.cfg?.styles[k]?.label.split(":")[0] || k)} speed</div><div class="v">${v.active ? "Probation" : "Normal"}</div><div class="small muted">${v.n ? `last ${v.n} ideas: ${pct(v.avg_vs_random, 2)} vs random` : "not enough checked ideas yet"}</div></div>`).join("")}</div>
+        ${Object.keys(pen).length ? `<h3>Current weight of each fake-signal check (learned from results)</h3><div class="table-wrap"><table><tbody>${Object.entries(pen).map(([k, v]) => `<tr><td>${esc(k.replace("_", " "))}</td><td class="num">${(+v).toFixed(2)}</td></tr>`).join("")}</tbody></table></div>` : ""}
+        <h3>What the system changed about itself</h3>
+        ${log.slice(0, 14).map((e) => `<article class="card"><b>${esc(e.date)} UTC</b><ul class="why">${e.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></article>`).join("")}`;
+    } catch { box.innerHTML = `<div class="banner calm">The first nightly self-review hasn't run yet. It runs every night at about 02:17 UTC.</div>`; }
+  }
+
   function sparkline(points) {
     if (points.length < 2) return `<p class="small muted">The balance chart appears after a few hourly runs.</p>`;
     const W = 640, H = 160, P = 28; const ys = points.map((p) => p[1]); let lo = Math.min(...ys), hi = Math.max(...ys);
@@ -577,6 +691,7 @@
     for (const p of document.querySelectorAll("section.panel")) p.hidden = p.id !== `tab-${name}`;
     if (name === "record") renderRecord();
     if (name === "account") renderAccount();
+    if (name === "improve") renderImprove();
     if (name === "trades") refreshTrades(false);
     store.set("omega.tab", name);
     if (location.hash !== `#${name}`) history.replaceState(null, "", `#${name}`);
@@ -606,11 +721,16 @@
   });
   document.addEventListener("input", (ev) => {
     const calc = ev.target.closest(".calc"); if (!calc) return;
-    if (ev.target.classList.contains("amt") && calc.closest("#ideas")) { state.amount = +ev.target.value || state.amount; store.set("omega.amount", state.amount); }
+    if (ev.target.classList.contains("amt") && calc.closest("#ideas")) {
+      state.amount = +ev.target.value || state.amount; store.set("omega.amount", state.amount);
+      const v = calc.closest("article")?.querySelector("details.venues[open]");
+      if (v) { clearTimeout(v._t); v._t = setTimeout(() => fillVenues(v), 600); }
+    }
     const tid = calc.closest("[data-tid]")?.dataset.tid;
     if (tid && ev.target.classList.contains("amt")) { const t = state.trades.find((x) => x.id === tid); if (t) { t.amount = +ev.target.value || t.amount; saveTrades(); } }
     updateCalc(calc);
   });
+  document.addEventListener("toggle", (ev) => { const d = ev.target; if (d.matches && d.matches("details.venues") && d.open) fillVenues(d); }, true);
   for (const b of document.querySelectorAll("#speed button")) b.addEventListener("click", () => selectStyle(b.dataset.style));
   for (const b of document.querySelectorAll("nav.tabs button")) b.addEventListener("click", () => selectTab(b.dataset.tab));
   $("refresh").addEventListener("change", (e) => { state.refresh = +e.target.value; store.set("omega.refresh", state.refresh); schedule(); paintStatus(); });
@@ -659,7 +779,7 @@
   $("refresh").value = String(state.refresh);
   for (const b of document.querySelectorAll("#speed button")) b.setAttribute("aria-pressed", String(b.dataset.style === state.style));
   const startTab = (location.hash || "").slice(1) || store.get("omega.tab", "ideas");
-  selectTab(["ideas", "trades", "record", "account", "guide"].includes(startTab) ? startTab : "ideas");
+  selectTab(["ideas", "trades", "record", "improve", "account", "guide"].includes(startTab) ? startTab : "ideas");
   renderTradeCount();
   refreshIdeas();
   setInterval(paintStatus, 1000);

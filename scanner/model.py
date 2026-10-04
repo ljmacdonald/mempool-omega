@@ -110,8 +110,9 @@ class ScannerModel:
     loss_r: float = 1.0         # mean losing result in the same units
     info: dict = field(default_factory=dict)
 
-    def fit(self, data: pd.DataFrame, n_rounds: int = 300, folds: int = 4, horizon_td: pd.Timedelta | None = None
-            ) -> ScannerModel:
+    def fit(self, data: pd.DataFrame, n_rounds: int = 300, folds: int = 4, horizon_td: pd.Timedelta | None = None,
+            params: dict | None = None, config: str = "base") -> ScannerModel:
+        params = {**PARAMS, **(params or {})}
         horizon_td = horizon_td if horizon_td is not None else pd.Timedelta(minutes=STYLES[self.style].horizon_minutes)
         data = data.sort_index()
         ts = data.index.unique().sort_values()
@@ -123,7 +124,7 @@ class ScannerModel:
             te = (data.index >= test_start) & (data.index <= test_end)
             if tr.sum() < 1000 or te.sum() == 0:
                 continue
-            b = lgb.train(PARAMS, lgb.Dataset(data.loc[tr, FEATURES], data.loc[tr, "win"]), n_rounds)
+            b = lgb.train(params, lgb.Dataset(data.loc[tr, FEATURES], data.loc[tr, "win"]), n_rounds)
             oos[np.where(te)[0]] = b.predict(data.loc[te, FEATURES])
         m = oos.notna().to_numpy()
         from sklearn.metrics import roc_auc_score
@@ -132,14 +133,14 @@ class ScannerModel:
         oos_df = data.loc[m].assign(p=oos[m].to_numpy())
         top = oos_df.groupby(oos_df.index).apply(lambda g: g.nlargest(5, "p")).reset_index(drop=True) \
             if len(oos_df) else oos_df
-        self.booster = lgb.train(PARAMS, lgb.Dataset(data[FEATURES], data["win"]), n_rounds)
+        self.booster = lgb.train(params, lgb.Dataset(data[FEATURES], data["win"]), n_rounds)
         w, lz = data.loc[data.net_ret > 0, "net_ret"], -data.loc[data.net_ret <= 0, "net_ret"]
         self.avg_win, self.avg_loss = float(w.mean()), float(lz.mean())
         self.base_rate = float(data["win"].mean())
         r = data["excess"] / (SL * data["risk_unit"])      # out/under-performance per $1 risked
         self.win_r, self.loss_r = float(r[r > 0].mean()), float(-r[r <= 0].mean())
         self.info = {
-            "style": self.style, "trained_rows": int(len(data)), "coins": int(data["symbol"].nunique()),
+            "style": self.style, "config": config, "trained_rows": int(len(data)), "coins": int(data["symbol"].nunique()),
             "oos_auc": auc,
             "top5_beat_market_rate": float((top["excess"] > 0).mean()) if len(top) else None,
             "top5_avg_excess_ret": float(top["excess"].mean()) if len(top) else None,

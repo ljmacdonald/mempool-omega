@@ -339,9 +339,10 @@
     if (cheap && !lasting) return { key: "engineered", ok: false, text: "The case rests on signals that are cheap to fake (a burst of volume or buying) with no lasting price trend behind it. Manipulators build exactly this look to attract buyers." };
     return { key: "engineered", ok: true, text: cheap ? "The setup is backed by a longer-lasting trend, not just a short burst of activity." : "No artificial-looking burst of activity." };
   }
-  function combineChecks(checks) {
+  function combineChecks(checks, penalties) {
+    const pt = { ...PENALTY, ...(penalties || {}) };   // learned weights from the nightly self-tuning
     let pen = 0;
-    for (const c of checks) { if (c.ok === false) pen += PENALTY[c.key]; else if (c.ok === null) pen += c.penalty || 0; }
+    for (const c of checks) { if (c.ok === false) pen += pt[c.key]; else if (c.ok === null) pen += c.penalty || 0; }
     const known = checks.filter((c) => c.ok !== null);
     return { checks, penalty: Math.round(pen * 1e6) / 1e6, passed: known.filter((c) => c.ok).length, checked: known.length,
       trust: Math.round(Math.max(0, 1 - pen / MAX_PENALTY) * 1000) / 1000 };
@@ -353,6 +354,18 @@
     }
     ideas.sort((a, b) => b.rawScore - a.rawScore);
     return ideas.slice(0, topN).map((d, i) => ({ ...d, rank: i + 1 }));
+  }
+
+  function applyProbation(ideas, adaptive, styleKey, grades) {
+    const pr = ((adaptive || {}).probation || {})[styleKey] || {};
+    if (pr.active) {
+      for (const d of ideas) {
+        d.adjR -= pr.penalty || 0.1; d.rawScore = scoreFromR(d.adjR); d.score = Math.round(d.rawScore * 10) / 10; d.grade = grade(d.rawScore, grades);
+        d.warnings = d.warnings.concat([`This speed is on probation: its last ${pr.n} ideas did worse than picking coins at random, so its scores are lowered.`]);
+      }
+      ideas.sort((a, b) => b.rawScore - a.rawScore);
+    }
+    return ideas.map((d, i) => ({ ...d, rank: i + 1 }));
   }
 
   // ---------------------------------------------------------------- defences (scanner/defence.py)
@@ -374,7 +387,68 @@
     return [pen, warn];
   }
 
-  const api = { FEATURES, checkWalls, checkThinBook, checkWash, checkImpact, checkVenues, checkWhale, checkEngineered, combineChecks, applyIntegrity,
+  // ---------------------------------------------------------------- real costs & where to buy
+  // Standard entry-level spot fees (verify on your account; VIP tiers and token discounts are lower).
+  // withdraw_usd = typical fee to withdraw stablecoins on the cheapest network, i.e. to take money out.
+  const VENUES = {
+    binance: { name: "Binance", taker: 0.0010, maker: 0.0010, withdraw_usd: 1.0 },
+    okx: { name: "OKX", taker: 0.0010, maker: 0.0008, withdraw_usd: 1.0 },
+    bitget: { name: "Bitget", taker: 0.0010, maker: 0.0010, withdraw_usd: 1.0 },
+    gate: { name: "Gate.io", taker: 0.0020, maker: 0.0020, withdraw_usd: 1.0 },
+    htx: { name: "HTX", taker: 0.0020, maker: 0.0020, withdraw_usd: 1.0 },
+    kraken: { name: "Kraken", taker: 0.0040, maker: 0.0025, withdraw_usd: 2.5 },
+    coinbase: { name: "Coinbase Advanced", taker: 0.0060, maker: 0.0040, withdraw_usd: 1.0 },
+  };
+  // DEX swap fee by exchange (pool tiers vary; this is the common default) and sandwich (MEV) exposure by chain:
+  // without protection a sandwich bot can take up to your slippage tolerance; private RPCs avoid the public mempool.
+  const DEX_FEE = { uniswap: 0.003, pancakeswap: 0.0025, sushiswap: 0.003, aerodrome: 0.003, velodrome: 0.003, raydium: 0.0025, orca: 0.003, meteora: 0.003, traderjoe: 0.003, camelot: 0.003 };
+  const CHAINS = {
+    ethereum: { name: "Ethereum", mev: 0.005, gasUnits: 150000, native: "ETH", protect: "Flashbots Protect or MEV Blocker" },
+    bsc: { name: "BNB Chain", mev: 0.005, gasUnits: 150000, native: "BNB", protect: "a private RPC (e.g. bloXroute or 48 Club)" },
+    base: { name: "Base", mev: 0.001, gasUnits: 150000, native: "ETH", protect: "a wallet with MEV protection" },
+    arbitrum: { name: "Arbitrum", mev: 0.001, gasUnits: 300000, native: "ETH", protect: "a wallet with MEV protection" },
+    solana: { name: "Solana", mev: 0.003, gasUsd: 0.02, protect: "a wallet with MEV protection (e.g. Jito-protected)" },
+  };
+
+  // Walk an order book. buy: spend `quote` dollars into asks. sell: sell `qty` coins into bids.
+  function walkBuy(asks, quote) {
+    let left = quote, coins = 0;
+    for (const [p, q] of asks) { const can = p * q; const use = Math.min(left, can); coins += use / p; left -= use; if (left <= 1e-9) break; }
+    const spent = quote - left; return { avg: coins > 0 ? spent / coins : NaN_, coins, filled: left <= 1e-6 * quote };
+  }
+  function walkSell(bids, qty) {
+    let left = qty, got = 0;
+    for (const [p, q] of bids) { const use = Math.min(left, q); got += use * p; left -= use; if (left <= 1e-12) break; }
+    const sold = qty - left; return { avg: sold > 0 ? got / sold : NaN_, filled: left <= 1e-9 * qty };
+  }
+  // Net money you can take out from a CEX if you buy now with `amount` and sell at `exitPrice` (refMid = the
+  // reference market price the exit levels are based on; the venue's own price is scaled to it).
+  function cexNet(o) {
+    const { amount, asks, bids, taker, withdraw_usd, refMid } = o;
+    const venueMid = (asks[0][0] + bids[0][0]) / 2;
+    const b = walkBuy(asks, amount);
+    const coins = b.coins * (1 - taker);
+    const s = walkSell(bids, coins);
+    const sellSlip = s.avg / bids[0][0];                       // < 1: how far your sell eats into the book
+    const at = (exitRef) => coins * exitRef * (venueMid / refMid) * sellSlip * (1 - taker) - amount - withdraw_usd;
+    const buySlipPct = b.avg / asks[0][0] - 1;
+    const breakEven = (amount + withdraw_usd) / (coins * sellSlip * (1 - taker)) * (refMid / venueMid);
+    return { buyAvg: b.avg, coins, buySlipPct, sellSlipPct: 1 - sellSlip, spreadPct: asks[0][0] / bids[0][0] - 1,
+      filled: b.filled && s.filled, netAt: at, breakEven, fees: amount * taker * 2, withdraw: withdraw_usd };
+  }
+  // Same for a DEX pool: swap fee + price impact (constant-product approximation) + gas + sandwich risk.
+  function dexNet(o) {
+    const { amount, priceUsd, liqUsd, swapFee, gasUsd, mev, refMid } = o;
+    const half = Math.max(liqUsd / 2, 1);
+    const impBuy = Math.min(amount / half, 0.5);
+    const coins = Math.max(amount - gasUsd, 0) * (1 - swapFee) * (1 - impBuy) * (1 - mev) / priceUsd;
+    const impSell = Math.min(coins * priceUsd / half, 0.5);
+    const at = (exitRef) => coins * exitRef * (priceUsd / refMid) * (1 - swapFee) * (1 - impSell) * (1 - mev) - gasUsd - amount;
+    const breakEven = (amount + gasUsd) / (coins * (1 - swapFee) * (1 - impSell) * (1 - mev)) * (refMid / priceUsd);
+    return { coins, impBuy, impSell, netAt: at, breakEven, gasTotal: 2 * gasUsd, mevCost: mev * amount * 2 };
+  }
+
+  const api = { FEATURES, applyProbation, VENUES, DEX_FEE, CHAINS, walkBuy, walkSell, cexNet, dexNet, checkWalls, checkThinBook, checkWash, checkImpact, checkVenues, checkWhale, checkEngineered, combineChecks, applyIntegrity,
     mulberry32, thresholds, snapshotGaps, declutterExits, adaptivePenalty, BASE, diff, ewmMean, ewmStd, rStd, lastFeatures, riskUnit, predict, rankCoins, selectUniverse,
     makeTrade, advise, humanDuration, scoreFromR, expectedR };
   root.OmegaEngine = api;

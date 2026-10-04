@@ -86,6 +86,32 @@ At the top of the list: **Favourable / Mixed / Unfavourable**. This is how many 
 expects to end in profit this hour. When it says *Unfavourable*, the best move is usually **to do nothing**.
 Even when every idea is weak, the app still shows its top 5, ranked. Look at the scores, not just the order.
 
+## Where to buy it, and what you'd really take out
+Open **"Where to buy it cheapest"** on any idea card. For the amount you typed, the app reads the live order books
+of Binance, OKX, Bitget, Gate.io, HTX, Kraken and Coinbase, and the biggest decentralised-exchange (DEX) pools.
+For each place it shows the money you'd actually **take out** if the coin reaches the take profit or the safety
+exit, after every cost:
+- **Trading fees** (the "taker" fee you pay on a normal buy or sell), charged on the way in and on the way out.
+- **Slippage**: your amount is "walked" through the real orders waiting on the book, so a big order pays more.
+- **Withdrawal fee** to move your money off the exchange.
+- On a DEX: the **pool fee**, **price impact**, **network (gas) fees** for both swaps, and the cost of
+  **MEV / front-running**. That's a bot that sees your swap before it's confirmed, buys just ahead of you and
+  sells just after ("sandwich"). The app shows the cost with and without protection and how to protect
+  yourself on that network (for example a private RPC such as Flashbots Protect, or a low slippage limit).
+
+The fees are standard entry-level rates. Yours may be lower. Fake tokens often copy popular names, so on a DEX
+always check the token address.
+
+## The self-improvement tab
+Every night the system reviews itself, using evidence only:
+- It tests several versions of each model on recent data they never saw and keeps the best. A new version must be
+  clearly better to replace the current one.
+- It re-weighs each fake-signal check by how well it actually predicted bad outcomes.
+- It checks whether its own ideas are being used as bait by manipulators.
+- It puts a trading speed **on probation** (lower scores, with a label) if its last 50 ideas did worse than random picks.
+
+Every change is written in plain English in the **Self-improvement** tab.
+
 ## The track record: the most important page
 Every idea is checked 24 hours later against what really happened: bought at the next hour's price, then sold at
 the take-profit, at the safety exit, or after 24 hours, minus 0.2% in fees. You'll see:

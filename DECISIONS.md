@@ -57,6 +57,9 @@ The brief said "don't ask, decide and log it". Each entry gives the decision and
 | D34 | Correlation cap: at most 2 same-direction positions (BTC and ETH are ~0.8 correlated); gross leverage ≤ 1.5×. | Avoids doubling the same bet. |
 | D35 | Hourly pass replays every bar since the last pass for exits, but **entries only on the latest bar**. | Honest: no retroactive trades. Accurate: stops and targets honour the real path. |
 
+| D40 | **Nightly self-improvement** (`scanner/improve.py`): 4 model settings compete on the newest 25 % of data (purged by the horizon); a challenger must beat `base` by ≥ 0.05 % top-5 excess per idea; check penalties are re-learned from the track record, blended with the prior by n/(n+50) and bounded to 0.02–0.30; a speed whose last 50 ideas trail random picks is on probation (−0.10 R). | Learns only from out-of-sample evidence; resists chasing noise; every change is logged in `state/reports/improvements.json`. |
+| D41 | **All-in cost per venue** in the website: CEX = live order book walked for the user's amount + taker fee both ways + a typical stablecoin withdrawal fee; DEX = pool fee + constant-product impact + live gas (public RPC) ×2 + a per-chain MEV/sandwich allowance (shown with and without protection). Venues whose price is more than 20 % off the reference are treated as a different token. | Users see the money they could actually take out, and where. Entry-level fee rates are a conservative default. |
+
 ## Storage & infra
 | # | Decision | Why |
 |---|----------|-----|

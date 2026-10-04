@@ -17,6 +17,9 @@ read the top 5 ideas, tap **“I bought this”**, and the **My trades** tab tel
 
 - The app re-ranks ~60 coins every 1, 2, 5, 15, 30 or 60 minutes (you choose) right in your browser, using the same
   models the server trains every night. It offers three speeds (sell within 1 hour, 4 hours or 24 hours).
+- Every idea shows **where to buy it cheapest** (7 exchanges + DEX pools) and the money you'd actually take out
+  after taker fees, slippage, withdrawal, gas and MEV/front-running costs.
+- It **improves itself every night**, using evidence only (see the *Self-improvement* tab).
 | Live ideas | My trades: when to sell |
 |--|--|
 | ![Live ideas](docs/screenshots/live_ideas.png) | ![My trades](docs/screenshots/my_trades.png) |

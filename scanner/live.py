@@ -15,7 +15,7 @@ from core.log import get_logger
 from scanner.data import last_prices, load_all, select_universe
 from scanner.features import coin_features
 from scanner.model import PT, SL, ScannerModel, risk_unit
-from scanner.rank import apply_integrity, expected_r, market_mood, rank, score_from_r
+from scanner.rank import apply_integrity, apply_probation, expected_r, market_mood, rank, score_from_r
 from scanner.styles import STYLES, Style, human_duration
 
 log = get_logger("scanner.live")
@@ -66,18 +66,21 @@ def scan(style_key: str, model: ScannerModel, universe: pd.DataFrame | None = No
     qv = dict(zip(uni["symbol"], uni["quoteVolume"]))
     from scanner.defence import load_adaptive
 
+    adaptive = load_adaptive()
     ideas = rank(latest, p, qv, big_movers(), candidates if integrity else top_n, model.win_r, model.loss_r, style,
-                 load_adaptive())
+                 adaptive)
     if integrity:
         from scanner.integrity import run_checks
 
         try:
             feats = {d["symbol"]: latest.loc[d["symbol"]].to_dict() for d in ideas}
-            res = run_checks([d["symbol"] for d in ideas], candles, uni, feats)
+            res = run_checks([d["symbol"] for d in ideas], candles, uni, feats,
+                             penalties=adaptive.get("check_penalties"))
         except Exception as e:  # noqa: BLE001
             log.warning("fake-signal checks failed: %s", e)
             res = {}
-        ideas = apply_integrity(ideas, res, top_n)
+        ideas = apply_integrity(ideas, res, candidates)
+    ideas = apply_probation(ideas, adaptive, style.key)[:top_n]
     ru = latest["risk_unit"].to_numpy()
     scores = {s: score_from_r(expected_r(pr, model.win_r, model.loss_r, r)) for s, pr, r in zip(latest.index, p, ru)}
     payload = {"generated_at": str(pd.Timestamp.now(tz="UTC")), "style": style.key, "style_label": style.label,
