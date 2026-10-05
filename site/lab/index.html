@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mempool Omega · Strategy lab</title>
+<meta name="description" content="Famous public trading strategies (from GitHub, books and papers) copied rule for rule and re-tested honestly: after trading costs, against random entries, and after they were published. Paper trading and education only.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../style.css">
+<script src="../theme.js"></script>
+<style>.wrap > .card, .wrap > .banner, #cards > .card { margin-block: 14px; } .card > * { min-width: 0; } .card h2 .pill { vertical-align: middle; margin-left: 6px; }</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Mempool Omega · Strategy lab</h1>
+      <p class="muted small">Famous public strategies, copied rule for rule and re-tested honestly · practice and education only, not financial advice</p>
+    </div>
+    <div class="top-right">
+      <nav class="sites" aria-label="Choose a page"><a href="../" data-site="main">Exchange coins</a><a href="../small/" data-site="small">Small coins</a><a href="../dex/" data-site="dex">DEX tokens</a><a href="../stocks/" data-site="stocks">US stocks</a><a href="../fx/" data-site="fx">Forex</a><a href="../ict/" data-site="ict">ICT setups</a><a href="./" data-site="lab" aria-current="page">Strategy lab</a></nav>
+      <div class="theme-switch" data-theme-switch role="group" aria-label="Day or night colours"></div>
+      <span class="status" id="status">Loading…</span>
+    </div>
+  </header>
+
+  <div id="summary" class="banner calm">Loading the test results…</div>
+
+  <article class="card">
+    <h2>Why this page exists</h2>
+    <p>GitHub has thousands of trading bots, many showing amazing results or very high hit rates. Almost all of those results come from testing the rules on the same prices they were tuned on, from accidentally using prices that weren't known yet, or from leaving out trading costs. Anyone with a strategy that truly works keeps it private. So instead of trusting claims, this page takes the most famous public strategies, copies their rules exactly, and tests them the same strict way as everything else on this site:</p>
+    <ul class="why">
+      <li><b>After trading costs</b> (exchange fees, spreads and slippage for each market).</li>
+      <li><b>Against random entries</b>: every trade is compared with entering the same market at random times, in the same direction, for as long. A strategy that doesn't beat that adds nothing, even if it made money.</li>
+      <li><b>After it was published</b>: a rule that only worked before people knew about it is no use now. Where the publication date is known, the later years are judged on their own; otherwise the most recent third.</li>
+    </ul>
+    <p class="small muted">Tested every night on the longest free history: up to 30 years of daily prices, 2 years of hourly crypto, 180 days of 5-minute crypto, 60 days of 5-minute US funds. Results are per trade, as a % of the money in the trade.</p>
+  </article>
+
+  <article class="card">
+    <h2>Scoreboard</h2>
+    <div id="board"></div>
+    <p class="small muted"><b>Hit rate</b> = share of trades that made money after costs. On its own it means little: a strategy that takes small profits quickly and lets losses run can win 9 times out of 10 and still lose money. Look at the average per trade and whether it beat random entries.</p>
+  </article>
+
+  <div id="cards"></div>
+
+  <footer>Mempool Omega is research and education software. It never places orders and never connects to a broker or exchange account. Nothing here is financial advice; past results, even honest ones, don't promise future results. Strategy names belong to their authors; this page is not affiliated with them. Data: Binance (crypto), Yahoo Finance (US funds, gold, forex), via the project's GitHub Actions.</footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
