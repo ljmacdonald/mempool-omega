@@ -1,11 +1,11 @@
-name: Forex (every 30 min, Sunday evening to Friday evening) + nightly retrain
+name: Forex (every 15 min, Sunday evening to Friday evening) + nightly retrain
 
 # Ranks forex pairs, gold and silver both ways with manipulation checks (free Yahoo + ForexFactory data) and
 # publishes the snapshot for the website's Forex page on the `data` branch. PAPER ONLY: no broker, no orders.
 on:
   schedule:
-    - cron: "10,40 * * * 1-5"      # Monday-Friday, around the clock (the job notes when the market is closed)
-    - cron: "10,40 21-23 * * 0"    # Sunday evening: the week's open
+    - cron: "10,25,40,55 * * * 1-5"  # Monday-Friday, around the clock (the job notes when the market is closed)
+    - cron: "10,25,40,55 21-23 * * 0"  # Sunday evening: the week's open
     - cron: "25 22 * * 1-5"        # nightly retrain
   workflow_dispatch:
     inputs:

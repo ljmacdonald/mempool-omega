@@ -1,8 +1,8 @@
-"""Forex scan (GitHub Actions, every 30 minutes, Sunday evening to Friday evening New York time).
+"""Forex scan (GitHub Actions, every 15 minutes, Sunday evening to Friday evening New York time).
 
 Every pair is ranked in both directions: a "sell" idea is scored on the inverted price (1/price), so one model
 covers buying and selling. Snapshot -> .cache/fx_out/snapshot.json (published on the `data` branch); track
-record (main list) -> state/fx/, once an hour.
+record (main list) -> state/fx/, about once an hour.
 """
 from __future__ import annotations
 
@@ -230,7 +230,7 @@ def run(track_now: bool | None = None) -> dict:
     models = load_models()
     lists: dict = {"main": {}, "exotic": {}}
     last_close = {}
-    track_now = market_open(now) and now.minute < 30 if track_now is None else track_now
+    track_now = market_open(now) if track_now is None else track_now
     cs15 = load_all([yahoo(p) for p in ALL], "15m", 400)
     for key, st in FX_STYLES.items():
         m = models.get(key)
@@ -264,7 +264,7 @@ def run(track_now: bool | None = None) -> dict:
                       "price_now": d["price"] if d["side"] == "buy" else 1 / d["price"],
                       "take_profit_pct": PT * d["risk_unit"], "safety_exit_pct": -SL * d["risk_unit"],
                       "pre_ret": d["pre_ret"], "cost_rt": d["cost"]} for i, d in enumerate(ok)]
-            track.append(ideas, len(rows["main"]), hist)
+            track.append(ideas, len(rows["main"]), hist, min_gap_minutes=45)
             track.resolve(insts, key, hist)
             track.scoreboard(hist, "fx/scoreboard.json", FX_STYLES)
     upcoming = sorted([{"title": e["title"], "country": e["country"], "at": str(pd.Timestamp(e["date"]).tz_convert("UTC"))}

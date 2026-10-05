@@ -98,3 +98,19 @@ def test_secret_limits_only_get_stricter():
         t = C.thresholds(seed)
         assert t["fix_k"] <= C.BASE["fix_k"] and t["tri_dev"] <= C.BASE["tri_dev"]
         assert t["news_before_min"] >= C.BASE["news_before_min"]
+
+
+def test_track_append_min_gap(tmp_path, monkeypatch):
+    """A 15-minute job still records about one set of ideas an hour per speed."""
+    from scanner import track
+    monkeypatch.setattr(track, "state_path", lambda p: tmp_path / p.replace("/", "_"))
+    def idea(ts, style="fx_today", sym="EURUSD:buy"):
+        return {"ts": ts, "style": style, "rank": 1, "symbol": sym, "score": 6.0, "grade": "Strong",
+                "chance_beats_market": 0.6, "risk_unit": 0.01, "price_now": 1.1}
+    h = "fx/history.csv"
+    track.append([idea("2026-10-05 10:00:00+00:00")], 10, h, min_gap_minutes=45)
+    track.append([idea("2026-10-05 10:15:00+00:00", sym="GBPUSD:buy")], 10, h, min_gap_minutes=45)
+    track.append([idea("2026-10-05 10:15:00+00:00", style="fx_days")], 10, h, min_gap_minutes=45)
+    track.append([idea("2026-10-05 11:00:00+00:00")], 10, h, min_gap_minutes=45)
+    got = track.load_history(h)
+    assert list(zip(got["ts"].str[11:16], got["style"])) == [("10:00", "fx_today"), ("10:15", "fx_days"), ("11:00", "fx_today")]

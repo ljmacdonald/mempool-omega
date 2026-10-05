@@ -1,6 +1,6 @@
 """Forex entry points (paper / education only).
 
-  python -m fx.run scan      # every 30 min while the forex market is open
+  python -m fx.run scan      # every 15 min while the forex market is open
   python -m fx.run train     # nightly
 """
 from __future__ import annotations
