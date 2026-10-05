@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-05 21:46 UTC
+# Trade ideas: 2026-10-05 22:38 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,51 +6,51 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (1% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (3% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **MUBARAK** | 5.0/10 | Weak | Medium | $0.07366 | $0.0759533 (+3.1%) | $0.0725134 (-1.6%) | 22:40 05-Oct |
-| 2 | **SAGA** | 4.6/10 | Avoid - watch only | Medium | $0.02381 | $0.0246677 (+3.6%) | $0.0233811 (-1.8%) | 22:40 05-Oct |
-| 3 | **SKY** | 4.4/10 | Avoid - watch only | Low | $0.0886 | $0.0906392 (+2.3%) | $0.0875804 (-1.2%) | 22:40 05-Oct |
-| 4 | **TURTLE** | 4.4/10 | Avoid - watch only | Very high | $0.0425 | $0.0463771 (+9.1%) | $0.0405615 (-4.6%) | 22:40 05-Oct |
-| 5 | **NIL** | 4.2/10 | Avoid - watch only | Very high | $0.1125 | $0.121097 (+7.6%) | $0.107797 (-4.2%) | 22:40 05-Oct |
+| 1 | **UMA** | 6.7/10 | Strong | Medium | $0.425 | $0.437798 (+3.0%) | $0.418601 (-1.5%) | 23:35 05-Oct |
+| 2 | **SCR** | 6.3/10 | Moderate | Medium | $0.02799 | $0.0287158 (+2.6%) | $0.0275364 (-1.6%) | 23:35 05-Oct |
+| 3 | **MINA** | 6.3/10 | Moderate | High | $0.1493 | $0.157602 (+5.6%) | $0.145149 (-2.8%) | 23:35 05-Oct |
+| 4 | **MUBARAK** | 5.9/10 | Moderate | Medium | $0.07389 | $0.0762516 (+3.2%) | $0.0724391 (-2.0%) | 23:35 05-Oct |
+| 5 | **PHA** | 5.7/10 | Moderate | Low | $0.0712 | $0.0727039 (+2.1%) | $0.0704481 (-1.1%) | 23:35 05-Oct |
 
-- **MUBARAK:** It is bouncing up from near its lowest price of the last 14 hours.
-- **SAGA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **SKY:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **UMA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **SCR:** Buyers have been more eager than sellers over the last 30 minutes (54% of trades were buys). It is bouncing up from near its lowest price of the last 14 hours. It did 1.2% better than Bitcoin over the last 2 hours. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **MINA:** Trading activity is 2.0x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (5% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (7% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **HUMA** | 4.4/10 | Avoid - watch only | Medium | $0.03267 | $0.0341416 (+4.5%) | $0.0319342 (-2.3%) | 01:30 06-Oct |
-| 2 | **MINA** | 3.7/10 | Avoid - watch only | Medium | $0.1603 | $0.167365 (+4.4%) | $0.156767 (-2.2%) | 01:30 06-Oct |
-| 3 | **ZRO** | 3.7/10 | Avoid - watch only | Medium | $2.10 | $2.24 (+6.8%) | $2.03 (-3.4%) | 01:30 06-Oct |
-| 4 | **ZKP** | 3.5/10 | Avoid - watch only | Medium | $0.0515 | $0.0536676 (+4.2%) | $0.0504162 (-2.1%) | 01:30 06-Oct |
-| 5 | **PORTAL** | 3.4/10 | Avoid - watch only | Medium | $0.01802 | $0.0189693 (+5.3%) | $0.0175454 (-2.6%) | 01:30 06-Oct |
+| 1 | **FIL** | 4.8/10 | Avoid - watch only | Medium | $1.18 | $1.26 (+6.7%) | $1.14 (-3.4%) | 02:30 06-Oct |
+| 2 | **WLFI** | 4.7/10 | Avoid - watch only | Low | $0.0552 | $0.056304 (+2.0%) | $0.05451 (-1.2%) | 02:30 06-Oct |
+| 3 | **ETC** | 4.6/10 | Avoid - watch only | Low | $8.98 | $9.16 (+2.0%) | $8.89 (-1.0%) | 02:30 06-Oct |
+| 4 | **MORPHO** | 4.4/10 | Avoid - watch only | Low | $2.71 | $2.78 (+2.3%) | $2.68 (-1.2%) | 02:30 06-Oct |
+| 5 | **DODO** | 4.4/10 | Avoid - watch only | Low | $0.0187 | $0.019149 (+2.4%) | $0.0184755 (-1.2%) | 02:30 06-Oct |
 
-- **HUMA:** It is bouncing up from near its lowest price of the last 42 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **MINA:** Buyers have been more eager than sellers over the last 1.5 hours (54% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **ZRO:** It did 3.7% better than Bitcoin over the last 6 hours. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Trading activity is 2.2x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **FIL:** It did 8.0% better than Bitcoin over the last 6 hours. Trading activity is 3.1x higher than usual, so people are paying attention to it. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **WLFI:** Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. It is close to its highest price of the last 42 hours. A breakout is possible. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ETC:** Buyers have been more eager than sellers over the last 1.5 hours (58% of trades were buys). Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. It is bouncing up from near its lowest price of the last 42 hours. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (15% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (13% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **SOL** | 7.4/10 | Strong | Low | $120.64 | $124.96 (+3.6%) | $118.48 (-1.8%) | 21:00 06-Oct |
-| 2 | **XRP** | 6.9/10 | Strong | Low | $1.51 | $1.56 (+3.9%) | $1.48 (-1.9%) | 21:00 06-Oct |
-| 3 | **ZEC** | 5.9/10 | Moderate | Medium | $1,345.97 | $1,469.32 (+9.2%) | $1,284.29 (-4.6%) | 21:00 06-Oct |
-| 4 | **BNB** | 5.9/10 | Moderate | Low | $787.83 | $811.46 (+3.0%) | $776.01 (-1.5%) | 21:00 06-Oct |
-| 5 | **LINK** | 5.9/10 | Moderate | Low | $13.95 | $14.69 (+5.4%) | $13.57 (-2.7%) | 21:00 06-Oct |
+| 1 | **SOL** | 8.0/10 | Strong | Low | $120.79 | $125.04 (+3.5%) | $118.67 (-1.8%) | 22:00 06-Oct |
+| 2 | **XRP** | 7.7/10 | Strong | Low | $1.51 | $1.57 (+3.8%) | $1.48 (-1.9%) | 22:00 06-Oct |
+| 3 | **BNB** | 6.8/10 | Strong | Low | $786.72 | $810.32 (+3.0%) | $774.92 (-1.5%) | 22:00 06-Oct |
+| 4 | **ETH** | 6.4/10 | Moderate | Low | $2,718.00 | $2,799.54 (+3.0%) | $2,668.91 (-1.8%) | 22:00 06-Oct |
+| 5 | **LINK** | 6.2/10 | Moderate | Low | $13.92 | $14.65 (+5.3%) | $13.55 (-2.6%) | 22:00 06-Oct |
 
 - **SOL:** Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Momentum is healthy: not overheated, not collapsing.
-- **XRP:** Buyers have been more eager than sellers over the last 6 hours (53% of trades were buys). Momentum is healthy: not overheated, not collapsing.
-- **ZEC:** Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. It did 1.1% better than Bitcoin over the last 24 hours. Momentum is healthy: not overheated, not collapsing.
+- **XRP:** Buyers have been more eager than sellers over the last 6 hours (56% of trades were buys). Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Momentum is healthy: not overheated, not collapsing.
+- **BNB:** The model sees a slightly better-than-usual pattern, with no single strong reason.
 
 ---
 ## Track record (how past ideas actually did)
@@ -58,7 +58,7 @@ Market mood: **Unfavourable** (15% of 150 coins look positive). If it says *Unfa
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
 | Quick: exit within 1 hour | 61 | 52% | +0.12% | -0.10% |
-| Short: exit within 4 hours | 58 | 40% | -0.25% | +0.13% |
+| Short: exit within 4 hours | 66 | 45% | -0.07% | +0.19% |
 | Day: exit within 24 hours | 53 | 36% | -2.16% | +0.65% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
