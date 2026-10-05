@@ -196,7 +196,7 @@
     const o = st.overall; const bs = st.buckets; const good = o.avg_r > 0 && o.t >= 1.5;
     const hi = bs["6-9"] || {}, lo = bs["0-3"] || {}; const more = Number.isFinite(hi.avg_r) && Number.isFinite(lo.avg_r) && hi.filled >= 15 && lo.filled >= 15 ? (hi.avg_r > lo.avg_r ? "Setups with more checklist items did better." : "More checklist items did <b>not</b> lead to better results.") : "";
     el.className = `banner ${good ? "good" : o.avg_r > 0 ? "calm" : "bad"}`;
-    el.innerHTML = `<b>Honest test result (${esc(state.snap.classes[state.market].label)}, last ${Math.round(st.days)} days):</b> ${o.filled} setups filled; ${Math.round((o.win_rate || 0) * 100)}% reached the target first; average ${rr(o.avg_r)} per trade after costs${good ? " (a positive edge in this period)" : o.avg_r > 0 ? ", positive but not clearly more than luck" : ", i.e. <b>these rules lost money</b> in this period"}. ${more} <a href="#tests" data-goto="tests">Details</a>.`;
+    el.innerHTML = `<b>Honest test result (${esc(state.snap.classes[state.market].label)}, last ${Math.round(st.days)} days):</b> ${o.filled} setups filled; ${Math.round((o.win_rate || 0) * 100)}% reached the target first; average ${rr(o.avg_r)} per trade after costs${good ? " (a positive edge in this period)" : o.avg_r > 0 ? ", positive but not clearly more than luck" : ", i.e. <b>these rules lost money</b> in this period"}. ${more} <a href="#/tests" data-goto="tests">Details</a>.`;
   }
   function render() {
     for (const c of state.charts) { try { c.remove(); } catch { /* gone */ } } state.charts = [];
@@ -295,7 +295,7 @@
     for (const b of document.querySelectorAll("nav.tabs button")) b.setAttribute("aria-selected", String(b.dataset.tab === name));
     for (const p of document.querySelectorAll("section.panel")) p.hidden = p.id !== `tab-${name}`;
     if (name === "tests") renderTests(); if (name === "trades") renderTrades();
-    store.set("omega.ict.tab", name); if (location.hash !== `#${name}`) history.replaceState(null, "", `${location.pathname}#${name}`);
+    store.set("omega.ict.tab", name); if (location.hash !== `#/${name}`) history.replaceState(null, "", `${location.pathname}#/${name}`);
   }
   const press = () => { for (const b of document.querySelectorAll("#market button")) b.setAttribute("aria-pressed", String(b.dataset.market === state.market)); };
   document.addEventListener("click", (ev) => {
@@ -319,7 +319,7 @@
   window.addEventListener("omega-theme", () => { if (state.snap) render(); });
 
   $("risk").value = String(state.risk); press();
-  const startTab = (location.hash || "").slice(1) || store.get("omega.ict.tab", "setups");
+  const startTab = (location.hash || "").replace(/^#\/?/, "") || store.get("omega.ict.tab", "setups");
   selectTab(["setups", "tests", "trades", "guide"].includes(startTab) ? startTab : "setups");
   saveTrades(); paintZone(); refresh(false);
   setInterval(paintZone, 30000);
