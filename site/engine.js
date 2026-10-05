@@ -276,6 +276,33 @@
       toTp: t.take_profit / price - 1, toSl: t.safety_exit / price - 1 };
   }
 
+  // ---------------------------------------------------------------- freshness: an old price is never shown or used as "now"
+  // A price counts as live only if it was confirmed by the source within LIVE_MAX_AGE_MS. Without one, pages show no
+  // "price now", no "if you sold right away" and no hold / take-profit / exit advice (only the time limit, which
+  // doesn't depend on the price).
+  const LIVE_MAX_AGE_MS = 60000;
+  function freshPrice(rec, maxAgeMs, nowMs) {
+    if (!rec || !isNum(rec.price) || !(rec.price > 0) || !isNum(rec.at)) return null;
+    return (nowMs || Date.now()) - rec.at <= (maxAgeMs || LIVE_MAX_AGE_MS) ? rec.price : null;
+  }
+  function adviseNoPrice(t, nowMs) {
+    const leftMin = (t.exit_by - (nowMs || Date.now())) / 60000;
+    const base = { pnl: NaN, progress: NaN, leftMin: Math.max(leftMin, 0), toTp: NaN, toSl: NaN, stale: true };
+    if (leftMin <= 0) return { ...base, action: "Time's up: sell now", level: "warn", why: "This idea had a time limit and it has passed. (No live price right now, so check the price where you bought before selling.)" };
+    return { ...base, action: "Waiting for a live price", level: "calm", why: "The live price couldn't be confirmed in the last minute, so this page won't tell you to hold or sell yet. Your take profit and safety exit still apply: check the price where you bought." };
+  }
+
+  // Only an older price is available (e.g. the last 15-minute update): never "Hold", only "check now" when that older
+  // price had already crossed an exit. `when` says when that price was taken (e.g. "14:35 New York").
+  function adviseAsOf(t, px, when, nowMs) {
+    if (!isNum(px)) return adviseNoPrice(t, nowMs);
+    const a = advise(t, px, nowMs, null); const nb = adviseNoPrice(t, nowMs);
+    if (a.action === "Take profit now") return { ...nb, level: "good", action: "Check now: take profit reached", why: `At the last update (${when}) the price had reached your take-profit level. Check the live price where you bought and sell if it's still there.` };
+    if (a.action === "Exit now") return { ...nb, level: "bad", action: "Check now: safety exit reached", why: `At the last update (${when}) the price had fallen to your safety exit. Check the live price where you bought and sell if it's still there.` };
+    if (nb.action !== "Waiting for a live price") return nb;
+    return { ...nb, why: `No live price here. At the last update (${when}) neither exit had been reached. Check the live price where you bought.` };
+  }
+
   // ---------------------------------------------------------------- fake-signal checks (scanner/integrity.py)
   // The code is public, so every limit is jittered +/-15% from a private seed that rotates hourly (see ADVERSARY.md).
   const PENALTY = { walls: 0.15, thin_book: 0.05, wash: 0.10, impact: 0.10, venues: 0.15, venues_none: 0.03, whale: 0.05, engineered: 0.10 };
@@ -474,7 +501,7 @@
 
   const api = { FEATURES, applyProbation, VENUES, DEX_FEE, CHAINS, walkBuy, walkSell, cexNet, dexNet, checkWalls, checkThinBook, checkWash, checkImpact, checkVenues, checkWhale, checkEngineered, combineChecks, applyIntegrity,
     mulberry32, thresholds, snapshotGaps, declutterExits, adaptivePenalty, BASE, diff, ewmMean, ewmStd, rStd, lastFeatures, riskUnit, predict, rankCoins, selectUniverse,
-    makeTrade, advise, humanDuration, scoreFromR, expectedR, selectSmallUniverse, bigMoverStats };
+    makeTrade, advise, adviseNoPrice, adviseAsOf, freshPrice, LIVE_MAX_AGE_MS, humanDuration, scoreFromR, expectedR, selectSmallUniverse, bigMoverStats };
   root.OmegaEngine = api;
   if (typeof module !== "undefined") module.exports = api;
 })(typeof window !== "undefined" ? window : globalThis);
