@@ -35,6 +35,12 @@ read the top 5 ideas, tap **“I bought this”**, and the **My trades** tab tel
   rigging, stop hunts, off-market quotes, news ambushes, thin hours), a leverage calculator with margin-call
   warnings, and exotic pairs (naira, rand, cedi, shilling, ...) for information. Rankings every 15 minutes; live
   prices for ideas and your trades every minute (Coinbase public rates, no key).
+- **ICT setups page: https://ljmacdonald.github.io/mempool-omega/ict/**. The Inner Circle Trader model as exact rules
+  (liquidity sweep, market structure shift with displacement, fair value gap entry) with a 9-item confluence checklist
+  (higher timeframe, discount/premium, OTE, order block, kill zone, silver bullet, SMT divergence, major liquidity,
+  midnight open), on 15 crypto coins (found live in the browser), forex majors and gold, and US index futures. Each
+  setup's chance of reaching the target first comes from a nightly backtest of the same rules, and the page shows
+  plainly when they lost money.
 - **Biggest movers** tab on every page: today's top gainers and exactly why each one is or isn't suggested.
 - **Higher-risk mode** on the DEX page: younger and smaller tokens ($100k+, 5+ days), with every scam test unchanged.
 - A menu at the top of every page (**Exchange coins · Small coins · DEX tokens · US stocks · Forex**), plus a **Day / Night** switch
