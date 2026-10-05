@@ -1,0 +1,61 @@
+name: ICT setups (every 15 min) + nightly backtest
+
+# Finds ICT setups (liquidity sweep, market structure shift, fair value gap) on crypto, forex, gold and US index
+# futures, keeps a track record, and backtests the same rules every night so the page can show how they really did.
+# Publishes the snapshot for the website's ICT page on the `data` branch. PAPER ONLY: no broker, no orders.
+on:
+  schedule:
+    - cron: "7,22,37,52 * * * *"   # every 15 minutes (crypto trades all week)
+    - cron: "50 4 * * *"           # nightly backtest
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "scan | backtest"
+        required: false
+        default: "scan"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: omega-ict-writer
+  cancel-in-progress: false
+
+jobs:
+  ict:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        run: pip install -e .
+      - name: Restore the price history store
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache/stocks
+          key: ict-candles-${{ github.run_id }}
+          restore-keys: ict-candles-
+      - name: Nightly backtest
+        if: github.event.schedule == '50 4 * * *' || github.event.inputs.task == 'backtest'
+        run: python -m ict.run backtest
+      - name: Scan
+        run: python -m ict.run scan
+      - name: Publish the snapshot for the website (data branch)
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash infra/publish_data.sh .cache/ict_out/snapshot.json ict/snapshot.json
+      - name: Save the price history store
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .cache/stocks
+          key: ict-candles-${{ github.run_id }}
+      - name: Commit state (track record, backtest results)
+        if: always()
+        run: |
+          bash infra/commit_state.sh "ict ${{ github.event.inputs.task || 'scheduled' }} $(date -u +%Y-%m-%dT%H%MZ)"
