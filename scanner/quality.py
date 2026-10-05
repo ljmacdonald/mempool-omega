@@ -94,8 +94,15 @@ def adjust_r(r: float, risk_unit: float, adj: dict | None) -> float:
     return r + adj["slope"] * (math.log(risk_unit) - adj["mean"]) / adj["sd"]
 
 
-def quality(c: pd.DataFrame) -> dict:
-    return {"by_grade": grade_table(c), "check": grade_check(c), "vol": vol_adjust(c)}
+def quality(c: pd.DataFrame, group=None, order: list[str] | None = None) -> dict:
+    """`group`: optional function symbol -> market name; the grade table and check are then also given per market
+    (the switch-off decision and the jumpiness adjustment stay page-wide)."""
+    out = {"by_grade": grade_table(c), "check": grade_check(c), "vol": vol_adjust(c)}
+    if group is not None and len(c) and "symbol" in c:
+        names = c["symbol"].map(group)
+        seen = [n for n in (order or []) if n in set(names)] + sorted(set(names) - set(order or []))
+        out["groups"] = [{"name": n, "by_grade": grade_table(c[names == n]), "check": grade_check(c[names == n])} for n in seen]
+    return out
 
 
 def load(rel_path: str) -> dict | None:

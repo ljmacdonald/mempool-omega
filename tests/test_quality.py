@@ -71,3 +71,13 @@ def test_js_adjustment_and_grade_words_match():
     r = json.loads(out.stdout)
     assert r[0] == pytest.approx(Q.adjust_r(0.1, 0.06, adj)) and r[1] == 0.1
     assert r[2:6] == ["Ranked #2", "Strong", "Strong", ""] and r[6] is True
+
+
+def test_grade_tables_grouped_by_market():
+    h = _hist()
+    h["symbol"] = ["solana:x" if i % 2 else "ethereum:y" for i in range(len(h))]
+    q = Q.quality(h, lambda s: {"solana": "Solana", "ethereum": "Ethereum"}[s.split(":")[0]], ["Solana", "Ethereum"])
+    assert [g["name"] for g in q["groups"]] == ["Solana", "Ethereum"]
+    assert sum(r["ideas"] for g in q["groups"] for r in g["by_grade"]) == len(h)
+    assert all(g["check"]["reliable"] is True for g in q["groups"])          # 30 high and 30 low ideas per market
+    assert "groups" not in Q.quality(h)

@@ -97,7 +97,7 @@ def sessions(a: dict) -> dict:
     return {"pdh": pdh, "pdl": pdl, "ah": ah, "al": al, "mo": mo}
 
 
-def htf_bias(a1h: dict | None, t15: np.ndarray, bar_ms: int = 900_000) -> np.ndarray:
+def htf_bias(a1h: dict | None, t15: np.ndarray, bar_ms: int = 900_000, htf_ms: int = 3_600_000) -> np.ndarray:
     """1-hour structure for each 15-minute candle: +1 after the last close above a 1-hour swing high, -1 after the
     last close below a 1-hour swing low, 0 if neither yet. Uses only 1-hour candles that had closed."""
     out = np.zeros(len(t15))
@@ -120,7 +120,7 @@ def htf_bias(a1h: dict | None, t15: np.ndarray, bar_ms: int = 900_000) -> np.nda
         elif not math.isnan(last_l) and a1h["c"][i] < last_l:
             b, last_l = -1, np.nan
         bias[i] = b
-    close_1h = a1h["t"] + 3_600_000
+    close_1h = a1h["t"] + htf_ms
     j = 0
     cur = 0.0
     for i in range(len(t15)):
@@ -141,7 +141,7 @@ def align(a: dict, b: dict | None) -> np.ndarray | None:
 
 # ---------------------------------------------------------------------------------------------- detection
 def detect_buys(a: dict, a1h: dict | None = None, corr: dict | None = None, cost: float = 0.0, start: int = 0,
-                p: dict | None = None) -> list[dict]:
+                p: dict | None = None, bar_ms: int = 900_000, htf_ms: int = 3_600_000) -> list[dict]:
     p = {**P, **(p or {})}
     h, lo, o, c = a["h"], a["l"], a["o"], a["c"]
     n = len(h)
@@ -149,7 +149,7 @@ def detect_buys(a: dict, a1h: dict | None = None, corr: dict | None = None, cost
     ph, pl = pivots(a, k)
     at = atr(a)
     ses = sessions(a)
-    bias = htf_bias(a1h, a["t"])
+    bias = htf_bias(a1h, a["t"], bar_ms, htf_ms)
     cpos = align(a, corr)
     out = []
     for m in range(max(start, 30), n):
@@ -270,9 +270,12 @@ def zone_name(mins: int) -> str:
     return ""
 
 
-def simulate(a: dict, s: dict, p: dict | None = None) -> dict:
-    """Outcome of a BUY setup on `a` (use the flipped arrays for a SELL)."""
+def simulate(a: dict, s: dict, p: dict | None = None, manage: str | None = None) -> dict:
+    """Outcome of a BUY setup on `a` (use the flipped arrays for a SELL). manage="partial": half the position is
+    closed at 1R and the stop on the rest moves to the entry (break-even); otherwise all-or-nothing."""
     p = {**P, **(p or {})}
+    if manage == "partial":
+        return _simulate_partial(a, s, p)
     h, lo, c = a["h"], a["l"], a["c"]
     n = len(h)
     m, e, st, tg = s["m"], s["entry"], s["stop"], s["target"]
@@ -359,8 +362,46 @@ def random_baseline(a: dict, m: int, risk_pct: float, rr: float, cost_r: float, 
     return float(np.mean(out))
 
 
+def _simulate_partial(a: dict, s: dict, p: dict) -> dict:
+    h, lo, c = a["h"], a["l"], a["c"]
+    n = len(h)
+    m, e, st, tg = s["m"], s["entry"], s["stop"], s["target"]
+    risk = e - st
+    one_r = e + risk
+    f = -1
+    for t in range(m + 1, min(n, m + 1 + p["fill_bars"])):
+        if lo[t] <= e:
+            f = t
+            break
+        if h[t] >= tg:
+            return {"status": "missed", "fill": -1, "exit": t, "r": 0.0}
+    if f < 0:
+        return {"status": "pending" if m + p["fill_bars"] >= n else "expired", "fill": -1, "exit": -1, "r": 0.0}
+    half = False
+    for t in range(f, min(n, f + p["hold_bars"])):
+        if not half:
+            if lo[t] <= st:
+                return {"status": "loss", "fill": f, "exit": t, "r": -1.0 - s["cost_r"]}
+            if t > f and h[t] >= one_r:
+                half = True
+                if h[t] >= tg:
+                    return {"status": "win", "fill": f, "exit": t, "r": 0.5 + 0.5 * s["rr"] - s["cost_r"]}
+                continue
+        else:
+            if lo[t] <= e:
+                return {"status": "win", "fill": f, "exit": t, "r": 0.5 - s["cost_r"]}
+            if h[t] >= tg:
+                return {"status": "win", "fill": f, "exit": t, "r": 0.5 + 0.5 * s["rr"] - s["cost_r"]}
+    if f + p["hold_bars"] > n:
+        return {"status": "active", "fill": f, "exit": -1, "r": float("nan")}
+    t = f + p["hold_bars"] - 1
+    rest = (c[t] - e) / risk
+    return {"status": "time", "fill": f, "exit": t, "r": float((0.5 + 0.5 * rest if half else rest) - s["cost_r"])}
+
+
 def setups(df15: pd.DataFrame, df1h: pd.DataFrame | None = None, corr15: pd.DataFrame | None = None, cost: float = 0.0,
-           start: int = 0, kind: str = "crypto") -> list[dict]:
+           start: int = 0, kind: str = "crypto", p: dict | None = None, bar_ms: int = 900_000, htf_ms: int = 3_600_000,
+           manage: str | None = None) -> list[dict]:
     """Both directions, with outcomes. Prices returned the right way up."""
     a = arrays(df15)
     a1 = arrays(df1h) if df1h is not None and len(df1h) else None
@@ -368,10 +409,10 @@ def setups(df15: pd.DataFrame, df1h: pd.DataFrame | None = None, corr15: pd.Data
     out = []
     for side, aa, hh, cc in (("buy", a, a1, cb), ("sell", flip(a), flip(a1) if a1 else None, flip(cb) if cb else None)):
         cpos = align(aa, cc)
-        for s in detect_buys(aa, hh, cc, cost, start):
-            r = simulate(aa, s)
+        for s in detect_buys(aa, hh, cc, cost, start, p, bar_ms, htf_ms):
+            r = simulate(aa, s, p, manage)
             s["ctx"] = context(aa, s["m"], kind, cc, cpos)
-            s["base_r"] = random_baseline(aa, s["m"], s["risk_pct"], s["rr"], s["cost_r"])
+            s["base_r"] = random_baseline(aa, s["m"], s["risk_pct"], s["rr"], s["cost_r"], (p or {}).get("hold_bars"))
             s["suggested"] = float(aa["c"][s["m"]])
             if side == "sell":
                 for kk in ("level_px", "sweep", "fvg_top", "fvg_bot", "entry", "stop", "target", "suggested"):

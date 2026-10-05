@@ -133,7 +133,8 @@ def _summary(c: pd.DataFrame) -> dict:
             "outcomes": c["outcome"].value_counts().to_dict()}
 
 
-def scoreboard(hist: str = HIST, out_path: str = "suggestions/scoreboard.json", styles=None) -> dict:
+def scoreboard(hist: str = HIST, out_path: str = "suggestions/scoreboard.json", styles=None, group=None,
+               group_order: list[str] | None = None) -> dict:
     styles = styles or STYLES
     h = load_history(hist)
     if h.empty:
@@ -142,6 +143,6 @@ def scoreboard(hist: str = HIST, out_path: str = "suggestions/scoreboard.json", 
     out = {"total_suggestions": int(len(h)), "still_open": int((h["status"] == "open").sum()), **_summary(c),
            "by_style": {k: _summary(c[c["style"] == k]) for k in styles},
            "by_grade": {g: _summary(x) for g, x in c.groupby("grade")} if len(c) else {},
-           "quality": quality(c)}
+           "quality": quality(c, group, group_order)}
     state_path(out_path).write_text(json.dumps(out, indent=2, default=str))
     return out

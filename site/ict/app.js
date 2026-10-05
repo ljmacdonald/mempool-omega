@@ -354,15 +354,29 @@
         ${I.FACTORS.map((f) => { const x = st.factors[f]; return `<tr><td>${esc(FACTOR_TEXT[f][0])}</td><td class="num ${x.with_r > 0 ? "up" : "down"}">${rr(x.with_r)} <span class="muted small">(${x.with_n})</span></td><td class="num ${x.without_r > 0 ? "up" : "down"}">${rr(x.without_r)} <span class="muted small">(${x.without_n})</span></td></tr>`; }).join("")}
         </tbody></table></div></details></article>`;
     }
+    html += researchHTML(S.research, k);
     const rec = (S.record || {})[k] || {}; const pr = (S.probation || {})[k] || {};
     html += `<article class="card"><h3>Live record: ${esc(c.label)} (recorded as setups appeared)</h3>
       <div class="table-wrap"><table><thead><tr><th>Finished</th><th class="num">Target first</th><th class="num">Average after costs</th><th class="num">Random entry</th></tr></thead><tbody>
       <tr><td class="num">${rec.filled ?? 0}</td><td class="num">${Number.isFinite(rec.win_rate) ? Math.round(rec.win_rate * 100) + "%" : "–"}</td><td class="num">${rr(rec.avg_r)}</td><td class="num">${rr(rec.random_avg_r)} ${Number.isFinite(rec.avg_r) && Number.isFinite(rec.random_avg_r) ? (rec.avg_r > rec.random_avg_r ? '<span class="pill good">beating random</span>' : '<span class="pill warn">not beating random</span>') : ""}</td></tr></tbody></table></div>
       ${pr.active ? `<div class="banner warn"><b>On probation:</b> the live setups did worse than random entries, so their scores are lowered by ${pr.penalty}R until that changes.</div>` : `<p class="small muted">Probation starts if, over ${MIN_PROVEN} or more finished live setups, ICT does worse than random entries.</p>`}
-      ${Q.gradeTable(qual())}
+      ${Object.entries(S.classes).map(([kk, cc]) => Q.gradeTable((S.quality || {})[kk], `${cc.label}: how each grade actually turned out`)).join("")}
       ${((S.record || {}).recent || []).length ? `<h3>Latest finished setups (all markets)</h3><div class="table-wrap"><table><tbody>${S.record.recent.map((r) => `<tr><td>${esc(local(r.t))}</td><td>${r.side.toUpperCase()} ${esc(r.label)}</td><td>${esc(r.status)}</td><td class="num ${r.r >= 0 ? "up" : "down"}">${rr(r.r)}</td></tr>`).join("")}</tbody></table></div>` : ""}
       <p class="small muted">"R" is the amount risked: +2R means twice the risk was won, −1R means the safety exit was hit.</p></article>`;
     $("record").innerHTML = html;
+  }
+
+  // walk-forward research (ict/research.py): every variant on the first two thirds (choosing) and the last third (judging)
+  function researchHTML(R, k) {
+    const c = R && R.classes && R.classes[k]; if (!c) return "";
+    const cell = (x) => (x && x.n ? `${rr(x.avg_r)} <span class="muted small">vs ${rr(x.random_avg_r)} (${x.n})</span>` : "–");
+    const sp = c.spans || {};
+    return `<article class="card"><h3>Trying to improve the rules: ${esc(c.label)}</h3>
+      <div class="banner ${c.passed ? "good" : "warn"}"><b>${c.passed ? "An improvement held up on unseen data." : "No improvement is proven yet."}</b> ${esc(c.verdict || "")}</div>
+      <div class="table-wrap"><table><thead><tr><th>Version of the rules</th><th class="num">Choosing period: result vs random</th><th class="num">Unseen period: result vs random</th></tr></thead><tbody>
+      ${Object.entries(R.variants).map(([v, label]) => { const x = c.variants[v] || {}; return `<tr${v === c.chosen ? ' style="font-weight:600"' : ""}><td>${esc(label)}${v === c.chosen ? ' <span class="pill calm">chosen</span>' : ""}</td><td class="num">${cell(x.train)}</td><td class="num">${cell(x.test)}</td></tr>`; }).join("")}
+      </tbody></table></div>
+      <p class="small muted">Each market's history (1-hour: ${esc((sp["1h"] || []).join(" to "))}; 15-minute: ${esc((sp["15m"] || []).join(" to "))}) is split in time. The version that did best against random in the first two thirds is chosen, then judged once on the last third. It only counts if it made money, beat random by more than luck (a t-statistic of 2 or more) and had at least ${R.min_test} trades there. Results per $1 risked after costs, number of trades in brackets. Updated nightly.</p></article>`;
   }
 
   // ------------------------------------------------------------------ trades

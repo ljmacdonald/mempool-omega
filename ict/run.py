@@ -329,6 +329,14 @@ def record(h: pd.DataFrame) -> dict:
     return out
 
 
+def _json_or_none(rel: str):
+    p = state_path(rel)
+    try:
+        return json.loads(p.read_text()) if p.exists() else None
+    except ValueError:
+        return None
+
+
 def scan() -> dict:
     from fx.live import news as fx_news
 
@@ -385,7 +393,8 @@ def scan() -> dict:
                       key=lambda e: e["at"])[:30]
     snap = {"generated_at": str(now), "params": I.P, "factors": I.FACTORS, "classes": classes, "events": upcoming,
             "news_before_min": th["news_before_min"], "quality": qual, "probation": prob,
-            "stats": (stats or {}).get("classes"), "stats_at": (stats or {}).get("generated_at"), "record": record(h)}
+            "stats": (stats or {}).get("classes"), "stats_at": (stats or {}).get("generated_at"), "record": record(h),
+            "research": _json_or_none("ict/research.json")}
     out = REPO_ROOT / ".cache" / "ict_out" / "snapshot.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(clean(snap), allow_nan=False))
