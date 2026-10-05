@@ -131,3 +131,23 @@ def test_context_warnings_and_random_baseline():
     b = {"o": flat, "h": flat + 0.05, "l": flat - 0.05, "c": flat}
     assert I.random_baseline(b, 10, 0.01, 2.0, 0.1, hold=50) == pytest.approx(-0.1)    # nothing happens: costs only
     assert np.isnan(I.random_baseline(b, n - 5, 0.01, 2.0, 0.1, hold=50))
+
+
+def test_research_split_summary_and_judging():
+    from ict import research as RS
+    rows = []
+    for i in range(90):
+        for v in ("h1", "h1_daily"):
+            good = v == "h1_daily"
+            rows.append({"sym": "ES", "class": "index", "variant": v, "t": i, "status": "win" if (good and i % 2) else "loss",
+                         "r": (2.0 if (good and i % 2) else -1.0), "base_r": -0.2})
+    RS.split(rows)
+    assert {r["split"] for r in rows if r["t"] < 59} == {"train"} and {r["split"] for r in rows if r["t"] > 60} == {"test"}
+    classes = {"index": {"label": "x", "variants": {v: {"train": RS.summary([r for r in rows if r["variant"] == v and r["split"] == "train"]),
+                                                       "test": RS.summary([r for r in rows if r["variant"] == v and r["split"] == "test"])}
+                                                   for v in ("h1", "h1_daily")}}}
+    RS.judge(classes)
+    c = classes["index"]
+    assert c["chosen"] == "h1_daily" and c["passed"] is True and "held up" in c["verdict"]
+    s = c["variants"]["h1"]["test"]
+    assert s["avg_r"] == -1.0 and s["edge"] == pytest.approx(-0.8)

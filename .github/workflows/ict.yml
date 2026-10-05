@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
     inputs:
       task:
-        description: "scan | backtest"
+        description: "scan | backtest (also runs the walk-forward research)"
         required: false
         default: "scan"
 
@@ -42,7 +42,9 @@ jobs:
           restore-keys: ict-candles-
       - name: Nightly backtest
         if: github.event.schedule == '50 4 * * *' || github.event.inputs.task == 'backtest'
-        run: python -m ict.run backtest
+        run: |
+          python -m ict.run backtest
+          python -m ict.research
       - name: Scan
         run: python -m ict.run scan
       - name: Publish the snapshot for the website (data branch)

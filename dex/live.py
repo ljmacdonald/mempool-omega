@@ -468,8 +468,12 @@ def hourly() -> dict:
         track.resolve(settle, key, hist)
         track.resolve(settle, key, hist_r)
     first_hour_runup(settle, hist)
-    board = track.scoreboard(hist, "dex/scoreboard.json", DEX_STYLES)
-    track.scoreboard(hist_r, "dex/scoreboard_risky.json", DEX_STYLES)
+    def by_chain(sym: str) -> str:                     # grade tables per network
+        return CHAINS.get(sym.split(":")[0], {}).get("name", sym.split(":")[0])
+
+    order = [c["name"] for c in CHAINS.values()]
+    board = track.scoreboard(hist, "dex/scoreboard.json", DEX_STYLES, by_chain, order)
+    track.scoreboard(hist_r, "dex/scoreboard_risky.json", DEX_STYLES, by_chain, order)
     log.info("dex hourly: %d candidates, %d passed, ideas %s", len(cands),
              sum(c["assess"]["verdict"] == "pass" for c in cands), {k: [d["coin"] for d in v] for k, v in ideas.items()})
     return {"ideas": ideas, "scoreboard": board, "candidates": len(cands)}

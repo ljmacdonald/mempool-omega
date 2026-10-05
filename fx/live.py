@@ -224,6 +224,14 @@ def why(f: pd.Series, st, side: str) -> list[str]:
     return [t for _, t in out[:3]] or ["The model sees a slightly better-than-usual pattern, with no single strong reason."]
 
 
+FX_GROUPS = ["Major pairs", "Crosses", "Gold & silver", "Exotics"]
+
+
+def fx_group(sym: str) -> str:
+    """Market a track-record symbol ("EURUSD:buy") belongs to, for the grade tables."""
+    return {"major": "Major pairs", "cross": "Crosses", "metal": "Gold & silver", "exotic": "Exotics"}[kind(sym.split(":")[0])]
+
+
 def run(track_now: bool | None = None) -> dict:
     from scanner import track
 
@@ -271,7 +279,7 @@ def run(track_now: bool | None = None) -> dict:
                       "pre_ret": d["pre_ret"], "cost_rt": d["cost"]} for i, d in enumerate(ok)]
             track.append(ideas, len(rows["main"]), hist, min_gap_minutes=45)
             track.resolve(insts, key, hist)
-            track.scoreboard(hist, "fx/scoreboard.json", FX_STYLES)
+            track.scoreboard(hist, "fx/scoreboard.json", FX_STYLES, fx_group, FX_GROUPS)
     upcoming = sorted([{"title": e["title"], "country": e["country"], "at": str(pd.Timestamp(e["date"]).tz_convert("UTC"))}
                        for e in events if pd.Timestamp(e["date"]).tz_convert("UTC") >= now - pd.Timedelta(hours=1)],
                       key=lambda e: e["at"])[:25]
