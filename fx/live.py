@@ -20,6 +20,8 @@ from fx import checks as C
 from fx.pairs import ALL, EXOTICS, METALS, NAMES, SWAP_PER_NIGHT, kind, label, pip, round_step, spread, yahoo
 from scanner.features import coin_features
 from scanner.model import PT, SL, ScannerModel, risk_unit
+from scanner.quality import adjust_r
+from scanner.quality import load as load_quality
 from scanner.rank import grade, score_from_r
 from scanner.styles import FX_STYLES
 from stocks.data import load_all
@@ -120,7 +122,8 @@ def declutter(pair: str, side: str, price: float, tp: float, sl: float, hunt: di
 
 
 def score_side(pair: str, side: str, df: pd.DataFrame, df_pair: pd.DataFrame, df15_pair: pd.DataFrame | None,
-               key: str, m: ScannerModel, t: dict, events: list, now: pd.Timestamp, tri: dict) -> dict:
+               key: str, m: ScannerModel, t: dict, events: list, now: pd.Timestamp, tri: dict,
+               vol: dict | None = None) -> dict:
     st = FX_STYLES[key]
     f = coin_features(df, None).iloc[-1]
     p = float(m.predict(f.to_frame().T)[0])
@@ -181,7 +184,7 @@ def score_side(pair: str, side: str, df: pd.DataFrame, df_pair: pd.DataFrame, df
                      "steered by the central bank.")
     nights = max(int(st.horizon_minutes // (24 * 60)), 0) if key == "fx_days" else 0
     cost = spread(pair) + nights * SWAP_PER_NIGHT
-    r = p * m.win_r - (1 - p) * m.loss_r - cost / (SL * ru) - pen
+    r = adjust_r(p * m.win_r - (1 - p) * m.loss_r - cost / (SL * ru), ru, vol) - pen
     sc = score_from_r(r)
     # exits in the pair's own price
     if side == "buy":
@@ -226,6 +229,8 @@ def run(track_now: bool | None = None) -> dict:
 
     now = pd.Timestamp.now(tz="UTC")
     t = C.thresholds(C_seed())
+    quality_board = load_quality("fx/scoreboard.json")       # grade check + jumpiness adjustment from the track record
+    vol = (quality_board or {}).get("vol")
     events = news()
     models = load_models()
     lists: dict = {"main": {}, "exotic": {}}
@@ -249,7 +254,7 @@ def run(track_now: bool | None = None) -> dict:
             for side, df in (("buy", df_pair), ("sell", invert(df_pair))):
                 try:
                     rows["exotic" if p in EXOTICS else "main"].append(
-                        score_side(p, side, df, df_pair, cs15.get(yahoo(p)), key, m, t, events, now, tri))
+                        score_side(p, side, df, df_pair, cs15.get(yahoo(p)), key, m, t, events, now, tri, vol))
                 except Exception as e:  # noqa: BLE001
                     log.warning("fx %s %s %s: %s", key, p, side, e)
         for lk, rs in rows.items():
@@ -277,7 +282,7 @@ def run(track_now: bool | None = None) -> dict:
             day = df[df.index >= df.index[-1] - pd.Timedelta(hours=24)]
             movers.append({"pair": p, "label": label(p), "kind": kind(p), "chg": float(day["close"].iloc[-1] / day["open"].iloc[0] - 1)})
     movers.sort(key=lambda x: -abs(x["chg"]))
-    payload = {"generated_at": str(now), "open": market_open(now), "fix_windows": [
+    payload = {"generated_at": str(now), "open": market_open(now), "quality": quality_board, "fix_windows": [
                    {"name": n, "start": str(a), "end": str(b)} for n, a, b in sorted(C.fix_windows(now), key=lambda w: w[1]) if b >= now][:5],
                "thin": C.thin_market(now), "events": upcoming, "lists": lists, "movers": movers[:20],
                "styles": {k: {"label": s.label, "interval": s.interval, "hold_text": "4 hours" if k == "fx_today" else "3 days"}

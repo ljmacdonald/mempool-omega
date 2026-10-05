@@ -2,6 +2,7 @@ name: DEX scanner (hourly) + nightly DEX retrain
 
 # Finds, scam-checks and ranks tokens on Solana, BNB Chain, Ethereum and Robinhood Chain DEXes and writes
 # state/dex/snapshot.json for the website's DEX page. PAPER ONLY: no wallets, no keys, no orders.
+run-name: "DEX: ${{ inputs.task || github.event.schedule || 'run' }}"
 on:
   schedule:
     - cron: "37 * * * *"          # hourly, away from the other jobs

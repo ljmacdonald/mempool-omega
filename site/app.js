@@ -3,7 +3,7 @@
    Models, track record and practice account: this project's public repository (updated by GitHub Actions). */
 (function () {
   "use strict";
-  const E = window.OmegaEngine;
+  const E = window.OmegaEngine, Q = window.OmegaQuality;
   const BINANCE = "https://data-api.binance.vision/api/v3";
   const WS = "wss://data-stream.binance.vision/stream?streams=";
   const REPO = window.OMEGA_REPO || "https://raw.githubusercontent.com/ljmacdonald/mempool-omega/main/state/";
@@ -184,7 +184,10 @@
   }
   async function loadAdaptive() {
     if (state.adaptive && Date.now() - state.adaptiveAt < 3600000) return state.adaptive;
-    try { state.adaptive = await getJSON(REPO + "web/adaptive.json"); } catch { state.adaptive = null; }
+    const [ad, board] = await Promise.all([getJSON(REPO + "web/adaptive.json").catch(() => null),
+      getJSON(REPO + `suggestions/${SMALL ? "small_" : ""}scoreboard.json`).catch(() => null)]);
+    state.quality = (board && board.quality) || null;          // grade check + jumpiness adjustment from the track record
+    state.adaptive = ad || state.quality ? { ...(ad || {}), vol: state.quality ? state.quality.vol : null } : null;
     state.adaptiveAt = Date.now();
     return state.adaptive;
   }
@@ -228,12 +231,12 @@
   // First open: show the server's hourly list at once (clearly labelled) while live prices load
   async function quickHourly(style) {
     try {
-      const pl = await getJSON(REPO + `suggestions/${SMALL ? "small_" : ""}latest_${style}.json`);
+      const [pl] = await Promise.all([getJSON(REPO + `suggestions/${SMALL ? "small_" : ""}latest_${style}.json`), loadAdaptive()]);
       if (state.lastScan[style] || state.style !== style || !pl.ideas?.length) return;
       const ideas = pl.ideas.map((d) => ({ ...d, exit_by: Date.parse(d.exit_by), chance_beats_market: d.chance_beats_market ?? 0.5 }));
       $("mood").className = "banner calm";
       $("mood").innerHTML = `<b>Showing the hourly list from ${esc(pl.generated_at.slice(11, 16))} UTC</b> while live prices load. It updates in a few seconds.`;
-      $("ideas").innerHTML = `<div style="display:grid;gap:14px">${ideas.map((d) => ideaCard(d, true, true)).join("")}</div>`;
+      $("ideas").innerHTML = `${Q.ideasBanner(state.quality)}<div style="display:grid;gap:14px">${ideas.map((d) => ideaCard(d, true, true)).join("")}</div>`;
       for (const el of document.querySelectorAll("#ideas .calc")) updateCalc(el);
     } catch { /* no hourly list yet: the live one is coming */ }
   }
@@ -528,7 +531,7 @@
       <div class="idea-head">
         <h2><span class="rank">${d.rank}.</span>${esc(d.coin)}</h2>
         <div class="score"><b>${d.score.toFixed(1)}</b><span class="muted">/ 10</span>
-          <span class="pill ${gradeClass(d.grade)}">${esc(d.grade)}</span>
+          <span class="pill ${Q.gradeClassFor(d.grade, state.quality)}">${esc(Q.gradeWord(d.grade, state.quality, d.rank))}</span>
           <span class="pill ${riskClass(d.risk_level)}">Risk: ${esc(d.risk_level)}</span></div>
       </div>
       <div class="strip">
@@ -570,7 +573,7 @@
     dropCharts("idea|");
     // prices fetched by this scan are live: record them before drawing the cards
     for (const d of res.ideas) { const live = res.candles[d.symbol]?.live; if (live) state.live[d.symbol] = { price: live.close, at: res.at || Date.now() }; }
-    $("ideas").innerHTML = `<div style="display:grid;gap:14px">${res.ideas.map((d) => ideaCard(d, false)).join("")}</div>${earlierBlock()}`;
+    $("ideas").innerHTML = `${Q.ideasBanner(state.quality)}<div style="display:grid;gap:14px">${res.ideas.map((d) => ideaCard(d, false)).join("")}</div>${earlierBlock()}`;
     for (const d of res.ideas) {
       const a = d.anchor;
       const ch = makeChart($(`chart-idea-${d.style}-${d.symbol}`), res.candles[d.symbol], [
@@ -606,7 +609,7 @@
       const ideas = pl.ideas.map((d) => ({ ...d, exit_by: Date.parse(d.exit_by), chance_beats_market: d.chance_beats_market ?? d.chance_of_profit ?? 0.5 }));
       $("mood").className = "banner warn";
       $("mood").innerHTML = `<b>Live prices are unavailable</b> (${esc(err.message || err)}). Showing the ideas saved at ${esc(pl.generated_at.slice(11, 16))} UTC instead. Prices may have moved since. Binance may be blocked on your network; try another network or try again later.`;
-      $("ideas").innerHTML = `<div style="display:grid;gap:14px">${ideas.map((d) => ideaCard(d, true)).join("")}</div>`;
+      $("ideas").innerHTML = `${Q.ideasBanner(state.quality)}<div style="display:grid;gap:14px">${ideas.map((d) => ideaCard(d, true)).join("")}</div>`;
       for (const el of document.querySelectorAll("#ideas .calc")) updateCalc(el);
     } catch {
       $("mood").className = "banner bad";
@@ -715,6 +718,7 @@
         }
         html += `</tbody></table></div><p class="small muted">If a speed doesn't beat “random pick” over a few weeks, its ranking isn't adding value.</p>`;
       }
+      html += Q.gradeTable(b.quality);
       try {
         const h = parseCSV(await getText(REPO + `suggestions/${SMALL ? "small_" : ""}history.csv`)).filter((r) => r.status === "closed").slice(-25).reverse();
         if (h.length) {

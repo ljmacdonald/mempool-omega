@@ -1,0 +1,30 @@
+name: Tick (starts whatever jobs are due)
+
+# GitHub's own timer has been skipping most scheduled runs, so an outside timer (cron-job.org, see SCHEDULER.md)
+# starts this every 15 minutes, and it starts every job that is due (infra/tick.py). The schedule below is only a
+# fallback. Needs no secrets: it uses this run's own token, limited to starting this repository's workflows.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "3,18,33,48 * * * *"
+
+permissions:
+  actions: write
+  contents: read
+
+concurrency:
+  group: omega-tick
+  cancel-in-progress: true
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: infra
+      - name: Start the jobs that are due
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 infra/tick.py

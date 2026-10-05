@@ -120,7 +120,8 @@ def small_coins(top_n: int = 5) -> dict:
     out = {}
     for key in STYLES:
         opened = hist[(hist["status"] == "open") & (hist["style"] == key)]["symbol"].tolist() if len(hist) else []
-        res = scan(key, load_model(key), uni, cfg["small_top_n"], extra_symbols=opened, candidates=15)
+        res = scan(key, load_model(key), uni, cfg["small_top_n"], extra_symbols=opened, candidates=15,
+                       board="suggestions/small_scoreboard.json")
         track.append(res.payload["ideas"], res.payload["coins_scanned"], SMALL_HIST)
         res.payload["settled_this_run"] = track.resolve(res.candles, key, SMALL_HIST)
         state_path("suggestions", f"small_latest_{key}.json").write_text(json.dumps(res.payload, indent=2, default=str))

@@ -17,6 +17,8 @@ from dex.live import clean
 from scanner.defence import declutter_exits
 from scanner.features import coin_features
 from scanner.model import PT, SL, ScannerModel, risk_unit
+from scanner.quality import adjust_r
+from scanner.quality import load as load_quality
 from scanner.rank import grade, score_from_r
 from scanner.styles import STOCK_STYLES
 from stocks import rank as R
@@ -66,7 +68,7 @@ def in_window(report: str | None, key: str, today: pd.Timestamp) -> str | None:
 
 
 def score_list(uni: pd.DataFrame, key: str, model: ScannerModel, cs: dict, spy: pd.DataFrame, earn: dict,
-               market: dict) -> list[dict]:
+               market: dict, vol: dict | None = None) -> list[dict]:
     st = STOCK_STYLES[key]
     today_ny = pd.Timestamp.now(tz="America/New_York")
     today = today_ny.strftime("%Y-%m-%d")
@@ -84,7 +86,7 @@ def score_list(uni: pd.DataFrame, key: str, model: ScannerModel, cs: dict, spy: 
         pen, warn = R.flags(f, close, st, rep, today)
         dv = float(info.at[sym, "dollar_vol"])
         cost = R.cost_rt(dv)
-        r = p * model.win_r - (1 - p) * model.loss_r - cost / (SL * ru) - pen
+        r = adjust_r(p * model.win_r - (1 - p) * model.loss_r - cost / (SL * ru), ru, vol) - pen
         stop, target = declutter_exits(close, close * (1 - SL * ru), close * (1 + PT * ru),
                                        float(df["low"].iloc[-24:].min()), ru, SL)
         sc = score_from_r(r)
@@ -152,7 +154,7 @@ def run(track_now: bool | None = None) -> dict:
         cs = load_all(syms, st.interval, LIVE_BARS[key])
         spy = cs.get("SPY")
         for lk, uni in (("large", large), ("volatile", vol)):
-            rows = score_list(uni, key, m, cs, spy, earn, market)
+            rows = score_list(uni, key, m, cs, spy, earn, market, (load_quality(f"stocks/scoreboard_{lk}.json") or {}).get("vol"))
             lists.setdefault(lk, {})[key] = rows[:TOP_KEEP]
             if track_now and rows:
                 hist = f"stocks/history_{lk}.csv"
@@ -168,6 +170,7 @@ def run(track_now: bool | None = None) -> dict:
                 track.resolve({**cs, **extra}, key, hist)
                 track.scoreboard(hist, f"stocks/scoreboard_{lk}.json", STOCK_STYLES)
     payload = {"generated_at": str(pd.Timestamp.now(tz="UTC")), "market": market,
+               "quality": {lk: load_quality(f"stocks/scoreboard_{lk}.json") for lk in ("large", "volatile")},
                "styles": {k: {"label": s.label, "hold_minutes": s.horizon_minutes, "interval": s.interval,
                               "hold_text": "2 hours" if k == "stk_today" else "3 trading days",
                               "bar_minutes": s.bar_minutes, "min_risk": s.min_risk, "max_risk": s.max_risk}
