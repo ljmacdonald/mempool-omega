@@ -382,7 +382,7 @@
       nowPx <= a.safety_exit ? `<div class="banner bad">Since it was suggested, the price already fell to the safety exit. Don't buy it now.</div>` : "";
     const bm = Number.isFinite(d.week_up20_pct) ? `<p class="small muted">Last 90 days: it rose 20%+ within a week ${Math.round(d.week_up20_pct * 100)}% of the time and fell 20%+ ${Math.round(d.week_down20_pct * 100)}% of the time.</p>` : "";
     const chartId = `chart-idea-${d.style}-${d.symbol}`;
-    return `<article class="card">
+    return `<article class="card" data-alert-key="idea-${esc(d.style)}-${esc(d.symbol)}">
       <div class="idea-head">
         <h2><span class="rank">${d.rank}.</span>${esc(d.coin)}</h2>
         <div class="score"><b>${d.score.toFixed(1)}</b><span class="muted">/ 10</span>
@@ -429,6 +429,9 @@
     // prices fetched by this scan are live: record them before drawing the cards
     for (const d of res.ideas) { const live = res.candles[d.symbol]?.live; if (live) state.live[d.symbol] = { price: live.close, at: res.at || Date.now() }; }
     $("ideas").innerHTML = `${Q.ideasBanner(state.quality)}<div style="display:grid;gap:14px">${res.ideas.map((d) => ideaCard(d, false)).join("")}</div>${earlierBlock()}`;
+    if (window.OmegaAlerts) window.OmegaAlerts.ideas(window.OmegaAlerts.page, res.ideas.map((d) => ({ key: `idea-${d.style}-${d.symbol}`, grade: d.grade, score: +d.score,
+      title: `BUY ${coinName(d.symbol)} (${d.grade}, score ${(+d.score).toFixed(1)})`, body: `Take profit ${(+d.take_profit).toPrecision(6)}, safety exit ${(+d.safety_exit).toPrecision(6)}, sell within ${Math.round(d.hold_minutes / 60) || 1} h.`,
+      pick: [`#speed button[data-style="${d.style}"]`] })), state.quality);
     for (const d of res.ideas) {
       const a = d.anchor;
       const ch = makeChart($(`chart-idea-${d.style}-${d.symbol}`), res.candles[d.symbol], [
@@ -501,7 +504,7 @@
       notifyIfChanged(t, a);
       const amt = +(amounts[t.id] ?? t.amount ?? state.amount);
       const pl = outcome(amt, t.entry, px);
-      html.push(`<article class="card trade ${a.level}" data-tid="${esc(t.id)}">
+      html.push(`<article class="card trade ${a.level}" data-tid="${esc(t.id)}" data-alert-key="trade-${esc(t.id)}">
         <div class="idea-head"><h2>${esc(coinName(t.symbol))}</h2><span class="verdict ${a.level}">${esc(a.action)}</span></div>
         <p>${esc(a.why)}</p>
         <div class="strip">
@@ -543,9 +546,10 @@
 
   function notifyIfChanged(t, a) {
     const prev = state.lastAction[t.id]; state.lastAction[t.id] = a.action;
+    if (window.OmegaAlerts) window.OmegaAlerts.trade(window.OmegaAlerts.page, t, a);
     if (!prev || prev === a.action || a.action === "Hold" || a.action === "Waiting for a live price") return;
     document.title = `${a.action}: ${coinName(t.symbol)} · Mempool Omega`;
-    try { if ("Notification" in window && Notification.permission === "granted") new Notification(`${coinName(t.symbol)}: ${a.action}`, { body: a.why }); } catch { /* not supported */ }
+    try { if (!window.OmegaAlerts && "Notification" in window && Notification.permission === "granted") new Notification(`${coinName(t.symbol)}: ${a.action}`, { body: a.why }); } catch { /* not supported */ }
   }
   function updateBackup() { try { $("backupOut").value = btoa(unescape(encodeURIComponent(JSON.stringify(state.trades)))); } catch { $("backupOut").value = ""; } }
 
@@ -787,6 +791,7 @@
   setInterval(paintStatus, 1000);
   setInterval(clearStale, 5000);
   setInterval(() => { if (!document.hidden && !$("tab-ideas").hidden) refreshEarlierPrices(); }, 30000);
-  setInterval(() => { if (state.trades.length && !$("tab-trades").hidden) refreshTrades(false); }, 30000);
+  const alertsOn = () => !!(window.OmegaAlerts && window.OmegaAlerts.on());
+  setInterval(() => { if (state.trades.length && (!$("tab-trades").hidden || alertsOn())) refreshTrades(false); }, 30000);
   document.addEventListener("visibilitychange", () => { if (!document.hidden && state.nextAt && Date.now() > state.nextAt) refreshIdeas(); });
 })();

@@ -160,7 +160,7 @@
   function card(d) {
     const a = d.anchor; const id = `chart-${key(d).replace(":", "-")}`;
     const failed = d.checks.filter((c) => c.ok === false), passed = d.checks.filter((c) => c.ok === true);
-    return `<article class="card">
+    return `<article class="card" data-alert-key="idea-${esc(state.style)}-${esc(d.pair)}-${esc(d.side)}">
       <div class="idea-head"><h2><span class="rank">${d.rank}.</span><span class="pill ${d.side === "buy" ? "good" : "bad"}" style="font-size:1rem">${d.side === "buy" ? "BUY" : "SELL"}</span> ${esc(d.label)}</h2>
         <div class="score"><b>${d.scoreNow.toFixed(1)}</b><span class="muted">/ 10</span><span class="pill ${Q.gradeClassFor(d.gradeNow, qual())}">${esc(Q.gradeWord(d.gradeNow, qual(), d.rank))}</span></div></div>
       <p><b>${esc(d.headline)}</b></p>
@@ -238,7 +238,7 @@
       const { px, live, a } = tradeView(t);
       notify(t, a);
       const v = live ? outcome(t, t.amount, t.lev, t.entry, px) : NaN;
-      return `<article class="card trade ${a.level}"><div class="idea-head"><h2>${t.side.toUpperCase()} ${esc(t.label)}</h2><span class="verdict ${a.level}">${esc(a.action)}</span></div><p>${esc(a.why)}</p>
+      return `<article class="card trade ${a.level}" data-alert-key="trade-${esc(t.id)}"><div class="idea-head"><h2>${t.side.toUpperCase()} ${esc(t.label)}</h2><span class="verdict ${a.level}">${esc(a.action)}</span></div><p>${esc(a.why)}</p>
         <div class="strip"><div class="fact"><div class="k">Opened</div><div class="v">${localDay(t.opened)}</div><div class="d muted">at ${dp(t.pair, t.entry)}</div></div>
         <div class="fact"><div class="k">Price now${live ? " (live)" : ""}</div><div class="v">${dp(t.pair, px)}</div><div class="d ${!live ? "muted" : v >= 0 ? "up" : "down"}">${live ? `${usd(v)} on $${t.amount} at ${t.lev}x` : "not live right now: check your broker"}</div></div>
         <div class="fact"><div class="k">Take profit</div><div class="v">${dp(t.pair, t.take_profit)}</div></div><div class="fact"><div class="k">Safety exit</div><div class="v">${dp(t.pair, t.safety_exit)}</div></div>
@@ -246,9 +246,9 @@
         <div class="actions"><button class="btn" type="button" data-sold="${esc(t.id)}">I've closed it: remove</button></div></article>`; }).join("")}</div><p class="small muted">Live prices are checked every minute while this page is open (Coinbase's reference rates; gold from PAXG). Your broker's price can differ slightly, and silver updates every 15 minutes.</p>`;
   }
   function notify(t, a) {
-    const prev = state.lastAction[t.id]; state.lastAction[t.id] = a.action; if (!prev || prev === a.action || a.action === "Hold" || a.action === "Waiting for a live price") return;
+    const prev = state.lastAction[t.id]; state.lastAction[t.id] = a.action; if (window.OmegaAlerts) window.OmegaAlerts.trade(window.OmegaAlerts.page, t, a); if (!prev || prev === a.action || a.action === "Hold" || a.action === "Waiting for a live price") return;
     document.title = `${a.action}: ${t.label} · Mempool Omega`;
-    try { if ("Notification" in window && Notification.permission === "granted") new Notification(`${t.label}: ${a.action}`, { body: a.why }); } catch { /* not supported */ }
+    try { if (!window.OmegaAlerts && "Notification" in window && Notification.permission === "granted") new Notification(`${t.label}: ${a.action}`, { body: a.why }); } catch { /* not supported */ }
   }
   function parseCSV(text) { const lines = text.trim().split(/\r?\n/); const head = lines.shift().split(","); return lines.map((l) => { const v = l.split(","); return Object.fromEntries(head.map((h, i) => [h, v[i]])); }); }
   async function renderRecord() {

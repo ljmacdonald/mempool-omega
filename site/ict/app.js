@@ -238,7 +238,7 @@
     const held = state.trades.some((t) => t.id === s.id); const isCrypto = state.market === "crypto";
     const ticks = I.FACTORS.map((f) => `<li>${s.conf[f] ? '<span class="ok">✓</span>' : '<span class="na">✗</span>'}<span>${esc(factorText(f, s.conf[f] ? 0 : 1, isH1(s)))}</span></li>`).join("");
     const it = isCrypto ? state.integrity[s.sym] : null;
-    return `<article class="card">
+    return `<article class="card" data-alert-key="idea-${esc(s.id)}">
       <div class="idea-head"><h2><span class="rank">${s.rank}.</span><span class="pill ${s.side === "buy" ? "good" : "bad"}" style="font-size:1rem">${s.side === "buy" ? "BUY" : "SELL"}</span> ${esc(s.label)}</h2>
         <div class="score"><b>${s.score.toFixed(1)}</b><span class="muted">/ 10</span><span class="pill ${Q.gradeClassFor(s.grade, qual())}">${esc(Q.gradeWord(s.grade, qual(), s.rank))}</span>${s.risk_level ? `<span class="pill ${riskClass(s.risk_level)}">Risk: ${esc(s.risk_level)}</span>` : ""}</div></div>
       <p><b>${esc(statusText(s))}</b></p>
@@ -412,7 +412,7 @@
     $("trades").innerHTML = `<div style="display:grid;gap:14px">${state.trades.map((t) => {
       const a = tradeAdvice(t); const px = livePx(t.sym); const pos = (t.money || 100) * (t.lev || 1);
       const mv = t.filled_at && px ? (t.side === "buy" ? px / t.entry - 1 : t.entry / px - 1) : NaN; const v = pos * mv - pos * (t.cost_r * Math.abs(t.entry - t.stop) / t.entry);
-      return `<article class="card trade ${a.level}"><div class="idea-head"><h2>${t.side.toUpperCase()} ${esc(t.label)}</h2><span class="verdict ${a.level}">${esc(a.action)}</span></div><p>${esc(a.why)}</p>
+      return `<article class="card trade ${a.level}" data-alert-key="trade-${esc(t.id)}"><div class="idea-head"><h2>${t.side.toUpperCase()} ${esc(t.label)}</h2><span class="verdict ${a.level}">${esc(a.action)}</span></div><p>${esc(a.why)}</p>
         <div class="strip"><div class="fact"><div class="k">Entry</div><div class="v">${fmt(t.entry)}</div><div class="d muted">${t.filled_at ? `filled about ${local(t.filled_at)}` : "not filled yet"}</div></div>
         <div class="fact"><div class="k">Price now${px ? " (live)" : ""}</div><div class="v">${fmt(px)}</div><div class="d ${!Number.isFinite(mv) ? "muted" : v >= 0 ? "up" : "down"}">${Number.isFinite(mv) ? `${usd(v)} on $${(t.money || 100).toLocaleString()} at ${t.lev || 1}x` : px ? "" : "not live right now"}</div></div>
         <div class="fact"><div class="k">Take profit at</div><div class="v">${fmt(t.target)}</div></div><div class="fact"><div class="k">Safety exit at</div><div class="v">${fmt(t.stop)}</div></div>
@@ -422,9 +422,10 @@
   }
   function notify(t, a) {
     const prev = state.lastAction[t.id]; state.lastAction[t.id] = a.action;
+    if (window.OmegaAlerts) window.OmegaAlerts.trade(window.OmegaAlerts.page, t, a);
     if (!prev || prev === a.action || ["Hold", "Order waiting", "Waiting for a live price"].includes(a.action)) return;
     document.title = `${a.action}: ${t.label} · Mempool Omega`;
-    try { if ("Notification" in window && Notification.permission === "granted") new Notification(`${t.label}: ${a.action}`, { body: a.why }); } catch { /* not supported */ }
+    try { if (!window.OmegaAlerts && "Notification" in window && Notification.permission === "granted") new Notification(`${t.label}: ${a.action}`, { body: a.why }); } catch { /* not supported */ }
   }
 
   // ------------------------------------------------------------------ wiring
@@ -469,6 +470,7 @@
   selectTab(["setups", "movers", "record", "trades", "guide"].includes(startTab) ? startTab : startTab === "tests" ? "record" : "setups");
   saveTrades(); paintZone(); refresh(false);
   setInterval(paintZone, 30000);
-  setInterval(() => { if (!document.hidden) pollPrices(); }, 10000);
+  const alertsOn = () => !!(window.OmegaAlerts && window.OmegaAlerts.on());
+  setInterval(() => { if (!document.hidden || (alertsOn() && state.trades.length)) pollPrices(); }, 10000);
   setInterval(() => { if (!document.hidden) refresh(false); }, 300000);
 })();
