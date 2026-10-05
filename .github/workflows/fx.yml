@@ -2,6 +2,7 @@ name: Forex (every 15 min, Sunday evening to Friday evening) + nightly retrain
 
 # Ranks forex pairs, gold and silver both ways with manipulation checks (free Yahoo + ForexFactory data) and
 # publishes the snapshot for the website's Forex page on the `data` branch. PAPER ONLY: no broker, no orders.
+run-name: "Forex: ${{ inputs.task || github.event.schedule || 'run' }}"
 on:
   schedule:
     - cron: "10,25,40,55 * * * 1-5"  # Monday-Friday, around the clock (the job notes when the market is closed)

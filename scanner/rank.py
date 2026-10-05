@@ -6,6 +6,7 @@ import pandas as pd
 
 from scanner.defence import adaptive_penalty, declutter_exits
 from scanner.model import PT, SL
+from scanner.quality import adjust_r
 from scanner.styles import STYLES, Style
 
 GRADES = [(6.5, "Strong"), (5.6, "Moderate"), (5.0, "Weak"), (-1, "Avoid - watch only")]
@@ -102,7 +103,7 @@ def rank(latest: pd.DataFrame, p: np.ndarray, quote_vol: dict[str, float], big_m
         apen, awarn = adaptive_penalty(f, adaptive or {})
         pen += apen
         warns += awarn
-        adj_r = expected_r(prob, win_r, loss_r, ru) - pen
+        adj_r = adjust_r(expected_r(prob, win_r, loss_r, ru), ru, (adaptive or {}).get("vol")) - pen
         score = score_from_r(adj_r)
         close = float(f["close"])
         bm = big_movers.get(sym, {})

@@ -12,6 +12,7 @@ import pandas as pd
 
 from core.config import state_path
 from scanner.model import COST, risk_unit, simulate_idea
+from scanner.quality import quality
 from scanner.styles import STYLES, get_style
 
 HIST = "suggestions/history.csv"
@@ -140,6 +141,7 @@ def scoreboard(hist: str = HIST, out_path: str = "suggestions/scoreboard.json", 
     c = h[h["status"] == "closed"]
     out = {"total_suggestions": int(len(h)), "still_open": int((h["status"] == "open").sum()), **_summary(c),
            "by_style": {k: _summary(c[c["style"] == k]) for k in styles},
-           "by_grade": {g: _summary(x) for g, x in c.groupby("grade")} if len(c) else {}}
+           "by_grade": {g: _summary(x) for g, x in c.groupby("grade")} if len(c) else {},
+           "quality": quality(c)}
     state_path(out_path).write_text(json.dumps(out, indent=2, default=str))
     return out

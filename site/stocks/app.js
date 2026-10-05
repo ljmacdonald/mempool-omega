@@ -2,7 +2,8 @@
    Yahoo, which web pages can't read directly). Live prices: optional Finnhub key, kept in this browser only. */
 (function () {
   "use strict";
-  const E = window.OmegaEngine;
+  const E = window.OmegaEngine, Q = window.OmegaQuality;
+  const qual = () => (state.snap?.quality || {})[state.list] || null;   // grade check + jumpiness adjustment
   const DATA = window.OMEGA_STOCK_DATA || "https://raw.githubusercontent.com/ljmacdonald/mempool-omega/data/stocks/";
   const REPO = window.OMEGA_REPO || "https://raw.githubusercontent.com/ljmacdonald/mempool-omega/main/state/";
   const GRADES = [[6.5, "Strong"], [5.6, "Moderate"], [5.0, "Weak"], [-1, "Avoid - watch only"]];
@@ -80,7 +81,7 @@
   const costRt = (row) => row.spread + (state.snap.sec_fee || 0.0000278) + 2 * state.fx;
   function evaluate(row) {
     const c = costRt(row);
-    const r = row.p * row.win_r - (1 - row.p) * row.loss_r - c / row.risk_unit - row.flag_penalty;
+    const r = E.adjustR(row.p * row.win_r - (1 - row.p) * row.loss_r - c / row.risk_unit, row.risk_unit, (qual() || {}).vol) - row.flag_penalty;
     const sc = E.scoreFromR(r);
     return { ...row, cost: c, r, scoreNow: sc, gradeNow: gradeOf(sc) };
   }
@@ -168,7 +169,7 @@
     const id = `chart-${d.symbol}`;
     return `<article class="card">
       <div class="idea-head"><h2><span class="rank">${d.rank}.</span>${esc(d.symbol)} <span class="small muted" style="font-family:var(--f-body);font-weight:500">${esc(d.name)}</span></h2>
-        <div class="score"><b>${d.scoreNow.toFixed(1)}</b><span class="muted">/ 10</span><span class="pill ${gradeClass(d.gradeNow)}">${esc(d.gradeNow)}</span></div></div>
+        <div class="score"><b>${d.scoreNow.toFixed(1)}</b><span class="muted">/ 10</span><span class="pill ${Q.gradeClassFor(d.gradeNow, qual())}">${esc(Q.gradeWord(d.gradeNow, qual(), d.rank))}</span></div></div>
       <p class="small muted">${esc(d.sector || "")} · company worth ${big(d.mcap)} · trades ${big(d.dollar_vol)} a day · ${pct(d.chg_pct)} today</p>
       <div class="strip">
         <div class="fact"><div class="k">Suggested</div><div class="v">${localDay(a.at)}</div><div class="d muted">at ${price(a.price)}</div></div>
@@ -203,7 +204,7 @@
     $("mood").innerHTML = rows.length ? `<b>Mood: ${label}.</b> ${pos} of the best ${rows.length} (out of ${n} ${state.list === "large" ? "large stocks" : "high-volatility stocks"} scanned) look positive after costs. ${label === "Unfavourable" ? "Doing nothing is a perfectly good choice." : "Scores above 5 beat break-even after costs."}`
       : `No ${state.list === "large" ? "large" : "high-volatility"} stock rankings yet for this speed. They appear after the first run during US market hours.`;
     dropCharts();
-    $("ideas").innerHTML = `<div style="display:grid;gap:14px">${state.ideas.map(card).join("")}</div>`;
+    $("ideas").innerHTML = `${Q.ideasBanner(qual())}<div style="display:grid;gap:14px">${state.ideas.map(card).join("")}</div>`;
     for (const d of state.ideas) {
       const a = d.anchor; const c = drawChart($(`chart-${d.symbol}`), d.chart, [{ price: a.price, color: "--calm", dashed: true, title: "Suggested" },
         { price: a.take_profit, color: "--good", title: "Take profit" }, { price: a.safety_exit, color: "--bad", title: "Safety exit" }], a.at);
@@ -268,6 +269,7 @@
         html += `<div class="table-wrap"><table><thead><tr><th>Speed</th><th class="num">Ideas checked</th><th class="num">Ended in profit</th><th class="num">Average per idea</th><th class="num">Random pick average</th><th class="num">$100 in each idea</th></tr></thead><tbody>
           ${rows.map(([k, v]) => `<tr><td>${esc(state.snap?.styles[k]?.label || k)}</td><td class="num">${v.closed}</td><td class="num">${Math.round(v.win_rate * 100)}%</td><td class="num ${v.avg_return_per_idea >= 0 ? "up" : "down"}">${pct(v.avg_return_per_idea, 2)}</td>
             <td class="num">${pct(v.random_pick_avg_return, 2)} ${v.avg_return_per_idea > v.random_pick_avg_return ? '<span class="pill good">beating random</span>' : '<span class="pill warn">not beating random</span>'}</td><td class="num ${v.if_100usd_each_total_pnl >= 0 ? "up" : "down"}">${usd(v.if_100usd_each_total_pnl)}</td></tr>`).join("")}</tbody></table></div>`;
+        html += Q.gradeTable(b.quality);
         try {
           const h = parseCSV(await getText(REPO + `stocks/history_${lk}.csv`)).filter((r) => r.status === "closed").slice(-10).reverse();
           if (h.length) html += `<div class="table-wrap"><table><tbody>${h.map((r) => `<tr><td>${esc(r.ts.slice(5, 16))}</td><td>${esc(r.symbol)}</td><td>${esc(r.outcome)}</td><td class="num ${+r.net_ret >= 0 ? "up" : "down"}">${pct(+r.net_ret, 2)}</td></tr>`).join("")}</tbody></table></div>`;

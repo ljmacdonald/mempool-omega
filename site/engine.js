@@ -179,6 +179,13 @@
     return r.length ? r : ["The model sees a slightly better-than-usual pattern, with no single strong reason."];
   }
 
+  // Learned from the track record (scanner/quality.py vol_adjust): a jumpy coin's expected R is lowered when jumpy coins
+  // have done worse than their scores said. No change without enough history.
+  function adjustR(r, ru, adj) {
+    if (!adj || !adj.slope || !(ru > 0)) return r;
+    return r + adj.slope * (Math.log(ru) - adj.mean) / adj.sd;
+  }
+
   // coins: [{symbol, candles, quoteVolume}]; returns {ideas, mood, scores}
   function rankCoins(coins, btc, model, style, cfg, bigMovers = {}, topN = 5, adaptive = null) {
     const rows = [];
@@ -187,7 +194,7 @@
       const f = lastFeatures(c, btc); const ru = riskUnit(c, style); const p = predict(model, f);
       let [pen, warns] = redFlags(f, coin.quoteVolume || 0, style);
       const [apen, awarn] = adaptivePenalty(f, adaptive); pen += apen; warns = warns.concat(awarn);
-      const baseR = expectedR(p, model, ru, cfg); const adj = baseR - pen; const score = scoreFromR(adj);
+      const baseR = adjustR(expectedR(p, model, ru, cfg), ru, adaptive && adaptive.vol); const adj = baseR - pen; const score = scoreFromR(adj);
       const close = c.close[c.close.length - 1];
       const low24 = Math.min(...c.low.slice(-24));
       const [stop, target] = declutterExits(close, close * (1 - cfg.sl * ru), close * (1 + cfg.pt * ru), low24, ru, cfg.sl);
@@ -501,7 +508,7 @@
 
   const api = { FEATURES, applyProbation, VENUES, DEX_FEE, CHAINS, walkBuy, walkSell, cexNet, dexNet, checkWalls, checkThinBook, checkWash, checkImpact, checkVenues, checkWhale, checkEngineered, combineChecks, applyIntegrity,
     mulberry32, thresholds, snapshotGaps, declutterExits, adaptivePenalty, BASE, diff, ewmMean, ewmStd, rStd, lastFeatures, riskUnit, predict, rankCoins, selectUniverse,
-    makeTrade, advise, adviseNoPrice, adviseAsOf, freshPrice, LIVE_MAX_AGE_MS, humanDuration, scoreFromR, expectedR, selectSmallUniverse, bigMoverStats };
+    makeTrade, advise, adviseNoPrice, adviseAsOf, adjustR, freshPrice, LIVE_MAX_AGE_MS, humanDuration, scoreFromR, expectedR, selectSmallUniverse, bigMoverStats };
   root.OmegaEngine = api;
   if (typeof module !== "undefined") module.exports = api;
 })(typeof window !== "undefined" ? window : globalThis);

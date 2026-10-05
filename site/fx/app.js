@@ -4,7 +4,8 @@
    PAXG (a gold-backed token that tracks one ounce). */
 (function () {
   "use strict";
-  const E = window.OmegaEngine;
+  const E = window.OmegaEngine, Q = window.OmegaQuality;
+  const qual = () => (state.snap && state.snap.quality) || null;   // grade check + jumpiness adjustment (applied on the server)
   const DATA = window.OMEGA_FX_DATA || "https://raw.githubusercontent.com/ljmacdonald/mempool-omega/data/fx/";
   const REPO = window.OMEGA_REPO || "https://raw.githubusercontent.com/ljmacdonald/mempool-omega/main/state/";
   const GRADES = [[6.5, "Strong"], [5.6, "Moderate"], [5.0, "Weak"], [-1, "Avoid - watch only"]];
@@ -161,7 +162,7 @@
     const failed = d.checks.filter((c) => c.ok === false), passed = d.checks.filter((c) => c.ok === true);
     return `<article class="card">
       <div class="idea-head"><h2><span class="rank">${d.rank}.</span><span class="pill ${d.side === "buy" ? "good" : "bad"}" style="font-size:1rem">${d.side === "buy" ? "BUY" : "SELL"}</span> ${esc(d.label)}</h2>
-        <div class="score"><b>${d.scoreNow.toFixed(1)}</b><span class="muted">/ 10</span><span class="pill ${gradeClass(d.gradeNow)}">${esc(d.gradeNow)}</span></div></div>
+        <div class="score"><b>${d.scoreNow.toFixed(1)}</b><span class="muted">/ 10</span><span class="pill ${Q.gradeClassFor(d.gradeNow, qual())}">${esc(Q.gradeWord(d.gradeNow, qual(), d.rank))}</span></div></div>
       <p><b>${esc(d.headline)}</b></p>
       <div class="strip">
         <div class="fact"><div class="k">Suggested</div><div class="v">${localDay(a.at)}</div><div class="d muted">at ${dp(d.pair, a.price)}</div></div>
@@ -192,7 +193,7 @@
       `<b>Mood: ${label}.</b> ${pos} of the best ${rows.length} pair-and-direction ideas look positive after costs.` +
       (state.blocked?.length ? ` ${state.blocked.length} held back right now (news about to hit, or a price that disagrees with related pairs).` : "");
     for (const c of Object.values(state.charts)) { try { c.chart.remove(); } catch { /* gone */ } } state.charts = {};
-    $("ideas").innerHTML = `<div style="display:grid;gap:14px">${state.ideas.map(card).join("")}</div>`;
+    $("ideas").innerHTML = `${Q.ideasBanner(qual())}<div style="display:grid;gap:14px">${state.ideas.map(card).join("")}</div>`;
     for (const d of state.ideas) {
       const a = d.anchor; const c = drawChart($(`chart-${key(d).replace(":", "-")}`), d.chart, [{ price: a.price, color: "--calm", dashed: true, title: "Suggested" },
         { price: a.take_profit, color: "--good", title: "Take profit" }, { price: a.safety_exit, color: "--bad", title: "Safety exit" }]);
@@ -255,6 +256,7 @@
       const b = await getJSON(REPO + "fx/scoreboard.json");
       const rows = Object.entries(b.by_style || {}).filter(([, v]) => v.closed);
       let html = rows.length ? `<div class="table-wrap"><table><thead><tr><th>Speed</th><th class="num">Ideas checked</th><th class="num">Ended in profit</th><th class="num">Average per idea</th><th class="num">Random pick average</th></tr></thead><tbody>${rows.map(([k, v]) => `<tr><td>${esc(state.snap?.styles[k]?.label || k)}</td><td class="num">${v.closed}</td><td class="num">${Math.round(v.win_rate * 100)}%</td><td class="num ${v.avg_return_per_idea >= 0 ? "up" : "down"}">${pct(v.avg_return_per_idea, 3)}</td><td class="num">${pct(v.random_pick_avg_return, 3)} ${v.avg_return_per_idea > v.random_pick_avg_return ? '<span class="pill good">beating random</span>' : '<span class="pill warn">not beating random</span>'}</td></tr>`).join("")}</tbody></table></div>` : `<div class="banner calm">No ideas have reached their time limit yet.</div>`;
+      html += Q.gradeTable(b.quality);
       try { const h = parseCSV(await getText(REPO + "fx/history.csv")).filter((r) => r.status === "closed").slice(-12).reverse(); if (h.length) html += `<div class="table-wrap"><table><tbody>${h.map((r) => `<tr><td>${esc(r.ts.slice(5, 16))}</td><td>${esc(r.symbol.replace(":", " ").toUpperCase())}</td><td>${esc(r.outcome)}</td><td class="num ${+r.net_ret >= 0 ? "up" : "down"}">${pct(+r.net_ret, 3)}</td></tr>`).join("")}</tbody></table></div>`; } catch { /* optional */ }
       $("record").innerHTML = html;
     } catch { $("record").innerHTML = `<div class="banner calm">The forex track record starts after the first hourly runs.</div>`; }

@@ -41,6 +41,11 @@ read the top 5 ideas, tap **“I bought this”**, and the **My trades** tab tel
   midnight open), on 15 crypto coins (found live in the browser), forex majors and gold, and US index futures. Each
   setup's chance of reaching the target first comes from a nightly backtest of the same rules, and the page shows
   plainly when they lost money.
+- **Honest grades**: every page's Track record tab shows how each grade actually turned out (per $1 risked). If higher
+  grades stop beating lower ones, the pages switch the grade words off and say why; jumpy coins are marked down when
+  the record shows they underperform their scores.
+- **Reliable timing**: a free outside timer (cron-job.org) starts the Tick job every 15 minutes, which starts whatever
+  is due. Setup: [SCHEDULER.md](SCHEDULER.md).
 - **Biggest movers** tab on every page: today's top gainers and exactly why each one is or isn't suggested.
 - **Higher-risk mode** on the DEX page: younger and smaller tokens ($100k+, 5+ days), with every scam test unchanged.
 - A menu at the top of every page (**Exchange coins · Small coins · DEX tokens · US stocks · Forex**), plus a **Day / Night** switch

@@ -340,14 +340,18 @@ def active_days(df: pd.DataFrame, min_usd: float = 50_000.0) -> int:
 
 
 def ideas_for(cands: list[dict], style_key: str, top_n: int = 5, profile: str = "assess") -> list[dict]:
+    from scanner.quality import adjust_r
+    from scanner.quality import load as load_quality
+
     st = DEX_STYLES[style_key]
+    vol = (load_quality("dex/scoreboard_risky.json" if profile == "assess_risky" else "dex/scoreboard.json") or {}).get("vol")
     rows = []
     for c in cands:
         s = c.get("styles", {}).get(style_key)
         if not s or c[profile]["verdict"] != "pass":
             continue
-        r = expected_r(s["p"], s["win_r"], s["loss_r"], s["cost_rt_ref"], s["risk_unit"]) - s["flag_penalty"] \
-            - c[profile]["penalty"]
+        r = adjust_r(expected_r(s["p"], s["win_r"], s["loss_r"], s["cost_rt_ref"], s["risk_unit"]), s["risk_unit"], vol) \
+            - s["flag_penalty"] - c[profile]["penalty"]
         sc = score_from_r(r)
         rows.append({"symbol": f"{c['chain']}:{c['token']}", "coin": c["base_symbol"], "chain": c["chain"],
                      "pool": c["pool"], "style": style_key, "score": round(sc, 1), "grade": grade(sc),

@@ -4,7 +4,7 @@
    RugCheck), all-in costs for YOUR amount, then the ranking. Charts: GeckoTerminal candles. */
 (function () {
   "use strict";
-  const E = window.OmegaEngine, X = window.OmegaDex;
+  const E = window.OmegaEngine, X = window.OmegaDex, Q = window.OmegaQuality;
   const REPO = window.OMEGA_REPO || "https://raw.githubusercontent.com/ljmacdonald/mempool-omega/main/state/";
   const GT = "https://api.geckoterminal.com/api/v2", DS = "https://api.dexscreener.com";
   const GRADES = [[6.5, "Strong"], [5.6, "Moderate"], [5.0, "Weak"], [-1, "Avoid - watch only"]];
@@ -56,9 +56,13 @@
   async function gt(path) { const wait = gtNext - Date.now(); gtNext = Math.max(Date.now(), gtNext) + 2200; if (wait > 0) await sleep(wait); return getJSON(GT + path); }
 
   // ------------------------------------------------------------------ data
+  const qual = () => (state.q || {})[state.profile === "risky" ? "risky" : "standard"] || null;
   async function loadSnapshot(force) {
     if (!force && state.snap && Date.now() - state.snapAt < 10 * 60000) return state.snap;
-    state.snap = await getJSON(REPO + "dex/snapshot.json", 30000); state.snapAt = Date.now();
+    const [snap, std, risky] = await Promise.all([getJSON(REPO + "dex/snapshot.json", 30000),
+      getJSON(REPO + "dex/scoreboard.json").catch(() => null), getJSON(REPO + "dex/scoreboard_risky.json").catch(() => null)]);
+    state.snap = snap; state.snapAt = Date.now();
+    state.q = { standard: std && std.quality, risky: risky && risky.quality };     // grade check + jumpiness adjustment
     return state.snap;
   }
   // Live price and pool money from DexScreener (30 tokens per call, one call per network)
@@ -165,7 +169,7 @@
     const a = X.assess(facts, m, th, t.chain);
     const cost = X.dexCost(amount, px, m.liq_real, t.pool_fee, facts.buy_tax || 0, facts.sell_tax || 0, ch.gas_usd, ch.mev, ch.sniper);
     const prob = ((state.snap.adaptive || {}).probation || {})[styleKey] || {};
-    const r = X.expectedR(s.p, model.win_r, model.loss_r, cost.round_trip, s.risk_unit) - s.flag_penalty - a.penalty - (prob.active ? prob.penalty || 0.1 : 0);
+    const r = E.adjustR(X.expectedR(s.p, model.win_r, model.loss_r, cost.round_trip, s.risk_unit), s.risk_unit, (qual() || {}).vol) - s.flag_penalty - a.penalty - (prob.active ? prob.penalty || 0.1 : 0);
     const sc = E.scoreFromR(r);
     return { t, s, px, live: livePx(key(t)), facts, m, a, cost, r, score: sc, grade: gradeOf(sc), liveChecked: !!(sec && sec.facts), probation: prob.active ? prob : null };
   }
@@ -383,7 +387,7 @@
       <div class="idea-head">
         <h2><span class="rank">${d.rank}.</span>${esc(d.t.base_symbol)} <span class="pill chainpill">${esc(ch.name)}</span> <span class="pill calm">${esc(d.t.dex)}</span>${riskyOnly ? ' <span class="pill bad">Higher risk</span>' : ""}</h2>
         <div class="score"><b>${(Math.round(d.score * 10) / 10).toFixed(1)}</b><span class="muted">/ 10</span>
-          <span class="pill ${gradeClass(d.grade)}">${esc(d.grade)}</span><span class="pill ${riskClass(rl)}">Risk: ${rl}</span></div>
+          <span class="pill ${Q.gradeClassFor(d.grade, qual())}">${esc(Q.gradeWord(d.grade, qual(), d.rank))}</span><span class="pill ${riskClass(rl)}">Risk: ${rl}</span></div>
       </div>
       <p class="small muted">${esc(d.t.base_name || "")} · paired with ${esc(d.t.quote_symbol)} · ${money(d.m.liq_real)} real money in the pool · ${Math.round(d.t.age_days)} days old</p>
       <div class="strip">
@@ -420,7 +424,7 @@
       : `<b>Market mood: ${label}.</b> ${m.positive} of ${m.n} checked tokens on ${esc(chName)} look positive after all costs for $${state.amount.toLocaleString()} (sell within ${esc(st.hold_text)}). ${label === "Unfavourable" ? "Doing nothing is a perfectly good choice right now." : "Scores above 5 beat break-even after every cost."}`) + riskyNote;
     if (state.profile === "risky") $("mood").className = "banner warn";
     dropCharts("idea|");
-    $("ideas").innerHTML = `<div style="display:grid;gap:14px">${state.ideas.map(ideaCard).join("")}</div>`;
+    $("ideas").innerHTML = `${Q.ideasBanner(qual())}<div style="display:grid;gap:14px">${state.ideas.map(ideaCard).join("")}</div>`;
     for (const el of document.querySelectorAll("#ideas .calc")) updateCalc(el);
     for (const d of state.ideas) {
       const a = d.anchor;
@@ -545,6 +549,7 @@
         }
         html += `</tbody></table></div>`;
       }
+      html += Q.gradeTable(b.quality);
       try {
         const h = parseCSV(await getText(REPO + histFile)).filter((r) => r.status === "closed").slice(-15).reverse();
         const what = { take_profit: "Hit take profit", safety_exit: "Hit safety exit", time_limit: "Time limit reached" };

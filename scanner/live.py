@@ -54,7 +54,8 @@ def latest_rows(candles: dict[str, pd.DataFrame], style: Style, symbols: list[st
 
 
 def scan(style_key: str, model: ScannerModel, universe: pd.DataFrame | None = None, top_n: int = 5,
-         extra_symbols: list[str] | None = None, integrity: bool = True, candidates: int = 10) -> ScanResult:
+         extra_symbols: list[str] | None = None, integrity: bool = True, candidates: int = 10,
+         board: str = "suggestions/scoreboard.json") -> ScanResult:
     style = STYLES[style_key]
     uni = universe if universe is not None else select_universe()
     syms = sorted(set(uni["symbol"]) | set(extra_symbols or []) | {"BTCUSDT"})
@@ -65,8 +66,9 @@ def scan(style_key: str, model: ScannerModel, universe: pd.DataFrame | None = No
     p = model.predict(latest)
     qv = dict(zip(uni["symbol"], uni["quoteVolume"]))
     from scanner.defence import load_adaptive
+    from scanner.quality import load as load_quality
 
-    adaptive = load_adaptive()
+    adaptive = {**load_adaptive(), "vol": (load_quality(board) or {}).get("vol")}
     ideas = rank(latest, p, qv, big_movers(), candidates if integrity else top_n, model.win_r, model.loss_r, style,
                  adaptive)
     if integrity:
