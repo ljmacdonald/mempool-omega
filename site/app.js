@@ -825,7 +825,7 @@
     if (name === "movers") renderMovers();
     if (name === "trades") refreshTrades(false);
     store.set("omega.tab", name);
-    if (location.hash !== `#${name}`) history.replaceState(null, "", `${location.pathname}${location.search}#${name}`);   // page has <base> on Small coins
+    if (location.hash !== `#/${name}`) history.replaceState(null, "", `${location.pathname}${location.search}#/${name}`);   // page has <base> on Small coins
   }
   function selectStyle(key) {
     state.style = key; store.set("omega.style", key);
@@ -925,7 +925,7 @@
   }
   $("refresh").value = String(state.refresh);
   for (const b of document.querySelectorAll("#speed button")) b.setAttribute("aria-pressed", String(b.dataset.style === state.style));
-  const startTab = (location.hash || "").slice(1) || store.get("omega.tab", "ideas");
+  const startTab = (location.hash || "").replace(/^#\/?/, "") || store.get("omega.tab", "ideas");
   selectTab(["ideas", "movers", "trades", "record", "improve", "account", "guide"].includes(startTab) ? startTab : "ideas");
   renderTradeCount();
   refreshIdeas();

@@ -568,7 +568,7 @@
     if (name === "movers") renderMovers();
     if (name === "trades") refreshTrades(true);
     store.set("omega.dex.tab", name);
-    if (location.hash !== `#${name}`) history.replaceState(null, "", `#${name}`);
+    if (location.hash !== `#/${name}`) history.replaceState(null, "", `#/${name}`);
   }
   function press(sel, attr, val) { for (const b of document.querySelectorAll(sel)) b.setAttribute("aria-pressed", String(b.dataset[attr] === val)); }
   document.addEventListener("click", async (ev) => {
@@ -610,7 +610,7 @@
   // ------------------------------------------------------------------ start
   $("refresh").value = String(state.refresh); $("amount").value = String(state.amount);
   press("#speed button", "style", state.style); press("#chains button", "chain", state.chain); press("#profile button", "profile", state.profile);
-  const startTab = (location.hash || "").slice(1) || store.get("omega.dex.tab", "ideas");
+  const startTab = (location.hash || "").replace(/^#\/?/, "") || store.get("omega.dex.tab", "ideas");
   selectTab(["ideas", "movers", "trades", "record", "guide"].includes(startTab) ? startTab : "ideas");
   saveTrades();
   refreshIdeas();

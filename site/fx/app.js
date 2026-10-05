@@ -267,7 +267,7 @@
     for (const b of document.querySelectorAll("nav.tabs button")) b.setAttribute("aria-selected", String(b.dataset.tab === name));
     for (const p of document.querySelectorAll("section.panel")) p.hidden = p.id !== `tab-${name}`;
     if (name === "news") renderNews(); if (name === "movers") renderMovers(); if (name === "trades") renderTrades(); if (name === "record") renderRecord();
-    store.set("omega.fx.tab", name); if (location.hash !== `#${name}`) history.replaceState(null, "", `#${name}`);
+    store.set("omega.fx.tab", name); if (location.hash !== `#/${name}`) history.replaceState(null, "", `#/${name}`);
   }
   const press = (sel, attr, val) => { for (const b of document.querySelectorAll(sel)) b.setAttribute("aria-pressed", String(b.dataset[attr] === val)); };
   document.addEventListener("click", (ev) => {
@@ -298,7 +298,7 @@
 
   $("refresh").value = String(state.refresh); $("amount").value = String(state.amount); $("lev").value = String(state.lev);
   press("#list button", "list", state.list); press("#speed button", "style", state.style);
-  const startTab = (location.hash || "").slice(1) || store.get("omega.fx.tab", "ideas");
+  const startTab = (location.hash || "").replace(/^#\/?/, "") || store.get("omega.fx.tab", "ideas");
   selectTab(["ideas", "news", "movers", "trades", "record", "guide"].includes(startTab) ? startTab : "ideas");
   saveTrades(); paintMarket(); refresh();
   setInterval(paintStatus, 1000); setInterval(paintMarket, 30000);
