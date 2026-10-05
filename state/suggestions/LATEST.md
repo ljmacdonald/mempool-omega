@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-05 18:20 UTC
+# Trade ideas: 2026-10-05 18:35 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -10,31 +10,31 @@ Market mood: **Unfavourable** (0% of 150 coins look positive). If it says *Unfav
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **PENGU** | 5.4/10 | Weak | Low | $0.009564 | $0.00976755 (+2.1%) | $0.00943678 (-1.3%) | 19:15 05-Oct |
-| 2 | **SKY** | 5.1/10 | Weak | Medium | $0.08891 | $0.0922662 (+3.8%) | $0.0872319 (-1.9%) | 19:15 05-Oct |
-| 3 | **SAND** | 5.0/10 | Weak | Medium | $0.06729 | $0.0693098 (+3.0%) | $0.0660276 (-1.9%) | 19:15 05-Oct |
-| 4 | **STRK** | 5.0/10 | Weak | Medium | $0.05219 | $0.0538385 (+3.2%) | $0.0511597 (-2.0%) | 19:15 05-Oct |
-| 5 | **FET** | 4.9/10 | Avoid - watch only | Medium | $0.2511 | $0.258037 (+2.8%) | $0.247631 (-1.4%) | 19:15 05-Oct |
+| 1 | **MOVR** | 5.4/10 | Weak | High | $1.99 | $2.11 (+6.2%) | $1.93 (-3.1%) | 19:30 05-Oct |
+| 2 | **SAND** | 4.9/10 | Avoid - watch only | Medium | $0.06762 | $0.0695798 (+2.9%) | $0.0666401 (-1.4%) | 19:30 05-Oct |
+| 3 | **PENGU** | 4.6/10 | Avoid - watch only | Low | $0.009578 | $0.00977072 (+2.0%) | $0.00945755 (-1.3%) | 19:30 05-Oct |
+| 4 | **SUI** | 4.5/10 | Avoid - watch only | Low | $1.19 | $1.21 (+1.7%) | $1.18 (-1.1%) | 19:30 05-Oct |
+| 5 | **ADA** | 3.4/10 | Avoid - watch only | Low | $0.2649 | $0.270425 (+2.1%) | $0.261447 (-1.3%) | 19:30 05-Oct |
 
-- **PENGU:** It is bouncing up from near its lowest price of the last 14 hours. Buyers have been more eager than sellers over the last 30 minutes (52% of trades were buys). Momentum is healthy: not overheated, not collapsing.
-- **SKY:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **SAND:** Momentum is healthy: not overheated, not collapsing.
+- **MOVR:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **SAND:** It is bouncing up from near its lowest price of the last 14 hours. Momentum is healthy: not overheated, not collapsing.
+- **PENGU:** It is bouncing up from near its lowest price of the last 14 hours. Buyers have been more eager than sellers over the last 30 minutes (53% of trades were buys). Momentum is healthy: not overheated, not collapsing.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (14% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (7% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **SUI** | 4.9/10 | Avoid - watch only | Low | $1.19 | $1.23 (+3.5%) | $1.17 (-1.7%) | 22:15 05-Oct |
-| 2 | **PUMP** | 4.7/10 | Avoid - watch only | Low | $0.006265 | $0.00651436 (+4.0%) | $0.00614032 (-2.0%) | 22:15 05-Oct |
-| 3 | **PEPE** | 4.7/10 | Avoid - watch only | Low | $4.39e-06 | $4.56318e-06 (+3.9%) | $4.30341e-06 (-2.0%) | 22:15 05-Oct |
-| 4 | **SAND** | 4.5/10 | Avoid - watch only | Medium | $0.06729 | $0.071285 (+5.9%) | $0.0652925 (-3.0%) | 22:15 05-Oct |
-| 5 | **MARSCOIN** | 4.5/10 | Avoid - watch only | Medium | $0.1036 | $0.110217 (+6.4%) | $0.100292 (-3.2%) | 22:15 05-Oct |
+| 1 | **SAND** | 4.1/10 | Avoid - watch only | Medium | $0.06762 | $0.071619 (+5.9%) | $0.0656205 (-3.0%) | 22:30 05-Oct |
+| 2 | **PORTAL** | 4.1/10 | Avoid - watch only | Medium | $0.01784 | $0.0190137 (+6.6%) | $0.0172531 (-3.3%) | 22:30 05-Oct |
+| 3 | **HUMA** | 3.9/10 | Avoid - watch only | Medium | $0.03232 | $0.0339778 (+5.1%) | $0.0314911 (-2.6%) | 22:30 05-Oct |
+| 4 | **PUMP** | 3.8/10 | Avoid - watch only | Low | $0.006289 | $0.00653838 (+4.0%) | $0.00614831 (-2.2%) | 22:30 05-Oct |
+| 5 | **PEPE** | 3.8/10 | Avoid - watch only | Low | $4.39e-06 | $4.55963e-06 (+3.9%) | $4.30518e-06 (-1.9%) | 22:30 05-Oct |
 
-- **SUI:** It is bouncing up from near its lowest price of the last 42 hours. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **PUMP:** It is bouncing up from near its lowest price of the last 42 hours. Buyers have been more eager than sellers over the last 1.5 hours (52% of trades were buys). ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **PEPE:** Buyers have been more eager than sellers over the last 1.5 hours (53% of trades were buys). ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **SAND:** It is bouncing up from near its lowest price of the last 42 hours. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **PORTAL:** It is bouncing up from near its lowest price of the last 42 hours. Buyers have been more eager than sellers over the last 1.5 hours (53% of trades were buys). Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **HUMA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
@@ -44,13 +44,13 @@ Market mood: **Unfavourable** (17% of 150 coins look positive). If it says *Unfa
 |---|---|---|---|---|---|---|---|---|
 | 1 | **XRP** | 7.6/10 | Strong | Low | $1.50 | $1.56 (+4.1%) | $1.47 (-2.0%) | 18:00 06-Oct |
 | 2 | **SOL** | 7.3/10 | Strong | Low | $120.02 | $124.51 (+3.7%) | $117.77 (-1.9%) | 18:00 06-Oct |
-| 3 | **BNB** | 6.2/10 | Moderate | Low | $786.73 | $811.53 (+3.2%) | $774.33 (-1.6%) | 18:00 06-Oct |
-| 4 | **BCH** | 6.0/10 | Moderate | Low | $314.30 | $328.07 (+4.4%) | $307.42 (-2.2%) | 18:00 06-Oct |
+| 3 | **ZEC** | 6.3/10 | Moderate | Medium | $1,318.60 | $1,443.06 (+9.4%) | $1,256.37 (-4.7%) | 18:00 06-Oct |
+| 4 | **BNB** | 6.1/10 | Moderate | Low | $786.73 | $811.53 (+3.2%) | $774.33 (-1.6%) | 18:00 06-Oct |
 | 5 | **DOGE** | 5.9/10 | Moderate | Low | $0.09469 | $0.0995798 (+5.2%) | $0.0922451 (-2.6%) | 18:00 06-Oct |
 
 - **XRP:** The model sees a slightly better-than-usual pattern, with no single strong reason.
 - **SOL:** The model sees a slightly better-than-usual pattern, with no single strong reason.
-- **BNB:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **ZEC:** Momentum is healthy: not overheated, not collapsing.
 
 ---
 ## Track record (how past ideas actually did)
