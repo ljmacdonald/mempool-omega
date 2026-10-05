@@ -71,3 +71,29 @@ def test_verdicts_are_strict():
     assert R.verdict({**good, "avg": -0.001}, good)[0] == "bad"
     assert R.verdict({**good, "edge": -0.001, "t_edge": -1}, good)[0] == "bad"          # only rode the market up
     assert R.verdict(good, {**good, "edge": 0.0001, "t_edge": 0.1})[0] == "warn"        # faded after publication
+
+
+def test_idea_judging_prefers_strategies_that_held_up_and_warns_when_late():
+    from lab import ideas as I
+    now = pd.Timestamp("2026-10-05 15:00", tz="UTC")
+    idea = {"sym": "SPY", "side": 1, "entry": 100.0, "stop": None}
+    m = {"n": 400, "hit": 0.7, "avg": 0.004, "avg_win": 0.012, "avg_loss": -0.015}
+    good = I.judge(idea, m, "good", 100.1, [], now, 120, None, None)
+    bad = I.judge(idea, m, "bad", 100.1, [], now, 120, None, None)
+    late = I.judge(idea, m, "good", 101.0, [], now, 120, None, None)
+    assert good["score"] > bad["score"] and good["evidence"] == "Held up in tests"
+    assert late["late"] and late["score"] < good["score"] and late["warnings"]
+    few = I.judge(idea, {**m, "n": 3}, "good", 100.1, [], now, 120, None, None)
+    assert abs(few["prob"] - 0.5) < abs(good["prob"] - 0.5)          # few trades: pulled towards a coin flip
+    news = [{"title": "CPI", "country": "USD", "impact": "High", "date": "2026-10-06T12:30:00+00:00"}]
+    assert I.judge(idea, m, "good", 100.1, news, now, 48, None, None)["score"] < good["score"]
+
+
+def test_rsi2_forming_uses_todays_latest_price():
+    from lab import ideas as I
+    daily = frame(list(np.linspace(100, 200, 260)), start="2025-01-01")
+    daily.index = daily.index + pd.Timedelta(hours=14, minutes=30)
+    now = daily.index[-1] + pd.Timedelta(days=1, hours=5)
+    five = frame([185.0, 184.0], start=str(now - pd.Timedelta(minutes=15)), freq="5min")
+    f = I.rsi2_forming(daily, five, now)
+    assert f and f["above200"] and f["rsi2"] < 10 and f["signal"]

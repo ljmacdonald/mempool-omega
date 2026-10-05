@@ -29,6 +29,21 @@
   <div id="summary" class="banner calm">Loading the test results…</div>
 
   <article class="card">
+    <h2>Trade ideas now</h2>
+    <p class="small muted">Fresh entries by the re-tested strategies, ranked by score. Each is judged by how that strategy really did on that market in the re-test (after costs, against random entries), minus warnings, like on every other page. Ideas from strategies that failed the re-test are shown so you can see what they're doing, but they score low on purpose.</p>
+    <div class="actions">
+      <label class="inline" for="money">Your money $<input id="money" type="number" min="1" step="any" value="100" style="width:7em"></label>
+      <label class="inline" for="lev">Leverage
+        <select id="lev"><option value="1" selected>none (1x)</option><option value="2">2x</option><option value="3">3x</option><option value="5">5x</option><option value="10">10x</option></select>
+      </label>
+    </div>
+    <div id="ideasBanner"></div>
+    <div id="ideas"><p class="muted">Loading…</p></div>
+    <div id="forming"></div>
+    <div id="exits"></div>
+  </article>
+
+  <article class="card">
     <h2>Why this page exists</h2>
     <p>GitHub has thousands of trading bots, many showing amazing results or very high hit rates. Almost all of those results come from testing the rules on the same prices they were tuned on, from accidentally using prices that weren't known yet, or from leaving out trading costs. Anyone with a strategy that truly works keeps it private. So instead of trusting claims, this page takes the most famous public strategies, copies their rules exactly, and tests them the same strict way as everything else on this site:</p>
     <ul class="why">
@@ -47,8 +62,14 @@
 
   <div id="cards"></div>
 
+  <article class="card" id="record">
+    <h2>Track record of the ideas</h2>
+    <div id="recordBody"><p class="muted">Loading…</p></div>
+  </article>
+
   <footer>Mempool Omega is research and education software. It never places orders and never connects to a broker or exchange account. Nothing here is financial advice; past results, even honest ones, don't promise future results. Strategy names belong to their authors; this page is not affiliated with them. Data: Binance (crypto), Yahoo Finance (US funds, gold, forex), via the project's GitHub Actions.</footer>
 </div>
+<script src="../quality.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

@@ -100,7 +100,7 @@ def freqtrade_sim(df: pd.DataFrame, enter: np.ndarray, exit_sig: np.ndarray, roi
             mins = (j - i_in) * bar_min
             thr = [v for k, v in steps if k <= mins][-1] if steps and steps[0][0] <= mins else None
             if thr is not None and h[j] >= entry * (1 + thr):
-                done = (j, max(o[j], entry * (1 + thr)) if j > i_in else entry * (1 + thr), "take profit")
+                done = (j, max(o[j], entry * (1 + thr)) if j > i_in else entry * (1 + thr), "take profit" if thr > 0 else "break-even time limit")
                 break
             top = max(top, h[j])
             if trailing:
