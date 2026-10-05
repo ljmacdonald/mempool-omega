@@ -28,6 +28,10 @@ import pandas as pd
 P = {"piv": 2, "struct_look": 60, "liq_look": 96, "reclaim": 3, "disp_atr": 1.0, "fvg_min_atr": 0.1,
      "stop_atr": 0.1, "max_sweep_atr": 2.0, "min_rr": 2.0, "max_rr": 6.0, "eq_atr": 0.1, "range_look": 96,
      "tgt_look": 192, "fill_bars": 16, "hold_bars": 96, "min_risk_cost": 1.0, "smt_look": 24}
+# 1-hour version (bars of 1 hour, daily trend instead of hourly): the same rules scaled so that every window covers
+# about the same time as the 15-minute version. Tested walk-forward in ict/research.py (variant "h1").
+P_H1 = {"fill_bars": 4, "hold_bars": 24, "range_look": 24, "tgt_look": 120, "liq_look": 72, "smt_look": 12}
+H1_MS, DAY_MS = 3_600_000, 86_400_000
 FACTORS = ["htf", "discount", "ote", "ob", "killzone", "silver", "smt", "major", "midnight"]
 LEVEL_RANK = {"previous day low": 4, "Asian session low": 3, "equal lows": 2, "recent swing low": 1}
 FLIP = {"previous day low": "previous day high", "Asian session low": "Asian session high", "equal lows": "equal highs",

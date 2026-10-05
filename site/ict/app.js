@@ -22,6 +22,10 @@
     major: ["Major liquidity swept", "Only a minor swing swept"],
     midnight: ["Entry on the right side of the New York midnight open", "Entry on the wrong side of the midnight open"],
   };
+  // 1-hour setups (index futures experiment) read the daily structure instead of the 1-hour one
+  const H1 = 3600000;
+  const isH1 = (x) => (x && typeof x === "object" ? x.bar_ms : x === "index_h1" ? H1 : 0) === H1;
+  const factorText = (f, i, h1) => (h1 ? FACTOR_TEXT[f][i].replace("1-hour structure", "Daily structure") : FACTOR_TEXT[f][i]);
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const store = {
@@ -205,7 +209,7 @@
   }
   function priceFact(s) {
     const px = livePx(s.sym);
-    if (!px) return `<div class="k">Price now</div><div class="v">–</div><div class="d muted">${state.market === "index" ? "no free live price: check your broker" : "waiting for the live price"}</div>`;
+    if (!px) return `<div class="k">Price now</div><div class="v">–</div><div class="d muted">${state.market.startsWith("index") ? "no free live price: check your broker" : "waiting for the live price"}</div>`;
     const since = s.side === "buy" ? px / s.suggested - 1 : s.suggested / px - 1;
     return `<div class="k">Price now (live)</div><div class="v">${fmt(px)}</div><div class="d ${since >= 0 ? "up" : "down"}">${pct(since)} for this idea since suggested</div>`;
   }
@@ -213,7 +217,7 @@
     const out = [`Swept the ${s.level} at ${fmt(s.level_px)} (to ${fmt(s.sweep)}) and closed back ${s.side === "buy" ? "above" : "below"} it: the stop hunt ICT looks for.`,
       `Then broke the last swing ${s.side === "buy" ? "high" : "low"} with a strong candle${s.killzone ? `, in the ${s.killzone} kill zone` : ""}, leaving a fair value gap at ${fmt(Math.min(s.fvg_bot, s.fvg_top))}–${fmt(Math.max(s.fvg_bot, s.fvg_top))}.`,
       `Take profit at the ${s.target_name}, ${s.rr.toFixed(1)} times the risk away.`];
-    for (const f of I.FACTORS) if (s.conf[f] && f !== "killzone" && f !== "major") out.push(FACTOR_TEXT[f][0] + ".");
+    for (const f of I.FACTORS) if (s.conf[f] && f !== "killzone" && f !== "major") out.push(factorText(f, 0, isH1(s)) + ".");
     return out;
   }
   function calcHTML(s) {
@@ -232,21 +236,21 @@
     const bad = allChecks.filter((c) => c.ok === false);
     const pr = prob(); const warns = bad.map((c) => c.text).concat(pr && pr.active ? [`ICT on this market is on probation: its last ${pr.n} live setups averaged ${rr(pr.avg_r)}, worse than coin-flip entries with the same stops (${rr(pr.random_avg_r)}), so scores are lowered.`] : []);
     const held = state.trades.some((t) => t.id === s.id); const isCrypto = state.market === "crypto";
-    const ticks = I.FACTORS.map((f) => `<li>${s.conf[f] ? '<span class="ok">✓</span>' : '<span class="na">✗</span>'}<span>${esc(FACTOR_TEXT[f][s.conf[f] ? 0 : 1])}</span></li>`).join("");
+    const ticks = I.FACTORS.map((f) => `<li>${s.conf[f] ? '<span class="ok">✓</span>' : '<span class="na">✗</span>'}<span>${esc(factorText(f, s.conf[f] ? 0 : 1, isH1(s)))}</span></li>`).join("");
     const it = isCrypto ? state.integrity[s.sym] : null;
     return `<article class="card">
       <div class="idea-head"><h2><span class="rank">${s.rank}.</span><span class="pill ${s.side === "buy" ? "good" : "bad"}" style="font-size:1rem">${s.side === "buy" ? "BUY" : "SELL"}</span> ${esc(s.label)}</h2>
         <div class="score"><b>${s.score.toFixed(1)}</b><span class="muted">/ 10</span><span class="pill ${Q.gradeClassFor(s.grade, qual())}">${esc(Q.gradeWord(s.grade, qual(), s.rank))}</span>${s.risk_level ? `<span class="pill ${riskClass(s.risk_level)}">Risk: ${esc(s.risk_level)}</span>` : ""}</div></div>
       <p><b>${esc(statusText(s))}</b></p>
       <div class="strip">
-        <div class="fact"><div class="k">Suggested</div><div class="v">${local(s.t + 900000)}</div><div class="d muted">at ${fmt(s.suggested)}</div></div>
+        <div class="fact"><div class="k">Suggested</div><div class="v">${local(s.t + (s.bar_ms || 900000))}</div><div class="d muted">at ${fmt(s.suggested)}</div></div>
         <div class="fact" data-px="${esc(s.id)}">${priceFact(s)}</div>
         <div class="fact"><div class="k">Take profit at</div><div class="v">${fmt(s.target)}</div><div class="d up">${pct(Math.abs(s.target / s.entry - 1))} from entry</div></div>
         <div class="fact"><div class="k">Safety exit at</div><div class="v">${fmt(s.stop)}</div><div class="d down">${pct(-s.risk_pct)} from entry</div></div>
         <div class="fact"><div class="k">Sell by</div><div class="v">${local(s.close_by_t)}</div><div class="d muted">${nyTime(s.close_by_t)} New York</div></div>
       </div>
       <div class="chart" id="ict-chart-${i}"></div>
-      <div class="chart-legend"><span><i class="l-base"></i>Entry</span><span><i class="l-tp"></i>Take profit</span><span><i class="l-sl"></i>Safety exit</span><span>Dotted: the fair value gap · 15-minute candles</span></div>
+      <div class="chart-legend"><span><i class="l-base"></i>Entry</span><span><i class="l-tp"></i>Take profit</span><span><i class="l-sl"></i>Safety exit</span><span>Dotted: the fair value gap · ${isH1(s) ? "1-hour" : "15-minute"} candles</span></div>
       <div class="facts">
         <div class="fact"><div class="k">Entry (limit order)</div><div class="v">${fmt(s.entry)}</div><div class="d muted">middle of the gap</div></div>
         <div class="fact"><div class="k">Chance target first</div><div class="v">${Math.round(s.prob * 100)}%</div><div class="d muted">break-even needs ${Math.round(100 / (1 + s.rr))}%</div></div>
@@ -277,7 +281,7 @@
     for (const [p, c, title, style] of [[s.entry, "--calm", "Entry", 2], [s.target, "--good", "Take profit", 0], [s.stop, "--bad", "Safety exit", 0], [s.fvg_top, "--muted", "", 1], [s.fvg_bot, "--muted", "", 1]]) {
       ser.createPriceLine({ price: p, color: cssVar(c), lineWidth: title ? 2 : 1, lineStyle: style, axisLabelVisible: !!title, title });
     }
-    const mt = Math.floor(s.t / 900000) * 900;
+    const bm = s.bar_ms || 900000; const mt = Math.floor(s.t / bm) * (bm / 1000);
     if (ch.t.length && mt >= ch.t[0] / 1000) ser.setMarkers([{ time: Math.min(mt, ch.t[ch.t.length - 1] / 1000), position: s.side === "buy" ? "belowBar" : "aboveBar", color: cssVar("--calm"), shape: s.side === "buy" ? "arrowUp" : "arrowDown", text: "Structure shift" }]);
     chart.timeScale().fitContent();
     return chart;
@@ -289,14 +293,15 @@
     const hi = bs["6-9"] || {}, lo = bs["0-3"] || {}; const more = Number.isFinite(hi.avg_r) && Number.isFinite(lo.avg_r) && hi.filled >= 15 && lo.filled >= 15 ? (hi.avg_r > lo.avg_r ? "Setups with more checklist items did better." : "More checklist items did <b>not</b> lead to better results.") : "";
     const vsRandom = Number.isFinite(o.random_avg_r) ? ` Coin-flip entries with the same stops and targets: ${rr(o.random_avg_r)}, so ICT did <b>${o.avg_r > o.random_avg_r ? "better" : "worse"} than random</b>.` : "";
     el.className = `banner ${good ? "good" : o.avg_r > 0 ? "calm" : "bad"}`;
-    el.innerHTML = `<b>Honest test result (${esc(state.snap.classes[state.market].label)}, last ${Math.round(st.days)} days):</b> ${o.filled} setups filled; ${Math.round((o.win_rate || 0) * 100)}% reached the target first; average ${rr(o.avg_r)} per trade after costs${good ? " (a positive edge in this period)" : o.avg_r > 0 ? ", positive but not clearly more than luck" : ", i.e. <b>these rules lost money</b> in this period"}.${vsRandom} ${more} <a href="#/record" data-goto="record">Details</a>.`;
+    const exp = isH1(state.market) ? " <b>Experiment:</b> the same ICT rules on 1-hour candles with the daily trend. In the walk-forward research below this version beat random entries on unseen data, but on fewer trades than needed to call it proven, so it stays labelled as an experiment." : "";
+    el.innerHTML = `<b>Honest test result (${esc(state.snap.classes[state.market].label)}, last ${Math.round(st.days)} days):</b> ${o.filled} setups filled; ${Math.round((o.win_rate || 0) * 100)}% reached the target first; average ${rr(o.avg_r)} per trade after costs${good ? " (a positive edge in this period)" : o.avg_r > 0 ? ", positive but not clearly more than luck" : ", i.e. <b>these rules lost money</b> in this period"}.${vsRandom} ${more}${exp} <a href="#/record" data-goto="record">Details</a>.`;
   }
   function mood() {
     const ms = marketsNow(); const up = ms.filter((m) => m.bias > 0).length, down = ms.filter((m) => m.bias < 0).length;
     const list = currentSetups(); const pend = list.filter((s) => s.status === "pending").length; const hb = heldBack();
     const label = up > down * 1.5 ? "Rising" : down > up * 1.5 ? "Falling" : "Mixed";
     $("mood").className = `banner ${list.length ? "calm" : "warn"}`;
-    $("mood").innerHTML = `<b>Market mood: ${label}.</b> ${up} of ${ms.length} markets' 1-hour structure points up, ${down} down. ` +
+    $("mood").innerHTML = `<b>Market mood: ${label}.</b> ${up} of ${ms.length} markets' ${isH1(state.market) ? "daily" : "1-hour"} structure points up, ${down} down. ` +
       (list.length ? `<b>${pend} setup${pend === 1 ? "" : "s"} waiting for entry</b>${list.length > pend ? `, ${list.length - pend} already running` : ""}, sorted by score. A setup is not a recommendation: check its grade, warnings and the test results above.`
         : "<b>No ICT setup right now.</b> They need a liquidity sweep, a structure shift and a fair value gap together, which is rare. New ones are checked every 15 minutes.") +
       (hb.length ? ` ${hb.length} more held back: high-impact news is due within ${state.snap?.news_before_min || 30} minutes.` : "");
@@ -332,7 +337,7 @@
   function renderMovers() {
     const ms = marketsNow().filter((m) => Number.isFinite(m.chg24)).sort((a, b) => Math.abs(b.chg24) - Math.abs(a.chg24)).slice(0, 12);
     const sets = currentSetups();
-    $("movers").innerHTML = ms.length ? `<div class="table-wrap"><table><thead><tr><th>Market</th><th class="num">24 h change</th><th>1-hour structure</th><th style="min-width:16em">ICT setup now?</th></tr></thead><tbody>
+    $("movers").innerHTML = ms.length ? `<div class="table-wrap"><table><thead><tr><th>Market</th><th class="num">24 h change</th><th>${isH1(state.market) ? "Daily" : "1-hour"} structure</th><th style="min-width:16em">ICT setup now?</th></tr></thead><tbody>
       ${ms.map((m) => { const s = sets.find((x) => x.sym === m.sym);
         return `<tr><td><b>${esc(m.label)}</b></td><td class="num ${m.chg24 >= 0 ? "up" : "down"}">${pct(m.chg24)}</td><td>${m.bias > 0 ? "Up" : m.bias < 0 ? "Down" : "Unclear"}</td>
           <td class="small" style="white-space:normal">${s ? `${s.side === "buy" ? "Buy" : "Sell"} setup, #${s.rank}, score ${s.score.toFixed(1)}` : "No setup: it needs a liquidity sweep, then a structure shift with a fair value gap. A big move alone isn't one."}</td></tr>`; }).join("")}
@@ -345,16 +350,17 @@
     const row = (name, s) => `<tr><td>${esc(name)}</td><td class="num">${s.filled ?? 0}</td><td class="num">${Number.isFinite(s.fill_rate) ? Math.round(s.fill_rate * 100) + "%" : "–"}</td><td class="num">${Number.isFinite(s.win_rate) ? Math.round(s.win_rate * 100) + "%" : "–"}</td><td class="num ${s.avg_r > 0 ? "up" : "down"}">${rr(s.avg_r)}</td><td class="num">${rr(s.random_avg_r)}</td></tr>`;
     let html = "";
     const k = state.market; const c = S.classes[k]; const st = S.stats?.[k];
+    if (!c) { $("record").innerHTML = `<div class="banner calm">No results for this market yet: they appear after the next update.</div>`; return; }
     if (st) {
-      html += `<article class="card"><h3>${esc(c.label)}: tested on the last ${Math.round(st.days)} days of 15-minute prices</h3>
+      html += `<article class="card"><h3>${esc(c.label)}: tested on the last ${Math.round(st.days)} days of ${isH1(k) ? "1-hour" : "15-minute"} prices</h3>
         <div class="table-wrap"><table><thead><tr><th>Setups</th><th class="num">Filled</th><th class="num">Fill rate</th><th class="num">Target first</th><th class="num">Average after costs</th><th class="num">Random entry</th></tr></thead><tbody>
         ${row("All", st.overall)}${BUCKETS.map(([b]) => row(`${b} checklist items`, st.buckets[b] || {})).join("")}</tbody></table></div>
         <p class="small muted">"Random entry": entering at the same moment in a random direction with the same stop distance, reward:risk and costs. If ICT doesn't beat it, the setups aren't adding value.</p>
         <details><summary>Does each checklist item help?</summary><div class="table-wrap"><table><thead><tr><th>Item</th><th class="num">With it</th><th class="num">Without it</th></tr></thead><tbody>
-        ${I.FACTORS.map((f) => { const x = st.factors[f]; return `<tr><td>${esc(FACTOR_TEXT[f][0])}</td><td class="num ${x.with_r > 0 ? "up" : "down"}">${rr(x.with_r)} <span class="muted small">(${x.with_n})</span></td><td class="num ${x.without_r > 0 ? "up" : "down"}">${rr(x.without_r)} <span class="muted small">(${x.without_n})</span></td></tr>`; }).join("")}
+        ${I.FACTORS.map((f) => { const x = st.factors[f]; return `<tr><td>${esc(factorText(f, 0, isH1(k)))}</td><td class="num ${x.with_r > 0 ? "up" : "down"}">${rr(x.with_r)} <span class="muted small">(${x.with_n})</span></td><td class="num ${x.without_r > 0 ? "up" : "down"}">${rr(x.without_r)} <span class="muted small">(${x.without_n})</span></td></tr>`; }).join("")}
         </tbody></table></div></details></article>`;
     }
-    html += researchHTML(S.research, k);
+    html += researchHTML(S.research, k === "index_h1" ? "index" : k);
     const rec = (S.record || {})[k] || {}; const pr = (S.probation || {})[k] || {};
     html += `<article class="card"><h3>Live record: ${esc(c.label)} (recorded as setups appeared)</h3>
       <div class="table-wrap"><table><thead><tr><th>Finished</th><th class="num">Target first</th><th class="num">Average after costs</th><th class="num">Random entry</th></tr></thead><tbody>
@@ -436,7 +442,7 @@
       const s = currentSetups().find((x) => x.id === take.dataset.take);
       if (s) {
         state.trades.push({ id: s.id, sym: s.sym, label: s.label, class: state.market, side: s.side, entry: s.entry, stop: s.stop, target: s.target, cost_r: s.cost_r,
-          expires_t: s.expires_t, close_by_t: s.status === "active" ? s.close_by_t : Date.now() + I.P.hold_bars * 900000, filled_at: s.status === "active" ? (s.fill_t || Date.now()) : null,
+          expires_t: s.expires_t, close_by_t: s.status === "active" ? s.close_by_t : Date.now() + (s.close_by_t - (s.fill_t || s.t)), filled_at: s.status === "active" ? (s.fill_t || Date.now()) : null,
           money: state.money, lev: state.lev });
         saveTrades(); take.outerHTML = `<span class="pill good">Watching it. Open “My ICT trades”.</span>`;
       }

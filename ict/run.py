@@ -34,7 +34,10 @@ CORR = {"BTCUSDT": "ETHUSDT", "EURUSD": "GBPUSD", "GBPUSD": "EURUSD", "AUDUSD": 
         "USDCHF": "USDJPY", "USDJPY": "USDCHF", "USDCAD": "USDCHF", "XAUUSD": "XAGUSD", "ES": "NQ", "NQ": "ES", "YM": "ES"}
 YAHOO_EXTRA = {"XAGUSD": "SI=F"}
 LABEL = {"XAUUSD": "Gold", "ES": "S&P 500 futures", "NQ": "Nasdaq 100 futures", "YM": "Dow futures"}
-CLASSES = {"crypto": "Crypto", "fx": "Forex & gold", "index": "US index futures"}
+CLASSES = {"crypto": "Crypto", "fx": "Forex & gold", "index": "US index futures",
+           "index_h1": "US index futures · 1-hour (experiment)"}
+# Classes that read 1-hour candles with the daily trend (the rest read 15-minute candles with the hourly trend).
+H1_CLASSES = {"index_h1"}
 BUCKETS = [("0-3", 0, 3), ("4-5", 4, 5), ("6-9", 6, 9)]
 PRIOR_K = 10
 MIN_PROVEN = 30
@@ -98,6 +101,23 @@ def load(sym: str, interval: str, n: int, full: bool = False) -> pd.DataFrame | 
         return None
 
 
+def daily(df: pd.DataFrame) -> pd.DataFrame:
+    return df.resample("1D").agg({"open": "first", "high": "max", "low": "min", "close": "last"}).dropna()
+
+
+def bar_ms(k: str) -> int:
+    return I.H1_MS if k in H1_CLASSES else 900_000
+
+
+def params(k: str) -> dict:
+    return {**I.P, **I.P_H1} if k in H1_CLASSES else I.P
+
+
+def setups_h1(d1h: pd.DataFrame, c1h: pd.DataFrame | None, sym: str, start: int = 0) -> list[dict]:
+    """The 1-hour rules (walk-forward variant "h1" in ict/research.py): 1-hour candles, daily trend."""
+    return I.setups(d1h, daily(d1h), c1h, cost=cost(sym), start=start, kind=kind(sym), p=I.P_H1, bar_ms=I.H1_MS, htf_ms=I.DAY_MS)
+
+
 def market(sym: str, n15: int, n1h: int, full: bool = False) -> tuple:
     d15, d1h = load(sym, "15m", n15, full), load(sym, "1h", n1h, full)
     cs = CORR.get(sym, "BTCUSDT" if sym.endswith("USDT") else None)
@@ -152,7 +172,15 @@ def backtest() -> dict:
         per[sym] = summarize(S)
         days[k] = max(days.get(k, 0), (d15.index[-1] - d15.index[0]).total_seconds() / 86400)
         log.info("ict backtest %s: %d setups", sym, len(S))
-    out = {"generated_at": str(pd.Timestamp.now(tz="UTC")), "params": I.P,
+        if sym in INDEX:
+            d1, c1 = load(sym, "1h", 20000, True), load(CORR[sym], "1h", 20000, True)
+            if d1 is not None and len(d1) > 1000:
+                S1 = setups_h1(d1, c1, sym)
+                allrows["index_h1"] += S1
+                per[f"{sym}|1h"] = summarize(S1)
+                days["index_h1"] = max(days.get("index_h1", 0), (d1.index[-1] - d1.index[0]).total_seconds() / 86400)
+                log.info("ict backtest %s 1h: %d setups", sym, len(S1))
+    out = {"generated_at": str(pd.Timestamp.now(tz="UTC")), "params": I.P, "params_h1": I.P_H1,
            "classes": {k: {**stats_for(v), "days": round(days.get(k, 0), 1),
                            "risk_q": [float(np.quantile([r["risk_pct"] for r in v], q)) for q in (0.25, 0.5, 0.75)] if v else None}
                        for k, v in allrows.items()},
@@ -197,12 +225,13 @@ def currencies_of(sym: str) -> str:
     return sym if k == "fx" else "XAUUSD" if k == "metal" else "USDUSD"
 
 
-def market_checks(s: dict, sym: str, events: list, now: pd.Timestamp, df15: pd.DataFrame | None, th: dict) -> dict:
+def market_checks(s: dict, sym: str, events: list, now: pd.Timestamp, df15: pd.DataFrame | None, th: dict, k: str | None = None) -> dict:
     """News (all markets: big US releases move crypto too) and, for forex, gold and futures, the rate-fix and
     thin-market checks of the Forex page. Penalties in R; `hard` blocks the setup like on the Forex page."""
     checks, hard, pen = [], [], 0.0
     pair = currencies_of(sym)
-    close_by = pd.Timestamp((s.get("fill_t") or s["t"]) + I.P["hold_bars"] * 900_000, unit="ms", tz="UTC")
+    k = k or klass(sym)
+    close_by = pd.Timestamp((s.get("fill_t") or s["t"]) + params(k)["hold_bars"] * bar_ms(k), unit="ms", tz="UTC")
     soon = C.news_in(events, pair, now, now + pd.Timedelta(minutes=th["news_before_min"]))
     if soon:
         hard.append(f"{soon[0]['title']} ({soon[0]['country']}) in the next {int(th['news_before_min'])} minutes: "
@@ -217,7 +246,7 @@ def market_checks(s: dict, sym: str, events: list, now: pd.Timestamp, df15: pd.D
     else:
         checks.append({"key": "news_window", "ok": True, "text": "No high-impact news before the trade's time limit."})
     if kind(sym) != "crypto":
-        shift_t = pd.Timestamp(s["t"] + 900_000, unit="ms", tz="UTC")
+        shift_t = pd.Timestamp(s["t"] + bar_ms(k), unit="ms", tz="UTC")
         fx_name = C.in_fix(shift_t)
         if fx_name:
             pen += 0.10
@@ -353,25 +382,22 @@ def scan() -> dict:
     qual, prob = self_check(pd.read_csv(hp, dtype={"id": str}) if hp.exists() else pd.DataFrame(columns=HIST_COLS))
     classes = {k: {"label": v, "setups": [], "markets": [], "held_back": []} for k, v in CLASSES.items()}
     found = []
-    for sym in CRYPTO + list(FX) + list(INDEX):
-        d15, d1h, c15 = market(sym, 700, 400)
-        if d15 is None:
-            continue
-        k = klass(sym)
+    def add(k: str, sym: str, df: pd.DataFrame, htf: pd.DataFrame | None, S: list[dict], d15: pd.DataFrame | None) -> None:
         st = (stats or {}).get("classes", {}).get(k)
-        a15 = I.arrays(d15)
-        bias = float(I.htf_bias(I.arrays(d1h), a15["t"])[-1]) if d1h is not None and len(d1h) else 0.0
-        closes = d15["close"].to_numpy(float)
+        bm, pk = bar_ms(k), params(k)
+        a = I.arrays(df)
+        bias = float(I.htf_bias(I.arrays(htf), a["t"], bm, I.DAY_MS if k in H1_CLASSES else I.H1_MS)[-1]) if htf is not None and len(htf) else 0.0
+        closes = df["close"].to_numpy(float)
+        day = 86_400_000 // bm
         classes[k]["markets"].append({"sym": sym, "label": label(sym), "cost": cost(sym), "last": float(closes[-1]),
-                                      "last_t": int(d15.index[-1].value // 10**6), "bias": bias,
-                                      "chg24": float(closes[-1] / closes[-97] - 1) if len(closes) > 97 else None})
-        S = I.setups(d15, d1h, c15, cost=cost(sym), start=max(0, len(d15) - 250), kind=kind(sym))
-        idx = d15.index.as_unit("ms").asi8
+                                      "last_t": int(df.index[-1].value // 10**6), "bias": bias,
+                                      "chg24": float(closes[-1] / closes[-day - 1] - 1) if len(closes) > day + 1 else None})
+        idx = df.index.as_unit("ms").asi8
         for s in S:
-            s.update({"id": f"{sym}|{s['side']}|{s['t']}", "class": k, "sym": sym, "label": label(sym)})
+            s.update({"id": f"{sym}|{s['side']}|{s['t']}" + ("|1h" if k in H1_CLASSES else ""), "class": k, "sym": sym, "label": label(sym)})
             if s["fill"] >= 0:
                 s["fill_t"] = int(idx[s["fill"]])
-            mc = market_checks(s, sym, events, now, d15, th) if s["status"] in ("pending", "active") else {"checks": [], "hard": [], "pen": 0.0}
+            mc = market_checks(s, sym, events, now, d15, th, k) if s["status"] in ("pending", "active") else {"checks": [], "hard": [], "pen": 0.0}
             j = judge(s, st, mc["pen"], (qual.get(k) or {}).get("vol"), prob.get(k))
             s.update({"score": j["score"], "grade": j["grade"]})
             found.append(s)
@@ -380,10 +406,19 @@ def scan() -> dict:
             row = {**{x: s[x] for x in ("id", "sym", "label", "side", "t", "level", "level_px", "sweep", "fvg_top", "fvg_bot", "entry",
                                         "stop", "target", "target_name", "rr", "risk_pct", "cost_r", "conf", "count", "killzone",
                                         "status", "suggested", "ctx")},
-                   "fill_t": s.get("fill_t"), "expires_t": s["t"] + I.P["fill_bars"] * 900_000,
-                   "close_by_t": (s.get("fill_t") or s["t"]) + I.P["hold_bars"] * 900_000,
-                   "checks": mc["checks"], "hard": mc["hard"], "mkt_pen": mc["pen"], **j, "chart": chart(d15)}
+                   "bar_ms": bm, "fill_t": s.get("fill_t"), "expires_t": s["t"] + pk["fill_bars"] * bm,
+                   "close_by_t": (s.get("fill_t") or s["t"]) + pk["hold_bars"] * bm,
+                   "checks": mc["checks"], "hard": mc["hard"], "mkt_pen": mc["pen"], **j, "chart": chart(df)}
             (classes[k]["held_back"] if mc["hard"] and s["status"] == "pending" else classes[k]["setups"]).append(row)
+
+    for sym in CRYPTO + list(FX) + list(INDEX):
+        d15, d1h, c15 = market(sym, 700, 400)
+        if d15 is not None:
+            add(klass(sym), sym, d15, d1h, I.setups(d15, d1h, c15, cost=cost(sym), start=max(0, len(d15) - 250), kind=kind(sym)), d15)
+        if sym in INDEX:
+            d1, c1 = load(sym, "1h", 700), load(CORR[sym], "1h", 700)
+            if d1 is not None:
+                add("index_h1", sym, d1, daily(d1), setups_h1(d1, c1, sym, start=max(0, len(d1) - 120)), d15)
     for k in classes:
         classes[k]["setups"].sort(key=lambda x: (x["status"] != "pending", -x["score"]))
     h = track(found, now)
@@ -391,7 +426,7 @@ def scan() -> dict:
     upcoming = sorted([{"title": e["title"], "country": e["country"], "at": str(pd.Timestamp(e["date"]).tz_convert("UTC"))}
                        for e in events if pd.Timestamp(e["date"]).tz_convert("UTC") >= now - pd.Timedelta(hours=1)],
                       key=lambda e: e["at"])[:30]
-    snap = {"generated_at": str(now), "params": I.P, "factors": I.FACTORS, "classes": classes, "events": upcoming,
+    snap = {"generated_at": str(now), "params": I.P, "params_h1": I.P_H1, "factors": I.FACTORS, "classes": classes, "events": upcoming,
             "news_before_min": th["news_before_min"], "quality": qual, "probation": prob,
             "stats": (stats or {}).get("classes"), "stats_at": (stats or {}).get("generated_at"), "record": record(h),
             "research": _json_or_none("ict/research.json")}
