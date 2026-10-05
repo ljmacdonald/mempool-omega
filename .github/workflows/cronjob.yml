@@ -1,0 +1,35 @@
+name: Timer maintenance (cron-job.org)
+
+# Check, reschedule, pause or resume the outside timer that starts the Tick job (infra/cronjob.py, SCHEDULER.md).
+# Uses only the CRONJOB_API_KEY secret; never prints it or the timer's headers.
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "status | schedule | pause | resume"
+        required: true
+        default: "status"
+        type: choice
+        options: [status, schedule, pause, resume]
+      minutes:
+        description: "For schedule: minutes of every hour (UTC), e.g. 1,16,31,46"
+        required: false
+        default: "1,16,31,46"
+
+permissions:
+  contents: read
+
+jobs:
+  timer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: infra
+      - name: Run
+        env:
+          CRONJOB_API_KEY: ${{ secrets.CRONJOB_API_KEY }}
+          ACTION: ${{ inputs.action }}
+          MINUTES: ${{ inputs.minutes }}
+        run: python3 infra/cronjob.py "$ACTION" "$MINUTES" | tee -a "$GITHUB_STEP_SUMMARY"

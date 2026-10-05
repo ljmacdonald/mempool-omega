@@ -54,3 +54,10 @@ Each run's log ends with a line like `started: fx.yml scan, ict.yml scan`.
   once. The most anyone could do with it is start or cancel jobs.
 - This is the one secret kept outside GitHub, a deliberate exception to the "secrets only in GitHub" rule
   (DECISIONS D69).
+
+## Changing the timer later (no clicking needed)
+With the `CRONJOB_API_KEY` secret set (cron-job.org → **Settings → API** → create a key; then GitHub → **Settings →
+Secrets and variables → Actions → New repository secret**, name `CRONJOB_API_KEY`), the **Timer maintenance
+(cron-job.org)** job can check, reschedule, pause or resume the timer: Actions tab → that job → **Run workflow**, or
+ask Claude. It never prints the key or the timer's headers. The timer runs at minutes 1, 16, 31 and 46 of every hour
+(UTC), one minute after each 15-minute candle closes.

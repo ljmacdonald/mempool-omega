@@ -60,6 +60,11 @@ Lets the **Create or switch off a payment link** job (and Claude, on request) cr
 **restricted** key (`rk_test_...` or `rk_live_...`) with only Products, Prices and Payment Links set to Write; a full
 secret key (`sk_...`) is refused. Step-by-step: [PAYMENTS.md](PAYMENTS.md).
 
+## 8. Timer maintenance (optional): `CRONJOB_API_KEY`
+Lets the **Timer maintenance (cron-job.org)** job (and Claude, on request) check, reschedule, pause or resume the
+cron-job.org timer that starts the Tick job. Create it on cron-job.org under **Settings → API**. See
+[SCHEDULER.md](SCHEDULER.md).
+
 ## Useful repository *variables* (Settings → Secrets and variables → Actions → Variables)
 | Variable | Default | Meaning |
 |----------|---------|---------|
