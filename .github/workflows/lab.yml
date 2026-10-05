@@ -1,0 +1,50 @@
+name: Strategy lab (every 15 min) + nightly re-test
+
+# Famous public strategies (lab/strategies.py) re-tested every night on the longest free history, after costs and
+# against random entries; every 15 minutes, where each strategy stands now. Publishes the snapshot for the website's
+# Strategy lab page on the `data` branch. PAPER ONLY: no broker, no orders.
+run-name: "Lab: ${{ inputs.task || github.event.schedule || 'run' }}"
+on:
+  schedule:
+    - cron: "11,26,41,56 * * * *"  # every 15 minutes (backup for the Tick job)
+    - cron: "20 5 * * *"           # nightly re-test
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "scan | backtest"
+        required: false
+        default: "scan"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: omega-lab-writer
+  cancel-in-progress: false
+
+jobs:
+  lab:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        run: pip install -e .
+      - name: Nightly re-test
+        if: github.event.schedule == '20 5 * * *' || github.event.inputs.task == 'backtest'
+        run: python -m lab.run backtest
+      - name: Where each strategy stands now
+        run: python -m lab.run scan
+      - name: Publish the snapshot for the website (data branch)
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash infra/publish_data.sh .cache/lab_out/snapshot.json lab/snapshot.json
+      - name: Commit state (test results)
+        if: always()
+        run: |
+          bash infra/commit_state.sh "lab ${{ github.event.inputs.task || 'scheduled' }} $(date -u +%Y-%m-%dT%H%MZ)"
