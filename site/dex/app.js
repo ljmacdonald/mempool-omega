@@ -48,6 +48,8 @@
   }
   async function getText(url) { const r = await fetch(url, { cache: "no-store" }); if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.text(); }
   const cache = {};
+  const LIVE_AGE = 90000;     // prices are polled every 30 s; older than this is not "now"
+  const livePx = (k) => E.freshPrice(state.live[k], LIVE_AGE);
   async function cached(k, ttl, fn) { const c = cache[k]; if (c && Date.now() - c.at < ttl) return c.v; const v = await fn(); cache[k] = { at: Date.now(), v }; return v; }
   // GeckoTerminal allows 30 calls a minute per visitor: space them out
   let gtNext = 0;
@@ -165,7 +167,7 @@
     const prob = ((state.snap.adaptive || {}).probation || {})[styleKey] || {};
     const r = X.expectedR(s.p, model.win_r, model.loss_r, cost.round_trip, s.risk_unit) - s.flag_penalty - a.penalty - (prob.active ? prob.penalty || 0.1 : 0);
     const sc = E.scoreFromR(r);
-    return { t, s, px, facts, m, a, cost, r, score: sc, grade: gradeOf(sc), liveChecked: !!(sec && sec.facts), probation: prob.active ? prob : null };
+    return { t, s, px, live: livePx(key(t)), facts, m, a, cost, r, score: sc, grade: gradeOf(sc), liveChecked: !!(sec && sec.facts), probation: prob.active ? prob : null };
   }
 
   // ------------------------------------------------------------------ scan
@@ -200,7 +202,12 @@
     for (const d of state.ideas) {
       const k = `${state.style}:${key(d.t)}`; let a = state.anchors[k];
       const hold = state.snap.styles[state.style].hold_minutes;
-      if (!a || now > a.exit_by) a = { at: now, price: d.px, take_profit: d.px * (1 + d.s.take_profit_pct), safety_exit: d.px * (1 + d.s.safety_exit_pct), exit_by: now + hold * 60000 };
+      if (!a || now > a.exit_by) {
+        // set from the live price; without one, a temporary anchor dated at the hourly check (not saved, replaced once live)
+        const base = d.live || d.px; const at = d.live ? now : Date.parse(state.snap.generated_at) || now;
+        a = { at, price: base, take_profit: base * (1 + d.s.take_profit_pct), safety_exit: base * (1 + d.s.safety_exit_pct), exit_by: now + hold * 60000 };
+        if (!d.live) { d.anchor = a; continue; }
+      }
       keep[k] = a; d.anchor = a;
     }
     for (const [k, a] of Object.entries(state.anchors)) if (!k.startsWith(`${state.style}:`)) keep[k] = a;
@@ -266,7 +273,7 @@
   function dropCharts(prefix) { for (const k of Object.keys(state.charts)) if (k.startsWith(prefix)) { try { state.charts[k].chart.remove(); } catch { /* gone */ } delete state.charts[k]; } }
   async function tickCharts() {   // move the last candle with the live price (DexScreener), no extra chart calls
     for (const ch of Object.values(state.charts)) {
-      const lv = state.live[key(ch.t)]; if (!lv || !Number.isFinite(lv.price)) continue;
+      const lp = livePx(key(ch.t)); if (!lp) continue; const lv = { price: lp };
       const time = Math.floor(Date.now() / 900000) * 900;
       try { ch.series.update({ time: Math.max(time, ch.lastTime), open: ch.lastOpen ?? lv.price, high: Math.max(ch.hi ?? lv.price, lv.price), low: Math.min(ch.lo ?? lv.price, lv.price), close: lv.price }); } catch { /* chart gone */ }
       if (time > ch.lastTime) { ch.lastTime = time; ch.lastOpen = lv.price; ch.hi = lv.price; ch.lo = lv.price; } else { ch.hi = Math.max(ch.hi ?? lv.price, lv.price); ch.lo = Math.min(ch.lo ?? lv.price, lv.price); }
@@ -278,24 +285,31 @@
     if (!toks.length) return;
     await liveMarket(toks);
     for (const t of toks) {
-      const lv = state.live[key(t)]; if (!lv) continue;
+      const lp = livePx(key(t)); if (!lp) continue; const lv = { price: lp };
       for (const el of document.querySelectorAll(`[data-live="${key(t)}"]`)) el.textContent = price(lv.price);
       for (const el of document.querySelectorAll(`[data-since="${key(t)}"]`)) { const ch = lv.price / +el.dataset.ref - 1; el.textContent = `${pct(ch, 2)} since suggested`; el.className = `d ${ch >= 0 ? "up" : "down"}`; }
     }
     for (const el of document.querySelectorAll("#ideas .calc")) updateCalc(el);
     tickCharts();
+    // an idea shown before its live price arrived: re-anchor on the live price and redraw
+    if (state.ideas.some((d) => !d.live && livePx(key(d.t)))) { for (const d of state.ideas) d.live = livePx(key(d.t)); anchor(); renderIdeas(); }
   }
 
   // ------------------------------------------------------------------ calculator (all costs)
   function costsFor(el) {
     const d = state.ideas.find((x) => key(x.t) === el.dataset.k); if (!d) return null;
     const amt = +el.querySelector(".amt").value || 0;
-    const ch = state.snap.chains[d.t.chain]; const lv = state.live[key(d.t)] || {}; const px = Number.isFinite(lv.price) ? lv.price : d.px;
+    const ch = state.snap.chains[d.t.chain]; const px = livePx(key(d.t));
+    if (!px) return { d, noLive: true };
     const args = [amt, px, d.m.liq_real, d.t.pool_fee, d.facts.buy_tax || 0, d.facts.sell_tax || 0, ch.gas_usd];
     return { d, amt, px, a: d.anchor, c: X.dexCost(...args, ch.mev, ch.sniper), safe: X.dexCost(...args, 0, ch.sniper), ch };
   }
   function updateCalc(el) {
     const r = costsFor(el); if (!r) return;
+    if (r.noLive) {
+      el.querySelector(".calc-out").innerHTML = `<tr><td class="muted">The calculator uses the live price and pool money. They couldn't be confirmed in the last 90 seconds, so no numbers are shown. It updates by itself when they are.</td></tr>`;
+      el.querySelector(".cost-out").innerHTML = ""; return;
+    }
     const { d, amt, px, a, c, safe } = r; const tgt = +el.querySelector(".tgt").value;
     const tp = px * (1 + d.s.take_profit_pct), sl = px * (1 + d.s.safety_exit_pct);
     const row = (label, x, sub = "") => { const o = c.at(x); return `<tr><td>${label}${sub}</td><td class="num">${price(x)}</td><td class="num ${o.net >= 0 ? "up" : "down"}">${usd(o.net)}</td><td class="num muted">${pct(o.net / amt, 1)}</td></tr>`; };
@@ -321,7 +335,7 @@
       <h3>Real profit calculator: the money you'd actually take out</h3>
       <div class="row">
         <label class="inline">I put in $<input class="amt" type="number" min="1" step="any" value="${state.amount}"></label>
-        <label class="inline">and sell at $<input class="tgt" type="number" min="0" step="any" placeholder="${(d.px * (1 + d.s.take_profit_pct)).toPrecision(5)}"></label>
+        <label class="inline">and sell at $<input class="tgt" type="number" min="0" step="any" placeholder="${(d.anchor.take_profit).toPrecision(5)}"></label>
       </div>
       <div class="table-wrap"><table><tbody class="calc-out"></tbody></table></div>
       <details><summary>Every cost, at the take profit</summary><div class="table-wrap"><table class="costs"><tbody class="cost-out"></tbody></table></div></details>
@@ -358,10 +372,11 @@
   }
   function ideaCard(d) {
     const a = d.anchor; const st = state.snap.styles[state.style]; const ch = state.snap.chains[d.t.chain];
-    const since = d.px / a.price - 1; const rl = riskLevel(d.s.risk_unit, RISK_RANGE[state.style]);
+    const since = d.live ? d.live / a.price - 1 : NaN; const rl = riskLevel(d.s.risk_unit, RISK_RANGE[state.style]);
     const held = state.trades.some((t) => t.chain === d.t.chain && t.token === d.t.token);
-    const already = d.px >= a.take_profit ? `<div class="banner good">Since it was suggested, the price already reached the take-profit level.</div>` :
-      d.px <= a.safety_exit ? `<div class="banner bad">Since it was suggested, the price already fell to the safety exit. Don't buy it now.</div>` : "";
+    const already = !d.live ? `<div class="banner calm">The live price hasn't been confirmed yet. The suggested price, take profit and safety exit are from the hourly check at ${hhmm(a.at)} UTC; don't buy until the live price shows.</div>` :
+      d.live >= a.take_profit ? `<div class="banner good">Since it was suggested, the price already reached the take-profit level.</div>` :
+      d.live <= a.safety_exit ? `<div class="banner bad">Since it was suggested, the price already fell to the safety exit. Don't buy it now.</div>` : "";
     const riskyOnly = state.profile === "risky" && d.t.assess && d.t.assess.verdict !== "pass";
     const warns = (riskyOnly ? [`Higher-risk only: ${d.t.assess.hard.map((h) => h.text).join(" ")}`] : []).concat(d.s.warnings).concat(d.probation ? [`This speed is on probation: its last ${d.probation.n} ideas did worse than random picks, so scores are lowered.`] : []);
     return `<article class="card">
@@ -373,7 +388,7 @@
       <p class="small muted">${esc(d.t.base_name || "")} · paired with ${esc(d.t.quote_symbol)} · ${money(d.m.liq_real)} real money in the pool · ${Math.round(d.t.age_days)} days old</p>
       <div class="strip">
         <div class="fact"><div class="k">Suggested</div><div class="v">${localDay(a.at)}</div><div class="d muted">at ${price(a.price)}</div></div>
-        <div class="fact"><div class="k">Price now</div><div class="v" data-live="${esc(key(d.t))}">${price(d.px)}</div><div class="d ${since >= 0 ? "up" : "down"}" data-since="${esc(key(d.t))}" data-ref="${a.price}">${pct(since, 2)} since suggested</div><div class="live small muted">Live (30 s)</div></div>
+        <div class="fact"><div class="k">Price now</div><div class="v" data-live="${esc(key(d.t))}">${price(d.live)}</div><div class="d ${!d.live ? "muted" : since >= 0 ? "up" : "down"}" data-since="${esc(key(d.t))}" data-ref="${a.price}">${d.live ? `${pct(since, 2)} since suggested` : "waiting for the live price"}</div><div class="live small muted">Live (30 s)</div></div>
         <div class="fact"><div class="k">Take profit at</div><div class="v">${price(a.take_profit)}</div><div class="d up">${pct(a.take_profit / a.price - 1)}</div></div>
         <div class="fact"><div class="k">Safety exit at</div><div class="v">${price(a.safety_exit)}</div><div class="d down">${pct(a.safety_exit / a.price - 1)}</div></div>
         <div class="fact"><div class="k">Sell by</div><div class="v">${local(a.exit_by)}</div><div class="d muted">${hhmm(a.exit_by)} UTC</div></div>
@@ -439,9 +454,9 @@
     const html = [];
     for (const tr of state.trades) {
       const t = toks.find((x) => x.chain === tr.chain && x.token === tr.token);
-      const lv = state.live[key(tr)] || {}; const px = Number.isFinite(lv.price) ? lv.price : (t && t.close) || NaN;
+      const lv = state.live[key(tr)] || {}; const px = livePx(key(tr)) ?? NaN;
       // rug signals since you bought: pool money falling, security turning bad
-      const liqNow = Number.isFinite(lv.liq) ? lv.liq : null;
+      const liqNow = Number.isFinite(lv.liq) && Number.isFinite(px) ? lv.liq : null;
       const liqDrop = liqNow && tr.liq_at_entry ? liqNow / tr.liq_at_entry - 1 : 0;
       const sec = state.sec[key(tr)];
       let rug = null;
@@ -453,7 +468,7 @@
       }
       let adv;
       if (rug) adv = { action: "EXIT NOW: scam warning", level: "bad", why: rug + " Sell now; waiting can mean you can't sell at all.", pnl: 0 };
-      else adv = E.advise(tr, px, Date.now(), null);
+      else adv = Number.isFinite(px) ? E.advise(tr, px, Date.now(), null) : E.adviseNoPrice(tr, Date.now());
       notify(tr, adv);
       const ch = state.snap?.chains[tr.chain];
       const c = ch && Number.isFinite(px) ? X.dexCost(tr.amount, tr.entry, liqNow || tr.liq_at_entry, tr.pool_fee, tr.buy_tax || 0, tr.sell_tax || 0, ch.gas_usd, ch.mev, ch.sniper) : null;
@@ -463,10 +478,10 @@
         <p>${esc(adv.why)}</p>
         <div class="strip">
           <div class="fact"><div class="k">You bought</div><div class="v">${localDay(tr.opened)}</div><div class="d muted">at ${price(tr.entry)}</div></div>
-          <div class="fact"><div class="k">Price now</div><div class="v">${price(px)}</div><div class="d ${net >= 0 ? "up" : "down"}">${usd(net)} on $${tr.amount.toLocaleString()} after all costs</div></div>
+          <div class="fact"><div class="k">Price now</div><div class="v">${price(px)}</div><div class="d ${!Number.isFinite(net) ? "muted" : net >= 0 ? "up" : "down"}">${Number.isFinite(net) ? `${usd(net)} on $${tr.amount.toLocaleString()} after all costs` : "waiting for the live price"}</div></div>
           <div class="fact"><div class="k">Take profit at</div><div class="v">${price(tr.take_profit)}</div></div>
           <div class="fact"><div class="k">Safety exit at</div><div class="v">${price(tr.safety_exit)}</div></div>
-          <div class="fact"><div class="k">Pool money</div><div class="v">${money(liqNow ?? tr.liq_at_entry)}</div><div class="d ${liqDrop < -0.05 ? "down" : "muted"}">${pct(liqDrop)} since you bought</div></div>
+          <div class="fact"><div class="k">Pool money</div><div class="v">${liqNow ? money(liqNow) : "–"}</div><div class="d ${liqDrop < -0.05 ? "down" : "muted"}">${liqNow ? `${pct(liqDrop)} since you bought` : "waiting for live data"}</div></div>
           <div class="fact"><div class="k">Sell by</div><div class="v">${local(tr.exit_by)}</div></div>
         </div>
         <div class="chart" id="chart-trade-${esc(tr.id).replace(/[^a-zA-Z0-9-]/g, "_")}"></div>
@@ -488,7 +503,7 @@
   }
   function notify(tr, a) {
     const prev = state.lastAction[tr.id]; state.lastAction[tr.id] = a.action;
-    if (!prev || prev === a.action || a.action === "Hold") return;
+    if (!prev || prev === a.action || a.action === "Hold" || a.action === "Waiting for a live price") return;
     document.title = `${a.action}: ${tr.symbol} · Mempool Omega DEX`;
     try { if ("Notification" in window && Notification.permission === "granted") new Notification(`${tr.symbol}: ${a.action}`, { body: a.why }); } catch { /* not supported */ }
   }
@@ -555,14 +570,16 @@
     const take = ev.target.closest("[data-take]");
     if (take) {
       const d = state.ideas.find((x) => key(x.t) === take.dataset.take);
-      if (d) {
+      const lp = d && livePx(key(d.t));
+      if (d && !lp) take.textContent = "Waiting for the live price… tap again in a few seconds";
+      else if (d) {
         const amt = +take.closest("article").querySelector(".calc .amt")?.value || state.amount;
-        const tr = E.makeTrade({ symbol: key(d.t), style: state.style, price_now: d.px, risk_unit: d.s.risk_unit, take_profit_pct: d.s.take_profit_pct,
+        const tr = E.makeTrade({ symbol: key(d.t), style: state.style, price_now: lp, risk_unit: d.s.risk_unit, take_profit_pct: d.s.take_profit_pct,
           safety_exit_pct: d.s.safety_exit_pct, hold_minutes: state.snap.styles[state.style].hold_minutes });
         Object.assign(tr, { chain: d.t.chain, token: d.t.token, pool: d.t.pool, symbol: d.t.base_symbol, amount: amt, liq_at_entry: d.m.liq_real,
           pool_fee: d.t.pool_fee, buy_tax: d.facts.buy_tax || 0, sell_tax: d.facts.sell_tax || 0, quote_price: d.t.quote_price });
         state.trades.push(tr); saveTrades();
-        take.outerHTML = `<span class="pill good">Added at ${price(d.px)}. Open “My DEX trades” to see when to sell.</span>`;
+        take.outerHTML = `<span class="pill good">Added at ${price(lp)}. Open “My DEX trades” to see when to sell.</span>`;
       }
     }
     const sold = ev.target.closest("[data-sold]");
@@ -593,6 +610,13 @@
   saveTrades();
   refreshIdeas();
   setInterval(paintStatus, 1000);
+  setInterval(() => {      // blank out a price that stopped being confirmed instead of leaving it on screen
+    for (const el of document.querySelectorAll("[data-live]")) if (!livePx(el.dataset.live) && el.textContent !== "–") {
+      el.textContent = "–";
+      for (const s2 of document.querySelectorAll(`[data-since="${el.dataset.live}"]`)) { s2.textContent = "waiting for the live price"; s2.className = "d muted"; }
+      for (const c of document.querySelectorAll(`.calc[data-k="${el.dataset.live}"]`)) updateCalc(c);
+    }
+  }, 5000);
   setInterval(() => { if (!document.hidden) pollPrices(); }, 30000);
   setInterval(() => { if (state.trades.length && !$("tab-trades").hidden && !document.hidden) refreshTrades(false); }, 30000);
   document.addEventListener("visibilitychange", () => { if (!document.hidden && state.nextAt && Date.now() > state.nextAt) refreshIdeas(); });

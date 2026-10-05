@@ -49,7 +49,7 @@
   // pair price from rates per 1 USD: EUR/JPY = JPY per USD / EUR per USD. `ref` is the last snapshot price: a live price that
   // disagrees with it by more than a pair-type limit is treated as a bad quote and not used (the same idea as the triangular check).
   function livePrice(pair, ref, kind) {
-    const r = state.live.rates; if (!r || Date.now() - state.live.at > 5 * 60e3) return null;
+    const r = state.live.rates; if (!r || Date.now() - state.live.at > 150e3) return null;   // one missed poll at most
     const b = pair.slice(0, 3), q = pair.slice(3); let px = null;
     if (b === "XAU" && q === "USD") px = state.live.gold;
     else if (b !== "XAG") { const rb = b === "USD" ? 1 : +r[b], rq = q === "USD" ? 1 : +r[q]; if (rb > 0 && rq > 0) px = rq / rb; }
@@ -57,19 +57,22 @@
     const lim = LIVE_MAX_GAP[kind] ?? (b === "XAU" ? LIVE_MAX_GAP.metal : LIVE_MAX_GAP.cross);
     return Number.isFinite(ref) && Math.abs(px / ref - 1) > lim ? null : px;
   }
-  const priceOf = (d) => { const lp = livePrice(d.pair, d.price, d.kind); return lp ? { px: lp, live: true } : { px: d.price, live: false }; };
+  // live only: the 15-minute snapshot price is never shown or used as "now"
+  const priceOf = (d) => { const lp = livePrice(d.pair, d.price, d.kind); return lp ? { px: lp, live: true } : { px: NaN, live: false }; };
+  const snapWhen = () => `${new Date(Date.parse(state.snap.generated_at)).toISOString().slice(11, 16)} UTC`;
   function paintLive() {
     for (const d of state.ideas) {
       const el = document.querySelector(`[data-live="${CSS.escape(key(d))}"]`); if (!el) continue;
       const { px, live } = priceOf(d); const a = d.anchor;
       const move = d.side === "buy" ? px / a.price - 1 : a.price / px - 1;
       el.innerHTML = liveFact(d.pair, px, live, move);
+      const c = document.querySelector(`[data-calc="${CSS.escape(key(d))}"]`); if (c) c.outerHTML = calcHTML(d);
     }
     if (!$("tab-trades").hidden) renderTrades(false);
   }
   function liveFact(pair, px, live, move) {
-    return `<div class="k">${live ? "Price now (live)" : "Price (last update)"}</div><div class="v">${dp(pair, px)}</div>` +
-      `<div class="d ${live ? (move >= 0 ? "up" : "down") : "muted"}">${live ? `${pct(move)} for this idea since suggested` : "live price unavailable: check your broker"}</div>`;
+    return `<div class="k">Price now${live ? " (live)" : ""}</div><div class="v">${live ? dp(pair, px) : "–"}</div>` +
+      `<div class="d ${live ? (move >= 0 ? "up" : "down") : "muted"}">${live ? `${pct(move)} for this idea since suggested` : marketOpen() ? "not live right now: check your broker" : "market closed"}</div>`;
   }
 
   // ------------------------------------------------------------------ market hours & sessions
@@ -117,7 +120,8 @@
     const now = Date.now(); const keep = {};
     for (const d of state.ideas) {
       const k = `${state.list}:${state.style}:${key(d)}`; let a = state.anchors[k];
-      if (!a || now > a.exit_by) a = { at: now, price: d.price, take_profit: d.take_profit, safety_exit: d.safety_exit, exit_by: Date.parse(d.sell_by) };
+      // exits come from the snapshot price, so the suggestion is dated at the snapshot, not "now"
+      if (!a || now > a.exit_by) a = { at: Date.parse(state.snap.generated_at) || now, price: d.price, take_profit: d.take_profit, safety_exit: d.safety_exit, exit_by: Date.parse(d.sell_by) };
       keep[k] = a; d.anchor = a;
     }
     for (const [k, a] of Object.entries(state.anchors)) if (!k.startsWith(`${state.list}:${state.style}:`) && now < a.exit_by + 864e5) keep[k] = a;
@@ -147,8 +151,8 @@
     const a = d.anchor; const amt = state.amount; const lev = state.lev; const pos = amt * lev;
     const stopOutMove = STOP_OUT / lev; const slDist = Math.abs(a.safety_exit / a.price - 1);
     const row = (label, x) => { const v = outcome(d, amt, lev, a.price, x); return `<tr><td>${label}</td><td class="num">${dp(d.pair, x)}</td><td class="num ${v >= 0 ? "up" : "down"}">${usd(v)}</td><td class="num muted">${pct(v / amt, 1)}</td></tr>`; };
-    return `<div class="calc"><h3>Profit calculator: $${amt.toLocaleString()} of your money, ${lev === 1 ? "no leverage" : `${lev}x leverage`} (a $${pos.toLocaleString()} position)</h3>
-      <div class="table-wrap"><table><tbody>${row("If it reaches the take profit", a.take_profit)}${row("If it hits the safety exit", a.safety_exit)}${row("If you closed right away", a.price)}</tbody></table></div>
+    return `<div class="calc" data-calc="${esc(key(d))}"><h3>Profit calculator: $${amt.toLocaleString()} of your money, ${lev === 1 ? "no leverage" : `${lev}x leverage`} (a $${pos.toLocaleString()} position)</h3>
+      <div class="table-wrap"><table><tbody>${row("If it reaches the take profit", a.take_profit)}${row("If it hits the safety exit", a.safety_exit)}${(() => { const { px, live } = priceOf(d); return live ? row("If you closed right away (live price)", px) : `<tr><td>If you closed right away</td><td colspan="3" class="muted">shown with a live price</td></tr>`; })()}</tbody></table></div>
       ${lev > 1 ? `<div class="banner ${slDist >= stopOutMove ? "bad" : "warn"}">At ${lev}x, a move of about ${pct(stopOutMove, 1).replace("+", "")} against you loses half your money and most brokers close the trade (margin call).${slDist >= stopOutMove ? " That's <b>before</b> your safety exit: lower the leverage." : ""}</div>` : ""}
       <p class="small muted">After the spread (${pct(d.spread, 3).replace("+", "")})${d.swap_nights ? ` and about ${d.swap_nights} night(s) of overnight fees` : ""}. Change "Your money" and "Leverage" at the top.</p></div>`;
   }
@@ -216,12 +220,13 @@
   function tradeView(t) {
     const all = Object.values(state.snap?.lists || {}).flatMap((by) => Object.values(by).flat());
     const row = all.find((r) => key(r) === t.key); const ref = row ? row.price : t.last || t.entry;
-    const lp = livePrice(t.pair, ref, row?.kind); const px = lp || ref;
+    const lp = livePrice(t.pair, ref, row?.kind);
     if (row) t.last = row.price;
     // advise() thinks in "price up = good": give it the side-adjusted view
     const view = (x) => (t.side === "buy" ? x : 1 / x);
-    const a = E.advise({ entry: view(t.entry), take_profit: view(t.take_profit), safety_exit: view(t.safety_exit), exit_by: t.exit_by }, view(px), Date.now(), null);
-    return { px, live: !!lp, a };
+    const tv = { entry: view(t.entry), take_profit: view(t.take_profit), safety_exit: view(t.safety_exit), exit_by: t.exit_by };
+    const a = lp ? E.advise(tv, view(lp), Date.now(), null) : E.adviseAsOf(tv, row ? view(row.price) : NaN, state.snap ? snapWhen() : "the last update", Date.now());
+    return { px: lp || NaN, live: !!lp, a };
   }
   function checkTrades() { for (const t of state.trades) notify(t, tradeView(t).a); }
   async function renderTrades(reload = true) {
@@ -231,16 +236,16 @@
     $("trades").innerHTML = `<div style="display:grid;gap:14px">${state.trades.map((t) => {
       const { px, live, a } = tradeView(t);
       notify(t, a);
-      const v = outcome(t, t.amount, t.lev, t.entry, px);
+      const v = live ? outcome(t, t.amount, t.lev, t.entry, px) : NaN;
       return `<article class="card trade ${a.level}"><div class="idea-head"><h2>${t.side.toUpperCase()} ${esc(t.label)}</h2><span class="verdict ${a.level}">${esc(a.action)}</span></div><p>${esc(a.why)}</p>
         <div class="strip"><div class="fact"><div class="k">Opened</div><div class="v">${localDay(t.opened)}</div><div class="d muted">at ${dp(t.pair, t.entry)}</div></div>
-        <div class="fact"><div class="k">${live ? "Price now (live)" : "Price (last update)"}</div><div class="v">${dp(t.pair, px)}</div><div class="d ${v >= 0 ? "up" : "down"}">${usd(v)} on $${t.amount} at ${t.lev}x</div></div>
+        <div class="fact"><div class="k">Price now${live ? " (live)" : ""}</div><div class="v">${dp(t.pair, px)}</div><div class="d ${!live ? "muted" : v >= 0 ? "up" : "down"}">${live ? `${usd(v)} on $${t.amount} at ${t.lev}x` : "not live right now: check your broker"}</div></div>
         <div class="fact"><div class="k">Take profit</div><div class="v">${dp(t.pair, t.take_profit)}</div></div><div class="fact"><div class="k">Safety exit</div><div class="v">${dp(t.pair, t.safety_exit)}</div></div>
         <div class="fact"><div class="k">Close by</div><div class="v">${local(t.exit_by)}</div></div></div>
         <div class="actions"><button class="btn" type="button" data-sold="${esc(t.id)}">I've closed it: remove</button></div></article>`; }).join("")}</div><p class="small muted">Live prices are checked every minute while this page is open (Coinbase's reference rates; gold from PAXG). Your broker's price can differ slightly, and silver updates every 15 minutes.</p>`;
   }
   function notify(t, a) {
-    const prev = state.lastAction[t.id]; state.lastAction[t.id] = a.action; if (!prev || prev === a.action || a.action === "Hold") return;
+    const prev = state.lastAction[t.id]; state.lastAction[t.id] = a.action; if (!prev || prev === a.action || a.action === "Hold" || a.action === "Waiting for a live price") return;
     document.title = `${a.action}: ${t.label} · Mempool Omega`;
     try { if ("Notification" in window && Notification.permission === "granted") new Notification(`${t.label}: ${a.action}`, { body: a.why }); } catch { /* not supported */ }
   }
@@ -268,7 +273,9 @@
     if (take) {
       const d = state.ideas.find((x) => key(x) === take.dataset.take);
       if (d) {
-        const a = d.anchor; const now = Date.now(); const entry = priceOf(d).px;
+        const a = d.anchor; const now = Date.now(); let entry = priceOf(d).px;
+        // the price you actually got: live if we have it, otherwise ask (the last update may be up to 15 minutes old)
+        if (!(entry > 0)) { const v = parseFloat(String(window.prompt(`What price did you get for ${d.label}? (see your broker)`, "") || "").replace(/[,\s]/g, "")); if (!(v > 0)) return; entry = v; }
         state.trades.push({ id: `${key(d)}-${now}`, key: key(d), pair: d.pair, label: d.label, side: d.side, entry, take_profit: a.take_profit, safety_exit: a.safety_exit,
           exit_by: Date.parse(d.sell_by), opened: now, amount: state.amount, lev: state.lev, cost: d.cost });
         saveTrades(); take.outerHTML = `<span class="pill good">Added at ${dp(d.pair, entry)}. Open “My forex trades”.</span>`;
@@ -294,5 +301,6 @@
   saveTrades(); paintMarket(); refresh();
   setInterval(paintStatus, 1000); setInterval(paintMarket, 30000);
   pollLive(); setInterval(pollLive, LIVE_EVERY);
+  setInterval(paintLive, 15000);   // blanks out a live price once it is no longer confirmed
   document.addEventListener("visibilitychange", () => { if (!document.hidden && Date.now() - state.live.at > LIVE_EVERY) pollLive(); });
 })();

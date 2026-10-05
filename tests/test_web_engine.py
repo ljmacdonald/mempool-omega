@@ -186,3 +186,28 @@ console.log(JSON.stringify(E.bigMoverStats(d)));"""
                          capture_output=True, text=True, timeout=60)
     j = json.loads(out.stdout)
     assert abs(j["up_pct"] - py["up_pct"]) < 1e-12 and abs(j["down_pct"] - py["down_pct"]) < 1e-12
+
+
+def test_js_old_prices_are_never_used_as_now():
+    """Freshness rules on the website: a price older than a minute is not 'now', there is no Hold verdict without a
+    live price, and an older price can only prompt a 'check now'."""
+    js = r"""
+    const E = require(process.argv[1]); const now = 1_000_000_000_000;
+    const t = { entry: 100, take_profit: 110, safety_exit: 95, exit_by: now + 3600e3 };
+    console.log(JSON.stringify({
+      fresh: E.freshPrice({ price: 101, at: now - 30e3 }, null, now),
+      stale: E.freshPrice({ price: 101, at: now - 61e3 }, null, now),
+      noAt: E.freshPrice({ price: 101 }, null, now),
+      wait: E.adviseNoPrice(t, now).action,
+      timeUp: E.adviseNoPrice({ ...t, exit_by: now - 1 }, now).action,
+      asOfTp: E.adviseAsOf(t, 111, "14:35", now).action,
+      asOfSl: E.adviseAsOf(t, 94, "14:35", now).action,
+      asOfMid: E.adviseAsOf(t, 101, "14:35", now).action,
+      asOfNone: E.adviseAsOf(t, NaN, "14:35", now).action,
+    }));"""
+    out = subprocess.run(["node", "-e", js, str(ROOT / "site" / "engine.js")], capture_output=True, text=True, check=True)
+    r = json.loads(out.stdout)
+    assert r["fresh"] == 101 and r["stale"] is None and r["noAt"] is None
+    assert r["wait"] == "Waiting for a live price" and r["timeUp"] == "Time's up: sell now"
+    assert r["asOfTp"] == "Check now: take profit reached" and r["asOfSl"] == "Check now: safety exit reached"
+    assert r["asOfMid"] == "Waiting for a live price" and r["asOfNone"] == "Waiting for a live price"

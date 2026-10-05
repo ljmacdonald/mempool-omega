@@ -370,6 +370,14 @@
     }
     for (const el of document.querySelectorAll(`.calc[data-sym="${symbol}"]`)) updateCalc(el);
   }
+  // a price that stops being confirmed (connection lost, coin stopped updating) is blanked out rather than left on screen
+  function clearStale() {
+    for (const el of document.querySelectorAll("[data-live]")) if (!E.freshPrice(state.live[el.dataset.live]) && el.textContent !== "–") {
+      el.textContent = "–";
+      for (const s2 of document.querySelectorAll(`[data-since="${el.dataset.live}"]`)) { s2.textContent = "waiting for the live price"; s2.className = "d muted"; }
+      for (const c of document.querySelectorAll(`.calc[data-sym="${el.dataset.live}"]`)) updateCalc(c);
+    }
+  }
   function paintLiveBadges() { for (const el of document.querySelectorAll(".livebadge")) { el.classList.toggle("stale", !state.wsOk); el.textContent = state.wsOk ? "Live" : "Updates every 10 s"; } }
 
   // ------------------------------------------------------------------ calculator
@@ -386,13 +394,14 @@
   }
   function updateCalc(el) {
     const amt = +el.querySelector(".amt").value || 0; const entry = +el.dataset.entry, tp = +el.dataset.tp, sl = +el.dataset.sl;
-    const tgt = +el.querySelector(".tgt").value; const now = state.live[el.dataset.sym]?.price;
+    const tgt = +el.querySelector(".tgt").value; const now = E.freshPrice(state.live[el.dataset.sym]);
     const qty = amt * (1 - FEE) / entry;
     const row = (label, px, extra = "") => { const v = outcome(amt, entry, px); return `<tr><td>${label}${extra}</td><td class="num">${price(px)}</td><td class="num ${v >= 0 ? "up" : "down"}">${usd(v)}</td><td class="num muted">${pct(v / amt, 1)}</td></tr>`; };
     let html = `<tr><td colspan="4" class="muted">You'd get about <b class="num">${qty.toPrecision(5)}</b> ${esc(coinName(el.dataset.sym))} for $${amt.toLocaleString()} at ${price(entry)}.</td></tr>`;
     html += row("If it reaches the take profit", tp);
     html += row("If it hits the safety exit", sl);
-    if (Number.isFinite(now)) html += row("If you sold right now", now);
+    html += now ? row("If you sold right away", now, ` <span class="small muted">(live price)</span>`)
+      : `<tr><td>If you sold right away</td><td colspan="3" class="muted">shown once the live price is confirmed</td></tr>`;
     if (tgt > 0) html += row("If you sell at your price", tgt);
     el.querySelector(".calc-out").innerHTML = html;
   }
@@ -509,9 +518,9 @@
   function ideaCard(d, hourly, loading) {
     const a = d.anchor || { at: Date.parse(d.suggested_at || "") || Date.now(), price: d.price_now, take_profit: d.take_profit, safety_exit: d.safety_exit, exit_by: d.exit_by };
     const held = state.trades.some((t) => t.symbol === d.symbol && t.style === d.style);
-    const nowPx = state.live[d.symbol]?.price ?? d.price_now;
-    const since = nowPx / a.price - 1;
-    const already = nowPx >= a.take_profit ? `<div class="banner good">Since it was suggested, the price already reached the take-profit level.</div>` :
+    const nowPx = E.freshPrice(state.live[d.symbol]);      // live only: an old price is never shown as "now"
+    const since = nowPx ? nowPx / a.price - 1 : NaN;
+    const already = !nowPx ? "" : nowPx >= a.take_profit ? `<div class="banner good">Since it was suggested, the price already reached the take-profit level.</div>` :
       nowPx <= a.safety_exit ? `<div class="banner bad">Since it was suggested, the price already fell to the safety exit. Don't buy it now.</div>` : "";
     const bm = Number.isFinite(d.week_up20_pct) ? `<p class="small muted">Last 90 days: it rose 20%+ within a week ${Math.round(d.week_up20_pct * 100)}% of the time and fell 20%+ ${Math.round(d.week_down20_pct * 100)}% of the time.</p>` : "";
     const chartId = `chart-idea-${d.style}-${d.symbol}`;
@@ -524,7 +533,7 @@
       </div>
       <div class="strip">
         <div class="fact"><div class="k">Suggested</div><div class="v">${localDay(a.at)}</div><div class="d muted">at ${price(a.price)}</div></div>
-        <div class="fact"><div class="k">Price now</div><div class="v" data-live="${esc(d.symbol)}">${price(nowPx)}</div><div class="d ${since >= 0 ? "up" : "down"}" data-since="${esc(d.symbol)}" data-ref="${a.price}">${pct(since, 2)} since suggested</div>${hourly ? "" : '<div class="livebadge live small muted">Live</div>'}</div>
+        <div class="fact"><div class="k">Price now</div><div class="v" data-live="${esc(d.symbol)}">${price(nowPx)}</div><div class="d ${!nowPx ? "muted" : since >= 0 ? "up" : "down"}" data-since="${esc(d.symbol)}" data-ref="${a.price}">${nowPx ? `${pct(since, 2)} since suggested` : "waiting for the live price"}</div>${hourly ? "" : '<div class="livebadge live small muted">Live</div>'}</div>
         <div class="fact"><div class="k">Take profit at</div><div class="v">${price(a.take_profit)}</div><div class="d up">${pct(a.take_profit / a.price - 1)}</div></div>
         <div class="fact"><div class="k">Safety exit at</div><div class="v">${price(a.safety_exit)}</div><div class="d down">${pct(a.safety_exit / a.price - 1)}</div></div>
         <div class="fact"><div class="k">Sell by</div><div class="v">${local(a.exit_by)}</div><div class="d muted">${hhmm(a.exit_by)} UTC</div></div>
@@ -578,7 +587,7 @@
     if (!rows.length) return "";
     return `<article class="card"><h3>Earlier suggestions on this device (${esc(state.cfg.styles[state.style].label.split(":")[0])} speed, last 48 hours)</h3>
       <div class="table-wrap"><table><thead><tr><th>Coin</th><th>Suggested</th><th class="num">Price then</th><th class="num">Price now</th><th class="num">Change</th><th>Sell-by</th></tr></thead><tbody>
-      ${rows.map((e) => `<tr><td>${esc(coinName(e.symbol))}</td><td>${esc(localDay(e.at))}</td><td class="num">${price(e.price)}</td><td class="num" data-live="${esc(e.symbol)}">${price(state.live[e.symbol]?.price)}</td><td class="num" data-since="${esc(e.symbol)}" data-ref="${e.price}">–</td><td>${Date.now() > e.exit_by ? "passed" : local(e.exit_by)}</td></tr>`).join("")}
+      ${rows.map((e) => `<tr><td>${esc(coinName(e.symbol))}</td><td>${esc(localDay(e.at))}</td><td class="num">${price(e.price)}</td><td class="num" data-live="${esc(e.symbol)}">${price(E.freshPrice(state.live[e.symbol]))}</td><td class="num" data-since="${esc(e.symbol)}" data-ref="${e.price}">–</td><td>${Date.now() > e.exit_by ? "passed" : local(e.exit_by)}</td></tr>`).join("")}
       </tbody></table></div><p class="small muted">Coins that left the top 5. “Change” is the price move since the suggestion, before fees.</p></article>`;
   }
   async function refreshEarlierPrices() {
@@ -615,21 +624,21 @@
     if (!state.trades.length) { dropCharts("trade|"); box.innerHTML = `<div class="banner calm">No trades yet. Tap “I bought this” on an idea, or add one below.</div>`; updateBackup(); return; }
     let prices = {};
     try { const all = await getJSON(`${BINANCE}/ticker/price`); const want = new Set(state.trades.map((t) => t.symbol)); for (const p of all) if (want.has(p.symbol)) prices[p.symbol] = +p.price; }
-    catch { prices = Object.fromEntries(state.trades.map((t) => [t.symbol, state.live[t.symbol]?.price])); }
+    catch { prices = Object.fromEntries(state.trades.map((t) => [t.symbol, E.freshPrice(state.live[t.symbol])])); }
     const needCharts = rebuildCharts || state.trades.some((t) => !Object.keys(state.charts).some((k) => k.startsWith(`trade|${t.id}|`)));
     const openCalc = new Set([...document.querySelectorAll("#trades details[open]")].map((e) => e.dataset.id));
     const amounts = Object.fromEntries([...document.querySelectorAll("#trades .calc .amt")].map((e) => [e.closest("[data-tid]")?.dataset.tid, e.value]));
     const html = [];
     for (const t of state.trades) {
-      const px = prices[t.symbol] ?? state.live[t.symbol]?.price;
-      if (Number.isFinite(px)) state.live[t.symbol] = { price: px, at: Date.now() };
+      const px = prices[t.symbol] ?? E.freshPrice(state.live[t.symbol]);
+      if (prices[t.symbol]) state.live[t.symbol] = { price: px, at: Date.now() };
       const scan = state.lastScan[t.style]; let score = scan?.scores?.[t.symbol];
       if (scan && Number.isFinite(score)) {
         const seen = state.lowStreak[t.id] || { at: 0, n: 0 };
         if (seen.at !== scan.at) state.lowStreak[t.id] = { at: scan.at, n: score < 4.5 ? seen.n + 1 : 0 };
         if (state.lowStreak[t.id].n < 2) score = Math.max(score, 4.5);   // one bad reading could be a planted signal
       }
-      const a = E.advise(t, px, Date.now(), score);
+      const a = Number.isFinite(px) ? E.advise(t, px, Date.now(), score) : E.adviseNoPrice(t, Date.now());
       notifyIfChanged(t, a);
       const amt = +(amounts[t.id] ?? t.amount ?? state.amount);
       const pl = outcome(amt, t.entry, px);
@@ -638,9 +647,9 @@
         <p>${esc(a.why)}</p>
         <div class="strip">
           <div class="fact"><div class="k">You bought</div><div class="v">${localDay(t.opened)}</div><div class="d muted">at ${price(t.entry)}</div></div>
-          <div class="fact"><div class="k">Price now</div><div class="v" data-live="${esc(t.symbol)}">${price(px)}</div><div class="d ${a.pnl >= 0 ? "up" : "down"}">${pct(a.pnl, 2)} after fees · ${usd(pl)} on $${amt.toLocaleString()}</div><div class="livebadge live small muted">Live</div></div>
-          <div class="fact"><div class="k">Take profit at</div><div class="v">${price(t.take_profit)}</div><div class="d muted">${pct(a.toTp)} away</div></div>
-          <div class="fact"><div class="k">Safety exit at</div><div class="v">${price(t.safety_exit)}</div><div class="d muted">${pct(a.toSl)} away</div></div>
+          <div class="fact"><div class="k">Price now</div><div class="v" data-live="${esc(t.symbol)}">${price(px)}</div><div class="d ${a.stale ? "muted" : a.pnl >= 0 ? "up" : "down"}">${a.stale ? "waiting for the live price" : `${pct(a.pnl, 2)} after fees · ${usd(pl)} on $${amt.toLocaleString()}`}</div><div class="livebadge live small muted">Live</div></div>
+          <div class="fact"><div class="k">Take profit at</div><div class="v">${price(t.take_profit)}</div><div class="d muted">${a.stale ? "" : `${pct(a.toTp)} away`}</div></div>
+          <div class="fact"><div class="k">Safety exit at</div><div class="v">${price(t.safety_exit)}</div><div class="d muted">${a.stale ? "" : `${pct(a.toSl)} away`}</div></div>
           <div class="fact"><div class="k">Sell by</div><div class="v">${local(t.exit_by)}</div><div class="d muted">${a.leftMin > 0 ? E.humanDuration(a.leftMin) + " left" : "time is up"}</div></div>
         </div>
         <div class="chart" id="chart-trade-${esc(t.id)}"></div>
@@ -675,7 +684,7 @@
 
   function notifyIfChanged(t, a) {
     const prev = state.lastAction[t.id]; state.lastAction[t.id] = a.action;
-    if (!prev || prev === a.action || a.action === "Hold") return;
+    if (!prev || prev === a.action || a.action === "Hold" || a.action === "Waiting for a live price") return;
     document.title = `${a.action}: ${coinName(t.symbol)} · Mempool Omega`;
     try { if ("Notification" in window && Notification.permission === "granted") new Notification(`${coinName(t.symbol)}: ${a.action}`, { body: a.why }); } catch { /* not supported */ }
   }
@@ -826,7 +835,8 @@
     if (take) {
       const idea = state.lastScan[state.style]?.ideas.find((d) => d.symbol === take.dataset.take);
       if (idea) {
-        const nowPx = state.live[idea.symbol]?.price ?? idea.price_now;
+        const nowPx = E.freshPrice(state.live[idea.symbol]);
+        if (!nowPx) { take.textContent = "Waiting for the live price… tap again in a few seconds"; return; }
         const card = take.closest("article"); const amt = +card.querySelector(".calc .amt")?.value || state.amount;
         const tr = E.makeTrade({ ...idea, price_now: nowPx }); tr.amount = amt;
         state.trades.push(tr); saveTrades(); connectLive();
@@ -915,6 +925,8 @@
   renderTradeCount();
   refreshIdeas();
   setInterval(paintStatus, 1000);
+  setInterval(clearStale, 5000);
+  setInterval(() => { if (!document.hidden && !$("tab-ideas").hidden) refreshEarlierPrices(); }, 30000);
   setInterval(() => { if (state.trades.length && !$("tab-trades").hidden) refreshTrades(false); }, 30000);
   document.addEventListener("visibilitychange", () => { if (!document.hidden && state.nextAt && Date.now() > state.nextAt) refreshIdeas(); });
 })();
