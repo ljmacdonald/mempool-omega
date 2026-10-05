@@ -1,4 +1,4 @@
-/* Mempool Omega US stocks page. Rankings: the project's 30-minute snapshot (GitHub Actions reads Nasdaq and
+/* Mempool Omega US stocks page. Rankings: the project's 15-minute snapshot (GitHub Actions reads Nasdaq and
    Yahoo, which web pages can't read directly). Live prices: optional Finnhub key, kept in this browser only. */
 (function () {
   "use strict";
@@ -95,7 +95,7 @@
       state.ideas = rows.map(evaluate).sort((a, b) => b.scoreNow - a.scoreNow).slice(0, 5).map((d, i) => ({ ...d, rank: i + 1 }));
       anchor(); render();
       const age = Math.round((Date.now() - Date.parse(snap.generated_at)) / 60000);
-      setStatus(`Rankings from ${age} min ago${state.key ? " · live prices from Finnhub" : " · prices refresh every 30 min while the market is open"}`);
+      setStatus(`Rankings from ${age} min ago${state.key ? " · live prices from Finnhub" : " · prices refresh every 15 min while the market is open"}`);
     } catch (e) {
       $("mood").className = "banner bad"; $("mood").textContent = `Couldn't load the stock rankings yet (${e.message || e}). They appear after the first run during US market hours.`;
       $("ideas").innerHTML = ""; setStatus("Couldn't load data");

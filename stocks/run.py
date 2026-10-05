@@ -1,6 +1,6 @@
 """US stocks entry points (paper / education only).
 
-  python -m stocks.run scan     # every 30 min while the market is open: snapshot + hourly track record
+  python -m stocks.run scan     # every 15 min while the market is open: snapshot + hourly track record
   python -m stocks.run train    # nightly after the close: swing stats, earnings, models
 """
 from __future__ import annotations

@@ -29,11 +29,12 @@ read the top 5 ideas, tap **“I bought this”**, and the **My trades** tab tel
 - **US stocks page: https://ljmacdonald.github.io/mempool-omega/stocks/**. The 200 most-traded US stocks worth $10B+
   and a high-volatility list ($300M–$10B companies that often swing 20%+ in a week). Two speeds (today, or up to
   3 trading days), market-hours banner, earnings warnings and real costs (spread, fees, your currency fee).
-  Rankings update every 30 minutes while the market is open; add your own free Finnhub key on the page for live prices.
+  Rankings update every 15 minutes while the market is open; add your own free Finnhub key on the page for live prices.
 - **Forex page: https://ljmacdonald.github.io/mempool-omega/fx/**. The 7 major pairs, 21 crosses, gold and silver,
   ranked **both ways** (buy or sell), with checks against the manipulation tactics banks were fined for (rate-fix
   rigging, stop hunts, off-market quotes, news ambushes, thin hours), a leverage calculator with margin-call
-  warnings, and exotic pairs (naira, rand, cedi, shilling, ...) for information.
+  warnings, and exotic pairs (naira, rand, cedi, shilling, ...) for information. Rankings every 15 minutes; live
+  prices for ideas and your trades every minute (Coinbase public rates, no key).
 - **Biggest movers** tab on every page: today's top gainers and exactly why each one is or isn't suggested.
 - **Higher-risk mode** on the DEX page: younger and smaller tokens ($100k+, 5+ days), with every scam test unchanged.
 - A menu at the top of every page (**Exchange coins · Small coins · DEX tokens · US stocks · Forex**), plus a **Day / Night** switch

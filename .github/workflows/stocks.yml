@@ -1,11 +1,11 @@
-name: US stocks (every 30 min while the market is open) + nightly retrain
+name: US stocks (every 15 min while the market is open) + nightly retrain
 
 # Scans the most-traded US stocks and a high-volatility list (free Nasdaq + Yahoo data) and publishes the
 # snapshot for the website's US stocks page on the `data` branch (one commit, replaced every run, so the
 # repository doesn't grow). PAPER ONLY: no broker, no keys, no orders.
 on:
   schedule:
-    - cron: "5,35 13-20 * * 1-5"   # 13:05-20:35 UTC covers 9:30 am - 4 pm New York in summer and winter
+    - cron: "5,20,35,50 13-20 * * 1-5"  # 13:05-20:35 UTC covers 9:30 am - 4 pm New York in summer and winter
     - cron: "50 21 * * 1-5"        # after the close: swing statistics, earnings calendar, retrain
   workflow_dispatch:
     inputs:

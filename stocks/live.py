@@ -1,8 +1,8 @@
-"""US stocks scan (GitHub Actions, every 30 minutes while the market is open).
+"""US stocks scan (GitHub Actions, every 15 minutes while the market is open).
 
 Writes the page's snapshot (top candidates per list and speed, chart candles, biggest movers, market hours) to
 .cache/stocks_out/snapshot.json, which the workflow publishes on the `data` branch (no history, so the repository
-doesn't grow). The track record (state/stocks/) is updated once an hour.
+doesn't grow). The track record (state/stocks/) is updated about once an hour.
 """
 from __future__ import annotations
 
@@ -142,7 +142,7 @@ def run(track_now: bool | None = None) -> dict:
     earn = earnings_cached()
     models = load_models()
     lists: dict = {}
-    track_now = bool(market.get("open")) and pd.Timestamp.now(tz="UTC").minute < 30 if track_now is None else track_now
+    track_now = bool(market.get("open")) if track_now is None else track_now
     for key, st in STOCK_STYLES.items():
         m = models.get(key)
         if m is None:
@@ -161,7 +161,7 @@ def run(track_now: bool | None = None) -> dict:
                           "price_now": d["price"], "take_profit_pct": d["take_profit_pct"],
                           "safety_exit_pct": d["safety_exit_pct"], "pre_ret": d["pre_ret"], "vol_surge": d["vol_surge"],
                           "cost_rt": R.cost_rt(d["dollar_vol"])} for i, d in enumerate(rows[:5])]
-                track.append(ideas, len(rows), hist)
+                track.append(ideas, len(rows), hist, min_gap_minutes=45)
                 h = track.load_history(hist)
                 need = set(h.loc[h["status"] == "open", "symbol"]) - set(cs) if len(h) else set()
                 extra = {s: candles(s, st.interval, LIVE_BARS[key]) for s in list(need)[:40]}

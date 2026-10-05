@@ -45,7 +45,9 @@ def _normalise(h: pd.DataFrame) -> pd.DataFrame:
     return h
 
 
-def append(ideas: list[dict], universe_size: int, hist: str = HIST) -> None:
+def append(ideas: list[dict], universe_size: int, hist: str = HIST, min_gap_minutes: float = 0) -> None:
+    """Add the ideas as open rows. With `min_gap_minutes`, a speed that already has ideas saved less than that long
+    before these is skipped, so a job that runs every 15 minutes still records about one set an hour."""
     rows = [{"ts": d["ts"], "style": d["style"], "rank": d["rank"], "symbol": d["symbol"], "score": d["score"],
              "grade": d["grade"], "chance_beats_market": d["chance_beats_market"], "risk_unit": d["risk_unit"],
              "price_at_idea": d["price_now"], "universe_size": universe_size, "status": "open", "outcome": "",
@@ -61,6 +63,10 @@ def append(ideas: list[dict], universe_size: int, hist: str = HIST) -> None:
     h = load_history(hist)
     new = pd.DataFrame(rows)
     new = _normalise(new)
+    if len(h) and min_gap_minutes:
+        last = h.groupby("style")["ts"].max().map(lambda x: pd.Timestamp(x))
+        new = new[[not (st in last and pd.Timestamp(ts) - last[st] < pd.Timedelta(minutes=min_gap_minutes))
+                   for ts, st in zip(new["ts"], new["style"])]]
     if len(h):
         key = ["ts", "symbol", "style"]
         new = new[~new.set_index(key).index.isin(h.set_index(key).index)]
