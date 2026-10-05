@@ -568,6 +568,8 @@
     const smallNote = SMALL ? ` These are smaller coins that rose 20%+ within a week at least ${Math.round(state.cfg.universe.small_min_swing * 100)}% of the time over the last 90 days (${m.coins} qualified now). <b>They swing both ways: expect bigger losses too.</b>` : "";
     $("mood").innerHTML = `<b>Market mood: ${m.label}.</b> ${Math.round(m.share_positive * 100)}% of ${m.coins} coins look positive for the ${esc(style.label.split(":")[0])} speed (sell within ${esc(style.hold_text)}). ${m.label === "Unfavourable" ? "Doing nothing is a perfectly good choice right now." : "Scores above 5 are better than break-even after fees."}${smallNote}${pb}`;
     dropCharts("idea|");
+    // prices fetched by this scan are live: record them before drawing the cards
+    for (const d of res.ideas) { const live = res.candles[d.symbol]?.live; if (live) state.live[d.symbol] = { price: live.close, at: res.at || Date.now() }; }
     $("ideas").innerHTML = `<div style="display:grid;gap:14px">${res.ideas.map((d) => ideaCard(d, false)).join("")}</div>${earlierBlock()}`;
     for (const d of res.ideas) {
       const a = d.anchor;
@@ -576,7 +578,6 @@
         { price: a.take_profit, color: "--good", title: "Take profit" },
         { price: a.safety_exit, color: "--bad", title: "Safety exit" }], a.at, style.interval);
       if (ch) state.charts[`idea|${d.symbol}|${style.interval}`] = ch;
-      const live = res.candles[d.symbol]?.live; if (live) state.live[d.symbol] = { price: live.close, at: Date.now() };
     }
     for (const el of document.querySelectorAll("#ideas .calc")) updateCalc(el);
     paintLiveBadges(); refreshEarlierPrices();
