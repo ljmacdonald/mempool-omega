@@ -167,7 +167,7 @@
     if (state.style === "stk_today") warns.push("Day-trading rule: US margin accounts under $25,000 are limited to 3 same-day round trips in 5 business days.");
     const earn = d.earnings ? `<p class="small muted">Next results ("earnings"): ${esc(d.earnings)}.</p>` : "";
     const id = `chart-${d.symbol}`;
-    return `<article class="card">
+    return `<article class="card" data-alert-key="idea-${esc(state.style)}-${esc(d.symbol)}">
       <div class="idea-head"><h2><span class="rank">${d.rank}.</span>${esc(d.symbol)} <span class="small muted" style="font-family:var(--f-body);font-weight:500">${esc(d.name)}</span></h2>
         <div class="score"><b>${d.scoreNow.toFixed(1)}</b><span class="muted">/ 10</span><span class="pill ${Q.gradeClassFor(d.gradeNow, qual())}">${esc(Q.gradeWord(d.gradeNow, qual(), d.rank))}</span></div></div>
       <p class="small muted">${esc(d.sector || "")} · company worth ${big(d.mcap)} · trades ${big(d.dollar_vol)} a day · ${pct(d.chg_pct)} today</p>
@@ -242,7 +242,7 @@
       if (!mk.open && a.action === "Time's up: sell now") { a.action = "Sell when the market opens"; a.why = "The time limit passed while the market was closed. Sell at the next open."; }
       notify(t, a);
       const v = Number.isFinite(px) ? outcome(t.amount, t.entry, px, { spread: t.spread }) : NaN;
-      return `<article class="card trade ${a.level}"><div class="idea-head"><h2>${esc(t.symbol)}</h2><span class="verdict ${a.level}">${esc(a.action)}</span></div><p>${esc(a.why)}</p>
+      return `<article class="card trade ${a.level}" data-alert-key="trade-${esc(t.id)}"><div class="idea-head"><h2>${esc(t.symbol)}</h2><span class="verdict ${a.level}">${esc(a.action)}</span></div><p>${esc(a.why)}</p>
         <div class="strip"><div class="fact"><div class="k">You bought</div><div class="v">${localDay(t.opened)}</div><div class="d muted">at ${price(t.entry)}</div></div>
         <div class="fact"><div class="k">${lp || mk.open ? "Price now" : "Last close"}</div><div class="v">${price(px)}</div><div class="d ${!Number.isFinite(v) ? "muted" : v >= 0 ? "up" : "down"}">${Number.isFinite(v) ? `${usd(v)} on $${t.amount.toLocaleString()} after costs` : "not live: add a free Finnhub key above, or check your broker"}</div>${lp ? '<div class="small muted">Live (Finnhub)</div>' : ""}</div>
         <div class="fact"><div class="k">Take profit at</div><div class="v">${price(t.take_profit)}</div></div><div class="fact"><div class="k">Safety exit at</div><div class="v">${price(t.safety_exit)}</div></div>
@@ -251,9 +251,10 @@
   }
   function notify(t, a) {
     const prev = state.lastAction[t.id]; state.lastAction[t.id] = a.action;
+    if (window.OmegaAlerts) window.OmegaAlerts.trade(window.OmegaAlerts.page, t, a);
     if (!prev || prev === a.action || a.action === "Hold" || a.action === "Waiting for a live price") return;
     document.title = `${a.action}: ${t.symbol} · Mempool Omega`;
-    try { if ("Notification" in window && Notification.permission === "granted") new Notification(`${t.symbol}: ${a.action}`, { body: a.why }); } catch { /* not supported */ }
+    try { if (!window.OmegaAlerts && "Notification" in window && Notification.permission === "granted") new Notification(`${t.symbol}: ${a.action}`, { body: a.why }); } catch { /* not supported */ }
   }
 
   // ------------------------------------------------------------------ track record

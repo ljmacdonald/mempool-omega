@@ -44,7 +44,7 @@
     const lateNow = px && fin(x.avg_win) && x.avg_win > 0 && since > 0.5 * x.avg_win && !x.late;
     const warns = [...(x.warnings || []), ...(lateNow ? [`Since the update the live price has moved ${pct(since)} in the trade's favour: much of the usual gain may be gone.`] : [])];
     const gw = Q.gradeWord(x.grade, q, x.rank); const gc = Q.gradeClassFor(x.grade, q);
-    return `<article class="card idea"><div class="idea-head"><h3><span class="rank">#${x.rank}</span>${x.side > 0 ? "BUY" : "SELL"} ${esc(x.label)} <span class="muted small">· ${esc(x.name)}</span></h3>
+    return `<article class="card idea" data-alert-key="idea-${esc(x.id)}"><div class="idea-head"><h3><span class="rank">#${x.rank}</span>${x.side > 0 ? "BUY" : "SELL"} ${esc(x.label)} <span class="muted small">· ${esc(x.name)}</span></h3>
       <div class="score"><b>${x.score.toFixed(1)}</b><span class="muted">/ 10</span> <span class="pill ${gc}">${esc(gw)}</span> <span class="pill ${x.level === "good" ? "good" : x.level === "bad" ? "bad" : "warn"}">${esc(x.evidence)}</span></div></div>
       <div class="facts">
         <div class="fact"><div class="k">Strategy entered</div><div class="v">${num(x.entry)}</div><div class="d muted">${when(x.t_in)}</div></div>
@@ -69,11 +69,11 @@
     }
     const f = (S.forming || []).filter((x) => x.above200);
     $("forming").innerHTML = !f.length ? "" : `<h3>Forming at today's close: Connors RSI(2)</h3><div class="table-wrap"><table><thead><tr><th>Market</th><th class="num">Price</th><th class="num">2-day RSI if it closed now</th><th>Buy at the close?</th></tr></thead><tbody>
-      ${f.map((x) => `<tr><td>${esc(x.label)}</td><td class="num">${num(x.price)} <span class="muted small">at ${when(x.asof)}</span></td><td class="num">${fin(x.rsi2) ? x.rsi2.toFixed(0) : "–"}</td><td>${x.signal ? '<span class="pill good">Likely, if it stays here</span>' : "Not now (needs under 10)"}</td></tr>`).join("")}
+      ${f.map((x) => `<tr data-alert-key="forming-${esc(x.sym)}-${new Date(x.asof).toISOString().slice(0, 10)}"><td>${esc(x.label)}</td><td class="num">${num(x.price)} <span class="muted small">at ${when(x.asof)}</span></td><td class="num">${fin(x.rsi2) ? x.rsi2.toFixed(0) : "–"}</td><td>${x.signal ? '<span class="pill good">Likely, if it stays here</span>' : "Not now (needs under 10)"}</td></tr>`).join("")}
       </tbody></table></div><p class="small muted">The only strategy here that held up buys at the close, so the decision is made in the last minutes before 4 pm New York. This uses the latest 5-minute price as a stand-in for the close.</p>`;
     const ex = S.exits || [];
     $("exits").innerHTML = !ex.length ? "" : `<h3>Exit signals</h3><div class="table-wrap"><table><thead><tr><th>Strategy</th><th>Market</th><th>Closed</th><th class="num">Result after costs</th><th>Why</th></tr></thead><tbody>
-      ${ex.map((e) => `<tr><td class="small">${esc(e.name)}</td><td>${e.side > 0 ? "Buy" : "Sell"} ${esc(e.label)}</td><td class="small">${when(e.t_out)}</td><td class="num ${cls(e.net)}">${pct(e.net)}</td><td class="small">${esc(e.reason)}</td></tr>`).join("")}
+      ${ex.map((e) => `<tr data-alert-key="exit-${esc(e.strategy)}-${esc(e.sym)}-${e.t_in}"><td class="small">${esc(e.name)}</td><td>${e.side > 0 ? "Buy" : "Sell"} ${esc(e.label)}</td><td class="small">${when(e.t_out)}</td><td class="num ${cls(e.net)}">${pct(e.net)}</td><td class="small">${esc(e.reason)}</td></tr>`).join("")}
       </tbody></table></div><p class="small muted">If you followed one of these strategies' trades, this is where it got out.</p>`;
   }
   function record(S) {

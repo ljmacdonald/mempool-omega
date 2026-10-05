@@ -383,7 +383,7 @@
       d.live <= a.safety_exit ? `<div class="banner bad">Since it was suggested, the price already fell to the safety exit. Don't buy it now.</div>` : "";
     const riskyOnly = state.profile === "risky" && d.t.assess && d.t.assess.verdict !== "pass";
     const warns = (riskyOnly ? [`Higher-risk only: ${d.t.assess.hard.map((h) => h.text).join(" ")}`] : []).concat(d.s.warnings).concat(d.probation ? [`This speed is on probation: its last ${d.probation.n} ideas did worse than random picks, so scores are lowered.`] : []);
-    return `<article class="card">
+    return `<article class="card" data-alert-key="idea-${esc(d.t.chain)}-${esc(d.t.token)}">
       <div class="idea-head">
         <h2><span class="rank">${d.rank}.</span>${esc(d.t.base_symbol)} <span class="pill chainpill">${esc(ch.name)}</span> <span class="pill calm">${esc(d.t.dex)}</span>${riskyOnly ? ' <span class="pill bad">Higher risk</span>' : ""}</h2>
         <div class="score"><b>${(Math.round(d.score * 10) / 10).toFixed(1)}</b><span class="muted">/ 10</span>
@@ -425,6 +425,10 @@
     if (state.profile === "risky") $("mood").className = "banner warn";
     dropCharts("idea|");
     $("ideas").innerHTML = `${Q.ideasBanner(qual())}<div style="display:grid;gap:14px">${state.ideas.map(ideaCard).join("")}</div>`;
+    if (window.OmegaAlerts) window.OmegaAlerts.ideas("dex", state.ideas.filter((d) => d.live).map((d) => ({ key: `idea-${d.t.chain}-${d.t.token}`, grade: d.grade, score: +d.score,
+      title: `BUY ${d.t.base_symbol} on ${state.snap?.chains?.[d.t.chain]?.name || d.t.chain} (${d.grade}, score ${(+d.score).toFixed(1)})`,
+      body: "DEX token: check the token address on the card before buying; fakes copy names.",
+      pick: [`#profile button[data-profile="${state.profile}"]`, `#speed button[data-style="${state.style}"]`] })), qual());
     for (const el of document.querySelectorAll("#ideas .calc")) updateCalc(el);
     for (const d of state.ideas) {
       const a = d.anchor;
@@ -477,7 +481,7 @@
       const ch = state.snap?.chains[tr.chain];
       const c = ch && Number.isFinite(px) ? X.dexCost(tr.amount, tr.entry, liqNow || tr.liq_at_entry, tr.pool_fee, tr.buy_tax || 0, tr.sell_tax || 0, ch.gas_usd, ch.mev, ch.sniper) : null;
       const net = c ? c.at(px).net : NaN;
-      html.push(`<article class="card trade ${adv.level === "bad" ? "bad" : adv.level}" data-tid="${esc(tr.id)}">
+      html.push(`<article class="card trade ${adv.level === "bad" ? "bad" : adv.level}" data-tid="${esc(tr.id)}" data-alert-key="trade-${esc(tr.id)}">
         <div class="idea-head"><h2>${esc(tr.symbol)} <span class="pill chainpill">${esc(ch?.name || tr.chain)}</span></h2><span class="verdict ${adv.level === "bad" ? "bad" : adv.level}">${esc(adv.action)}</span></div>
         <p>${esc(adv.why)}</p>
         <div class="strip">
@@ -507,9 +511,10 @@
   }
   function notify(tr, a) {
     const prev = state.lastAction[tr.id]; state.lastAction[tr.id] = a.action;
+    if (window.OmegaAlerts) window.OmegaAlerts.trade(window.OmegaAlerts.page, tr, a);
     if (!prev || prev === a.action || a.action === "Hold" || a.action === "Waiting for a live price") return;
     document.title = `${a.action}: ${tr.symbol} · Mempool Omega DEX`;
-    try { if ("Notification" in window && Notification.permission === "granted") new Notification(`${tr.symbol}: ${a.action}`, { body: a.why }); } catch { /* not supported */ }
+    try { if (!window.OmegaAlerts && "Notification" in window && Notification.permission === "granted") new Notification(`${tr.symbol}: ${a.action}`, { body: a.why }); } catch { /* not supported */ }
   }
 
   // ------------------------------------------------------------------ track record
@@ -623,6 +628,7 @@
     }
   }, 5000);
   setInterval(() => { if (!document.hidden) pollPrices(); }, 30000);
-  setInterval(() => { if (state.trades.length && !$("tab-trades").hidden && !document.hidden) refreshTrades(false); }, 30000);
+  const alertsOn = () => !!(window.OmegaAlerts && window.OmegaAlerts.on());
+  setInterval(() => { if (state.trades.length && ((!$("tab-trades").hidden && !document.hidden) || alertsOn())) refreshTrades(false); }, 30000);
   document.addEventListener("visibilitychange", () => { if (!document.hidden && state.nextAt && Date.now() > state.nextAt) refreshIdeas(); });
 })();
