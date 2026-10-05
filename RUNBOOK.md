@@ -77,6 +77,11 @@ For Claude: trigger the workflow with `workflow_dispatch` inputs `action=create`
 `state/payments/links.json` on `main`. To switch one off, use `action=deactivate` and `link_id`. Never ask for the key in
 a chat.
 
+## C4. The timer (cron-job.org → Tick)
+cron-job.org starts `tick.yml` at minutes 1, 16, 31 and 46 (UTC); Tick starts whatever is due (`infra/tick.py`).
+For Claude: check or change the timer with `workflow_dispatch` on `cronjob.yml` (`action` = status / schedule / pause /
+resume, `minutes` = e.g. `1,16,31,46`), which uses the `CRONJOB_API_KEY` secret. Never ask for the key in a chat.
+
 ## D. Troubleshooting
 
 | Symptom | Likely cause → fix |

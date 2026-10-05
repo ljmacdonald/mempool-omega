@@ -48,3 +48,14 @@ def test_market_windows():
     assert not T.due(st, [], MON_10) and T.due(st, [], MON_10.replace(hour=14))
     tr = job("stocks.yml", "train")
     assert not T.due(tr, [], sat.replace(hour=22))                            # weekdays only
+
+
+def test_cronjob_minutes_parsing():
+    spec2 = importlib.util.spec_from_file_location("cronjob", Path(__file__).resolve().parent.parent / "infra" / "cronjob.py")
+    CJ = importlib.util.module_from_spec(spec2)
+    spec2.loader.exec_module(CJ)
+    assert CJ.parse_minutes("46, 1,16,31,1") == [1, 16, 31, 46]
+    import pytest
+    for bad in ("", "60", "-1", "a"):
+        with pytest.raises((SystemExit, ValueError)):
+            CJ.parse_minutes(bad)
