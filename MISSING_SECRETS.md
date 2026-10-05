@@ -55,6 +55,11 @@ The ledger is committed to the repo (Parquet + CSV), so no database is needed. I
 `UPSTASH_REDIS_REST_URL`/`UPSTASH_REDIS_REST_TOKEN`. These are documented as extension points in DECISIONS.md and
 are not wired in yet.
 
+## 7. Stripe payment links (optional): `STRIPE_RESTRICTED_KEY`
+Lets the **Create or switch off a payment link** job (and Claude, on request) create Stripe payment links. It must be a
+**restricted** key (`rk_test_...` or `rk_live_...`) with only Products, Prices and Payment Links set to Write; a full
+secret key (`sk_...`) is refused. Step-by-step: [PAYMENTS.md](PAYMENTS.md).
+
 ## Useful repository *variables* (Settings → Secrets and variables → Actions → Variables)
 | Variable | Default | Meaning |
 |----------|---------|---------|

@@ -1,0 +1,73 @@
+name: Create or switch off a payment link (Stripe)
+
+# Started by hand (or by Claude on request) from the Actions tab. Uses only the STRIPE_RESTRICTED_KEY secret, which
+# must be a restricted key limited to Products, Prices and Payment Links (see PAYMENTS.md). The new link appears in
+# this run's summary and in state/payments/links.json.
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "create | deactivate"
+        required: true
+        default: "create"
+        type: choice
+        options: [create, deactivate]
+      name:
+        description: "Product name (create)"
+        required: false
+      price_usd:
+        description: "Price in US dollars, e.g. 19 or 19.99 (create)"
+        required: false
+      interval:
+        description: "one_time | month | year (create)"
+        required: false
+        default: "one_time"
+        type: choice
+        options: [one_time, month, year]
+      description:
+        description: "Short description shown on the checkout page (optional)"
+        required: false
+      redirect:
+        description: "https:// page to show after payment (optional)"
+        required: false
+      link_id:
+        description: "Payment link id plink_... (deactivate)"
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: omega-payments
+  cancel-in-progress: false
+
+jobs:
+  link:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        run: pip install -e .
+      - name: Create the payment link
+        if: inputs.action == 'create'
+        env:
+          STRIPE_RESTRICTED_KEY: ${{ secrets.STRIPE_RESTRICTED_KEY }}
+          NAME: ${{ inputs.name }}
+          PRICE: ${{ inputs.price_usd }}
+          INTERVAL: ${{ inputs.interval }}
+          DESCRIPTION: ${{ inputs.description }}
+          REDIRECT: ${{ inputs.redirect }}
+        run: python -m scripts.payment_link create --name "$NAME" --price "$PRICE" --interval "$INTERVAL" --description "$DESCRIPTION" --redirect "$REDIRECT"
+      - name: Switch off a payment link
+        if: inputs.action == 'deactivate'
+        env:
+          STRIPE_RESTRICTED_KEY: ${{ secrets.STRIPE_RESTRICTED_KEY }}
+          LINK_ID: ${{ inputs.link_id }}
+        run: python -m scripts.payment_link deactivate --link "$LINK_ID"
+      - name: Record the link (state/payments/links.json)
+        run: bash infra/commit_state.sh "payments ${{ inputs.action }} $(date -u +%Y-%m-%dT%H%MZ)"

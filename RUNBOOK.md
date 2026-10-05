@@ -69,6 +69,14 @@ The full plan (hourly paper pass with a 30 s live WebSocket order-book capture, 
 free allowance is 2,000 minutes/month; with GitHub's default $0 spending limit the workflows simply pause when it
 runs out (you are never charged). To fit a private repo, set the variable `OMEGA_WS_CAPTURE` = `0`.
 
+## C3. Payment links (Stripe)
+Products are sold through Stripe payment links made by `.github/workflows/payment-link.yml`
+(`scripts/payment_link.py`), using only the `STRIPE_RESTRICTED_KEY` secret. Setup and use: [PAYMENTS.md](PAYMENTS.md).
+For Claude: trigger the workflow with `workflow_dispatch` inputs `action=create`, `name`, `price_usd`,
+`interval` (`one_time`/`month`/`year`), optional `description` and `redirect`. Read the link from the run summary or
+`state/payments/links.json` on `main`. To switch one off, use `action=deactivate` and `link_id`. Never ask for the key in
+a chat.
+
 ## D. Troubleshooting
 
 | Symptom | Likely cause → fix |
