@@ -16,6 +16,7 @@ import pandas as pd
 
 from core.config import REPO_ROOT, state_path
 from fx.pairs import spread as fx_spread
+from lab import ideas as IDEAS
 from lab import strategies as L
 
 log = logging.getLogger("omega.lab")
@@ -32,37 +33,37 @@ YAHOO_RANGE = {"5m": ("60d", "5d"), "1d": ("30y", "2y")}    # "max" quietly retu
 MIN_N = 30
 
 STRATS = {
-    "orb": {"published": "2023-05-01", "name": "Opening range breakout", "style": "Day trading", "tf": "5m", "markets": ETFS, "fn": L.orb,
+    "orb": {"exit_rule": "Sell at the take profit, the safety exit, or the end of the New York session (4 pm), whichever comes first.", "published": "2023-05-01", "name": "Opening range breakout", "style": "Day trading", "tf": "5m", "markets": ETFS, "fn": L.orb,
             "source": "Zarattini & Aziz (2023), \"Can Day Trading Really Be Profitable?\" (SSRN 4416622) - the most-read day-trading paper of recent years, copied in many GitHub repositories",
             "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4416622",
             "claim": "The paper reports a 24% hit rate and +0.13 per $1 risked per trade on QQQ (33% a year with 4x leverage). An independent replication got the same before costs and about zero after costs.",
             "rules": "The first 5-minute candle of the New York session sets the direction: up candle, buy; down candle, sell. Enter at the start of the second candle, safety exit at the other end of the first candle, take profit at 10 times the risk, otherwise close at the end of the day."},
-    "rsi2": {"published": "2008-01-01", "name": "Connors RSI(2) dip buying", "style": "Swing (days)", "tf": "1d", "markets": ETFS, "fn": L.rsi2, "watch": L.rsi2_watch,
+    "rsi2": {"exit_rule": "Sell at the close on the first day the price closes above its 5-day average. This page lists it under Exit signals when that happens.", "published": "2008-01-01", "name": "Connors RSI(2) dip buying", "style": "Swing (days)", "tf": "1d", "markets": ETFS, "fn": L.rsi2, "watch": L.rsi2_watch,
              "source": "Larry Connors & Cesar Alvarez, \"Short Term Trading Strategies That Work\" (2008) - one of the most copied swing-trading rules on GitHub and TradingView",
              "url": "https://en.wikipedia.org/wiki/Relative_strength_index",
              "claim": "Widely quoted as winning 70% or more of trades on US index funds.",
              "rules": "Buy at the close when the price is above its 200-day average and the 2-day RSI is below 10 (a sharp dip in an uptrend). Sell at the close on the first day the price closes above its 5-day average."},
-    "turtle": {"published": "2003-01-01", "name": "Turtle breakout (System 1)", "style": "Trend following (weeks)", "tf": "1d", "markets": MIXED, "fn": L.turtle,
+    "turtle": {"exit_rule": "Sell when the price breaks the 10-day low (buy back a short above the 10-day high), or at the safety exit.", "published": "2003-01-01", "name": "Turtle breakout (System 1)", "style": "Trend following (weeks)", "tf": "1d", "markets": MIXED, "fn": L.turtle,
                "source": "The Turtle Traders' rules (Richard Dennis & William Eckhardt, 1983; published by Curtis Faith) - implemented in hundreds of GitHub repositories",
                "url": "https://en.wikipedia.org/wiki/Turtle_trading",
                "claim": "The Turtles reportedly made over $100 million in the 1980s. Expect a low hit rate (30-40%) with a few big winners.",
                "rules": "Buy when the price breaks above the highest high of the last 20 days; sell short below the lowest low. Exit on a break of the 10-day low (10-day high for shorts) or at a safety exit 2 average daily ranges from the entry."},
-    "golden": {"name": "Golden cross (50/200-day)", "style": "Long-term trend", "tf": "1d", "markets": MIXED, "fn": L.golden_cross,
+    "golden": {"exit_rule": "Sell the day after the 50-day average closes back below the 200-day average.", "name": "Golden cross (50/200-day)", "style": "Long-term trend", "tf": "1d", "markets": MIXED, "fn": L.golden_cross,
                "source": "The textbook moving-average crossover - the most common first trading bot on GitHub",
                "url": "https://en.wikipedia.org/wiki/Golden_cross",
                "claim": "Promoted as catching big trends while avoiding crashes.",
                "rules": "Buy the day after the 50-day average closes above the 200-day average; sell the day after it closes back below. Buying only."},
-    "supertrend": {"published": "2021-06-01", "name": "freqtrade Supertrend (machine-tuned)", "style": "Swing (hours to days)", "tf": "1h", "markets": CRYPTO, "fn": L.supertrend,
+    "supertrend": {"exit_rule": "Sells on its take-profit table (8.7% at first, falling to break-even after about 37 hours), the trailing stop, -26.5%, or when three other Supertrends turn down.", "published": "2021-06-01", "name": "freqtrade Supertrend (machine-tuned)", "style": "Swing (hours to days)", "tf": "1h", "markets": CRYPTO, "fn": L.supertrend,
                    "source": "freqtrade-strategies, the official strategy collection of the most popular open-source crypto bot (5,000+ stars): Supertrend.py",
                    "url": "https://github.com/freqtrade/freqtrade-strategies",
                    "claim": "Its settings were tuned by freqtrade's hyperopt, i.e. searched by computer to fit past prices as well as possible.",
                    "rules": "Buy when three Supertrend lines (tuned settings) all point up; sell when three others all point down. Take profit from 8.7% falling to break-even over ~37 hours, safety exit at -26.5%, trailing stop."},
-    "bbandrsi": {"published": "2018-06-01", "name": "freqtrade BbandRsi", "style": "Dip buying (hours to days)", "tf": "1h", "markets": CRYPTO, "fn": L.bband_rsi,
+    "bbandrsi": {"exit_rule": "Sells at +10%, at -25%, or when the 14-hour RSI goes above 70.", "published": "2018-06-01", "name": "freqtrade BbandRsi", "style": "Dip buying (hours to days)", "tf": "1h", "markets": CRYPTO, "fn": L.bband_rsi,
                  "source": "freqtrade-strategies (official collection): berlinguyinca/BbandRsi.py",
                  "url": "https://github.com/freqtrade/freqtrade-strategies",
                  "claim": "A classic oversold-bounce bot: buy when the price is stretched far below normal.",
                  "rules": "Buy when the 14-hour RSI is below 30 and the price closes under the lower Bollinger band; sell when the RSI goes above 70, at +10% profit, or at the -25% safety exit."},
-    "s001": {"published": "2018-01-01", "name": "freqtrade Strategy001", "style": "Scalping (minutes)", "tf": "5m", "markets": CRYPTO, "fn": L.strategy001,
+    "s001": {"exit_rule": "Sells at 5% profit at once, 4% after 20 minutes, 3% after 30, 1% after an hour, at -10%, or on its sell pattern when in profit.", "published": "2018-01-01", "name": "freqtrade Strategy001", "style": "Scalping (minutes)", "tf": "5m", "markets": CRYPTO, "fn": L.strategy001,
              "source": "freqtrade-strategies (official collection): Strategy001.py, the sample most new bot users start from",
              "url": "https://github.com/freqtrade/freqtrade-strategies",
              "claim": "Small quick profits: takes 1-5% and only sells on its signal when in profit, so the hit rate looks high.",
@@ -192,7 +193,7 @@ def run_strategy(key: str, full: bool, data: dict | None = None) -> tuple[list[d
             if t.get("open"):
                 live.append({"sym": sym, "label": label(sym), "side": t["side"], "t_in": int(idx[t["i_in"]].value // 10**6), "entry": t["entry"],
                              "last": float(df["close"].iloc[-1]), "stop": t.get("stop"), "target": t.get("target"),
-                             "asof": asof[sym]})
+                             "asof": asof[sym], "fresh": bool(t["i_in"] >= len(df) - IDEAS.FRESH[s["tf"]])})
     return done, live, {"asof": asof, "watch": watch}
 
 
@@ -249,14 +250,60 @@ def backtest() -> dict:
 
 
 def scan() -> dict:
+    """Where each strategy stands now, plus ranked trade ideas (lab/ideas.py) and their track record."""
+    from fx.live import news as fx_news
+
     now = pd.Timestamp.now(tz="UTC")
     sp = state_path("lab/stats.json")
     st = json.loads(sp.read_text()) if sp.exists() else {}
+    try:
+        events = fx_news()
+    except Exception as e:  # noqa: BLE001
+        log.warning("news calendar: %s", e)
+        events = []
+    names = {k: v["name"] for k, v in STRATS.items()}
+    hp = state_path(IDEAS.HIST)
+    h0 = pd.read_csv(hp, dtype={"id": str}) if hp.exists() else pd.DataFrame(columns=IDEAS.HIST_COLS)
+    qual, prob = IDEAS.self_check(h0, names)
     data: dict = {}
-    snap = {"generated_at": str(now), "added": ADDED, "stats_at": st.get("generated_at"), "strategies": {}}
-    for key in STRATS:
-        _, live, extra = run_strategy(key, False, data)
-        snap["strategies"][key] = {**meta(key), "stats": (st.get("strategies") or {}).get(key), "open": live, **extra}
+    snap = {"generated_at": str(now), "added": ADDED, "stats_at": st.get("generated_at"), "strategies": {}, "ideas": [], "exits": [],
+            "forming": []}
+    done_by_key = {}
+    for key, s in STRATS.items():
+        done, live, extra = run_strategy(key, False, data)
+        sst = (st.get("strategies") or {}).get(key) or {}
+        level = sst.get("level") or "warn"
+        snap["strategies"][key] = {**meta(key), "stats": sst or None, "open": live, **extra}
+        step = STEP_MIN[s["tf"]] * 60_000
+        now_ms = now.value // 10**6
+
+        # intraday strategies count only while their prices are current (daily ones: the last finished day counts)
+        current = {sym: s["tf"] == "1d" or now_ms - t <= IDEAS.FRESH[s["tf"]] * step for sym, t in extra["asof"].items()}
+
+        for d in done:
+            done_by_key[(key, d["sym"], d["t_in"])] = d
+            if current.get(d["sym"]) and d["t_out"] >= extra["asof"].get(d["sym"], 0) - IDEAS.FRESH[s["tf"]] * step:
+                snap["exits"].append({"strategy": key, "name": s["name"],
+                                      **{x: d[x] for x in ("sym", "label", "side", "t_in", "t_out", "entry", "exit", "net", "reason")}})
+        for o in live:
+            if not (o["fresh"] and current.get(o["sym"])):
+                continue
+            m = (sst.get("markets") or {}).get(o["sym"])
+            hold_h = (m or {}).get("hold_h") or STEP_MIN[s["tf"]] / 60
+            j = IDEAS.judge(o, m, level, o["last"], events, now, hold_h, (qual or {}).get("vol"), prob.get(key))
+            snap["ideas"].append({**o, "id": f"{key}|{o['sym']}|{o['t_in']}", "strategy": key, "name": s["name"], "tf": s["tf"],
+                                  "level": level, "cost": cost(o["sym"]), "exit_rule": s["exit_rule"], **j})
+        if key == "rsi2":
+            for sym in s["markets"]:
+                f = IDEAS.rsi2_forming(data.get((sym, "1d")), data.get((sym, "5m")), now)
+                if f:
+                    snap["forming"].append({"strategy": key, "sym": sym, "label": label(sym), **f})
+    snap["ideas"].sort(key=lambda x: -x["score"])
+    for i, x in enumerate(snap["ideas"]):
+        x["rank"] = i + 1
+    h = IDEAS.track(snap["ideas"], done_by_key, now)
+    qual, prob = IDEAS.self_check(h, names)
+    snap.update({"quality": qual, "probation": prob, "record": IDEAS.record(h, names)})
     out = REPO_ROOT / ".cache" / "lab_out" / "snapshot.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(clean(snap), allow_nan=False))
@@ -272,7 +319,7 @@ def main(argv: list[str]) -> int:
         if not state_path("lab/stats.json").exists():
             backtest()
         snap = scan()
-        log.info("lab scan: %s", {k: len(v["open"]) for k, v in snap["strategies"].items()})
+        log.info("lab scan: %d ideas, %d exits, %d forming", len(snap["ideas"]), len(snap["exits"]), len(snap["forming"]))
     else:
         print(__doc__)
         return 2

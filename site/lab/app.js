@@ -4,7 +4,12 @@
 (() => {
   "use strict";
   const DATA = window.OMEGA_LAB_DATA || "https://raw.githubusercontent.com/ljmacdonald/mempool-omega/data/lab/";
-  const STALE_MIN = 45;
+  const STALE_MIN = 45, LIVE_AGE = 60000, STOP_OUT = 0.5;
+  const BINANCE = "https://data-api.binance.vision/api/v3";
+  const Q = window.OmegaQuality;
+  const store = { get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* private mode */ } } };
+  const state = { snap: null, stale: true, money: store.get("omega.lab.money", 100), lev: store.get("omega.lab.lev", 1), live: {} };
   const LEVEL = { good: [0, "Held up", "good"], warn: [1, "Not proven", "warn"], bad: [2, "Failed", "bad"] };
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -16,6 +21,81 @@
   const when = (t) => new Date(t).toLocaleString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
   const hold = (h) => (!fin(h) ? "–" : h < 2 ? `${Math.round(h * 60)} min` : h < 48 ? `${h.toFixed(1)} h` : `${(h / 24).toFixed(1)} days`);
   const cls = (x) => (fin(x) ? (x > 0 ? "up" : "down") : "");
+
+  const usd = (x) => (fin(x) ? `${x >= 0 ? "+" : "−"}$${Math.abs(x).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : "–");
+  const livePx = (sym) => { const l = state.live[sym]; return l && Date.now() - l.at < LIVE_AGE ? l.px : null; };
+
+  // ------------------------------------------------------------------ trade ideas
+  function calcHTML(x) {
+    const amt = state.money, lev = state.lev, pos = amt * lev; const c = x.cost || 0;
+    const rows = [];
+    if (fin(x.avg_win)) rows.push(["If it goes like this strategy's average win here", pos * x.avg_win]);
+    if (fin(x.avg_loss)) rows.push(["If it goes like its average loss", pos * x.avg_loss]);
+    if (x.stop) rows.push(["If the safety exit is hit", pos * (-(x.sl_pct || 0) - c)]);
+    if (x.target) rows.push(["If the take profit is hit", pos * (x.side * (x.target / x.entry - 1) - c)]);
+    const out = x.sl_pct || Math.abs(x.avg_loss || 0); const stopOut = STOP_OUT / lev;
+    return `<div class="calc"><h3>Profit calculator: $${amt.toLocaleString()} of your money, ${lev === 1 ? "no leverage" : `${lev}x leverage`} (a $${pos.toLocaleString()} position)</h3>
+      <table><tbody>${rows.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="num ${cls(v)}">${usd(v)}</td></tr>`).join("")}</tbody></table>
+      ${lev > 1 ? `<div class="banner ${out >= stopOut ? "bad" : "warn"}">At ${lev}x, a move of about ${(stopOut * 100).toFixed(1)}% against you loses half your money and most platforms close the trade.${out >= stopOut ? " That's within this strategy's usual losses: lower the leverage." : ""}</div>` : ""}
+      <p class="small muted">After costs (about ${(c * 100).toFixed(2)}% of the position). Averages are from the re-test on this market; one trade can do much better or much worse.</p></div>`;
+  }
+  function ideaCard(x, q, stale) {
+    const px = livePx(x.sym); const ref = px || x.last; const since = x.side * (ref / x.entry - 1);
+    const lateNow = px && fin(x.avg_win) && x.avg_win > 0 && since > 0.5 * x.avg_win && !x.late;
+    const warns = [...(x.warnings || []), ...(lateNow ? [`Since the update the live price has moved ${pct(since)} in the trade's favour: much of the usual gain may be gone.`] : [])];
+    const gw = Q.gradeWord(x.grade, q, x.rank); const gc = Q.gradeClassFor(x.grade, q);
+    return `<article class="card idea"><div class="idea-head"><h3><span class="rank">#${x.rank}</span>${x.side > 0 ? "BUY" : "SELL"} ${esc(x.label)} <span class="muted small">· ${esc(x.name)}</span></h3>
+      <div class="score"><b>${x.score.toFixed(1)}</b><span class="muted">/ 10</span> <span class="pill ${gc}">${esc(gw)}</span> <span class="pill ${x.level === "good" ? "good" : x.level === "bad" ? "bad" : "warn"}">${esc(x.evidence)}</span></div></div>
+      <div class="facts">
+        <div class="fact"><div class="k">Strategy entered</div><div class="v">${num(x.entry)}</div><div class="d muted">${when(x.t_in)}</div></div>
+        <div class="fact"><div class="k">${px ? "Price now (live)" : "Price at last update"}</div><div class="v">${stale && !px ? "–" : num(ref)}</div><div class="d ${px ? cls(since) : "muted"}">${px ? `${pct(since)} since the entry` : stale ? "out of date" : `at ${when(x.asof)}${x.sym.endsWith("USDT") ? " · waiting for the live price" : " · no free live price: check your broker"}`}</div></div>
+        <div class="fact"><div class="k">Chance it makes money</div><div class="v">${pc0(x.prob)}</div><div class="d muted">from ${x.hist_n} past trades here</div></div>
+        <div class="fact"><div class="k">Expected, after costs</div><div class="v ${cls(x.exp_r_adj)}">${x.exp_r_adj >= 0 ? "+" : "−"}${Math.abs(x.exp_r_adj).toFixed(2)}R</div><div class="d muted">per $1 put at risk, after warnings</div></div>
+        <div class="fact"><div class="k">Safety exit</div><div class="v">${x.stop ? num(x.stop) : "none"}</div><div class="d muted">${x.stop ? pct(-(x.sl_pct || 0)) + " from entry" : `average loss ${pct(x.avg_loss)}`}</div></div>
+        <div class="fact"><div class="k">Usually held</div><div class="v">${hold(x.hold_h)}</div><div class="d muted">until the strategy's own exit</div></div>
+      </div>
+      ${warns.length ? `<ul class="warnings">${warns.map((w) => `<li>${esc(w)}</li>`).join("")}</ul>` : ""}
+      <p class="small"><b>How it exits:</b> ${esc(x.exit_rule)}</p>
+      ${calcHTML(x)}</article>`;
+  }
+  function ideas(S) {
+    const q = S.quality; const list = S.ideas || [];
+    $("ideasBanner").innerHTML = Q.ideasBanner(q);
+    if (state.stale) { $("ideas").innerHTML = `<div class="banner warn">The latest update is more than ${STALE_MIN} minutes old, so ideas are hidden rather than shown with old prices. They come back with the next update.</div>`; }
+    else if (!list.length) { $("ideas").innerHTML = `<div class="banner calm"><b>No fresh entries right now.</b> These strategies only trade when their exact rules fire: a few times a day for the fast crypto ones, a few times a year for the daily ones. Checked every 15 minutes.</div>`; }
+    else {
+      const good = list.filter((x) => x.level === "good").length;
+      $("ideas").innerHTML = (good ? "" : `<div class="banner warn"><b>None of today's ideas come from a strategy that held up in the re-test.</b> They're listed so you can follow along; treat them as watch-only.</div>`) + list.map((x) => ideaCard(x, q, state.stale)).join("");
+    }
+    const f = (S.forming || []).filter((x) => x.above200);
+    $("forming").innerHTML = !f.length ? "" : `<h3>Forming at today's close: Connors RSI(2)</h3><div class="table-wrap"><table><thead><tr><th>Market</th><th class="num">Price</th><th class="num">2-day RSI if it closed now</th><th>Buy at the close?</th></tr></thead><tbody>
+      ${f.map((x) => `<tr><td>${esc(x.label)}</td><td class="num">${num(x.price)} <span class="muted small">at ${when(x.asof)}</span></td><td class="num">${fin(x.rsi2) ? x.rsi2.toFixed(0) : "–"}</td><td>${x.signal ? '<span class="pill good">Likely, if it stays here</span>' : "Not now (needs under 10)"}</td></tr>`).join("")}
+      </tbody></table></div><p class="small muted">The only strategy here that held up buys at the close, so the decision is made in the last minutes before 4 pm New York. This uses the latest 5-minute price as a stand-in for the close.</p>`;
+    const ex = S.exits || [];
+    $("exits").innerHTML = !ex.length ? "" : `<h3>Exit signals</h3><div class="table-wrap"><table><thead><tr><th>Strategy</th><th>Market</th><th>Closed</th><th class="num">Result after costs</th><th>Why</th></tr></thead><tbody>
+      ${ex.map((e) => `<tr><td class="small">${esc(e.name)}</td><td>${e.side > 0 ? "Buy" : "Sell"} ${esc(e.label)}</td><td class="small">${when(e.t_out)}</td><td class="num ${cls(e.net)}">${pct(e.net)}</td><td class="small">${esc(e.reason)}</td></tr>`).join("")}
+      </tbody></table></div><p class="small muted">If you followed one of these strategies' trades, this is where it got out.</p>`;
+  }
+  function record(S) {
+    const r = S.record || {}; const pr = S.probation || {};
+    const rows = Object.entries(S.strategies).map(([k, v]) => { const x = r[k] || {}; const p = pr[k] || {};
+      return `<tr><td>${esc(v.name)}${p.active ? ' <span class="pill warn">probation</span>' : ""}</td><td class="num">${x.n ?? 0}</td><td class="num">${x.open ?? 0}</td><td class="num">${pc0(x.hit)}</td><td class="num ${cls(x.avg)}">${pct(x.avg)}</td><td class="num">${pct(x.random)}</td></tr>`; }).join("");
+    $("recordBody").innerHTML = `<p class="small muted">Every idea is recorded when it first appears and followed to the strategy's own exit, with the grade it was given, so the grades are checked against what really happened. Started ${day(Date.parse(S.added))}.</p>
+      <div class="table-wrap"><table><thead><tr><th>Strategy</th><th class="num">Finished</th><th class="num">Still open</th><th class="num">Made money</th><th class="num">Average after costs</th><th class="num">Random entries</th></tr></thead><tbody>${rows}</tbody></table></div>
+      ${Q.gradeTable(S.quality, "How each grade actually turned out (all strategies)")}
+      ${(r.recent || []).length ? `<details><summary>Latest finished ideas</summary><div class="table-wrap"><table><tbody>${r.recent.map((x) => `<tr><td class="small">${when(x.t_in)}</td><td>${x.side > 0 ? "Buy" : "Sell"} ${esc(x.label)}</td><td class="small">${esc(x.name)}</td><td>${esc(x.grade)}</td><td class="num ${cls(x.net)}">${pct(x.net)}</td></tr>`).join("")}</tbody></table></div></details>` : ""}
+      <p class="small muted">A strategy goes on probation (its scores lowered) if, over 30 or more finished ideas, they do worse than random entries.</p>`;
+  }
+  async function pollLive() {
+    const syms = [...new Set((state.snap?.ideas || []).map((x) => x.sym).filter((x) => x.endsWith("USDT")))];
+    if (!syms.length) return;
+    try {
+      const r = await fetch(`${BINANCE}/ticker/price?symbols=${encodeURIComponent(JSON.stringify(syms))}`, { cache: "no-store" });
+      if (!r.ok) return;
+      for (const t of await r.json()) state.live[t.symbol] = { px: +t.price, at: Date.now() };
+      if (state.snap) ideas(state.snap);
+    } catch { /* stays "waiting for the live price" */ }
+  }
 
   function row(name, a) {
     return `<tr><td>${name}</td><td class="num">${a.n ?? 0}</td><td class="num">${pc0(a.hit)}</td><td class="num ${cls(a.avg)}">${pct(a.avg)}</td><td class="num">${pct(a.random)}</td><td class="num ${cls(a.edge)}">${pct(a.edge)}</td></tr>`;
@@ -92,7 +172,8 @@
       const age = (Date.now() - Date.parse(S.generated_at)) / 60000; const stale = !(age <= STALE_MIN);
       $("status").textContent = `Updated ${Math.round(age)} min ago`;
       $("status").className = `status${stale ? " stale" : ""}`;
-      board(S);
+      state.snap = S; state.stale = stale;
+      board(S); ideas(S); record(S); pollLive();
       const list = Object.entries(S.strategies).filter(([, v]) => v.stats).sort((a, b) => LEVEL[a[1].stats.level][0] - LEVEL[b[1].stats.level][0]);
       $("cards").innerHTML = list.map(([k, v]) => card(k, v, stale)).join("");
     } catch (e) {
@@ -100,6 +181,10 @@
       $("summary").textContent = "Couldn't load the test results. They are produced by the project's GitHub Actions; try again in a few minutes.";
     }
   }
+  $("money").value = String(state.money); $("lev").value = String(state.lev);
+  $("money").addEventListener("change", (e) => { state.money = Math.max(1, +e.target.value || 100); store.set("omega.lab.money", state.money); if (state.snap) ideas(state.snap); });
+  $("lev").addEventListener("change", (e) => { state.lev = +e.target.value || 1; store.set("omega.lab.lev", state.lev); if (state.snap) ideas(state.snap); });
   load();
   setInterval(load, 5 * 60 * 1000);
+  setInterval(pollLive, 15000);
 })();
