@@ -34,15 +34,19 @@
       <button type="button" data-market="fx" aria-pressed="false">Forex &amp; gold<small>15-min updates</small></button>
       <button type="button" data-market="index" aria-pressed="false">US index futures<small>S&amp;P, Nasdaq, Dow</small></button>
     </div>
-    <label class="inline" for="risk">I risk $<input id="risk" type="number" min="1" step="any" value="10" style="width:6em"></label>
+    <label class="inline" for="money">Your money $<input id="money" type="number" min="1" step="any" value="100" style="width:7em"></label>
+    <label class="inline" for="lev">Leverage
+      <select id="lev"><option value="1" selected>none (1x)</option><option value="2">2x</option><option value="3">3x</option><option value="5">5x</option><option value="10">10x</option><option value="20">20x</option></select>
+    </label>
     <button class="btn primary" id="refreshNow" type="button">Refresh now</button>
     <span class="status" id="status" aria-live="polite">Starting…</span>
   </div>
 
   <nav class="tabs" role="tablist" aria-label="Sections">
     <button role="tab" data-tab="setups" aria-selected="true">Setups now</button>
-    <button role="tab" data-tab="tests" aria-selected="false">How the rules did</button>
+    <button role="tab" data-tab="movers" aria-selected="false">Biggest movers</button>
     <button role="tab" data-tab="trades" aria-selected="false">My ICT trades <span class="count" id="tradeCount" hidden>0</span></button>
+    <button role="tab" data-tab="record" aria-selected="false">Track record</button>
     <button role="tab" data-tab="guide" aria-selected="false">ICT in plain words</button>
   </nav>
 
@@ -50,14 +54,18 @@
     <div id="mood" class="banner calm">Loading…</div>
     <div id="setups"><div class="skeleton"></div></div>
   </section>
-  <section class="panel" id="tab-tests" role="tabpanel" hidden>
-    <p class="muted lead">Every night the exact same rules are run over the last 60 days or more of 15-minute prices, and every setup is followed to its end: filled or not, target or stop first, after trading costs. Below that is the live record: setups recorded as they appeared, then followed the same way.</p>
-    <div id="tests"><div class="skeleton"></div></div>
+  <section class="panel" id="tab-movers" role="tabpanel" hidden>
+    <p class="muted lead">The biggest 24-hour moves in this market, and whether each has an ICT setup right now.</p>
+    <div id="movers"><div class="skeleton"></div></div>
   </section>
   <section class="panel" id="tab-trades" role="tabpanel" hidden>
     <p class="muted">Tap <b>“I placed this order”</b> on a setup. This page then tells you when the entry fills, when the target or stop is reached, and when time is up. Saved in this browser only.</p>
     <div class="actions"><button class="btn" id="notifyBtn" type="button">Turn on alerts for my trades</button><span class="small muted" id="notifyState"></span></div>
     <div id="trades"></div>
+  </section>
+  <section class="panel" id="tab-record" role="tabpanel" hidden>
+    <p class="muted lead">Every night the exact same rules are run over the last 60 days or more of 15-minute prices, and every setup is followed to its end: filled or not, take profit or safety exit first, after trading costs, and compared with random entries. Below that is the live record: setups recorded as they appeared, then followed the same way, with how each grade actually turned out.</p>
+    <div id="record"><div class="skeleton"></div></div>
   </section>
   <section class="panel" id="tab-guide" role="tabpanel" hidden>
     <div class="prose">
@@ -88,6 +96,15 @@
         <li><b>Entry reached:</b> the order would have filled; the trade is running to its target or stop, for at most 24 hours.</li>
         <li><b>Chance of target first</b> comes from how often past setups of the same kind, with the same number of checklist items, reached the target before the stop. With few past examples it's pulled towards the break-even chance, and the grade says "Unproven".</li>
       </ul>
+      <h2>The same checks as the other pages</h2>
+      <ul>
+        <li><b>Score out of 10, grade and risk level</b>, from the expected result after costs, lowered by every warning below. If the track record shows the grades aren't working, the words are switched off and the page says why.</li>
+        <li><b>News:</b> no new orders in the 30 minutes before a high-impact announcement, and a big mark-down if one falls before the trade's time limit (central banks, jobs, inflation; big US news moves crypto too).</li>
+        <li><b>Manipulation checks:</b> for forex, gold and futures, the Forex page's rate-fix and thin-market checks. For coins, the Exchange coins page's fake-signal checks: order books read three times for fake walls, wash trading, price impact, other exchanges, whale trades.</li>
+        <li><b>Warnings:</b> already ran far in the trade's direction (chasing), overheated momentum, and for coins, BTC (or ETH for BTC) moving against the trade.</li>
+        <li><b>Self-improvement:</b> jumpy markets are marked down when the record shows they disappoint, and a market type goes on probation when its live setups do worse than random entries.</li>
+        <li><b>Where to buy it cheapest</b> (coins), a money calculator with leverage, Biggest movers, and a Track record that compares everything with random entries.</li>
+      </ul>
       <h2>Honest limits</h2>
       <p>No independent study has shown that ICT concepts give traders an edge. Read the "How the rules did" tab: it shows exactly how these rules did on recent data, after costs, including when they lost. On crypto, exchange fees are large compared with the small stops of 15-minute setups, which hurts results a lot. Paper trading and education only; never use money you can't afford to lose.</p>
     </div>
@@ -97,6 +114,8 @@
 </div>
 <script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
 <script src="../engine.js"></script>
+<script src="../quality.js"></script>
+<script src="../market.js"></script>
 <script src="../ictengine.js"></script>
 <script src="app.js"></script>
 </body>

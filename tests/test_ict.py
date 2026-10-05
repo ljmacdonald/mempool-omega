@@ -113,3 +113,21 @@ def test_javascript_matches_python():
         for k in ("entry", "stop", "target", "rr", "r", "cost_r"):
             assert a[k] == pytest.approx(b[k], rel=1e-9, abs=1e-9), (k, a, b)
         assert a["conf"] == b["conf"]
+        assert a["suggested"] == pytest.approx(b["suggested"], rel=1e-12)
+        assert a["ctx"]["pen"] == pytest.approx(b["ctx"]["pen"])
+        assert [(c["key"], c["ok"]) for c in a["ctx"]["checks"]] == [(c["key"], c["ok"]) for c in b["ctx"]["checks"]]
+
+
+def test_context_warnings_and_random_baseline():
+    n = 200
+    up = np.linspace(100, 130, n)                                  # about +14% over the last day: chasing for a buy
+    a = {"o": up, "h": up + 0.1, "l": up - 0.1, "c": up, "t": np.arange(n), "day": np.zeros(n, int), "mins": np.zeros(n, int)}
+    cx = I.context(a, n - 1, "crypto")
+    assert {c["key"]: c["ok"] for c in cx["checks"]} == {"chasing": False, "overheated": False}
+    assert cx["pen"] == pytest.approx(0.20)
+    sx = I.context(I.flip(a), n - 1, "crypto")                    # a sell into the same rally is not chasing
+    assert {c["key"]: c["ok"] for c in sx["checks"]} == {"chasing": True, "overheated": True} and sx["pen"] == 0
+    flat = np.full(n, 100.0)
+    b = {"o": flat, "h": flat + 0.05, "l": flat - 0.05, "c": flat}
+    assert I.random_baseline(b, 10, 0.01, 2.0, 0.1, hold=50) == pytest.approx(-0.1)    # nothing happens: costs only
+    assert np.isnan(I.random_baseline(b, n - 5, 0.01, 2.0, 0.1, hold=50))

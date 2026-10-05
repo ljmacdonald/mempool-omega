@@ -167,14 +167,39 @@
     return { status: "time", fill: f, exit: t, r: (c[t] - e) / risk - s.cost_r };
   }
 
-  function setups(c15, c1h, corr15, cost = 0, start = 0) {
+  // ------------------------------------------------------------------ context warnings (ict/engine.py context)
+  const CHASE = { crypto: 0.08, fx: 0.01, metal: 0.025, index: 0.02 };
+  function rsi14(c, m, n = 14) {
+    if (m < n) return NaN;
+    let up = 0, down = 0; for (let i = m - n + 1; i <= m; i++) { const d = c[i] - c[i - 1]; if (d > 0) up += d; else if (d < 0) down -= d; }
+    return down === 0 ? 100 : 100 - 100 / (1 + up / down);
+  }
+  function context(a, m, kind, corr, cpos) {
+    const c = a.c; const checks = []; let pen = 0;
+    if (m >= 96) {
+      const mv = (c[m] - c[m - 96]) / Math.abs(c[m - 96]); const lim = CHASE[kind] ?? 0.05;
+      if (mv > lim) pen += 0.15;
+      checks.push({ key: "chasing", ok: !(mv > lim), move: mv, limit: lim });
+    }
+    const r = rsi14(c, m);
+    if (!Number.isNaN(r)) { if (r > 80) pen += 0.05; checks.push({ key: "overheated", ok: r <= 80, rsi: r }); }
+    if (kind === "crypto" && corr && cpos && cpos[m] >= 96) {
+      const j = cpos[m]; const rm = (corr.c[j] - corr.c[j - 96]) / Math.abs(corr.c[j - 96]);
+      checks.push({ key: "reference", ok: rm >= -0.02, move: rm });
+    }
+    return { pen, checks };
+  }
+
+  function setups(c15, c1h, corr15, cost = 0, start = 0, kind = "crypto") {
     const a = arrays(c15); const a1 = c1h && c1h.t.length ? arrays(c1h) : null; const cb = corr15 && corr15.t.length ? arrays(corr15) : null;
     const out = [];
     for (const [side, aa, hh, cc] of [["buy", a, a1, cb], ["sell", flip(a), a1 ? flip(a1) : null, cb ? flip(cb) : null]]) {
+      const cpos = align(aa, cc);
       for (const s of detectBuys(aa, hh, cc, cost, start)) {
         const r = simulate(aa, s);
+        s.ctx = context(aa, s.m, kind, cc, cpos); s.suggested = aa.c[s.m];
         if (side === "sell") {
-          for (const kk of ["level_px", "sweep", "fvg_top", "fvg_bot", "entry", "stop", "target"]) s[kk] = -s[kk];
+          for (const kk of ["level_px", "sweep", "fvg_top", "fvg_bot", "entry", "stop", "target", "suggested"]) s[kk] = -s[kk];
           [s.fvg_top, s.fvg_bot] = [s.fvg_bot, s.fvg_top]; s.level = FLIP[s.level]; s.target_name = FLIP[s.target_name];
         }
         out.push({ ...s, side, ...r });
@@ -183,7 +208,7 @@
     return out.sort((x, y) => x.m - y.m);
   }
 
-  const api = { P, FACTORS, arrays, flip, atr, pivots, sessions, htfBias, detectBuys, simulate, setups, zoneName, nyParts };
+  const api = { P, FACTORS, CHASE, context, rsi14, arrays, flip, atr, pivots, sessions, htfBias, detectBuys, simulate, setups, zoneName, nyParts };
   root.OmegaICT = api;
   if (typeof module !== "undefined") module.exports = api;
 })(typeof window !== "undefined" ? window : globalThis);

@@ -297,18 +297,84 @@ def simulate(a: dict, s: dict, p: dict | None = None) -> dict:
     return {"status": "time", "fill": f, "exit": t, "r": float((c[t] - e) / risk - s["cost_r"])}
 
 
+# ---------------------------------------------------------------------------------------------- context warnings
+# The same warnings as the other pages, measured in the trade's direction (prices are flipped for a sell).
+CHASE = {"crypto": 0.08, "fx": 0.01, "metal": 0.025, "index": 0.02}      # a 24-hour run this big = chasing
+
+
+def rsi14(c: np.ndarray, m: int, n: int = 14) -> float:
+    if m < n:
+        return float("nan")
+    d = np.diff(c[m - n:m + 1])
+    up, down = float(d[d > 0].sum()), float(-d[d < 0].sum())
+    return 100.0 if down == 0 else 100 - 100 / (1 + up / down)
+
+
+def context(a: dict, m: int, kind: str, corr: dict | None = None, cpos: np.ndarray | None = None) -> dict:
+    """Chasing (already ran far in the trade's direction), overheated momentum, and for coins the reference coin
+    moving against the trade. Penalties in R, as on the other pages."""
+    c = a["c"]
+    checks, pen = [], 0.0
+    if m >= 96:
+        mv = (c[m] - c[m - 96]) / abs(c[m - 96])
+        lim = CHASE.get(kind, 0.05)
+        if mv > lim:
+            pen += 0.15
+            checks.append({"key": "chasing", "ok": False, "move": float(mv), "limit": lim})
+        else:
+            checks.append({"key": "chasing", "ok": True, "move": float(mv), "limit": lim})
+    r = rsi14(c, m)
+    if not math.isnan(r):
+        if r > 80:
+            pen += 0.05
+        checks.append({"key": "overheated", "ok": bool(r <= 80), "rsi": float(r)})
+    if kind == "crypto" and corr is not None and cpos is not None and cpos[m] >= 96:
+        j = int(cpos[m])
+        rm = (corr["c"][j] - corr["c"][j - 96]) / abs(corr["c"][j - 96])
+        checks.append({"key": "reference", "ok": bool(rm >= -0.02), "move": float(rm)})
+    return {"pen": pen, "checks": checks}
+
+
+def random_baseline(a: dict, m: int, risk_pct: float, rr: float, cost_r: float, hold: int | None = None) -> float:
+    """What a coin-flip trader would have got: enter at the structure-shift close in a random direction with the same
+    stop distance, reward:risk and costs (average of buying and selling). NaN until the full hold time has passed."""
+    hold = hold or P["hold_bars"]
+    n = len(a["c"])
+    if m + hold >= n:
+        return float("nan")
+    out = []
+    for b in (a, flip(a)):
+        e = b["c"][m]
+        risk = risk_pct * abs(e)
+        st, tg = e - risk, e + rr * risk
+        res = None
+        for t in range(m + 1, m + 1 + hold):
+            if b["l"][t] <= st:
+                res = -1.0 - cost_r
+                break
+            if b["h"][t] >= tg:
+                res = rr - cost_r
+                break
+        out.append(res if res is not None else (b["c"][m + hold] - e) / risk - cost_r)
+    return float(np.mean(out))
+
+
 def setups(df15: pd.DataFrame, df1h: pd.DataFrame | None = None, corr15: pd.DataFrame | None = None, cost: float = 0.0,
-           start: int = 0) -> list[dict]:
+           start: int = 0, kind: str = "crypto") -> list[dict]:
     """Both directions, with outcomes. Prices returned the right way up."""
     a = arrays(df15)
     a1 = arrays(df1h) if df1h is not None and len(df1h) else None
     cb = arrays(corr15) if corr15 is not None and len(corr15) else None
     out = []
     for side, aa, hh, cc in (("buy", a, a1, cb), ("sell", flip(a), flip(a1) if a1 else None, flip(cb) if cb else None)):
+        cpos = align(aa, cc)
         for s in detect_buys(aa, hh, cc, cost, start):
             r = simulate(aa, s)
+            s["ctx"] = context(aa, s["m"], kind, cc, cpos)
+            s["base_r"] = random_baseline(aa, s["m"], s["risk_pct"], s["rr"], s["cost_r"])
+            s["suggested"] = float(aa["c"][s["m"]])
             if side == "sell":
-                for kk in ("level_px", "sweep", "fvg_top", "fvg_bot", "entry", "stop", "target"):
+                for kk in ("level_px", "sweep", "fvg_top", "fvg_bot", "entry", "stop", "target", "suggested"):
                     s[kk] = -s[kk]
                 s["fvg_top"], s["fvg_bot"] = s["fvg_bot"], s["fvg_top"]
                 s["level"], s["target_name"] = FLIP[s["level"]], FLIP[s["target_name"]]
