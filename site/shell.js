@@ -7,19 +7,27 @@
   "use strict";
   const SCRIPT = document.currentScript;
   const BASE = new URL(".", SCRIPT ? SCRIPT.src : location.href).href;
+  // risk: how hard the prices swing; kind: what the visitor gets (ideas to act on, or research to watch)
   const PAGES = {
-    main: { path: "", name: "Exchange coins", group: "Crypto", blurb: "The best-scoring coins on major exchanges right now, re-ranked every few minutes." },
-    small: { path: "small/", name: "Small coins", group: "Crypto", blurb: "Smaller, faster-moving coins: bigger swings both ways, scored the same honest way." },
-    dex: { path: "dex/", name: "DEX tokens", group: "Crypto", blurb: "Tokens on decentralised exchanges, scam-checked before they're ever suggested." },
-    listings: { path: "listings/", name: "New listings", group: "Crypto", blurb: "Coins just listed on big exchanges, and what really happens after a listing." },
-    sniper: { path: "sniper/", name: "Sniper lab", group: "Crypto", blurb: "Brand-new DEX tokens, scam-checked and paper-sniped: does it pay after the bots?" },
-    stocks: { path: "stocks/", name: "US stocks", group: "Stocks & FX", blurb: "The most-traded US stocks and a high-volatility list, during market hours." },
-    fx: { path: "fx/", name: "Forex", group: "Stocks & FX", blurb: "Currency pairs, gold and silver, buy or sell, checked for manipulation." },
-    ict: { path: "ict/", name: "ICT setups", group: "Research", blurb: "Inner Circle Trader setups coded exactly, with how they really did." },
-    lab: { path: "lab/", name: "Strategy lab", group: "Research", blurb: "Famous public strategies re-tested honestly, and which ones still hold up." },
-    whales: { path: "whales/", name: "Whale tracker", group: "Research", blurb: "Last month's best big traders, what they hold now, and a paper copy of them." },
+    main: { path: "", name: "Exchange coins", group: "crypto", risk: "Medium risk", kind: "Live ideas", blurb: "The best-scoring coins on big exchanges like Binance, re-ranked every few minutes.", action: "Pick a speed, read the top idea, and only act on Strong or Moderate grades." },
+    small: { path: "small/", name: "Small coins", group: "crypto", risk: "High risk", kind: "Live ideas", blurb: "Smaller, faster-moving coins: bigger swings both ways, scored the same honest way.", action: "Use smaller amounts than usual: these swing hard." },
+    dex: { path: "dex/", name: "DEX tokens", group: "crypto", risk: "High risk", kind: "Live ideas", blurb: "Tokens on decentralised exchanges, scam-checked before they're ever suggested.", action: "Keep the safety level on Standard and copy the real token address from the card." },
+    listings: { path: "listings/", name: "New listings", group: "new", risk: "Very high risk", kind: "Tested rules", blurb: "Coins just listed on big exchanges, and what really happens after a listing.", action: "Only act on the tested ideas at the top; most new listings fall." },
+    sniper: { path: "sniper/", name: "Sniper lab", group: "new", risk: "Paper only", kind: "Research", blurb: "Brand-new DEX tokens, scam-checked and paper-sniped: does it pay after the bots?", action: "Watch only: no real-money sniping until the verdict says it holds up." },
+    stocks: { path: "stocks/", name: "US stocks", group: "markets", risk: "Medium risk", kind: "Live ideas", blurb: "The most-traded US stocks and a high-volatility list, during market hours.", action: "Start with Large stocks; ideas appear 9:30–16:00 New York time." },
+    fx: { path: "fx/", name: "Forex & gold", group: "markets", risk: "Medium risk", kind: "Live ideas", blurb: "Currency pairs, gold and silver, buy or sell, checked for manipulation.", action: "Start with the major pairs and avoid the news windows." },
+    ict: { path: "ict/", name: "ICT setups", group: "strategies", risk: "Medium risk", kind: "Live setups", blurb: "Inner Circle Trader setups coded exactly, with exact entries and how they really did.", action: "Place the limit order only when the grade and test evidence are good." },
+    lab: { path: "lab/", name: "Strategy lab", group: "strategies", risk: "Risk varies", kind: "Tested ideas", blurb: "Famous public strategies re-tested honestly, and which ones still hold up.", action: "Check the Scoreboard: only strategies marked Held up give ideas." },
+    whales: { path: "whales/", name: "Whale tracker", group: "strategies", risk: "Paper only", kind: "Research", blurb: "Last month's best big traders, what they hold now, and a paper copy of them.", action: "Information only until the 30-day verdict is in." },
   };
-  const GROUPS = ["Crypto", "Stocks & FX", "Research"];
+  // the menu: what the visitor wants to trade, then the strategies and research that cut across markets
+  const GROUPS = [
+    { id: "crypto", name: "Crypto", blurb: "Coins and tokens, scored live" },
+    { id: "new", name: "New coins", blurb: "Fresh listings and launches" },
+    { id: "markets", name: "Stocks & forex", blurb: "US shares, currencies, gold" },
+    { id: "strategies", name: "Strategies", blurb: "Proven methods and research" },
+  ];
+  const GROUP = Object.fromEntries(GROUPS.map((g) => [g.id, g]));
   const TRADE_KEYS = { "omega.trades": "main", "omega.dex.trades": "dex", "omega.stk.trades": "stocks", "omega.fx.trades": "fx", "omega.ict.trades": "ict" };
   const store = {
     get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } },
@@ -45,33 +53,41 @@
     const h1 = header.querySelector("h1");
     const sub = header.querySelector("p");
     const meta = [...header.querySelectorAll(".top-right > .tag, .top-right > .status")];
-    // grouped page links (the same <a> elements, moved)
-    if (nav) {
-      const links = Object.fromEntries([...nav.querySelectorAll("a[data-site]")].map((a) => [a.dataset.site, a]));
-      nav.innerHTML = "";
-      for (const g of GROUPS) {
-        const box = document.createElement("span"); box.className = "nav-group";
-        box.innerHTML = `<span class="nav-label">${esc(g)}</span>`;
-        for (const [k, p] of Object.entries(PAGES)) if (p.group === g && links[k]) box.appendChild(links[k]);
-        if (box.children.length > 1) nav.appendChild(box);
-      }
-    }
+    // grouped page menus (the same <a> elements, moved, each with what the page is for)
+    if (nav) buildMenus(nav);
     const help = document.createElement("button");
-    help.type = "button"; help.className = "icon-btn"; help.title = "How this works (tour)"; help.setAttribute("aria-label", "How this works");
-    help.textContent = "?"; help.addEventListener("click", () => tour(true));
+    help.type = "button"; help.className = "icon-btn xp-help"; help.title = "Help: explain this page, glossary, tour"; help.setAttribute("aria-label", "Help");
+    help.setAttribute("aria-haspopup", "menu");
+    help.textContent = "?"; help.addEventListener("click", () => (root.OmegaExplain ? root.OmegaExplain.helpMenu(help) : tour(true)));
     if (right) right.appendChild(help);
     // the app bar
     const inner = document.createElement("div"); inner.className = "appbar-in";
     const brand = document.createElement("a"); brand.className = "brand"; brand.href = BASE;
     brand.innerHTML = `${logo}<span>Mempool Omega<small>Tested trade ideas</small></span>`;
     inner.appendChild(brand);
-    if (nav) inner.appendChild(nav);
+    if (nav) {
+      const menu = document.createElement("button"); menu.type = "button"; menu.className = "nav-burger"; menu.setAttribute("aria-label", "All pages"); menu.setAttribute("aria-expanded", "false");
+      menu.innerHTML = '<span aria-hidden="true">☰</span> Menu';
+      // on phones the menus open as a full-screen sheet (outside the bar, whose blur would clip it)
+      menu.addEventListener("click", () => {
+        let sheet = document.querySelector(".nav-sheet");
+        const open = !sheet;
+        if (open) {
+          sheet = document.createElement("nav"); sheet.className = "nav-sheet"; sheet.setAttribute("aria-label", "All pages");
+          for (const dd of nav.querySelectorAll(".nav-dd")) { const c = dd.cloneNode(true); c.classList.remove("open"); const t = c.querySelector(".nav-trigger"); t.replaceWith(Object.assign(document.createElement("div"), { className: "nav-sheet-h", textContent: t.textContent })); sheet.appendChild(c); }
+          sheet.style.top = `${Math.ceil(header.getBoundingClientRect().bottom)}px`;
+          document.body.appendChild(sheet);
+        } else sheet.remove();
+        menu.setAttribute("aria-expanded", String(open)); document.documentElement.classList.toggle("nav-open", open);
+      });
+      inner.append(menu, nav);
+    }
     if (right) inner.appendChild(right);
     // the page header, under the bar
     const hero = document.createElement("section"); hero.className = "page-hero";
     const left = document.createElement("div");
     const p = PAGES[HERE];
-    left.innerHTML = `<div class="eyebrow">${esc(p.group)}</div>`;
+    left.innerHTML = `<div class="eyebrow">${esc(GROUP[p.group].name)}<span class="crumb-sep" aria-hidden="true">›</span>${esc(p.name)}<span class="hero-kind">${esc(p.kind)}</span><span class="hero-kind">${esc(p.risk)}</span></div>`;
     if (h1) { left.appendChild(h1); tidyTitle(h1); new MutationObserver(() => tidyTitle(h1)).observe(h1, { childList: true, characterData: true, subtree: true }); }
     if (sub) { left.appendChild(sub); tidySub(sub); new MutationObserver(() => tidySub(sub)).observe(sub, { childList: true, characterData: true, subtree: true }); }
     const metaBox = document.createElement("div"); metaBox.className = "hero-meta";
@@ -85,6 +101,67 @@
     header.after(hero);
     resumeChips(metaBox);
     footer();
+    tidyTabs();
+    sectionBar();
+  }
+
+  function buildMenus(nav) {
+    const links = Object.fromEntries([...nav.querySelectorAll("a[data-site]")].map((a) => [a.dataset.site, a]));
+    nav.innerHTML = "";
+    nav.setAttribute("aria-label", "All pages");
+    for (const g of GROUPS) {
+      const keys = Object.keys(PAGES).filter((k) => PAGES[k].group === g.id && links[k]);
+      if (!keys.length) continue;
+      const dd = document.createElement("div"); dd.className = "nav-dd"; if (keys.includes(HERE)) dd.classList.add("current");
+      const id = `nav-${g.id}`;
+      dd.innerHTML = `<button type="button" class="nav-trigger" aria-expanded="false" aria-controls="${id}">${esc(g.name)}<span class="caret" aria-hidden="true"></span></button><div class="nav-menu" id="${id}"><div class="nav-menu-h"><b>${esc(g.name)}</b><span>${esc(g.blurb)}</span></div></div>`;
+      const menu = dd.querySelector(".nav-menu");
+      for (const k of keys) {
+        const a = links[k]; const p = PAGES[k];
+        a.className = "nav-item";
+        a.innerHTML = `<span class="ni-name">${esc(p.name)}${k === HERE ? '<span class="ni-here">You are here</span>' : ""}</span><span class="ni-blurb">${esc(p.blurb)}</span><span class="ni-tags"><span>${esc(p.kind)}</span><span class="${/Very high|High/.test(p.risk) ? "hot" : /Paper/.test(p.risk) ? "paper" : ""}">${esc(p.risk)}</span></span>`;
+        menu.appendChild(a);
+      }
+      const btn = dd.querySelector(".nav-trigger");
+      btn.addEventListener("click", (e) => { e.stopPropagation(); const open = !dd.classList.contains("open"); closeMenus(); dd.classList.toggle("open", open); btn.setAttribute("aria-expanded", String(open)); });
+      dd.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeMenus(); btn.focus(); } });
+      nav.appendChild(dd);
+    }
+    document.addEventListener("click", (e) => { if (!e.target.closest(".nav-dd")) closeMenus(); });
+  }
+  function closeMenus() { for (const d of document.querySelectorAll(".nav-dd.open")) { d.classList.remove("open"); d.querySelector(".nav-trigger").setAttribute("aria-expanded", "false"); } }
+
+  // the same sections, in the same order, with the same names on every page
+  const TAB_ORDER = ["ideas", "setups", "trades", "movers", "news", "record", "improve", "account", "guide"];
+  const TAB_NAME = { trades: "My trades", guide: "How it works" };
+  function tidyTabs() {
+    const bar = document.querySelector("nav.tabs"); if (!bar) return;
+    const bs = [...bar.querySelectorAll("button[data-tab]")];
+    bs.sort((a, b) => TAB_ORDER.indexOf(a.dataset.tab) - TAB_ORDER.indexOf(b.dataset.tab)).forEach((b) => bar.appendChild(b));
+    for (const b of bs) {
+      const t = b.firstChild && b.firstChild.nodeType === 3 ? b.firstChild : null;
+      const want = TAB_NAME[b.dataset.tab] || (b.dataset.tab === "ideas" && t ? t.textContent.replace(" DEX ideas", " ideas") : null);
+      if (t && want) t.textContent = b.querySelector(".count") ? `${want.trim()} ` : want.trim();
+    }
+  }
+  // pages without tabs get an "on this page" bar that jumps to each section
+  function sectionBar() {
+    if (document.querySelector("nav.tabs")) return;
+    const cards = [...document.querySelectorAll(".wrap > article.card, .wrap > section.card")].filter((c) => c.querySelector(":scope > h2"));
+    if (cards.length < 3) return;
+    const bar = document.createElement("nav"); bar.className = "tabs sections"; bar.setAttribute("aria-label", "On this page");
+    cards.forEach((c, i) => {
+      if (!c.id) c.id = `sec-${i + 1}`;
+      const t = c.querySelector(":scope > h2").textContent.replace(/[:,(].*$/, "").trim();
+      const a = document.createElement("a"); a.href = `#${c.id}`; a.textContent = t.length > 34 ? `${t.slice(0, 32)}…` : t;
+      bar.appendChild(a);
+    });
+    cards[0].before(bar);
+    const links = [...bar.querySelectorAll("a")];
+    if ("IntersectionObserver" in root) {
+      const io = new IntersectionObserver((es) => { for (const e of es) if (e.isIntersecting) for (const a of links) a.classList.toggle("on", a.getAttribute("href") === `#${e.target.id}`); }, { rootMargin: "-30% 0px -60% 0px" });
+      cards.forEach((c) => io.observe(c));
+    }
   }
   // "Mempool Omega · Forex" -> "Forex" (the brand is in the bar); the main page's plain "Mempool Omega" -> its page name
   function tidyTitle(h1) {
@@ -136,6 +213,7 @@
   const STEPS = () => [
     { icon: "Ω", title: "Welcome to Mempool Omega", html: `<p>Trade ideas for crypto, US stocks and forex, scored by models that are <b>tested honestly</b>: after fees, against random picks, and on data they never saw.</p><ul><li>Every idea is tracked to its end, wins and losses, so you can see what really works.</li><li>It's <b>paper trading only</b>: nothing here touches your money.</li></ul>` },
     { icon: "📊", title: "How to read an idea", html: `<ul><li><b>Score out of 10</b> and a <b>grade</b> (Strong, Moderate, Weak, Avoid): above 5 means better than break-even after costs.</li><li><b>Take profit</b> and <b>safety exit</b>: where to sell for a gain, and where to get out before a small loss becomes a big one.</li><li><b>Sell by</b>: every idea has a time limit.</li><li>Warnings appear in amber. If the grades stop being reliable, they switch themselves off.</li></ul>` },
+    { icon: "💡", title: "Never guess what something means", html: `<ul><li>Any label with a <span class="xp-l">dotted underline</span> explains itself: click it to see what it means and <b>what to do</b>.</li><li>A small <span class="xp-i">i</span> next to a button or setting does the same.</li><li>The <b>?</b> at the top right has <b>Explain mode</b> (tap anything to learn what it does) and a <b>glossary</b> of every term.</li><li>Each page starts with three steps: how to use it.</li></ul>` },
     { icon: "🔔", title: "Make it yours", html: `<ul><li>Tap <b>“I bought this”</b> on an idea to follow it in <b>My trades</b>: the page tells you when to take profit or get out.</li><li>Turn on <b>Alerts</b> (top right) for pop-ups with sound when a strong idea appears or a trade needs action.</li><li>Everything stays in this browser. No account, no sign-up.</li></ul>`, cta: true },
   ];
   function tour(force) {
@@ -169,7 +247,7 @@
     const alertsOn = !!(store.get("omega.alerts.cfg", {}) || {}).on;
     return [
       { id: "tour", done: !!store.get("omega.onb.tour", false), t: "Take the 1-minute tour", d: "How scores, grades and exits work.", go: () => tour(true) },
-      { id: "pages", done: visited.length >= 2, t: "Look at two different markets", d: "Crypto, stocks, forex: pick from the bar at the top.", go: () => { location.href = href(HERE === "main" ? "stocks" : "main"); } },
+      { id: "pages", done: visited.length >= 2, t: "Look at two different markets", d: "Crypto, stocks, forex: pick from the menus at the top.", go: () => { location.href = href(HERE === "main" ? "stocks" : "main"); } },
       { id: "trade", done: Object.keys(trades()).length > 0, t: "Follow a paper trade", d: "Tap “I bought this” on an idea, then watch My trades.", go: () => { const b = document.querySelector('nav.tabs button[data-tab="ideas"], nav.tabs button[data-tab="setups"]'); if (b) { b.click(); b.scrollIntoView({ block: "center" }); } else location.href = href("main"); } },
       { id: "alerts", done: alertsOn, t: "Turn on alerts", d: "Pop-ups with sound when it matters.", go: () => { const b = document.querySelector(".oa-bell"); if (b) b.click(); } },
     ];
@@ -204,11 +282,12 @@
 
   function start() {
     buildShell();
+    if (!root.OmegaExplain) { const x = document.createElement("script"); x.src = `${BASE}explain.js`; document.head.appendChild(x); }
     if (!store.get("omega.onb.tour", false)) setTimeout(() => tour(false), 700);
     else checklist();
     root.addEventListener("storage", checklist);
     setInterval(checklist, 4000);           // ticks items off as the visitor uses the page (trades, alerts)
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
-  root.OmegaShell = { tour, page: HERE };
+  root.OmegaShell = { tour, page: HERE, pages: PAGES };
 })(window);
