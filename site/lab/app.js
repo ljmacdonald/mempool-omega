@@ -72,8 +72,8 @@
       ${f.map((x) => `<tr data-alert-key="forming-${esc(x.sym)}-${new Date(x.asof).toISOString().slice(0, 10)}"><td>${esc(x.label)}</td><td class="num">${num(x.price)} <span class="muted small">at ${when(x.asof)}</span></td><td class="num">${fin(x.rsi2) ? x.rsi2.toFixed(0) : "–"}</td><td>${x.signal ? '<span class="pill good">Likely, if it stays here</span>' : "Not now (needs under 10)"}</td></tr>`).join("")}
       </tbody></table></div><p class="small muted">The only strategy here that held up buys at the close, so the decision is made in the last minutes before 4 pm New York. This uses the latest 5-minute price as a stand-in for the close.</p>`;
     const ex = S.exits || [];
-    $("exits").innerHTML = !ex.length ? "" : `<h3>Exit signals</h3><div class="table-wrap"><table><thead><tr><th>Strategy</th><th>Market</th><th>Closed</th><th class="num">Result after costs</th><th>Why</th></tr></thead><tbody>
-      ${ex.map((e) => `<tr data-alert-key="exit-${esc(e.strategy)}-${esc(e.sym)}-${e.t_in}"><td class="small">${esc(e.name)}</td><td>${e.side > 0 ? "Buy" : "Sell"} ${esc(e.label)}</td><td class="small">${when(e.t_out)}</td><td class="num ${cls(e.net)}">${pct(e.net)}</td><td class="small">${esc(e.reason)}</td></tr>`).join("")}
+    $("exits").innerHTML = !ex.length ? "" : `<h3>Exit signals</h3><div class="table-wrap"><table><thead><tr><th>Strategy</th><th>Market</th><th>Entered</th><th>Closed</th><th class="num">Entry → exit price</th><th class="num">Result after costs</th><th>Why</th></tr></thead><tbody>
+      ${ex.map((e) => `<tr data-alert-key="exit-${esc(e.strategy)}-${esc(e.sym)}-${e.t_in}"><td class="small">${esc(e.name)}</td><td>${e.side > 0 ? "Buy" : "Sell"} ${esc(e.label)}</td><td class="small">${when(e.t_in)}</td><td class="small">${when(e.t_out)}</td><td class="num small">${num(e.entry)} → ${num(e.exit)}</td><td class="num ${cls(e.net)}">${pct(e.net)}</td><td class="small">${esc(e.reason)}</td></tr>`).join("")}
       </tbody></table></div><p class="small muted">If you followed one of these strategies' trades, this is where it got out.</p>`;
   }
   function record(S) {
@@ -158,8 +158,8 @@
       <div class="table-wrap"><table>${HEAD}<tbody>${row(earlier, s.early)}${row(`<b>${later}</b>`, s.late)}${s.since_added && s.since_added.n ? row("Since it was added to this site", s.since_added) : ""}</tbody></table></div>
       <details><summary>Each market</summary><div class="table-wrap"><table>${HEAD}<tbody>${markets.map((m) => row(esc(m.label), m)).join("")}</tbody></table></div></details>
       <h3>Right now</h3>${nowBlock(k, v, stale)}
-      ${(s.recent || []).length ? `<details><summary>Latest finished trades</summary><div class="table-wrap"><table><thead><tr><th>Closed</th><th>Market</th><th>Side</th><th class="num">Result after costs</th><th>Why it closed</th></tr></thead><tbody>
-        ${s.recent.map((r) => `<tr><td class="small">${when(r.t_out)}</td><td>${esc(r.label)}</td><td>${r.side > 0 ? "Buy" : "Sell"}</td><td class="num ${cls(r.net)}">${pct(r.net)}</td><td class="small">${esc(r.reason)}</td></tr>`).join("")}
+      ${(s.recent || []).length ? `<details><summary>Latest finished trades</summary><div class="table-wrap"><table><thead><tr><th>Entered</th><th>Closed</th><th>Market</th><th>Side</th><th class="num">Entry → exit price</th><th class="num">Result after costs</th><th>Why it closed</th></tr></thead><tbody>
+        ${s.recent.map((r) => `<tr><td class="small">${when(r.t_in)}</td><td class="small">${when(r.t_out)}</td><td>${esc(r.label)}</td><td>${r.side > 0 ? "Buy" : "Sell"}</td><td class="num small">${num(r.entry)} → ${num(r.exit)}</td><td class="num ${cls(r.net)}">${pct(r.net)}</td><td class="small">${esc(r.reason)}</td></tr>`).join("")}
         </tbody></table></div></details>` : ""}
     </article>`;
   }
