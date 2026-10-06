@@ -54,12 +54,31 @@
   function consensus(S) {
     if (stale) { $("consensus").innerHTML = `<div class="banner warn">The latest check is more than ${STALE_MIN} minutes old, so live positions are hidden.</div>`; return; }
     const c = S.consensus || []; const p = S.positions || [];
-    $("consensus").innerHTML = !c.length ? `<p class="muted">The followed whales hold no positions right now.</p>` : `<div class="table-wrap"><table><thead><tr><th>Coin</th><th class="num">Price</th><th class="num">Whales long / short</th><th class="num">Long $</th><th class="num">Short $</th><th>Leaning</th></tr></thead><tbody>
-      ${c.map((x) => `<tr><td><b>${esc(x.coin)}</b></td><td class="num">${px(x.price)}</td><td class="num"><span class="up">${x.long_n}</span> / <span class="down">${x.short_n}</span></td><td class="num">${usd(x.long_usd)}</td><td class="num">${usd(x.short_usd)}</td><td>${x.net_usd > 0 ? '<span class="pill good">long</span>' : x.net_usd < 0 ? '<span class="pill bad">short</span>' : "even"}</td></tr>`).join("")}
-      </tbody></table></div>
+    $("consensus").innerHTML = !c.length ? `<p class="muted">The followed whales hold no positions right now.</p>` : `<div class="table-wrap"><table><thead><tr><th>Coin</th><th class="num">Price</th><th class="num">Whales long / short</th><th class="num">Long $</th><th class="num">Short $</th><th>Leaning</th><th>Market signals</th><th>Outlook</th></tr></thead><tbody>
+      ${c.map((x) => `<tr><td><b>${esc(x.coin)}</b></td><td class="num">${px(x.price)}</td><td class="num"><span class="up">${x.long_n}</span> / <span class="down">${x.short_n}</span></td><td class="num">${usd(x.long_usd)}</td><td class="num">${usd(x.short_usd)}</td><td>${x.net_usd > 0 ? '<span class="pill good">long</span>' : x.net_usd < 0 ? '<span class="pill bad">short</span>' : "even"}</td>${signalCells(x, S.outlook)}</tr>`).join("")}
+      </tbody></table></div>${outlookNote(S.outlook)}
       <details><summary>Every position (${p.length})</summary><div class="table-wrap"><table><thead><tr><th>Whale</th><th>Coin</th><th>Side</th><th class="num">Size</th><th class="num">Entry price</th><th class="num">Price now</th><th class="num">Profit so far</th><th class="num">Leverage</th></tr></thead><tbody>
-      ${p.map((x) => `<tr><td class="small">${link(x.addr, x.name)}</td><td><b>${esc(x.coin)}</b></td><td>${x.side === "long" ? '<span class="up">long</span>' : '<span class="down">short</span>'}</td><td class="num">${usd(x.moved ?? x.notional)}</td><td class="num">${x.kind === "closed" ? "—" : usd(x.notional)}</td><td class="num">${px(x.entry)}</td><td class="num">${px(x.price)}</td><td class="num ${cls(x.upnl)}">${usd(x.upnl)}</td><td class="num">${fin(x.lev) ? x.lev.toFixed(0) + "x" : "–"}</td></tr>`).join("")}
+      ${p.map((x) => `<tr><td class="small">${link(x.addr, x.name)}</td><td><b>${esc(x.coin)}</b></td><td>${x.side === "long" ? '<span class="up">long</span>' : '<span class="down">short</span>'}</td><td class="num">${usd(x.notional)}</td><td class="num">${px(x.entry)}</td><td class="num">${px(x.price)}</td><td class="num ${cls(x.upnl)}">${usd(x.upnl)}</td><td class="num">${fin(x.lev) ? x.lev.toFixed(0) + "x" : "–"}</td></tr>`).join("")}
       </tbody></table></div></details><p class="small muted">Prices at ${S.generated_at ? when(Date.parse(S.generated_at)) : "the last check"}, not live. A whale's position can be one leg of a hedge held elsewhere.</p>`;
+  }
+  // market signals and the outlook on probation (whales/outlook.py): facts first, the lean labelled with its evidence
+  function signalCells(x, rec) {
+    const g = x.signals;
+    if (!g) return '<td class="small muted">not enough history</td><td></td>';
+    const arrow = (v) => (v > 0 ? '<span class="up">up</span>' : '<span class="down">down</span>');
+    const crowd = g.crowd < 0 ? "many betting up" : g.crowd > 0 ? "many betting down" : "normal";
+    const whales = x.net_usd > 0 ? 1 : x.net_usd < 0 ? -1 : 0;
+    const lean = g.lean > 0 ? '<span class="pill good">Up</span>' : g.lean < 0 ? '<span class="pill bad">Down</span>' : '<span class="pill calm">No clear lean</span>';
+    const agree = !g.lean || !whales ? "" : g.lean === whales ? '<div class="small muted">agrees with the whales</div>' : '<div class="small muted">disagrees with the whales</div>';
+    const label = rec && rec.label ? rec.label : "Not proven";
+    return `<td class="small">Trend ${arrow(g.trend)} · Momentum ${arrow(g.mom)}<div class="muted">Crowding: ${crowd}</div></td>
+      <td>${lean} <span class="pill ${label === "Held up" ? "good" : label === "Failed" ? "bad" : "warn"}">${esc(label)}</span>${agree}</td>`;
+  }
+  function outlookNote(rec) {
+    if (!rec) return "";
+    const bt = rec.backtest || {};
+    const live = rec.judged ? ` Live so far: ${rec.judged} call(s) judged after ${rec.hold_days} days, right ${Math.round(rec.hit * 100)}% of the time, average ${pct(rec.avg)} after costs.` : ` Live record: every up or down call is checked ${rec.hold_days || 7} days later; the first results come in a week.`;
+    return `<div class="banner ${rec.level === "good" ? "good" : rec.level === "bad" ? "bad" : "warn"}"><b>Outlook: ${esc(rec.label)}.</b> The outlook adds up three standard signals (trend, momentum, crowding). In a ${bt.years || 2}-year test on ${bt.coins || 47} coins it called the direction right ${Math.round((bt.hit || 0.5) * 1000) / 10}% of the time: a coin flip.${live} Use it as context, not as a reason to trade.</div>`;
   }
   function changes(S) {
     if (stale) { $("changes").innerHTML = `<p class="muted">Hidden: the latest check is out of date.</p>`; return; }

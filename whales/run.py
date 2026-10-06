@@ -30,6 +30,7 @@ import requests
 
 from core.config import REPO_ROOT, state_path
 from lab.run import clean
+from whales import outlook
 
 log = logging.getLogger("omega.whales")
 API = "https://api.hyperliquid.xyz/info"
@@ -286,10 +287,23 @@ def scan() -> dict:
     moved = changes((last.get("books") or {}).get("lead") or {}, books["lead"], mids) if last.get("cohort") == cur["id"] else []
     _save("last.json", {"t": now_ms, "cohort": cur["id"], "mids": {c: mids[c] for c in set(exp["lead"]) | set(exp["rand"]) | {"BTC"} if c in mids},
                         "exp": exp, "books": {"lead": books["lead"]}})
-    return snapshot(now, cur, cohorts, books, exp, moved, m, mids)
+    net: dict[str, float] = {}
+    gross: dict[str, float] = {}
+    for b in books["lead"].values():
+        for coin, p in b["pos"].items():
+            net[coin] = net.get(coin, 0.0) + p["szi"] * mids.get(coin, 0.0)
+            gross[coin] = gross.get(coin, 0.0) + abs(p["szi"]) * mids.get(coin, 0.0)
+    held = sorted(gross, key=lambda c: -gross[c])[:25]          # the coins "What the whales hold now" lists
+    try:   # market signals and the outlook on probation; never allowed to stop the mirror
+        ol = outlook.refresh(post, _load, _save, held, {c: (1 if v > 0 else -1 if v < 0 else 0) for c, v in net.items()}, mids, now_ms)
+    except Exception as e:  # noqa: BLE001
+        log.warning("outlook: %s", e)
+        ol = {"coins": {}, "record": None}
+    return snapshot(now, cur, cohorts, books, exp, moved, m, mids, ol)
 
 
-def snapshot(now, cur, cohorts, books, exp, moved, m, mids) -> dict:
+def snapshot(now, cur, cohorts, books, exp, moved, m, mids, ol=None) -> dict:
+    ol = ol or {"coins": {}, "record": None}
     board = _load("board.json", {})
     meta = {w["addr"]: w for w in cur["leaders"] + cur["random"]}
     leaders = []
@@ -314,6 +328,7 @@ def snapshot(now, cur, cohorts, books, exp, moved, m, mids) -> dict:
         c["net_usd"] = c["long_usd"] - c["short_usd"]
         c["mirror"] = exp["lead"].get(c["coin"], 0.0)
         c["price"] = mids.get(c["coin"])
+        c["signals"] = ol["coins"].get(c["coin"])
     curve = m[m["cohort"] == cur["id"]] if len(m) else m
     ver = verdict(m)
     hist = []
@@ -333,7 +348,7 @@ def snapshot(now, cur, cohorts, books, exp, moved, m, mids) -> dict:
                        "curve": [[int(r.t), round(float(r.eq_lead), 5), round(float(r.eq_rand), 5), round(float(r.eq_btc), 5)] for r in curve.iloc[::max(1, len(curve) // 400)].itertuples()]},
             "verdict": ver, "history": hist, "board_at": board.get("at"), "top_now": (board.get("top_now") or [])[:10],
             "research": {"whales": 250, "trades": 885531, "top_next": 0.072, "top_profitable": 0.75, "bottom_next": -0.009, "bottom_profitable": 0.38, "rho": 0.36},
-            "costs": {"side": COST_SIDE, "max_gross": MAX_GROSS}}
+            "costs": {"side": COST_SIDE, "max_gross": MAX_GROSS}, "outlook": ol["record"]}
     out = REPO_ROOT / ".cache" / "whales_out" / "snapshot.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(clean(snap), allow_nan=False))
