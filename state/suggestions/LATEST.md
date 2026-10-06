@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-06 09:38 UTC
+# Trade ideas: 2026-10-06 10:46 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -10,15 +10,15 @@ Market mood: **Unfavourable** (0% of 150 coins look positive). If it says *Unfav
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **VANRY** | 3.7/10 | Avoid - watch only | Very high | $0.00074 | $0.000814 (+10.0%) | $0.000703 (-5.0%) | 04:00 17-Aug |
-| 2 | **RAD** | 3.6/10 | Avoid - watch only | Very high | $0.401 | $0.4411 (+10.0%) | $0.38095 (-5.0%) | 10:35 06-Oct |
-| 3 | **NIL** | 3.6/10 | Avoid - watch only | Medium | $0.1 | $0.103192 (+3.2%) | $0.0984041 (-1.6%) | 10:35 06-Oct |
-| 4 | **MUBARAK** | 3.5/10 | Avoid - watch only | Very high | $0.07663 | $0.0834922 (+9.0%) | $0.0731989 (-4.5%) | 10:35 06-Oct |
-| 5 | **UMA** | 3.1/10 | Avoid - watch only | Very high | $0.479 | $0.5269 (+10.0%) | $0.45505 (-5.0%) | 10:35 06-Oct |
+| 1 | **MARSCOIN** | 4.4/10 | Avoid - watch only | High | $0.1092 | $0.114486 (+4.8%) | $0.106557 (-2.4%) | 11:40 06-Oct |
+| 2 | **MUBARAK** | 4.1/10 | Avoid - watch only | Very high | $0.07719 | $0.0830854 (+7.6%) | $0.0742423 (-3.8%) | 11:40 06-Oct |
+| 3 | **CYBER** | 4.0/10 | Avoid - watch only | Medium | $0.341 | $0.354148 (+3.9%) | $0.33366 (-2.2%) | 11:40 06-Oct |
+| 4 | **GTC** | 3.9/10 | Avoid - watch only | High | $0.17372 | $0.183024 (+5.4%) | $0.169068 (-2.7%) | 11:40 06-Oct |
+| 5 | **NIL** | 3.8/10 | Avoid - watch only | High | $0.10189 | $0.106286 (+4.3%) | $0.0991427 (-2.7%) | 11:40 06-Oct |
 
-- **VANRY:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **RAD:** Momentum is healthy: not overheated, not collapsing.
-- **NIL:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **MARSCOIN:** Buyers have been more eager than sellers over the last 30 minutes (54% of trades were buys). Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. It did 2.7% better than Bitcoin over the last 2 hours.
+- **MUBARAK:** It did 11.6% better than Bitcoin over the last 2 hours. Trading activity is 3.1x higher than usual, so people are paying attention to it. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up.
+- **CYBER:** Buyers have been more eager than sellers over the last 30 minutes (62% of trades were buys). Trading activity is 4.2x higher than usual, so people are paying attention to it. It did 1.5% better than Bitcoin over the last 2 hours. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Short: exit within 4 hours
 
@@ -26,39 +26,39 @@ Market mood: **Unfavourable** (1% of 150 coins look positive). If it says *Unfav
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ENA** | 3.2/10 | Avoid - watch only | Low | $0.2388 | $0.248328 (+4.0%) | $0.234036 (-2.0%) | 13:30 06-Oct |
-| 2 | **FET** | 3.2/10 | Avoid - watch only | Medium | $0.2482 | $0.261344 (+5.3%) | $0.241628 (-2.6%) | 13:30 06-Oct |
-| 3 | **SAND** | 3.1/10 | Avoid - watch only | Medium | $0.06517 | $0.0679032 (+4.2%) | $0.0638034 (-2.1%) | 13:30 06-Oct |
-| 4 | **SKL** | 3.1/10 | Avoid - watch only | Medium | $0.00473 | $0.00502289 (+6.2%) | $0.00458356 (-3.1%) | 13:30 06-Oct |
-| 5 | **PUMP** | 2.9/10 | Avoid - watch only | Medium | $0.006295 | $0.00660835 (+5.0%) | $0.00613832 (-2.5%) | 13:30 06-Oct |
+| 1 | **SAND** | 2.8/10 | Avoid - watch only | Medium | $0.06654 | $0.0694251 (+4.3%) | $0.0647368 (-2.7%) | 14:30 06-Oct |
+| 2 | **MANA** | 2.6/10 | Avoid - watch only | Low | $0.1034 | $0.10737 (+3.8%) | $0.101415 (-1.9%) | 14:30 06-Oct |
+| 3 | **PUMP** | 2.5/10 | Avoid - watch only | Medium | $0.006365 | $0.00666811 (+4.8%) | $0.00621345 (-2.4%) | 14:30 06-Oct |
+| 4 | **BEAMX** | 2.5/10 | Avoid - watch only | Medium | $0.002489 | $0.00260182 (+4.5%) | $0.00241849 (-2.8%) | 14:30 06-Oct |
+| 5 | **VANRY** | 2.5/10 | Avoid - watch only | Very high | $0.00074 | $0.0008584 (+16.0%) | $0.0006808 (-8.0%) | 07:00 17-Aug |
 
-- **ENA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **FET:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **SAND:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **SAND:** It is bouncing up from near its lowest price of the last 42 hours. Buyers have been more eager than sellers over the last 1.5 hours (53% of trades were buys). Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MANA:** It is bouncing up from near its lowest price of the last 42 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **PUMP:** Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (9% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (11% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **LSK** | 5.4/10 | Weak | High | $0.2544 | $0.28426 (+11.7%) | $0.23947 (-5.9%) | 09:00 07-Oct |
-| 2 | **MINA** | 4.2/10 | Avoid - watch only | High | $0.133 | $0.151769 (+14.1%) | $0.123615 (-7.1%) | 09:00 07-Oct |
-| 3 | **TRUMP** | 4.1/10 | Avoid - watch only | Low | $2.02 | $2.13 (+5.5%) | $1.96 (-2.8%) | 09:00 07-Oct |
-| 4 | **NOM** | 3.9/10 | Avoid - watch only | High | $0.002457 | $0.00280057 (+14.0%) | $0.00228521 (-7.0%) | 09:00 07-Oct |
-| 5 | **GLMR** | 3.8/10 | Avoid - watch only | Very high | $0.01026 | $0.0127224 (+24.0%) | $0.0090288 (-12.0%) | 09:00 07-Oct |
+| 1 | **LSK** | 5.2/10 | Weak | High | $0.2555 | $0.285051 (+11.6%) | $0.240724 (-5.8%) | 10:00 07-Oct |
+| 2 | **MINA** | 3.8/10 | Avoid - watch only | High | $0.1319 | $0.150139 (+13.8%) | $0.122781 (-6.9%) | 10:00 07-Oct |
+| 3 | **ZEC** | 3.8/10 | Avoid - watch only | Medium | $1,349.70 | $1,459.65 (+8.1%) | $1,294.73 (-4.1%) | 10:00 07-Oct |
+| 4 | **VANRY** | 3.7/10 | Avoid - watch only | Very high | $0.00074 | $0.0009176 (+24.0%) | $0.00064805 (-12.4%) | 03:00 18-Aug |
+| 5 | **NOM** | 3.3/10 | Avoid - watch only | High | $0.002439 | $0.00277486 (+13.8%) | $0.00227107 (-6.9%) | 10:00 07-Oct |
 
 - **LSK:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **MINA:** Buyers have been more eager than sellers over the last 6 hours (59% of trades were buys). Trading activity is 2.0x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **TRUMP:** It is bouncing up from near its lowest price of the last 7 days. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MINA:** Buyers have been more eager than sellers over the last 6 hours (56% of trades were buys). Trading activity is 2.1x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ZEC:** Buyers have been more eager than sellers over the last 6 hours (58% of trades were buys). Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. It did 2.5% better than Bitcoin over the last 24 hours. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 124 | 43% | -0.03% | -0.18% |
-| Short: exit within 4 hours | 114 | 34% | -0.53% | -0.18% |
+| Quick: exit within 1 hour | 128 | 42% | -0.07% | -0.16% |
+| Short: exit within 4 hours | 117 | 35% | -0.51% | -0.18% |
 | Day: exit within 24 hours | 66 | 38% | -1.39% | +0.63% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
