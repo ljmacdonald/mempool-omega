@@ -22,9 +22,9 @@
   window.OmegaTheme = { get: get, set: set };
   document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("[data-theme-switch]").forEach(function (box) {
-      box.innerHTML = '<button type="button" data-mode="day" title="Day colours">☀️ Day</button>' +
-        '<button type="button" data-mode="night" title="Night colours">🌙 Night</button>' +
-        '<button type="button" data-mode="auto" title="Follow this device">Auto</button>';
+      box.innerHTML = '<button type="button" data-mode="day" title="Day colours" aria-label="Day colours">☀️<span class="tl"> Day</span></button>' +
+        '<button type="button" data-mode="night" title="Night colours" aria-label="Night colours">🌙<span class="tl"> Night</span></button>' +
+        '<button type="button" data-mode="auto" title="Follow this device" aria-label="Follow this device">A<span class="tl">uto</span></button>';
       box.addEventListener("click", function (ev) { var b = ev.target.closest("button[data-mode]"); if (b) set(b.dataset.mode); });
     });
     paint();

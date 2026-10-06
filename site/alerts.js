@@ -318,7 +318,8 @@
   function paintBell() {
     const b = document.querySelector(".oa-bell"); if (!b) return;
     b.dataset.on = cfg.on ? "1" : "0";
-    b.innerHTML = `<span aria-hidden="true">${cfg.on ? "🔔" : "🔕"}</span>Alerts ${cfg.on ? "on" : "off"}`;
+    b.innerHTML = `<span aria-hidden="true">${cfg.on ? "🔔" : "🔕"}</span><span class="oa-txt">Alerts ${cfg.on ? "on" : "off"}</span>`;
+    b.setAttribute("aria-label", `Alerts ${cfg.on ? "on" : "off"}`);
   }
   function panel() {
     css();
