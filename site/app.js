@@ -626,7 +626,7 @@
         if (top.has(s)) return `<span class="pill good">In the current top ${res.ideas.length}</span>`;
         const a = all[s];
         if (a) return `Score ${a.score.toFixed(1)}/10, #${a.place} of ${res.all.length} for this speed. ${esc(a.warnings[0] || "Other coins scored higher.")}`;
-        if (SMALL && main.has(s)) return `Big enough for the <a href="./">Exchange coins</a> page: look there.`;
+        if (SMALL && main.has(s)) return `Big enough for the <a href="coins/">Exchange coins</a> page: look there.`;
         if (!SMALL && small.has(s)) return `A smaller coin: covered by the <a href="small/">Small coins</a> page.`;
         if (SMALL && small.has(s)) { const sw = state.swing.stats?.[s]; return sw ? `Swung 20%+ within a week only ${Math.round(sw.up_pct * 100)}% of the time (the page needs ${Math.round(ucfg.small_min_swing * 100)}%).` : "Not checked yet: refresh the ideas first."; }
         if (SMALL) return `Not scanned: only ${money(qv)} traded a day. Coins this thin are easy to push around.`;
