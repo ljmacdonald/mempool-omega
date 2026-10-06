@@ -22,7 +22,7 @@
     list: store.get("omega.fx.list", "main"), style: store.get("omega.fx.style", "fx_today"), refresh: store.get("omega.fx.refresh", 300),
     amount: store.get("omega.fx.amount", 100), lev: store.get("omega.fx.lev", 1), snap: null, ideas: [], timer: null, nextAt: 0, busy: false,
     trades: store.get("omega.fx.trades", []), anchors: store.get("omega.fx.sugg", {}), charts: {}, lastAction: {},
-    live: { rates: null, gold: null, at: 0 },
+    live: { rates: null, gold: null, silver: null, at: 0 },
   };
   const dp = (pair, x) => (!Number.isFinite(x) ? "–" : x.toFixed(pair.endsWith("JPY") ? 3 : x >= 100 ? 2 : x >= 10 ? 4 : 5));
   const pct = (x, d = 2) => (Number.isFinite(x) ? `${x >= 0 ? "+" : ""}${(x * 100).toFixed(d)}%` : "–");
@@ -39,23 +39,39 @@
   // ------------------------------------------------------------------ live prices
   async function pollLive() {
     if (document.hidden || !marketOpen()) return;
-    const needGold = [...state.ideas, ...state.trades].some((d) => d.pair === "XAUUSD");
-    const [cb, gold] = await Promise.allSettled([
+    const need = (pair) => [...state.ideas, ...state.trades].some((d) => d.pair === pair);
+    const [cb, gold, silver] = await Promise.allSettled([
       getJSON("https://api.coinbase.com/v2/exchange-rates?currency=USD"),
-      needGold ? getJSON("https://data-api.binance.vision/api/v3/ticker/price?symbol=PAXGUSDT") : Promise.resolve(null)]);
+      need("XAUUSD") ? metalQuote("XAU") : Promise.resolve(null),
+      need("XAGUSD") ? metalQuote("XAG") : Promise.resolve(null)]);
     if (cb.status === "fulfilled" && cb.value?.data?.rates) { state.live.rates = cb.value.data.rates; state.live.at = Date.now(); }
-    if (gold.status === "fulfilled" && gold.value?.price) state.live.gold = +gold.value.price;
+    state.live.gold = gold.status === "fulfilled" && gold.value > 0 ? gold.value : null;          // a failed poll never leaves an old price
+    state.live.silver = silver.status === "fulfilled" && silver.value > 0 ? silver.value : null;
     paintLive(); checkTrades();
+  }
+  // gold and silver: the round-the-clock contracts on three exchanges, the middle of the quotes that answer (one bad quote
+  // can't move it). They sit a little below the futures prices the ideas are built on, so livePrice() adds the gap the
+  // 15-minute job measured on matching candles (snapshot "metal_basis").
+  async function metalQuote(m) {
+    const qs = await Promise.allSettled([
+      getJSON(`https://api.bitget.com/api/v2/mix/market/ticker?productType=USDT-FUTURES&symbol=${m}USDT`).then((j) => +j?.data?.[0]?.lastPr),
+      getJSON(`https://api.gateio.ws/api/v4/futures/usdt/tickers?contract=${m}_USDT`).then((j) => +j?.[0]?.last),
+      getJSON(`https://www.okx.com/api/v5/market/ticker?instId=${m}-USDT-SWAP`).then((j) => +j?.data?.[0]?.last)]);
+    const v = qs.filter((x) => x.status === "fulfilled" && x.value > 0).map((x) => x.value).sort((a, b) => a - b);
+    return !v.length ? null : v.length % 2 ? v[(v.length - 1) / 2] : (v[v.length / 2 - 1] + v[v.length / 2]) / 2;
   }
   // pair price from rates per 1 USD: EUR/JPY = JPY per USD / EUR per USD. `ref` is the last snapshot price: a live price that
   // disagrees with it by more than a pair-type limit is treated as a bad quote and not used (the same idea as the triangular check).
   function livePrice(pair, ref, kind) {
     const r = state.live.rates; if (!r || Date.now() - state.live.at > 150e3) return null;   // one missed poll at most
     const b = pair.slice(0, 3), q = pair.slice(3); let px = null;
-    if (b === "XAU" && q === "USD") px = state.live.gold;
-    else if (b !== "XAG") { const rb = b === "USD" ? 1 : +r[b], rq = q === "USD" ? 1 : +r[q]; if (rb > 0 && rq > 0) px = rq / rb; }
+    if ((b === "XAU" || b === "XAG") && q === "USD") {
+      const basis = state.snap?.metal_basis?.[pair]?.basis;          // no measured gap: no live price (never a mismatched one)
+      const raw = b === "XAU" ? state.live.gold : state.live.silver;
+      px = basis > 0 && raw > 0 ? raw * basis : null;
+    } else { const rb = b === "USD" ? 1 : +r[b], rq = q === "USD" ? 1 : +r[q]; if (rb > 0 && rq > 0) px = rq / rb; }
     if (!Number.isFinite(px) || px <= 0) return null;
-    const lim = LIVE_MAX_GAP[kind] ?? (b === "XAU" ? LIVE_MAX_GAP.metal : LIVE_MAX_GAP.cross);
+    const lim = LIVE_MAX_GAP[kind] ?? (b === "XAU" || b === "XAG" ? LIVE_MAX_GAP.metal : LIVE_MAX_GAP.cross);
     return Number.isFinite(ref) && Math.abs(px / ref - 1) > lim ? null : px;
   }
   // live only: the 15-minute snapshot price is never shown or used as "now"
@@ -109,6 +125,8 @@
       state.ideas = rows.filter((d) => !d.hard.length).map(evaluate).sort((a, b) => b.scoreNow - a.scoreNow).slice(0, 5).map((d, i) => ({ ...d, rank: i + 1 }));
       state.blocked = rows.filter((d) => d.hard.length);
       anchor(); render();
+      // a gold or silver idea just appeared without its live price yet: fetch it now rather than at the next minute
+      if ((state.ideas.some((d) => d.pair === "XAUUSD") && !state.live.gold) || (state.ideas.some((d) => d.pair === "XAGUSD") && !state.live.silver)) pollLive();
       setStatus(`Rankings from ${Math.round((Date.now() - Date.parse(state.snap.generated_at)) / 60000)} min ago · they update every 15 minutes · live prices every minute`);
     } catch (e) {
       $("mood").className = "banner bad"; $("mood").textContent = `Couldn't load the forex rankings yet (${e.message || e}).`; $("ideas").innerHTML = ""; setStatus("Couldn't load data");
@@ -277,7 +295,8 @@
       if (d) {
         const a = d.anchor; const now = Date.now(); let entry = priceOf(d).px;
         // the price you actually got: live if we have it, otherwise ask (the last update may be up to 15 minutes old)
-        if (!(entry > 0)) { const v = parseFloat(String(window.prompt(`What price did you get for ${d.label}? (see your broker)`, "") || "").replace(/[,\s]/g, "")); if (!(v > 0)) return; entry = v; }
+        // no live price this minute (market closed, or every source failed): offer the last known price, to change if needed
+        if (!(entry > 0)) { const v = parseFloat(String(window.prompt(`No live price for ${d.label} right now. The last price we have is below (from up to 15 minutes ago). Change it to the price your broker filled you at, then press OK.`, String(d.price ?? "")) || "").replace(/[,\s]/g, "")); if (!(v > 0)) return; entry = v; }
         state.trades.push({ id: `${key(d)}-${now}`, key: key(d), pair: d.pair, label: d.label, side: d.side, entry, take_profit: a.take_profit, safety_exit: a.safety_exit,
           exit_by: Date.parse(d.sell_by), opened: now, amount: state.amount, lev: state.lev, cost: d.cost });
         saveTrades(); take.outerHTML = `<span class="pill good">Added at ${dp(d.pair, entry)}. Open “My forex trades”.</span>`;
