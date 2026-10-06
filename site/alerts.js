@@ -17,10 +17,12 @@
   const DATA = root.OMEGA_ALERT_DATA || "https://raw.githubusercontent.com/ljmacdonald/mempool-omega/data/";
   const PAGES = { main: "", small: "small/", dex: "dex/", stocks: "stocks/", fx: "fx/", ict: "ict/", lab: "lab/", listings: "listings/", sniper: "sniper/", whales: "whales/" };
   const PAGE_NAME = { main: "Exchange coins", small: "Small coins", dex: "DEX tokens", stocks: "US stocks", fx: "Forex & gold", ict: "ICT setups", lab: "Strategy lab", listings: "New listings", sniper: "Sniper lab", whales: "Whale tracker" };
-  const KINDS = { enter: ["Trade to enter", "▲"], exit: ["Exit the trade", "■"], profit: ["Take profit", "★"], warning: ["Warning", "!"], news: ["New listing", "●"] };
-  const PANEL_TEXT = { enter: "New trades worth entering", exit: "Time to exit (safety exit, time's up, exit signals)", profit: "Take profit reached", warning: "Warnings on my trades", news: "A coin starts trading on Binance, OKX or Gate.io" };
-  const POLL_MS = 3 * 60 * 1000, LEAD_MS = 4 * 60 * 1000, STALE_MIN = 45, REPEAT_H = { enter: 12, exit: 6, profit: 6, warning: 6, news: 48 };
+  const KINDS = { enter: ["Trade to enter", "▲"], exit: ["Exit the trade", "■"], profit: ["Take profit", "★"], warning: ["Warning", "!"], news: ["New listing", "●"], whale: ["Whale move", "◆"] };
+  const PANEL_TEXT = { enter: "New trades worth entering", exit: "Time to exit (safety exit, time's up, exit signals)", profit: "Take profit reached", warning: "Warnings on my trades", whale: "Whale moves: any change by a followed whale (information only, not proven)", news: "A coin starts trading on Binance, OKX or Gate.io" };
+  const POLL_MS = 3 * 60 * 1000, LEAD_MS = 4 * 60 * 1000, STALE_MIN = 45, REPEAT_H = { enter: 12, exit: 6, profit: 6, warning: 6, news: 48, whale: 24 };
   const HIGH = { Strong: 2, Moderate: 1 };
+  const WHALE_MIN = [10e3, 50e3, 100e3, 250e3, 500e3, 1e6, 2.5e6, 5e6, 10e6, 25e6];      // the size range a visitor can pick for whale moves
+  const WHALE_MAX = [0, 100e3, 250e3, 500e3, 1e6, 2.5e6, 5e6, 10e6, 25e6, 50e6, 100e6];
   const MAX_TOASTS = 4, ONE_BY_ONE = 2;     // more new ideas than this at once on a page: one summary alert instead
   const TAB_ID = Math.random().toString(36).slice(2);
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -28,7 +30,7 @@
     get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } },
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* private mode: alerts still work, memory doesn't */ } },
   };
-  const DEFAULTS = { on: false, sound: true, kinds: { enter: true, exit: true, profit: true, warning: true, news: true }, minGrade: "Strong",
+  const DEFAULTS = { on: false, sound: true, kinds: { enter: true, exit: true, profit: true, warning: true, news: true, whale: false }, minGrade: "Strong", whaleMin: 1e6, whaleMax: 0,
     pages: { main: true, small: true, dex: true, stocks: true, fx: true, ict: true, lab: true, listings: true, sniper: true, whales: true } };
   let cfg = { ...DEFAULTS, ...store.get("omega.alerts.cfg", {}) };
   cfg.kinds = { ...DEFAULTS.kinds, ...(cfg.kinds || {}) }; cfg.pages = { ...DEFAULTS.pages, ...(cfg.pages || {}) };
@@ -54,7 +56,7 @@
   function unlockAudio() {
     try { ctx = ctx || new (root.AudioContext || root.webkitAudioContext)(); if (ctx.state === "suspended") ctx.resume(); } catch { ctx = null; }
   }
-  const TONES = { news: [[523, 0], [659, 0.1], [784, 0.2]], enter: [[660, 0], [880, 0.14]], exit: [[740, 0], [494, 0.16]], profit: [[784, 0], [988, 0.12], [1319, 0.24]], warning: [[440, 0], [440, 0.22]] };
+  const TONES = { news: [[523, 0], [659, 0.1], [784, 0.2]], enter: [[660, 0], [880, 0.14]], exit: [[740, 0], [494, 0.16]], profit: [[784, 0], [988, 0.12], [1319, 0.24]], warning: [[440, 0], [440, 0.22]], whale: [[392, 0], [523, 0.15], [392, 0.3]] };
   function beep(kind) {
     if (!cfg.sound || !ctx) return;
     try {
@@ -87,10 +89,10 @@
     s.textContent = `.oa-bell{display:inline-flex;align-items:center;gap:6px;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:inherit;border-radius:999px;padding:6px 12px;font:inherit;font-size:.85rem}
 .oa-bell[data-on="1"]{border-color:var(--good,#1a7f37);font-weight:600}
 .oa-panel{position:fixed;z-index:1001;top:64px;right:16px;max-width:min(360px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.18);display:grid;gap:10px;font-size:.9rem}
-.oa-panel label{display:flex;gap:8px;align-items:center}.oa-panel fieldset{border:1px solid var(--line);border-radius:8px;padding:8px 10px;display:grid;gap:4px}
+.oa-panel label{display:flex;gap:8px;align-items:center}.oa-range{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:-4px 0 0 24px}.oa-range[hidden]{display:none}.oa-panel fieldset{border:1px solid var(--line);border-radius:8px;padding:8px 10px;display:grid;gap:4px}
 .oa-toasts{position:fixed;z-index:1000;right:16px;bottom:16px;display:grid;gap:8px;max-width:min(380px,calc(100vw - 32px))}
 .oa-toast{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--muted);border-radius:10px;padding:10px 12px;box-shadow:0 8px 24px rgba(0,0,0,.18);cursor:pointer;font-size:.9rem}
-.oa-toast b{display:block}.oa-toast.enter{border-left-color:var(--good,#1a7f37)}.oa-toast.profit{border-left-color:#b7791f}.oa-toast.exit{border-left-color:var(--bad,#c62828)}.oa-toast.warning{border-left-color:#d97706}.oa-toast.news{border-left-color:#2563eb}
+.oa-toast b{display:block}.oa-toast.enter{border-left-color:var(--good,#1a7f37)}.oa-toast.profit{border-left-color:#b7791f}.oa-toast.exit{border-left-color:var(--bad,#c62828)}.oa-toast.warning{border-left-color:#d97706}.oa-toast.news{border-left-color:#2563eb}.oa-toast.whale{border-left-color:#7c3aed}
 .oa-toast .oa-x{float:right;border:0;background:none;color:inherit;cursor:pointer;font-size:1rem}
 .alert-focus{outline:3px solid var(--good,#1a7f37);outline-offset:4px;animation:oa-pulse 1.2s ease-in-out 3}
 @keyframes oa-pulse{50%{outline-color:transparent}}`;
@@ -252,7 +254,13 @@
     if (!cfg.on || !cfg.pages[page]) return;
     const fresh = items.filter((it) => !seen(`${page}|${it.key}`, it.kind || "enter"));
     const entries = fresh.filter((it) => !it.kind || it.kind === "enter").sort((a, b) => (b.score || 0) - (a.score || 0));
-    for (const it of fresh.filter((x) => x.kind && x.kind !== "enter")) fire({ page, focus: it.key, ...it });
+    const moves = fresh.filter((x) => x.kind === "whale").sort((a, b) => (b.score || 0) - (a.score || 0));
+    for (const it of fresh.filter((x) => x.kind && x.kind !== "enter" && x.kind !== "whale")) fire({ page, focus: it.key, ...it });
+    if (moves.length > ONE_BY_ONE + 1 && cfg.kinds.whale) {
+      const top = moves[0];
+      fire({ kind: "whale", page, key: `batch-${top.key}-${moves.length}`, focus: top.focus, tab: top.tab, also: moves.map((x) => x.key),
+        title: `${moves.length} whale moves in your size range`, body: `Biggest: ${top.title}. Also: ${moves.slice(1, 6).map((x) => x.short).join(", ")}${moves.length > 6 ? "…" : ""}.` });
+    } else for (const it of moves) fire({ page, ...it });
     if (!cfg.kinds.enter) return;
     if (entries.length <= ONE_BY_ONE) { for (const it of entries) fire({ kind: "enter", page, focus: it.key, ...it }); return; }
     const top = entries[0];
@@ -288,7 +296,20 @@
     return (s.big_changes || []).map((x) => ({ score: x.notional / 1e6, key: `chg-${x.addr}-${x.coin}-${x.kind}`, short: `${x.coin} ${x.side}`,
       title: `A followed whale ${x.kind} ${x.side} ${x.coin} ($${(x.notional / 1e6).toFixed(1)}M)`,
       body: `The paper mirror of last month's best whales has held up. Price ${x.price}; their entry ${x.entry}.`, tab: "" }));
+  }, moves(s) {
+    // any change by a followed whale whose money moved is inside the visitor's range: information, not a proven signal
+    if (!cfg.kinds.whale) return [];
+    const lo = +cfg.whaleMin || 0, hi = +cfg.whaleMax || Infinity;
+    const W = { opened: "opened", closed: "closed", flipped: "flipped to", added: "added to", cut: "cut" };
+    return (s.changes || []).filter((x) => { const m = x.moved ?? x.notional; return m >= lo && m <= hi; }).map((x) => {
+      const m = x.moved ?? x.notional; const who = x.name || `${String(x.addr).slice(0, 6)}…`;
+      const what = x.kind === "closed" ? `closed ${x.coin}` : `${W[x.kind] || x.kind} ${x.side} ${x.coin}`;
+      return { kind: "whale", score: m, key: `wm-${s.generated_at}-${x.addr}-${x.coin}-${x.kind}`, focus: `chg-${x.addr}-${x.coin}-${x.kind}`,
+        short: `${x.kind} ${x.coin} ${money(m)}`, title: `Whale ${who} ${what} (${money(m)})`,
+        body: `${x.kind === "closed" ? "" : `Position now ${money(x.notional)}. `}Price ${x.price}. Information only: copying single whale moves didn't pay in our tests.`, tab: "" };
+    });
   } };
+  const money = (v) => (v >= 1e6 ? `$${(v / 1e6).toFixed(v >= 1e7 ? 0 : 1)}M` : `$${Math.round(v / 1e3)}k`);
   async function poll() {
     if (!cfg.on) return;
     const lead = store.get("omega.alerts.lead", null);
@@ -301,7 +322,7 @@
         if (!r.ok) continue;
         const s = await r.json();
         if (!fresh(s, w.staleMin)) continue;                                                            // never alert on old data
-        fireEntries(page, w.ideas(s));
+        fireEntries(page, w.ideas(s).concat(w.moves ? w.moves(s) : []));
       } catch { /* try again next round */ }
     }
   }
@@ -347,10 +368,12 @@
       <label><input type="checkbox" data-k="on" ${cfg.on ? "checked" : ""}> Alerts on</label>
       <label><input type="checkbox" data-k="sound" ${cfg.sound ? "checked" : ""}> Play sounds</label>
       <fieldset><legend class="small">Tell me about</legend>${Object.keys(KINDS).map((k) => `<label><input type="checkbox" data-kind="${k}" ${cfg.kinds[k] ? "checked" : ""}> ${PANEL_TEXT[k]}</label>`).join("")}</fieldset>
+      <div class="oa-range" ${cfg.kinds.whale ? "" : "hidden"}><span class="small">Whale moves from</span> <select data-k="whaleMin" aria-label="Smallest whale move">${WHALE_MIN.map((v) => `<option value="${v}" ${+cfg.whaleMin === v ? "selected" : ""}>${money(v)}</option>`).join("")}</select>
+        <span class="small">up to</span> <select data-k="whaleMax" aria-label="Largest whale move">${WHALE_MAX.map((v) => `<option value="${v}" ${+cfg.whaleMax === v ? "selected" : ""}>${v ? money(v) : "no limit"}</option>`).join("")}</select></div>
       <label>New trades from <select data-k="minGrade"><option value="Strong" ${cfg.minGrade === "Strong" ? "selected" : ""}>Strong only</option><option value="Moderate" ${cfg.minGrade === "Moderate" ? "selected" : ""}>Strong and Moderate</option></select></label>
       <fieldset><legend class="small">Pages</legend>${Object.keys(PAGES).map((k) => `<label><input type="checkbox" data-page="${k}" ${cfg.pages[k] ? "checked" : ""}> ${PAGE_NAME[k]}</label>`).join("")}</fieldset>
       <button class="btn" type="button" data-test>Send a test alert</button>
-      <p class="small muted">${perm} Alerts work while any page of this site is open in a tab (it can be in the background). US stocks, Forex, ICT and Strategy lab are watched from any page; Exchange coins, Small coins and DEX ideas while that page is open. Your trades: "My trades" on each page. Only fresh data, never old prices. Grades must be working (they switch off automatically when they're not), and alerts are not advice.</p>`;
+      <p class="small muted">${perm} Alerts work while any page of this site is open in a tab (it can be in the background). US stocks, Forex, ICT and Strategy lab are watched from any page; Exchange coins, Small coins and DEX ideas while that page is open. Your trades: "My trades" on each page. Whale moves are information only: copying single moves didn't pay in our tests. Only fresh data, never old prices. Grades must be working (they switch off automatically when they're not), and alerts are not advice.</p>`;
     p.addEventListener("change", async (e) => {
       const x = e.target;
       if (x.dataset.k === "on") {
@@ -358,7 +381,10 @@
         if (cfg.on) { unlockAudio(); if ("Notification" in root && Notification.permission === "default") { try { await Notification.requestPermission(); } catch { /* ignore */ } } poll(); }
       } else if (x.dataset.k === "sound") { cfg.sound = x.checked; if (x.checked) unlockAudio(); }
       else if (x.dataset.k === "minGrade") cfg.minGrade = x.value;
-      else if (x.dataset.kind) cfg.kinds[x.dataset.kind] = x.checked;
+      else if (x.dataset.k === "whaleMin" || x.dataset.k === "whaleMax") {
+        cfg[x.dataset.k] = +x.value;
+        if (cfg.whaleMax && cfg.whaleMax < cfg.whaleMin) { cfg.whaleMax = 0; const mx = p.querySelector('[data-k="whaleMax"]'); if (mx) mx.value = "0"; }
+      } else if (x.dataset.kind) { cfg.kinds[x.dataset.kind] = x.checked; if (x.dataset.kind === "whale") p.querySelector(".oa-range").hidden = !x.checked; }
       else if (x.dataset.page) cfg.pages[x.dataset.page] = x.checked;
       saveCfg();
     });

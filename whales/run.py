@@ -212,9 +212,12 @@ def changes(prev: dict, books: dict, mids: dict) -> list[dict]:
             else:
                 continue
             ref = n or o
+            # moved: the money that changed hands in this move (a flip closes the old side and opens the new one)
+            szo, szn = (o or {"szi": 0.0})["szi"], (n or {"szi": 0.0})["szi"]
+            moved = (abs(szo) + abs(szn) if kind == "flipped" else abs(szn - szo)) * px
             out.append({"addr": a, "coin": coin, "kind": kind, "side": "long" if ref["szi"] > 0 else "short",
                         "notional": abs((n or {"szi": 0})["szi"]) * px if n else abs(o["szi"]) * px,
-                        "entry": (n or o)["entry"], "price": px})
+                        "moved": moved, "entry": (n or o)["entry"], "price": px})
     return sorted(out, key=lambda x: -x["notional"])
 
 
@@ -323,7 +326,7 @@ def snapshot(now, cur, cohorts, books, exp, moved, m, mids) -> dict:
     snap = {"generated_at": str(now), "cohort": {"id": cur["id"], "start": cur["start"], "eligible": cur.get("eligible"), "days": COHORT_DAYS},
             "leaders": leaders, "positions": sorted(pos, key=lambda p: -p["notional"])[:80],
             "consensus": sorted(cons.values(), key=lambda c: -(c["long_usd"] + c["short_usd"]))[:25],
-            "changes": [x | {"name": (meta.get(x["addr"]) or {}).get("name")} for x in moved[:40]],
+            "changes": [x | {"name": (meta.get(x["addr"]) or {}).get("name")} for x in moved[:150]],
             "big_changes": [x for x in moved if x["notional"] >= BIG_NOTIONAL and x["kind"] in ("opened", "flipped", "added")][:20],
             "mirror": {"exp": sorted(([k, v] for k, v in exp["lead"].items()), key=lambda kv: -abs(kv[1]))[:15],
                        "gross_lead": sum(abs(v) for v in exp["lead"].values()), "gross_rand": sum(abs(v) for v in exp["rand"].values()),

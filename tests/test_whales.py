@@ -42,8 +42,11 @@ def test_changes_detected():
     mids = {"BTC": 100.0, "ETH": 10.0, "SOL": 5.0}
     old = {"a": {"acct": 1, "pos": {"BTC": {"szi": 1.0, "entry": 90}, "ETH": {"szi": 10.0, "entry": 9}}}}
     new = {"a": {"acct": 1, "pos": {"BTC": {"szi": -1.0, "entry": 100}, "SOL": {"szi": 5.0, "entry": 5}}}}
-    kinds = {(x["coin"], x["kind"]) for x in W.changes(old, new, mids)}
+    ch = W.changes(old, new, mids)
+    kinds = {(x["coin"], x["kind"]) for x in ch}
     assert kinds == {("BTC", "flipped"), ("ETH", "closed"), ("SOL", "opened")}
+    moved = {x["coin"]: x["moved"] for x in ch}
+    assert moved == {"BTC": 200.0, "ETH": 100.0, "SOL": 25.0}      # a flip moves both sides
 
 
 def test_verdict_needs_a_month_and_an_edge():
