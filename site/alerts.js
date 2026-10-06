@@ -15,11 +15,11 @@
   const SCRIPT = document.currentScript;
   const BASE = new URL(".", SCRIPT ? SCRIPT.src : location.href).href;            // the site's root folder
   const DATA = root.OMEGA_ALERT_DATA || "https://raw.githubusercontent.com/ljmacdonald/mempool-omega/data/";
-  const PAGES = { main: "", small: "small/", dex: "dex/", stocks: "stocks/", fx: "fx/", ict: "ict/", lab: "lab/" };
-  const PAGE_NAME = { main: "Exchange coins", small: "Small coins", dex: "DEX tokens", stocks: "US stocks", fx: "Forex", ict: "ICT setups", lab: "Strategy lab" };
-  const KINDS = { enter: ["Trade to enter", "▲"], exit: ["Exit the trade", "■"], profit: ["Take profit", "★"], warning: ["Warning", "!"] };
-  const PANEL_TEXT = { enter: "New trades worth entering", exit: "Time to exit (safety exit, time's up, exit signals)", profit: "Take profit reached", warning: "Warnings on my trades" };
-  const POLL_MS = 3 * 60 * 1000, LEAD_MS = 4 * 60 * 1000, STALE_MIN = 45, REPEAT_H = { enter: 12, exit: 6, profit: 6, warning: 6 };
+  const PAGES = { main: "", small: "small/", dex: "dex/", stocks: "stocks/", fx: "fx/", ict: "ict/", lab: "lab/", listings: "listings/" };
+  const PAGE_NAME = { main: "Exchange coins", small: "Small coins", dex: "DEX tokens", stocks: "US stocks", fx: "Forex", ict: "ICT setups", lab: "Strategy lab", listings: "New listings" };
+  const KINDS = { enter: ["Trade to enter", "▲"], exit: ["Exit the trade", "■"], profit: ["Take profit", "★"], warning: ["Warning", "!"], news: ["New listing", "●"] };
+  const PANEL_TEXT = { enter: "New trades worth entering", exit: "Time to exit (safety exit, time's up, exit signals)", profit: "Take profit reached", warning: "Warnings on my trades", news: "A coin starts trading on Binance, OKX or Gate.io" };
+  const POLL_MS = 3 * 60 * 1000, LEAD_MS = 4 * 60 * 1000, STALE_MIN = 45, REPEAT_H = { enter: 12, exit: 6, profit: 6, warning: 6, news: 48 };
   const HIGH = { Strong: 2, Moderate: 1 };
   const MAX_TOASTS = 4, ONE_BY_ONE = 2;     // more new ideas than this at once on a page: one summary alert instead
   const TAB_ID = Math.random().toString(36).slice(2);
@@ -28,8 +28,8 @@
     get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } },
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* private mode: alerts still work, memory doesn't */ } },
   };
-  const DEFAULTS = { on: false, sound: true, kinds: { enter: true, exit: true, profit: true, warning: true }, minGrade: "Strong",
-    pages: { main: true, small: true, dex: true, stocks: true, fx: true, ict: true, lab: true } };
+  const DEFAULTS = { on: false, sound: true, kinds: { enter: true, exit: true, profit: true, warning: true, news: true }, minGrade: "Strong",
+    pages: { main: true, small: true, dex: true, stocks: true, fx: true, ict: true, lab: true, listings: true } };
   let cfg = { ...DEFAULTS, ...store.get("omega.alerts.cfg", {}) };
   cfg.kinds = { ...DEFAULTS.kinds, ...(cfg.kinds || {}) }; cfg.pages = { ...DEFAULTS.pages, ...(cfg.pages || {}) };
   const saveCfg = () => { store.set("omega.alerts.cfg", cfg); paintBell(); };
@@ -54,7 +54,7 @@
   function unlockAudio() {
     try { ctx = ctx || new (root.AudioContext || root.webkitAudioContext)(); if (ctx.state === "suspended") ctx.resume(); } catch { ctx = null; }
   }
-  const TONES = { enter: [[660, 0], [880, 0.14]], exit: [[740, 0], [494, 0.16]], profit: [[784, 0], [988, 0.12], [1319, 0.24]], warning: [[440, 0], [440, 0.22]] };
+  const TONES = { news: [[523, 0], [659, 0.1], [784, 0.2]], enter: [[660, 0], [880, 0.14]], exit: [[740, 0], [494, 0.16]], profit: [[784, 0], [988, 0.12], [1319, 0.24]], warning: [[440, 0], [440, 0.22]] };
   function beep(kind) {
     if (!cfg.sound || !ctx) return;
     try {
@@ -90,7 +90,7 @@
 .oa-panel label{display:flex;gap:8px;align-items:center}.oa-panel fieldset{border:1px solid var(--line);border-radius:8px;padding:8px 10px;display:grid;gap:4px}
 .oa-toasts{position:fixed;z-index:1000;right:16px;bottom:16px;display:grid;gap:8px;max-width:min(380px,calc(100vw - 32px))}
 .oa-toast{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--muted);border-radius:10px;padding:10px 12px;box-shadow:0 8px 24px rgba(0,0,0,.18);cursor:pointer;font-size:.9rem}
-.oa-toast b{display:block}.oa-toast.enter{border-left-color:var(--good,#1a7f37)}.oa-toast.profit{border-left-color:#b7791f}.oa-toast.exit{border-left-color:var(--bad,#c62828)}.oa-toast.warning{border-left-color:#d97706}
+.oa-toast b{display:block}.oa-toast.enter{border-left-color:var(--good,#1a7f37)}.oa-toast.profit{border-left-color:#b7791f}.oa-toast.exit{border-left-color:var(--bad,#c62828)}.oa-toast.warning{border-left-color:#d97706}.oa-toast.news{border-left-color:#2563eb}
 .oa-toast .oa-x{float:right;border:0;background:none;color:inherit;cursor:pointer;font-size:1rem}
 .alert-focus{outline:3px solid var(--good,#1a7f37);outline-offset:4px;animation:oa-pulse 1.2s ease-in-out 3}
 @keyframes oa-pulse{50%{outline-color:transparent}}`;
@@ -180,7 +180,7 @@
   const adjustR = (r, ru, adj) => (!adj || !adj.slope || !(ru > 0) ? r : r + adj.slope * (Math.log(ru) - adj.mean) / adj.sd);
   const gradeOk = (g) => (HIGH[g] || 0) >= (HIGH[cfg.minGrade] || 2);
   const unreliable = (q) => !!(q && q.check && q.check.reliable === false);
-  const fresh = (s) => s && s.generated_at && (Date.now() - Date.parse(s.generated_at)) / 60000 <= STALE_MIN;
+  const fresh = (s, maxMin) => s && s.generated_at && (Date.now() - Date.parse(s.generated_at)) / 60000 <= (maxMin || STALE_MIN);
   const pctTxt = (x) => (Number.isFinite(x) ? `${x >= 0 ? "+" : ""}${(x * 100).toFixed(1)}%` : "");
 
   const WATCH = {
@@ -249,16 +249,32 @@
   };
   // new entry ideas for one page: up to ONE_BY_ONE alerts, or one summary that opens the best of them
   function fireEntries(page, items) {
-    if (!cfg.on || !cfg.kinds.enter || !cfg.pages[page]) return;
+    if (!cfg.on || !cfg.pages[page]) return;
     const fresh = items.filter((it) => !seen(`${page}|${it.key}`, it.kind || "enter"));
     const entries = fresh.filter((it) => !it.kind || it.kind === "enter").sort((a, b) => (b.score || 0) - (a.score || 0));
     for (const it of fresh.filter((x) => x.kind && x.kind !== "enter")) fire({ page, focus: it.key, ...it });
+    if (!cfg.kinds.enter) return;
     if (entries.length <= ONE_BY_ONE) { for (const it of entries) fire({ kind: "enter", page, focus: it.key, ...it }); return; }
     const top = entries[0];
     fire({ kind: "enter", page, key: `batch-${top.key}-${entries.length}`, focus: top.key, pick: top.pick, tab: top.tab, also: entries.map((x) => x.key),
       title: `${entries.length} new ${cfg.minGrade === "Strong" ? "Strong" : "Strong/Moderate"} ideas on ${PAGE_NAME[page]}`,
       body: `Best first: ${top.title}. Also: ${entries.slice(1, 6).map((x) => x.short || x.title.split(" (")[0]).join(", ")}${entries.length > 6 ? "…" : ""}.` });
   }
+  const EXN = { binance: "Binance", okx: "OKX", gate: "Gate.io" };
+  WATCH.listings = { file: "listings/snapshot.json", staleMin: 75, ideas(s) {
+    const out = [];
+    const qOk = !unreliable(s.quality);
+    (s.ideas || []).forEach((x) => { if (!qOk || x.level !== "good" || !gradeOk(x.grade)) return;
+      out.push({ score: +x.score, key: `idea-${x.id}`, short: `${x.side > 0 ? "BUY" : "SELL"} ${x.base}`, title: `${x.side > 0 ? "BUY" : "SELL"} ${x.base} on ${EXN[x.exchange]} (${x.grade}, score ${(+x.score).toFixed(1)})`,
+        body: `${x.name}: worked ${Math.round(x.prob * 100)}% of the time in the test. ${x.side < 0 ? "If you hold it, selling is the low-risk version." : ""}`, tab: "" }); });
+    (s.listings || []).forEach((r) => { if (!(r.age_d < 3 / 24)) return;
+      out.push({ kind: "news", key: `listing-${r.exchange}-${r.symbol}`, title: `${r.base} just started trading on ${EXN[r.exchange]}`,
+        body: "In the test, buying in the first hour lost money on average; selling after the first hour held up best. Open to see the numbers.", tab: "" }); });
+    (s.upcoming || []).forEach((u) => { const mins = (u.list_ms - Date.now()) / 60000; if (!(mins > 0 && mins <= 60)) return;
+      out.push({ kind: "news", key: `upcoming-${u.exchange}-${u.symbol}`, title: `${u.base} opens on ${EXN[u.exchange]} in ${Math.round(mins)} min`,
+        body: "The first hours after a listing are the wildest. Open to see what usually happens next.", tab: "" }); });
+    return out;
+  } };
   async function poll() {
     if (!cfg.on) return;
     const lead = store.get("omega.alerts.lead", null);
@@ -270,7 +286,7 @@
         const r = await fetch(`${DATA}${w.file}?t=${Date.now()}`, { cache: "no-store" });
         if (!r.ok) continue;
         const s = await r.json();
-        if (!fresh(s)) continue;                                                            // never alert on old data
+        if (!fresh(s, w.staleMin)) continue;                                                            // never alert on old data
         fireEntries(page, w.ideas(s));
       } catch { /* try again next round */ }
     }
