@@ -41,6 +41,8 @@ JOBS = [
     Job("ict.yml", "backtest", nightly="04:50", marks=("backtest", "50 4 * * *")),
     Job("lab.yml", "scan", every_min=15),
     Job("lab.yml", "backtest", nightly="05:20", marks=("backtest", "20 5 * * *")),
+    Job("listings.yml", "scan", every_min=30),
+    Job("listings.yml", "research", nightly="06:10", marks=("research", "10 6 * * *")),
 ]
 NIGHTLY_MARKS = {j.file: j.marks for j in JOBS if j.nightly and j.marks}
 

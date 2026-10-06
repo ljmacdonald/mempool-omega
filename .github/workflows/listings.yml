@@ -1,0 +1,50 @@
+name: New listings (every 30 min) + nightly test
+
+# Coins newly listed on Binance, OKX and Gate.io: every 30 minutes, what listed recently, what's about to list and
+# graded ideas from the listing rules that held up; every night, the test of every rule on every listing since 2023.
+# Publishes the snapshot for the website's New listings page on the `data` branch. PAPER ONLY: no orders.
+run-name: "Listings: ${{ inputs.task || github.event.schedule || 'run' }}"
+on:
+  schedule:
+    - cron: "4,34 * * * *"         # every 30 minutes (backup for the Tick job)
+    - cron: "10 6 * * *"           # nightly test
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "scan | research"
+        required: false
+        default: "scan"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: omega-listings-writer
+  cancel-in-progress: false
+
+jobs:
+  listings:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        run: pip install -e .
+      - name: Nightly test of every listing rule
+        if: github.event.schedule == '10 6 * * *' || github.event.inputs.task == 'research'
+        run: python -m listings.run research
+      - name: Listings now, ideas and track record
+        run: python -m listings.run scan
+      - name: Publish the snapshot for the website (data branch)
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash infra/publish_data.sh .cache/listings_out/snapshot.json listings/snapshot.json
+      - name: Commit state (test results, track record)
+        if: always()
+        run: |
+          bash infra/commit_state.sh "listings ${{ github.event.inputs.task || 'scheduled' }} $(date -u +%Y-%m-%dT%H%MZ)"
