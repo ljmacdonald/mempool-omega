@@ -152,7 +152,9 @@
     const bar = document.createElement("nav"); bar.className = "tabs sections"; bar.setAttribute("aria-label", "On this page");
     cards.forEach((c, i) => {
       if (!c.id) c.id = `sec-${i + 1}`;
-      const t = c.querySelector(":scope > h2").textContent.replace(/[:,(].*$/, "").trim();
+      const h = c.querySelector(":scope > h2");
+      const t = h.textContent.replace(/[:,(].*$/, "").trim();
+      h.dataset.sec = t.length > 34 ? `${t.slice(0, 32)}…` : t;           // the numbered label above each section (style.css)
       const a = document.createElement("a"); a.href = `#${c.id}`; a.textContent = t.length > 34 ? `${t.slice(0, 32)}…` : t;
       bar.appendChild(a);
     });
