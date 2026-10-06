@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-06 21:26 UTC
+# Trade ideas: 2026-10-06 22:30 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (1% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
-
-| # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
-|---|---|---|---|---|---|---|---|---|
-| 1 | **MARSCOIN** | 6.0/10 | Moderate | Very high | $0.103 | $0.110099 (+6.9%) | $0.0994504 (-3.4%) | 22:20 06-Oct |
-| 2 | **API3** | 4.3/10 | Avoid - watch only | High | $0.3387 | $0.355221 (+4.9%) | $0.330439 (-2.4%) | 22:20 06-Oct |
-| 3 | **C98** | 4.2/10 | Avoid - watch only | High | $0.01779 | $0.0187408 (+5.3%) | $0.0173146 (-2.7%) | 22:20 06-Oct |
-| 4 | **RAD** | 4.1/10 | Avoid - watch only | Very high | $0.322 | $0.344116 (+6.9%) | $0.310942 (-3.4%) | 22:20 06-Oct |
-| 5 | **RLC** | 4.1/10 | Avoid - watch only | Very high | $0.7941 | $0.86067 (+8.4%) | $0.760815 (-4.2%) | 22:20 06-Oct |
-
-- **MARSCOIN:** The model sees a slightly better-than-usual pattern, with no single strong reason.
-- **API3:** Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing.
-- **C98:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-
-## Short: exit within 4 hours
-
 Market mood: **Unfavourable** (3% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **TRB** | 3.4/10 | Avoid - watch only | High | $23.05 | $25.22 (+9.4%) | $21.82 (-5.3%) | 01:15 07-Oct |
-| 2 | **FET** | 3.4/10 | Avoid - watch only | Low | $0.2416 | $0.250125 (+3.5%) | $0.237338 (-1.8%) | 01:15 07-Oct |
-| 3 | **ORCA** | 3.3/10 | Avoid - watch only | Very high | $2.98 | $3.46 (+16.0%) | $2.75 (-8.0%) | 01:15 07-Oct |
-| 4 | **PUMP** | 3.2/10 | Avoid - watch only | Medium | $0.006157 | $0.006487 (+5.4%) | $0.005982 (-2.8%) | 01:15 07-Oct |
-| 5 | **NMR** | 3.1/10 | Avoid - watch only | Very high | $15.72 | $18.24 (+16.0%) | $14.46 (-8.0%) | 01:15 07-Oct |
+| 1 | **RLC** | 5.2/10 | Weak | Very high | $0.7678 | $0.823774 (+7.3%) | $0.739813 (-3.6%) | 23:25 06-Oct |
+| 2 | **RAD** | 4.7/10 | Avoid - watch only | High | $0.312 | $0.330722 (+6.0%) | $0.302639 (-3.0%) | 23:25 06-Oct |
+| 3 | **API3** | 4.6/10 | Avoid - watch only | High | $0.3423 | $0.358744 (+4.8%) | $0.334078 (-2.4%) | 23:25 06-Oct |
+| 4 | **NMR** | 4.3/10 | Avoid - watch only | Very high | $15.93 | $17.07 (+7.1%) | $15.36 (-3.6%) | 23:25 06-Oct |
+| 5 | **MINA** | 4.3/10 | Avoid - watch only | Very high | $0.1159 | $0.123728 (+6.8%) | $0.111986 (-3.4%) | 23:25 06-Oct |
 
-- **TRB:** Trading activity is 3.9x higher than usual, so people are paying attention to it. Buyers have been more eager than sellers over the last 1.5 hours (55% of trades were buys). It did 2.9% better than Bitcoin over the last 6 hours. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **FET:** Buyers have been more eager than sellers over the last 1.5 hours (55% of trades were buys). ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **ORCA:** It did 13.2% better than Bitcoin over the last 6 hours. Trading activity is 2.6x higher than usual, so people are paying attention to it. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **RLC:** It is bouncing up from near its lowest price of the last 14 hours. Momentum is healthy: not overheated, not collapsing.
+- **RAD:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **API3:** Buyers have been more eager than sellers over the last 30 minutes (59% of trades were buys). It did 3.1% better than Bitcoin over the last 2 hours. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up.
 
-## Day: exit within 24 hours
+## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (14% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (4% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **HUMA** | 5.0/10 | Weak | High | $0.03035 | $0.0346662 (+14.2%) | $0.0281919 (-7.1%) | 21:00 07-Oct |
-| 2 | **LSK** | 4.7/10 | Avoid - watch only | Medium | $0.2518 | $0.277306 (+10.1%) | $0.239047 (-5.1%) | 21:00 07-Oct |
-| 3 | **SCR** | 4.6/10 | Avoid - watch only | Very high | $0.02686 | $0.0314864 (+17.2%) | $0.0245468 (-8.6%) | 21:00 07-Oct |
-| 4 | **MINA** | 4.6/10 | Avoid - watch only | High | $0.1181 | $0.136227 (+15.3%) | $0.109037 (-7.7%) | 21:00 07-Oct |
-| 5 | **GLMR** | 4.4/10 | Avoid - watch only | Very high | $0.010324 | $0.0125378 (+21.4%) | $0.00921712 (-10.7%) | 21:00 07-Oct |
+| 1 | **PENGU** | 3.5/10 | Avoid - watch only | Medium | $0.009172 | $0.00964794 (+5.2%) | $0.00893403 (-2.6%) | 02:15 07-Oct |
+| 2 | **TRB** | 3.5/10 | Avoid - watch only | High | $22.64 | $24.81 (+9.6%) | $21.56 (-4.8%) | 02:15 07-Oct |
+| 3 | **MRNAB** | 3.4/10 | Avoid - watch only | High | $187.87 | $202.79 (+7.9%) | $180.41 (-4.0%) | 02:15 07-Oct |
+| 4 | **ORCA** | 3.4/10 | Avoid - watch only | Very high | $3.19 | $3.70 (+16.0%) | $2.93 (-8.0%) | 02:15 07-Oct |
+| 5 | **PUMP** | 3.2/10 | Avoid - watch only | Medium | $0.006151 | $0.00646775 (+5.1%) | $0.005982 (-2.7%) | 02:15 07-Oct |
 
-- **HUMA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **LSK:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **PENGU:** It is bouncing up from near its lowest price of the last 42 hours. Trading activity is 1.5x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **TRB:** Trading activity is 3.0x higher than usual, so people are paying attention to it. Buyers have been more eager than sellers over the last 1.5 hours (52% of trades were buys). Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MRNAB:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+
+## Day: exit within 24 hours
+
+Market mood: **Unfavourable** (15% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+
+| # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
+|---|---|---|---|---|---|---|---|---|
+| 1 | **GLMR** | 4.9/10 | Avoid - watch only | Very high | $0.01025 | $0.0124048 (+21.0%) | $0.0091726 (-10.5%) | 22:00 07-Oct |
+| 2 | **SCR** | 4.8/10 | Avoid - watch only | Very high | $0.02659 | $0.0311007 (+17.0%) | $0.0243347 (-8.5%) | 22:00 07-Oct |
+| 3 | **LSK** | 4.7/10 | Avoid - watch only | Medium | $0.2502 | $0.275128 (+10.0%) | $0.237736 (-5.0%) | 22:00 07-Oct |
+| 4 | **HUMA** | 4.6/10 | Avoid - watch only | High | $0.03017 | $0.0343765 (+13.9%) | $0.0280668 (-7.0%) | 22:00 07-Oct |
+| 5 | **XRP** | 4.1/10 | Avoid - watch only | Low | $1.50 | $1.56 (+3.7%) | $1.47 (-1.9%) | 22:00 07-Oct |
+
+- **GLMR:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 - **SCR:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **LSK:** It is bouncing up from near its lowest price of the last 7 days. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 178 | 42% | -0.21% | -0.24% |
-| Short: exit within 4 hours | 172 | 35% | -0.53% | -0.23% |
-| Day: exit within 24 hours | 88 | 36% | -1.76% | +0.58% |
+| Quick: exit within 1 hour | 183 | 42% | -0.23% | -0.23% |
+| Short: exit within 4 hours | 176 | 36% | -0.50% | -0.24% |
+| Day: exit within 24 hours | 93 | 34% | -1.70% | +0.51% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
