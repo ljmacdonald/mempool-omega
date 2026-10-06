@@ -12,6 +12,7 @@
     small: { path: "small/", name: "Small coins", group: "Crypto", blurb: "Smaller, faster-moving coins: bigger swings both ways, scored the same honest way." },
     dex: { path: "dex/", name: "DEX tokens", group: "Crypto", blurb: "Tokens on decentralised exchanges, scam-checked before they're ever suggested." },
     listings: { path: "listings/", name: "New listings", group: "Crypto", blurb: "Coins just listed on big exchanges, and what really happens after a listing." },
+    sniper: { path: "sniper/", name: "Sniper lab", group: "Crypto", blurb: "Brand-new DEX tokens, scam-checked and paper-sniped: does it pay after the bots?" },
     stocks: { path: "stocks/", name: "US stocks", group: "Stocks & FX", blurb: "The most-traded US stocks and a high-volatility list, during market hours." },
     fx: { path: "fx/", name: "Forex", group: "Stocks & FX", blurb: "Currency pairs, gold and silver, buy or sell, checked for manipulation." },
     ict: { path: "ict/", name: "ICT setups", group: "Research", blurb: "Inner Circle Trader setups coded exactly, with how they really did." },
