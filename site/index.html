@@ -3,187 +3,51 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Mempool Omega</title>
-<meta name="description" content="Live crypto trade ideas in plain English, with a monitor that tells you when to sell. Paper trading and education only.">
+<title>Mempool Omega · Ask about any trade</title>
+<meta name="description" content="Ask in plain English: today's tested trade ideas for crypto, US stocks, forex and gold, what the big traders hold, and what every term means. Paper trading and education only.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
 <link rel="stylesheet" href="style.css">
+<script>window.OMEGA_MODE = "home";</script>
 <script src="theme.js"></script>
 <script src="shell.js" defer></script>
 </head>
-<body>
+<body class="ask-page">
 <div class="wrap">
   <header class="top">
-    <div>
-      <h1 id="pageTitle">Mempool Omega</h1>
-      <p class="muted small" id="pageSub">Live crypto trade ideas in plain English · practice and education only, not financial advice</p>
-    </div>
     <div class="top-right">
-      <nav class="sites" aria-label="Choose a page"><a href="./" data-site="main" aria-current="page">Exchange coins</a><a href="small/" data-site="small">Small coins</a><a href="dex/" data-site="dex">DEX tokens</a><a href="stocks/" data-site="stocks">US stocks</a><a href="fx/" data-site="fx">Forex</a><a href="ict/" data-site="ict">ICT setups</a><a href="lab/" data-site="lab">Strategy lab</a><a href="whales/" data-site="whales">Whale tracker</a><a href="listings/" data-site="listings">New listings</a><a href="sniper/" data-site="sniper">Sniper lab</a></nav>
+      <nav class="sites" aria-label="Choose a page"><a href="coins/" data-site="main">Exchange coins</a><a href="small/" data-site="small">Small coins</a><a href="dex/" data-site="dex">DEX tokens</a><a href="stocks/" data-site="stocks">US stocks</a><a href="fx/" data-site="fx">Forex</a><a href="ict/" data-site="ict">ICT setups</a><a href="lab/" data-site="lab">Strategy lab</a><a href="whales/" data-site="whales">Whale tracker</a><a href="listings/" data-site="listings">New listings</a><a href="sniper/" data-site="sniper">Sniper lab</a></nav>
       <div class="theme-switch" data-theme-switch role="group" aria-label="Day or night colours"></div>
-      <span class="tag" id="clock">UTC --:--</span>
     </div>
   </header>
 
-  <div class="rail" role="toolbar" aria-label="Settings">
-    <div class="seg" id="speed" role="group" aria-label="Trading speed">
-      <button type="button" data-style="quick" aria-pressed="false">Quick<small>sell within 1 h</small></button>
-      <button type="button" data-style="short" aria-pressed="true">Short<small>within 4 h</small></button>
-      <button type="button" data-style="day" aria-pressed="false">Day<small>within 24 h</small></button>
-    </div>
-    <label class="inline" for="refresh">Refresh
-      <select id="refresh">
-        <option value="0">Off</option><option value="60">every 1 min</option><option value="120">every 2 min</option>
-        <option value="300" selected>every 5 min</option><option value="900">every 15 min</option>
-        <option value="1800">every 30 min</option><option value="3600">every hour</option>
-      </select>
-    </label>
-    <button class="btn primary" id="refreshNow" type="button">Refresh now</button>
-    <span class="status" id="status" aria-live="polite">Starting…</span>
-  </div>
-
-  <nav class="tabs" role="tablist" aria-label="Sections">
-    <button role="tab" data-tab="ideas" aria-selected="true">Top 5 ideas</button>
-    <button role="tab" data-tab="movers" aria-selected="false">Biggest movers</button>
-    <button role="tab" data-tab="trades" aria-selected="false">My trades <span class="count" id="tradeCount" hidden>0</span></button>
-    <button role="tab" data-tab="record" aria-selected="false">Track record</button>
-    <button role="tab" data-tab="improve" aria-selected="false">Self-improvement</button>
-    <button role="tab" data-tab="account" aria-selected="false">Practice account</button>
-    <button role="tab" data-tab="guide" aria-selected="false">How it works</button>
-  </nav>
-
-  <section class="panel" id="tab-ideas" role="tabpanel">
-    <div id="mood" class="banner calm">Loading live prices for about 150 coins…</div>
-    <div id="ideas"><div class="skeleton"></div></div>
-  </section>
-
-  <section class="panel" id="tab-movers" role="tabpanel" hidden>
-    <p class="muted lead">Today's biggest gainers, and why each one is or isn't among the suggestions. Usually it's because it already jumped (often a trap), because it trades too little to be safe, or because other coins score higher.</p>
-    <div id="movers"><div class="skeleton"></div></div>
-  </section>
-
-  <section class="panel" id="tab-trades" role="tabpanel" hidden>
-    <p class="muted">Tap <b>“I bought this”</b> on an idea, or add a trade below. This page checks the live price every 30 seconds and tells you what to do now. Your trades are saved in this browser on this device.</p>
-    <div class="actions">
-      <button class="btn" id="notifyBtn" type="button">Turn on alerts for my trades</button>
-      <span class="small muted" id="notifyState"></span>
-    </div>
-    <div id="trades"></div>
-    <details class="card" id="addTrade">
-      <summary>Add a trade I made myself</summary>
-      <form class="grid" id="manualForm">
-        <label for="mCoin">Coin (for example SOL)<input id="mCoin" type="text" required autocomplete="off" placeholder="SOL"></label>
-        <label for="mSpeed">How long will you hold?<select id="mSpeed"><option value="quick">Up to 1 hour</option><option value="short" selected>Up to 4 hours</option><option value="day">Up to 24 hours</option></select></label>
-        <label for="mPrice">Price you paid ($)<input id="mPrice" type="number" step="any" min="0" required></label>
-        <label for="mAgo">Minutes ago you bought<input id="mAgo" type="number" min="0" step="1" value="0"></label>
-        <label for="mRisk">Safety exit: % below your price<input id="mRisk" type="number" min="0.3" max="30" step="0.1" value="3"></label>
-        <label for="mAmount">Amount you put in ($)<input id="mAmount" type="number" min="1" step="any" value="100"></label>
-        <button class="btn primary" type="submit">Watch this trade</button>
-      </form>
-      <p class="small muted" id="manualMsg"></p>
-    </details>
-    <details class="card">
-      <summary>Move my trades to another device</summary>
-      <p class="small muted">Copy this code, open the site on your other device, and paste it into the box there.</p>
-      <div class="actions"><input id="backupOut" type="text" readonly style="flex:1;min-width:0"><button class="btn" id="copyBackup" type="button">Copy</button></div>
-      <div class="actions"><input id="backupIn" type="text" placeholder="Paste a code here" style="flex:1;min-width:0"><button class="btn" id="loadBackup" type="button">Load trades</button></div>
-      <p class="small muted" id="backupMsg"></p>
-    </details>
-  </section>
-
-  <section class="panel" id="tab-record" role="tabpanel" hidden>
-    <p class="muted lead">Every hour the system saves its top ideas. Once each idea's time limit has passed, it checks what the price really did: bought at the next price, sold at take-profit, at the safety exit, or at the time limit, minus fees. It also checks what picking coins at random would have done over the same time. <b>This is the honest test.</b> Give it a few weeks.</p>
-    <div id="record"><div class="skeleton"></div></div>
-  </section>
-
-  <section class="panel" id="tab-improve" role="tabpanel" hidden>
-    <p class="muted lead">Every night the system reviews itself, using evidence only. It tests several versions of each model on recent data they've never seen and keeps the best. It re-weighs each fake-signal check by how well it predicted bad outcomes. It checks whether its own ideas are being used as bait. And it puts a trading speed "on probation" if its recent ideas did worse than random picks.</p>
-    <div id="improve"><div class="skeleton"></div></div>
-  </section>
-
-  <section class="panel" id="tab-account" role="tabpanel" hidden>
-    <p class="muted lead">Separately, the system practises trading Bitcoin and Ether with <b>$100,000 of pretend money</b>, checking every hour. This shows how that practice account is doing.</p>
-    <div id="account"><div class="skeleton"></div></div>
-  </section>
-
-  <section class="panel" id="tab-guide" role="tabpanel" hidden>
-    <div class="prose">
-      <div data-only="small">
-        <h2>About the Small coins page</h2>
-        <p>The Exchange coins page scans the 150 most-traded coins on Binance. This page looks at the <b>next tier down</b>: coins trading between about $300,000 and $1M a day. It keeps only those that, over the last 90 days, <b>rose 20% or more within a week at least 15% of the time</b>, and shows the 10 with the best score.</p>
-        <p>These coins move a lot more, in both directions. Thin trading makes them easier to push around, so the fake-signal checks run on the best 15 before the top 10 are shown, and every card shows how often the coin rose <i>and</i> fell 20%+ in a week. Use smaller amounts here.</p>
+  <main class="ask">
+    <section class="ask-hero" aria-labelledby="askTitle">
+      <div class="ask-logo" aria-hidden="true">Ω</div>
+      <h1 id="askTitle">Ask about any trade</h1>
+      <p class="muted">Plain-English answers from tested, live data: crypto, US stocks, forex and gold, the big traders, and every term on the site. Free, no sign-up.</p>
+      <div class="ask-chips" role="list">
+        <button type="button" class="ask-chip" role="listitem" data-ask="What's the best trade right now?"><b>Best trade right now</b><span>across all markets</span></button>
+        <button type="button" class="ask-chip" role="listitem" data-ask="Is silver a buy today?"><b>Is silver a buy today?</b><span>or any coin, stock, currency</span></button>
+        <button type="button" class="ask-chip" role="listitem" data-ask="What are the whales holding?"><b>What are the whales holding?</b><span>last month's best traders</span></button>
+        <button type="button" class="ask-chip" role="listitem" data-ask="How's the market?"><b>How's the market?</b><span>a good day to trade or not</span></button>
+        <button type="button" class="ask-chip" role="listitem" data-ask="How did the ideas do?"><b>How did the ideas really do?</b><span>after costs, against random</span></button>
+        <button type="button" class="ask-chip" role="listitem" data-ask="What is a safety exit?"><b>What is a safety exit?</b><span>any term, in plain words</span></button>
       </div>
-      <h2>How to use this page</h2>
-      <ul>
-        <li><b>Pick a speed</b> at the top: <i>Quick</i> means you sell within 1 hour, <i>Short</i> within 4 hours, <i>Day</i> within 24 hours.</li>
-        <li><b>Pick how often to refresh.</b> Every refresh downloads fresh prices and re-ranks the coins on your device (about 150 on this page). Rankings change when a new price candle closes (every 5, 15 or 60 minutes, depending on the speed).</li>
-        <li><b>Read the top 5.</b> Each card shows <b>when the idea was suggested and at what price</b>, the <b>live price now</b> and how much it has moved since, where to take profit, where to get out to limit a loss, and the latest time to sell.</li>
-        <li><b>Watch the live chart.</b> Each card has candles that move in real time. The dashed blue line is the price when the idea was suggested (the baseline), green is the take profit, and red is the safety exit.</li>
-        <li><b>Use the profit calculator.</b> Type how much you'd put in. It shows how many coins you'd get and what you'd make at the take profit, lose at the safety exit, or make if you sold right away, all after fees. You can also type your own target price.</li>
-        <li><b>Check the fake-signal scorecard.</b> Each idea is checked for common market tricks before it's shown (see below).</li>
-        <li><b>If you buy one,</b> tap <i>“I bought this”</i>. The <i>My trades</i> tab then tells you what to do: <b>Hold</b>, <b>Take profit now</b>, <b>Exit now</b>, <b>Time's up: sell now</b>, or <b>Consider leaving early</b>.</li>
-      </ul>
-      <h2>What the numbers mean</h2>
-      <ul>
-        <li><b>Score (0–10):</b> 5 means roughly break-even after fees. Higher is better. Below 5 is “avoid”.</li>
-        <li><b>Chance it beats the market:</b> the computer's estimate that this coin does better than the average coin over the same time. 50% means no better than average.</li>
-        <li><b>Take profit:</b> sell here for a gain. It is set twice as far as the safety exit, so you aim to win $2 for each $1 you risk.</li>
-        <li><b>Safety exit (stop-loss):</b> sell here to keep a loss small. This is the most important line.</li>
-        <li><b>Sell by:</b> if neither exit happens by this time, sell anyway.</li>
-        <li><b>To risk $10, buy …:</b> how much to buy so that hitting the safety exit loses about $10. Decide how much you can lose first.</li>
-        <li><b>Risk level:</b> how much this coin usually swings for the chosen speed. Higher risk means bigger moves both ways.</li>
-        <li><b>Market mood:</b> how many coins look positive right now. When it says <i>Unfavourable</i>, doing nothing is a good choice.</li>
-      </ul>
-      <h2>Fake-signal checks (market manipulation)</h2>
-      <p>Before an idea is shown, the 10 best candidates are checked with live data, and failed checks push an idea down the list:</p>
-      <ul>
-        <li><b>Spoofing:</b> the order book is read twice, 3 seconds apart. Big orders that vanish immediately are fake walls meant to trick people.</li>
-        <li><b>Thin order book:</b> if few real orders sit near the price, one large trade can move it.</li>
-        <li><b>Fake (wash) trading:</b> identical-size trades bouncing buy/sell within seconds mean someone is trading with themselves to fake activity.</li>
-        <li><b>Other exchanges:</b> the price and daily move are compared with OKX and Gate.io. A move on only one exchange is suspicious.</li>
-        <li><b>Whales:</b> if recent trades are many times bigger than usual, a few big players are driving the price.</li>
-        <li>Plus warnings for coins that <b>already spiked</b>, look <b>overheated</b>, trade very little, or when <b>Bitcoin is falling</b>.</li>
-      </ul>
-      <h2>Staying ahead of manipulators who know they're being watched</h2>
-      <p>This system's rules are public, so we assume clever manipulators have read them and will try to game them: passing every check on purpose, pumping a coin until it tops our list and then selling to followers, or pushing the price through obvious exit levels to trigger everyone's safety exits. The defences:</p>
-      <ul>
-        <li><b>Secret, changing limits:</b> every check's exact threshold is different on your device and changes every hour, so nobody can aim just under it.</li>
-        <li><b>Three order-book readings at random times:</b> fake orders would have to stay up long enough to risk actually being filled.</li>
-        <li><b>Real money moves prices:</b> lots of trading that barely moves the price is treated as fake, however it's disguised.</li>
-        <li><b>“Too good to be true”:</b> a setup built only from cheap-to-fake signals (volume bursts, buy spikes), with no lasting trend, is marked down.</li>
-        <li><b>Bait monitor:</b> every night the system checks whether its own past suggestions dropped right after being suggested. If a pattern keeps doing that, it's penalised automatically.</li>
-        <li><b>Safety exits away from crowded levels:</b> your exit isn't placed on round numbers or just under the recent low, where stop-hunters aim.</li>
-        <li><b>No panic from one reading:</b> “Consider leaving early” only appears if the warning shows up on two refreshes in a row.</li>
-      </ul>
-      <p>No system can stop someone who spends real money to genuinely move a price and then sells. That's what the safety exit and the time limit are for.</p>
-      <p class="small muted">Blockchain-level checks (mempool, stablecoin flows, wallet clustering, liquidation cascades, funding games) run in the Bitcoin/Ether practice account, where that data exists. Most other coins have no free data of that kind.</p>
-      <h2>Real costs and where to buy</h2>
-      <ul>
-        <li>Open <b>“Where to buy it cheapest”</b> on any idea. For the amount you typed, it checks the live order books of 7 exchanges (Binance, OKX, Bitget, Gate.io, HTX, Kraken, Coinbase) and the biggest decentralised exchange pools (Uniswap, PancakeSwap and others).</li>
-        <li>For each, it works out the <b>actual money you'd take out</b>: trading fee on the buy and the sell, slippage (your order eating through the order book), the fee to withdraw your money and, on decentralised exchanges, network gas and the risk of <b>front-running bots</b> (“sandwich attacks” that buy just before you and sell just after).</li>
-        <li>The cheapest place for your amount is highlighted. Small amounts are hit hardest by fixed costs like withdrawal fees and gas, which the table shows.</li>
-        <li>On decentralised exchanges, always <b>check the token's contract address</b>, because fakes copy popular names. Use a wallet or network option with <b>MEV protection</b> so bots can't see your trade before it happens.</li>
-      </ul>
-      <h2>Simple rules that protect you</h2>
-      <ul>
-        <li>Never use money you cannot afford to lose. Many traders risk only 1–2% of their money on one idea.</li>
-        <li>Always respect the safety exit.</li>
-        <li>Don't chase coins that already jumped a lot. The page warns you.</li>
-        <li>No idea is a sure thing. A 60% chance still loses 4 times out of 10.</li>
-      </ul>
-      <h2>Honest limits</h2>
-      <p>No computer can reliably predict which coin will rise. Tested on past data, this system's top picks only roughly match an average coin. The <b>Track record</b> tab shows how its live ideas really turn out, so judge it by that. Prices come directly from Binance's public market data; the models are retrained every night.</p>
-    </div>
-  </section>
+    </section>
 
-  <footer>Mempool Omega is research and education software. It never places real orders. Nothing here is financial advice and no profit is promised. Prices: Binance public market data. If prices don't load, Binance may be blocked on your network; the page then shows the most recent hourly ideas instead.</footer>
+    <section id="thread" class="ask-thread" aria-live="polite" aria-label="Conversation"></section>
+
+    <form id="askForm" class="ask-bar" autocomplete="off">
+      <label for="askInput" class="sr-only">Your question</label>
+      <textarea id="askInput" rows="1" placeholder="Ask: best trade now, SOL, silver, NVDA, what are whales holding…" enterkeyhint="send"></textarea>
+      <button type="submit" class="ask-send" aria-label="Ask"><span aria-hidden="true">↑</span></button>
+    </form>
+    <p class="ask-foot">Answers come from the site's own data, never invented. Paper trading and education only, not financial advice. <a href="coins/">Browse all pages →</a></p>
+  </main>
 </div>
-<script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
-<script src="engine.js"></script>
-<script src="quality.js"></script>
-<script src="market.js"></script>
 <script src="alerts.js"></script>
-<script src="app.js"></script>
+<script src="ask.js"></script>
 </body>
 </html>

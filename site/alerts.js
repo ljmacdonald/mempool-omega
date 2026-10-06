@@ -15,7 +15,7 @@
   const SCRIPT = document.currentScript;
   const BASE = new URL(".", SCRIPT ? SCRIPT.src : location.href).href;            // the site's root folder
   const DATA = root.OMEGA_ALERT_DATA || "https://raw.githubusercontent.com/ljmacdonald/mempool-omega/data/";
-  const PAGES = { main: "", small: "small/", dex: "dex/", stocks: "stocks/", fx: "fx/", ict: "ict/", lab: "lab/", listings: "listings/", sniper: "sniper/", whales: "whales/" };
+  const PAGES = { main: "coins/", small: "small/", dex: "dex/", stocks: "stocks/", fx: "fx/", ict: "ict/", lab: "lab/", listings: "listings/", sniper: "sniper/", whales: "whales/" };
   const PAGE_NAME = { main: "Exchange coins", small: "Small coins", dex: "DEX tokens", stocks: "US stocks", fx: "Forex & gold", ict: "ICT setups", lab: "Strategy lab", listings: "New listings", sniper: "Sniper lab", whales: "Whale tracker" };
   const KINDS = { enter: ["Trade to enter", "▲"], exit: ["Exit the trade", "■"], profit: ["Take profit", "★"], warning: ["Warning", "!"], news: ["New listing", "●"], whale: ["Whale move", "◆"] };
   const PANEL_TEXT = { enter: "New trades worth entering", exit: "Time to exit (safety exit, time's up, exit signals)", profit: "Take profit reached", warning: "Warnings on my trades", whale: "Whale moves: any change by a followed whale (information only, not proven)", news: "A coin starts trading on Binance, OKX or Gate.io" };
@@ -39,9 +39,10 @@
   // ------------------------------------------------------------------ which page is this
   function currentPage() {
     if (root.OMEGA_MODE === "small") return "small";
+    if (root.OMEGA_MODE === "home") return "home";
     const rel = location.href.replace(/[?#].*$/, "").replace(BASE, "");
     const first = rel.split("/")[0];
-    return PAGES[first] !== undefined && first ? first : "main";
+    return PAGES[first] !== undefined && first ? first : "main";       // site/coins/ is Exchange coins ("main")
   }
   const HERE = currentPage();
   function urlFor(page, focus, pick, tab) {
@@ -391,7 +392,7 @@
     p.querySelector("[data-test]").addEventListener("click", () => {
       unlockAudio();
       const was = cfg.on; cfg.on = true;
-      fire({ kind: "enter", page: HERE, key: `test-${Date.now()}`, title: "Test alert", body: "This is how a new trade alert looks and sounds. Clicking it opens the opportunity.", tab: "" });
+      fire({ kind: "enter", page: PAGES[HERE] !== undefined ? HERE : "main", key: `test-${Date.now()}`, title: "Test alert", body: "This is how a new trade alert looks and sounds. Clicking it opens the opportunity.", tab: "" });
       cfg.on = was;
     });
     document.body.appendChild(p);

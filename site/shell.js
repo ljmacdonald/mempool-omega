@@ -9,7 +9,7 @@
   const BASE = new URL(".", SCRIPT ? SCRIPT.src : location.href).href;
   // risk: how hard the prices swing; kind: what the visitor gets (ideas to act on, or research to watch)
   const PAGES = {
-    main: { path: "", name: "Exchange coins", group: "crypto", risk: "Medium risk", kind: "Live ideas", blurb: "The best-scoring coins on big exchanges like Binance, re-ranked every few minutes.", action: "Pick a speed, read the top idea, and only act on Strong or Moderate grades." },
+    main: { path: "coins/", name: "Exchange coins", group: "crypto", risk: "Medium risk", kind: "Live ideas", blurb: "The best-scoring coins on big exchanges like Binance, re-ranked every few minutes.", action: "Pick a speed, read the top idea, and only act on Strong or Moderate grades." },
     small: { path: "small/", name: "Small coins", group: "crypto", risk: "High risk", kind: "Live ideas", blurb: "Smaller, faster-moving coins: bigger swings both ways, scored the same honest way.", action: "Use smaller amounts than usual: these swing hard." },
     dex: { path: "dex/", name: "DEX tokens", group: "crypto", risk: "High risk", kind: "Live ideas", blurb: "Tokens on decentralised exchanges, scam-checked before they're ever suggested.", action: "Keep the safety level on Standard and copy the real token address from the card." },
     listings: { path: "listings/", name: "New listings", group: "new", risk: "Very high risk", kind: "Tested rules", blurb: "Coins just listed on big exchanges, and what really happens after a listing.", action: "Only act on the tested ideas at the top; most new listings fall." },
@@ -38,8 +38,9 @@
 
   function currentPage() {
     if (root.OMEGA_MODE === "small") return "small";
+    if (root.OMEGA_MODE === "home") return "home";              // the Ask Omega front page (site/index.html)
     const first = location.href.replace(/[?#].*$/, "").replace(BASE, "").split("/")[0];
-    return PAGES[first] && first !== "main" ? first : "main";
+    return PAGES[first] && first !== "main" ? first : "main";   // site/coins/ is Exchange coins ("main")
   }
   const HERE = currentPage();
 
@@ -83,10 +84,17 @@
       inner.append(menu, nav);
     }
     if (right) inner.appendChild(right);
-    // the page header, under the bar
+    // the page header, under the bar (the front page has its own: the chat)
+    const p = PAGES[HERE];
+    if (!p) {
+      header.innerHTML = ""; header.appendChild(inner); header.classList.add("appbar");
+      const fitHome = () => document.documentElement.style.setProperty("--appbar-h", `${Math.ceil(header.getBoundingClientRect().height)}px`);
+      fitHome(); if ("ResizeObserver" in root) new ResizeObserver(fitHome).observe(header);
+      visitHome(); footer();
+      return;
+    }
     const hero = document.createElement("section"); hero.className = "page-hero";
     const left = document.createElement("div");
-    const p = PAGES[HERE];
     left.innerHTML = `<div class="eyebrow">${esc(GROUP[p.group].name)}<span class="crumb-sep" aria-hidden="true">›</span>${esc(p.name)}<span class="hero-kind">${esc(p.kind)}</span><span class="hero-kind">${esc(p.risk)}</span></div>`;
     if (h1) { left.appendChild(h1); tidyTitle(h1); new MutationObserver(() => tidyTitle(h1)).observe(h1, { childList: true, characterData: true, subtree: true }); }
     if (sub) { left.appendChild(sub); tidySub(sub); new MutationObserver(() => tidySub(sub)).observe(sub, { childList: true, characterData: true, subtree: true }); }
@@ -189,6 +197,7 @@
     for (const [k, page] of Object.entries(TRADE_KEYS)) { const t = store.get(k, []); if (Array.isArray(t) && t.length) out[page] = (out[page] || 0) + t.length; }
     return out;
   }
+  function visitHome() { const v = store.get("omega.shell.visited", {}); v.home = Date.now(); store.set("omega.shell.visited", v); }
   function resumeChips(box) {
     const last = store.get("omega.shell.last", null);
     const visited = store.get("omega.shell.visited", {});
@@ -247,7 +256,7 @@
     const alertsOn = !!(store.get("omega.alerts.cfg", {}) || {}).on;
     return [
       { id: "tour", done: !!store.get("omega.onb.tour", false), t: "Take the 1-minute tour", d: "How scores, grades and exits work.", go: () => tour(true) },
-      { id: "pages", done: visited.length >= 2, t: "Look at two different markets", d: "Crypto, stocks, forex: pick from the menus at the top.", go: () => { location.href = href(HERE === "main" ? "stocks" : "main"); } },
+      { id: "pages", done: visited.filter((k) => k !== "home").length >= 2, t: "Look at two different markets", d: "Crypto, stocks, forex: pick from the menus at the top.", go: () => { location.href = href(HERE === "main" ? "stocks" : "main"); } },
       { id: "trade", done: Object.keys(trades()).length > 0, t: "Follow a paper trade", d: "Tap “I bought this” on an idea, then watch My trades.", go: () => { const b = document.querySelector('nav.tabs button[data-tab="ideas"], nav.tabs button[data-tab="setups"]'); if (b) { b.click(); b.scrollIntoView({ block: "center" }); } else location.href = href("main"); } },
       { id: "alerts", done: alertsOn, t: "Turn on alerts", d: "Pop-ups with sound when it matters.", go: () => { const b = document.querySelector(".oa-bell"); if (b) b.click(); } },
     ];
