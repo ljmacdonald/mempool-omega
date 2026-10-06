@@ -16,7 +16,7 @@
   const BASE = new URL(".", SCRIPT ? SCRIPT.src : location.href).href;            // the site's root folder
   const DATA = root.OMEGA_ALERT_DATA || "https://raw.githubusercontent.com/ljmacdonald/mempool-omega/data/";
   const PAGES = { main: "", small: "small/", dex: "dex/", stocks: "stocks/", fx: "fx/", ict: "ict/", lab: "lab/", listings: "listings/", sniper: "sniper/", whales: "whales/" };
-  const PAGE_NAME = { main: "Exchange coins", small: "Small coins", dex: "DEX tokens", stocks: "US stocks", fx: "Forex", ict: "ICT setups", lab: "Strategy lab", listings: "New listings", sniper: "Sniper lab", whales: "Whale tracker" };
+  const PAGE_NAME = { main: "Exchange coins", small: "Small coins", dex: "DEX tokens", stocks: "US stocks", fx: "Forex & gold", ict: "ICT setups", lab: "Strategy lab", listings: "New listings", sniper: "Sniper lab", whales: "Whale tracker" };
   const KINDS = { enter: ["Trade to enter", "▲"], exit: ["Exit the trade", "■"], profit: ["Take profit", "★"], warning: ["Warning", "!"], news: ["New listing", "●"] };
   const PANEL_TEXT = { enter: "New trades worth entering", exit: "Time to exit (safety exit, time's up, exit signals)", profit: "Take profit reached", warning: "Warnings on my trades", news: "A coin starts trading on Binance, OKX or Gate.io" };
   const POLL_MS = 3 * 60 * 1000, LEAD_MS = 4 * 60 * 1000, STALE_MIN = 45, REPEAT_H = { enter: 12, exit: 6, profit: 6, warning: 6, news: 48 };
