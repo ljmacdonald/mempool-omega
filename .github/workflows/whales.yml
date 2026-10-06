@@ -1,0 +1,50 @@
+name: Whale tracker (paper, every 15 min) + nightly ranking
+
+# PAPER ONLY. Every 30 days the best Hyperliquid whales of the previous month are picked (plus random whales to
+# compare); every 15 minutes their positions are read from Hyperliquid's public API and copied on paper (whole
+# positions, after costs and funding). No account, no keys, no orders.
+run-name: "Whales: ${{ inputs.task || github.event.schedule || 'run' }}"
+on:
+  schedule:
+    - cron: "12,27,42,57 * * * *"  # every 15 minutes (backup for the Tick job)
+    - cron: "30 6 * * *"           # nightly: leaderboard figures, new cohort every 30 days
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "scan | rank (rank also scans)"
+        required: false
+        default: "scan"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: omega-whales-writer
+  cancel-in-progress: false
+
+jobs:
+  whales:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        run: pip install -e .
+      - name: Nightly ranking
+        if: github.event.schedule == '30 6 * * *' || github.event.inputs.task == 'rank'
+        run: python -m whales.run rank
+      - name: Positions, changes and the paper mirror
+        run: python -m whales.run scan
+      - name: Publish the snapshot for the website (data branch)
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash infra/publish_data.sh .cache/whales_out/snapshot.json whales/snapshot.json
+      - name: Commit state (cohorts, mirror)
+        if: always()
+        run: |
+          bash infra/commit_state.sh "whales ${{ github.event.inputs.task || 'scheduled' }} $(date -u +%Y-%m-%dT%H%MZ)"

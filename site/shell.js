@@ -17,6 +17,7 @@
     fx: { path: "fx/", name: "Forex", group: "Stocks & FX", blurb: "Currency pairs, gold and silver, buy or sell, checked for manipulation." },
     ict: { path: "ict/", name: "ICT setups", group: "Research", blurb: "Inner Circle Trader setups coded exactly, with how they really did." },
     lab: { path: "lab/", name: "Strategy lab", group: "Research", blurb: "Famous public strategies re-tested honestly, and which ones still hold up." },
+    whales: { path: "whales/", name: "Whale tracker", group: "Research", blurb: "Last month's best big traders, what they hold now, and a paper copy of them." },
   };
   const GROUPS = ["Crypto", "Stocks & FX", "Research"];
   const TRADE_KEYS = { "omega.trades": "main", "omega.dex.trades": "dex", "omega.stk.trades": "stocks", "omega.fx.trades": "fx", "omega.ict.trades": "ict" };

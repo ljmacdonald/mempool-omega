@@ -15,8 +15,8 @@
   const SCRIPT = document.currentScript;
   const BASE = new URL(".", SCRIPT ? SCRIPT.src : location.href).href;            // the site's root folder
   const DATA = root.OMEGA_ALERT_DATA || "https://raw.githubusercontent.com/ljmacdonald/mempool-omega/data/";
-  const PAGES = { main: "", small: "small/", dex: "dex/", stocks: "stocks/", fx: "fx/", ict: "ict/", lab: "lab/", listings: "listings/", sniper: "sniper/" };
-  const PAGE_NAME = { main: "Exchange coins", small: "Small coins", dex: "DEX tokens", stocks: "US stocks", fx: "Forex", ict: "ICT setups", lab: "Strategy lab", listings: "New listings", sniper: "Sniper lab" };
+  const PAGES = { main: "", small: "small/", dex: "dex/", stocks: "stocks/", fx: "fx/", ict: "ict/", lab: "lab/", listings: "listings/", sniper: "sniper/", whales: "whales/" };
+  const PAGE_NAME = { main: "Exchange coins", small: "Small coins", dex: "DEX tokens", stocks: "US stocks", fx: "Forex", ict: "ICT setups", lab: "Strategy lab", listings: "New listings", sniper: "Sniper lab", whales: "Whale tracker" };
   const KINDS = { enter: ["Trade to enter", "▲"], exit: ["Exit the trade", "■"], profit: ["Take profit", "★"], warning: ["Warning", "!"], news: ["New listing", "●"] };
   const PANEL_TEXT = { enter: "New trades worth entering", exit: "Time to exit (safety exit, time's up, exit signals)", profit: "Take profit reached", warning: "Warnings on my trades", news: "A coin starts trading on Binance, OKX or Gate.io" };
   const POLL_MS = 3 * 60 * 1000, LEAD_MS = 4 * 60 * 1000, STALE_MIN = 45, REPEAT_H = { enter: 12, exit: 6, profit: 6, warning: 6, news: 48 };
@@ -29,7 +29,7 @@
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* private mode: alerts still work, memory doesn't */ } },
   };
   const DEFAULTS = { on: false, sound: true, kinds: { enter: true, exit: true, profit: true, warning: true, news: true }, minGrade: "Strong",
-    pages: { main: true, small: true, dex: true, stocks: true, fx: true, ict: true, lab: true, listings: true, sniper: true } };
+    pages: { main: true, small: true, dex: true, stocks: true, fx: true, ict: true, lab: true, listings: true, sniper: true, whales: true } };
   let cfg = { ...DEFAULTS, ...store.get("omega.alerts.cfg", {}) };
   cfg.kinds = { ...DEFAULTS.kinds, ...(cfg.kinds || {}) }; cfg.pages = { ...DEFAULTS.pages, ...(cfg.pages || {}) };
   const saveCfg = () => { store.set("omega.alerts.cfg", cfg); paintBell(); };
@@ -281,6 +281,13 @@
     return (s.ideas || []).filter((x) => x.evidence === "Held up in paper tests" && gradeOk(x.grade)).map((x) => ({ score: +x.score, key: `idea-${x.id}`,
       short: x.symbol, title: `${x.symbol} on ${x.chain} passed every scam check (${x.grade}, score ${(+x.score).toFixed(1)})`,
       body: `Paper snipe: opened ${Math.round(x.delay_min)} min ago, ${Math.round(x.prob * 100)}% of similar paper snipes made money. Check the address on DexScreener.`, tab: "" }));
+  } };
+  // whales: big new positions of the followed whales, only once the paper mirror has held up
+  WATCH.whales = { file: "whales/snapshot.json", ideas(s) {
+    if (!s.verdict || s.verdict.level !== "good") return [];
+    return (s.big_changes || []).map((x) => ({ score: x.notional / 1e6, key: `chg-${x.addr}-${x.coin}-${x.kind}`, short: `${x.coin} ${x.side}`,
+      title: `A followed whale ${x.kind} ${x.side} ${x.coin} ($${(x.notional / 1e6).toFixed(1)}M)`,
+      body: `The paper mirror of last month's best whales has held up. Price ${x.price}; their entry ${x.entry}.`, tab: "" }));
   } };
   async function poll() {
     if (!cfg.on) return;
