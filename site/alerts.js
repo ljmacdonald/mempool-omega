@@ -15,8 +15,8 @@
   const SCRIPT = document.currentScript;
   const BASE = new URL(".", SCRIPT ? SCRIPT.src : location.href).href;            // the site's root folder
   const DATA = root.OMEGA_ALERT_DATA || "https://raw.githubusercontent.com/ljmacdonald/mempool-omega/data/";
-  const PAGES = { main: "", small: "small/", dex: "dex/", stocks: "stocks/", fx: "fx/", ict: "ict/", lab: "lab/", listings: "listings/" };
-  const PAGE_NAME = { main: "Exchange coins", small: "Small coins", dex: "DEX tokens", stocks: "US stocks", fx: "Forex", ict: "ICT setups", lab: "Strategy lab", listings: "New listings" };
+  const PAGES = { main: "", small: "small/", dex: "dex/", stocks: "stocks/", fx: "fx/", ict: "ict/", lab: "lab/", listings: "listings/", sniper: "sniper/" };
+  const PAGE_NAME = { main: "Exchange coins", small: "Small coins", dex: "DEX tokens", stocks: "US stocks", fx: "Forex", ict: "ICT setups", lab: "Strategy lab", listings: "New listings", sniper: "Sniper lab" };
   const KINDS = { enter: ["Trade to enter", "▲"], exit: ["Exit the trade", "■"], profit: ["Take profit", "★"], warning: ["Warning", "!"], news: ["New listing", "●"] };
   const PANEL_TEXT = { enter: "New trades worth entering", exit: "Time to exit (safety exit, time's up, exit signals)", profit: "Take profit reached", warning: "Warnings on my trades", news: "A coin starts trading on Binance, OKX or Gate.io" };
   const POLL_MS = 3 * 60 * 1000, LEAD_MS = 4 * 60 * 1000, STALE_MIN = 45, REPEAT_H = { enter: 12, exit: 6, profit: 6, warning: 6, news: 48 };
@@ -29,7 +29,7 @@
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* private mode: alerts still work, memory doesn't */ } },
   };
   const DEFAULTS = { on: false, sound: true, kinds: { enter: true, exit: true, profit: true, warning: true, news: true }, minGrade: "Strong",
-    pages: { main: true, small: true, dex: true, stocks: true, fx: true, ict: true, lab: true, listings: true } };
+    pages: { main: true, small: true, dex: true, stocks: true, fx: true, ict: true, lab: true, listings: true, sniper: true } };
   let cfg = { ...DEFAULTS, ...store.get("omega.alerts.cfg", {}) };
   cfg.kinds = { ...DEFAULTS.kinds, ...(cfg.kinds || {}) }; cfg.pages = { ...DEFAULTS.pages, ...(cfg.pages || {}) };
   const saveCfg = () => { store.set("omega.alerts.cfg", cfg); paintBell(); };
@@ -274,6 +274,13 @@
       out.push({ kind: "news", key: `upcoming-${u.exchange}-${u.symbol}`, title: `${u.base} opens on ${EXN[u.exchange]} in ${Math.round(mins)} min`,
         body: "The first hours after a listing are the wildest. Open to see what usually happens next.", tab: "" }); });
     return out;
+  } };
+  // paper snipes: only once a plan has held up and the grade is good (until then everything there is watch-only)
+  WATCH.sniper = { file: "sniper/snapshot.json", ideas(s) {
+    if (unreliable(s.quality)) return [];
+    return (s.ideas || []).filter((x) => x.evidence === "Held up in paper tests" && gradeOk(x.grade)).map((x) => ({ score: +x.score, key: `idea-${x.id}`,
+      short: x.symbol, title: `${x.symbol} on ${x.chain} passed every scam check (${x.grade}, score ${(+x.score).toFixed(1)})`,
+      body: `Paper snipe: opened ${Math.round(x.delay_min)} min ago, ${Math.round(x.prob * 100)}% of similar paper snipes made money. Check the address on DexScreener.`, tab: "" }));
   } };
   async function poll() {
     if (!cfg.on) return;

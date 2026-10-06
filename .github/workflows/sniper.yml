@@ -1,0 +1,41 @@
+name: Sniper lab (paper, every 15 min)
+
+# PAPER ONLY. Brand-new DEX pools on Solana, BNB Chain and Ethereum are checked with the DEX page's scam and
+# rug-pull tests and paper-bought at the price when the checks finish (passed and rejected ones, to measure what the
+# checks save); every paper snipe is judged by three fixed exit plans after real costs. No wallet, no keys, no orders.
+run-name: "Sniper: ${{ github.event.schedule || 'run' }}"
+on:
+  schedule:
+    - cron: "9,24,39,54 * * * *"   # every 15 minutes (backup for the Tick job)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: omega-sniper-writer
+  cancel-in-progress: false
+
+jobs:
+  sniper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        run: pip install -e .
+      - name: Check new tokens, paper-snipe, judge finished snipes
+        run: python -m sniper.run
+      - name: Publish the snapshot for the website (data branch)
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash infra/publish_data.sh .cache/sniper_out/snapshot.json sniper/snapshot.json
+      - name: Commit state (paper snipes)
+        if: always()
+        run: |
+          bash infra/commit_state.sh "sniper $(date -u +%Y-%m-%dT%H%MZ)"
