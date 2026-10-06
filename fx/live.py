@@ -232,6 +232,41 @@ def fx_group(sym: str) -> str:
     return {"major": "Major pairs", "cross": "Crosses", "metal": "Gold & silver", "exotic": "Exotics"}[kind(sym.split(":")[0])]
 
 
+GATE_METAL = {"XAUUSD": "XAU_USDT", "XAGUSD": "XAG_USDT"}
+
+
+def metal_basis(cs15: dict, perp_closes=None) -> dict:
+    """The gap between the futures price the ideas are built on (Yahoo GC=F / SI=F) and the round-the-clock gold and
+    silver contracts the page reads live (Bitget, Gate.io, OKX), measured on the same finished 15-minute candles. The page
+    multiplies its live price by this, so live prices, entries and the take-profit / safety-exit levels share one scale."""
+    out = {}
+    for pair, contract in GATE_METAL.items():
+        df = cs15.get(yahoo(pair))
+        if df is None or len(df) < 6:
+            continue
+        try:
+            perp = perp_closes(contract) if perp_closes else gate_closes(contract)
+        except Exception as e:  # noqa: BLE001
+            log.warning("metal basis %s: %s", pair, e)
+            continue
+        fut = df["close"].iloc[-6:-1]                          # finished candles only
+        ratios = [float(fut[t] / perp[t]) for t in fut.index if t in perp.index and perp[t] > 0]
+        if len(ratios) < 2:
+            continue
+        b = float(np.median(ratios))
+        if abs(b - 1) < 0.03:
+            out[pair] = {"basis": b, "candles": len(ratios), "at": str(fut.index[-1])}
+    return out
+
+
+def gate_closes(contract: str) -> pd.Series:
+    r = requests.get("https://api.gateio.ws/api/v4/futures/usdt/candlesticks",
+                     params={"contract": contract, "interval": "15m", "limit": 12}, timeout=20)
+    r.raise_for_status()
+    rows = r.json()
+    return pd.Series({pd.Timestamp(int(x["t"]), unit="s", tz="UTC"): float(x["c"]) for x in rows}).sort_index()
+
+
 def run(track_now: bool | None = None) -> dict:
     from scanner import track
 
@@ -296,7 +331,7 @@ def run(track_now: bool | None = None) -> dict:
                "styles": {k: {"label": s.label, "interval": s.interval, "hold_text": "4 hours" if k == "fx_today" else "3 days"}
                           for k, s in FX_STYLES.items()},
                "models": {k: {"info": m.info} for k, m in models.items()}, "names": NAMES,
-               "swap_per_night": SWAP_PER_NIGHT}
+               "swap_per_night": SWAP_PER_NIGHT, "metal_basis": metal_basis(cs15)}
     out_path().write_text(json.dumps(clean(payload), separators=(",", ":"), default=str, allow_nan=False))
     log.info("fx: %s", {lk: {k: [f"{d['side']} {d['pair']}" for d in v[:5]] for k, v in by.items()} for lk, by in lists.items()})
     return payload
