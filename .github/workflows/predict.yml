@@ -1,0 +1,46 @@
+name: Prediction markets (paper, hourly)
+
+# PAPER ONLY. Every hour: open Polymarket and Kalshi markets are read from their public APIs, favourites priced
+# 55-70c 1-7 days before the scheduled end are paper-bought at the real ask plus fees (one per event), and earlier
+# paper trades are settled when their markets resolve. No account, no keys, no orders.
+run-name: "Predict: ${{ inputs.task || github.event.schedule || 'run' }}"
+on:
+  schedule:
+    - cron: "34 * * * *"   # hourly (backup for the Tick job)
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "scan"
+        required: false
+        default: "scan"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: omega-predict-writer
+  cancel-in-progress: false
+
+jobs:
+  predict:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        run: pip install -e .
+      - name: Markets, new paper trades and settlements
+        run: python -m predict.run scan
+      - name: Publish the snapshot for the website (data branch)
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash infra/publish_data.sh .cache/predict_out/snapshot.json predict/snapshot.json
+      - name: Commit state (paper positions)
+        if: always()
+        run: |
+          bash infra/commit_state.sh "predict ${{ github.event.inputs.task || 'scheduled' }} $(date -u +%Y-%m-%dT%H%MZ)"

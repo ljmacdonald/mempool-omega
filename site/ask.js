@@ -25,7 +25,7 @@
     main: REPO + "suggestions/latest_short.json", small: REPO + "suggestions/small_latest_short.json",
     mainBoard: REPO + "suggestions/scoreboard.json", smallBoard: REPO + "suggestions/small_scoreboard.json",
     stocks: DATA + "stocks/snapshot.json", fx: DATA + "fx/snapshot.json", lab: DATA + "lab/snapshot.json",
-    listings: DATA + "listings/snapshot.json", sniper: DATA + "sniper/snapshot.json", whales: DATA + "whales/snapshot.json",
+    listings: DATA + "listings/snapshot.json", sniper: DATA + "sniper/snapshot.json", whales: DATA + "whales/snapshot.json", predict: DATA + "predict/snapshot.json",
   };
   const cache = {};
   async function get(k) {
@@ -34,7 +34,7 @@
   }
   const unreliable = (q) => !!(q && q.check && q.check.reliable === false);
   const PAGE = { main: ["coins/", "Exchange coins"], small: ["small/", "Small coins"], stocks: ["stocks/", "US stocks"], fx: ["fx/", "Forex & gold"], lab: ["lab/", "Strategy lab"],
-    listings: ["listings/", "New listings"], sniper: ["sniper/", "Sniper lab"], whales: ["whales/", "Whale tracker"], ict: ["ict/", "ICT setups"], dex: ["dex/", "DEX tokens"] };
+    listings: ["listings/", "New listings"], sniper: ["sniper/", "Sniper lab"], whales: ["whales/", "Whale tracker"], predict: ["predict/", "Prediction markets"], ict: ["ict/", "ICT setups"], dex: ["dex/", "DEX tokens"] };
   const open = (p, tab) => `<a class="ask-open" href="${PAGE[p][0]}${tab ? `#/${tab}` : ""}">Open ${esc(PAGE[p][1])} →</a>`;
   const NOTE = '<p class="ask-note">Paper trading and education only: a tested idea can still lose. Always use the safety exit and the time limit.</p>';
 
@@ -163,6 +163,13 @@
     for (const c of wh?.consensus || []) set.add(c.coin);
     set.delete("USD"); return set;
   }
+  async function predictAnswer() {
+    const s = await get("predict"); if (!s) return dataDown("predict");
+    const r = s.record || {}; const p = (s.picks || []).slice(0, 4);
+    return `<p><b>Prediction markets</b> (Kalshi and Polymarket, paper only, checked ${esc(ago(s.generated_at))}). The one rule that looked promising in our research: buy the favourite at 55-70¢, 1-7 days before the market ends. <b>${esc(r.label || "Not proven yet")}</b>: ${esc(r.text || "")}</p>
+      ${p.length ? `<div class="table-wrap"><table><thead><tr><th>Market</th><th>Buy</th><th class="num">Price</th></tr></thead><tbody>${p.map((x) => `<tr><td style="white-space:normal">${esc(x.q)}</td><td>${esc(x.side.toUpperCase())}</td><td class="num">${Math.round(x.ask * 100)}¢</td></tr>`).join("")}</tbody></table></div>` : "<p>No market fits the rule right now.</p>"}
+      ${open("predict")}<p class="ask-note">A contract pays $1 if right and nothing if wrong. Kalshi is regulated in the US; Polymarket's main site isn't open to US residents.</p>`;
+  }
   async function whalesAnswer() {
     const s = await get("whales"); if (!s) return dataDown("whales");
     const v = s.verdict || {}; const c = (s.consensus || []).slice(0, 6);
@@ -217,6 +224,7 @@
     const s = q.toLowerCase();
     if (/^(hi|hello|hey|help|what can you do|\?)\b/.test(s.trim()) || s.trim().length < 2) return helpAnswer();
     if (/whale|big traders/.test(s)) return whalesAnswer();
+    if (/predict|kalshi|polymarket|\bbet(s|ting)?\b|odds/.test(s)) return predictAnswer();
     if (/^(what|whats|what's)\s+(is|are|does)\b|^(explain|define|meaning)\b|\bwhat does .* mean/.test(s) && !/(best|hold|market|mood|record|idea|trade|buy|sell)/.test(s)) { const e = explainAnswer(q); if (e) return e; }
     if (/\b(mood|market (like|today|now)|how'?s the market|how is the market)\b/.test(s)) return moodAnswer();
     if (/\b(record|did .* do|results|performance|track|proven|work(ed|s)?\b.*\?)/.test(s)) return recordAnswer();
