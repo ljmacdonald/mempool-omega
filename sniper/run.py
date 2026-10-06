@@ -330,6 +330,15 @@ def run() -> dict:
     return snapshot(h, res, chosen_plan(res), fresh, rejected, now)
 
 
+def exit_price(r: dict, plan: str) -> float | None:
+    """The price the plan sold at (the stored result is after costs: net = exit / entry x (1 - costs) - 1)."""
+    try:
+        net, entry, cost = float(r[f"{plan}_net"]), float(r["entry"]), float(r["cost_rt"])
+    except (TypeError, ValueError, KeyError):
+        return None
+    return entry * (net + 1) / (1 - cost) if net == net and entry == entry and cost < 1 else None
+
+
 def snapshot(h: pd.DataFrame, res: dict, plan: str, fresh: list, rejected: list, now: pd.Timestamp) -> dict:
     op = h[h["status"] == "open"].copy()
     open_rows = []
@@ -344,7 +353,8 @@ def snapshot(h: pd.DataFrame, res: dict, plan: str, fresh: list, rejected: list,
                             "url": f"https://dexscreener.com/{CHAINS[r['chain']]['ds']}/{r['pool']}"})
     closed = h[h["status"] == "closed"].tail(40)
     recent = [{"chain": r["chain"], "symbol": r["symbol"], "verdict": r["verdict"], "entry_t": r["entry_t"], "rug": bool(r["rug"]) if r["rug"] == r["rug"] else None,
-               "net": r.get(f"{plan}_net"), "reason": r.get(f"{plan}_reason")} for r in closed.to_dict("records")][::-1]
+               "net": r.get(f"{plan}_net"), "reason": r.get(f"{plan}_reason"), "entry": r.get("entry"),
+               "exit": exit_price(r, plan)} for r in closed.to_dict("records")][::-1]
     delays = h["delay_min"].astype(float).dropna()
     d = h[(h["status"] == "closed") & (h["verdict"] == "pass") & h["grade"].notna()].copy()
     if len(d):
