@@ -258,10 +258,28 @@
       const v = live ? outcome(t, t.amount, t.lev, t.entry, px) : NaN;
       return `<article class="card trade ${a.level}" data-alert-key="trade-${esc(t.id)}"><div class="idea-head"><h2>${t.side.toUpperCase()} ${esc(t.label)}</h2><span class="verdict ${a.level}">${esc(a.action)}</span></div><p>${esc(a.why)}</p>
         <div class="strip"><div class="fact"><div class="k">Opened</div><div class="v">${localDay(t.opened)}</div><div class="d muted">at ${dp(t.pair, t.entry)}</div></div>
-        <div class="fact"><div class="k">Price now${live ? " (live)" : ""}</div><div class="v">${dp(t.pair, px)}</div><div class="d ${!live ? "muted" : v >= 0 ? "up" : "down"}">${live ? `${usd(v)} on $${t.amount} at ${t.lev}x` : "not live right now: check your broker"}</div></div>
+        <div class="fact"><div class="k">Price now${live ? " (live)" : ""}</div><div class="v">${dp(t.pair, px)}</div><div class="d ${!live ? "muted" : v >= 0 ? "up" : "down"}">${live ? `${usd(v)} (${pct(v / t.amount, 1)} of your $${t.amount})` : "not live right now: check your broker"}</div></div>
         <div class="fact"><div class="k">Take profit</div><div class="v">${dp(t.pair, t.take_profit)}</div></div><div class="fact"><div class="k">Safety exit</div><div class="v">${dp(t.pair, t.safety_exit)}</div></div>
         <div class="fact"><div class="k">Close by</div><div class="v">${local(t.exit_by)}</div></div></div>
-        <div class="actions"><button class="btn" type="button" data-sold="${esc(t.id)}">I've closed it: remove</button></div></article>`; }).join("")}</div><p class="small muted">Live prices are checked every minute while this page is open (Coinbase's reference rates; gold from PAXG). Your broker's price can differ slightly, and silver updates every 15 minutes.</p>`;
+        ${tradeCalc(t, px, live)}
+        <div class="actions"><button class="btn" type="button" data-sold="${esc(t.id)}">I've closed it: remove</button></div></article>`; }).join("")}</div><p class="small muted">Live prices are checked every minute while this page is open (currencies: Coinbase's reference rates; gold and silver: the middle quote of Bitget, Gate.io and OKX, put on the same scale as the futures prices the ideas use). Your broker's price can differ slightly.</p>`;
+  }
+  // how the money adds up: your money times the leverage is the position; the price move on that position, minus the
+  // spread (paid on the whole position as soon as you open it), is your result; and the same for the two exits
+  function tradeCalc(t, px, live) {
+    const pos = t.amount * t.lev; const cost = pos * (t.cost || 0);
+    const move = (x) => (t.side === "buy" ? x / t.entry - 1 : t.entry / x - 1);
+    const line = (label, gross, net, extra = "") => `<tr><td>${label}</td><td class="num ${gross >= 0 ? "up" : "down"}">${usd(gross)}</td><td class="num muted">${usd(-cost)}</td><td class="num ${net >= 0 ? "up" : "down"}"><b>${usd(net)}</b></td><td class="num muted">${pct(net / t.amount, 1)}${extra}</td></tr>`;
+    const at = (x) => { const g = pos * move(x); return [g, g - cost]; };
+    const now = live ? at(px) : null; const tp = at(t.take_profit); const sl = at(t.safety_exit);
+    const half = 1 / (2 * t.lev);
+    return `<div class="calc"><h3>How this adds up: $${t.amount} of your money at ${t.lev === 1 ? "no leverage" : `${t.lev}x`} = a $${pos.toLocaleString()} position</h3>
+      <div class="table-wrap"><table><thead><tr><th></th><th class="num">Price move</th><th class="num">Costs</th><th class="num">Result</th><th class="num">Of your $${t.amount}</th></tr></thead><tbody>
+      ${now ? line(`Now (${pct(move(px), 2)} since you entered)`, now[0], now[1]) : `<tr><td>Now</td><td colspan="4" class="muted">shown with a live price</td></tr>`}
+      ${line(`At the take profit (${pct(move(t.take_profit), 2)})`, tp[0], tp[1])}
+      ${line(`At the safety exit (${pct(move(t.safety_exit), 2)})`, sl[0], sl[1])}
+      </tbody></table></div>
+      <p class="small muted">Costs: the spread of about ${pct(t.cost || 0, 2).replace("+", "")} of the position ($${cost.toFixed(2)}), paid as soon as the trade opens, so a new trade starts slightly negative. ${t.lev > 1 ? `At ${t.lev}x every 1% the price moves is ${t.lev}% of your money; a move of about ${pct(half, 2).replace("+", "")} against you loses half of it and most brokers close the trade.` : ""}</p></div>`;
   }
   function notify(t, a) {
     const prev = state.lastAction[t.id]; state.lastAction[t.id] = a.action; if (window.OmegaAlerts) window.OmegaAlerts.trade(window.OmegaAlerts.page, t, a); if (!prev || prev === a.action || a.action === "Hold" || a.action === "Waiting for a live price") return;
