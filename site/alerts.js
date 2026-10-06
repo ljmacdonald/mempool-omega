@@ -15,8 +15,8 @@
   const SCRIPT = document.currentScript;
   const BASE = new URL(".", SCRIPT ? SCRIPT.src : location.href).href;            // the site's root folder
   const DATA = root.OMEGA_ALERT_DATA || "https://raw.githubusercontent.com/ljmacdonald/mempool-omega/data/";
-  const PAGES = { main: "coins/", small: "small/", dex: "dex/", stocks: "stocks/", fx: "fx/", ict: "ict/", lab: "lab/", listings: "listings/", sniper: "sniper/", whales: "whales/" };
-  const PAGE_NAME = { main: "Exchange coins", small: "Small coins", dex: "DEX tokens", stocks: "US stocks", fx: "Forex & gold", ict: "ICT setups", lab: "Strategy lab", listings: "New listings", sniper: "Sniper lab", whales: "Whale tracker" };
+  const PAGES = { main: "coins/", small: "small/", dex: "dex/", stocks: "stocks/", fx: "fx/", ict: "ict/", lab: "lab/", listings: "listings/", sniper: "sniper/", whales: "whales/", predict: "predict/" };
+  const PAGE_NAME = { main: "Exchange coins", small: "Small coins", dex: "DEX tokens", stocks: "US stocks", fx: "Forex & gold", ict: "ICT setups", lab: "Strategy lab", listings: "New listings", sniper: "Sniper lab", whales: "Whale tracker", predict: "Prediction markets" };
   const KINDS = { enter: ["Trade to enter", "▲"], exit: ["Exit the trade", "■"], profit: ["Take profit", "★"], warning: ["Warning", "!"], news: ["New listing", "●"], whale: ["Whale move", "◆"] };
   const PANEL_TEXT = { enter: "New trades worth entering", exit: "Time to exit (safety exit, time's up, exit signals)", profit: "Take profit reached", warning: "Warnings on my trades", whale: "Whale moves: any change by a followed whale (information only, not proven)", news: "A coin starts trading on Binance, OKX or Gate.io" };
   const POLL_MS = 3 * 60 * 1000, LEAD_MS = 4 * 60 * 1000, STALE_MIN = 45, REPEAT_H = { enter: 12, exit: 6, profit: 6, warning: 6, news: 48, whale: 24 };
@@ -31,7 +31,7 @@
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* private mode: alerts still work, memory doesn't */ } },
   };
   const DEFAULTS = { on: false, sound: true, kinds: { enter: true, exit: true, profit: true, warning: true, news: true, whale: false }, minGrade: "Strong", whaleMin: 1e6, whaleMax: 0,
-    pages: { main: true, small: true, dex: true, stocks: true, fx: true, ict: true, lab: true, listings: true, sniper: true, whales: true } };
+    pages: { main: true, small: true, dex: true, stocks: true, fx: true, ict: true, lab: true, listings: true, sniper: true, whales: true, predict: true } };
   let cfg = { ...DEFAULTS, ...store.get("omega.alerts.cfg", {}) };
   cfg.kinds = { ...DEFAULTS.kinds, ...(cfg.kinds || {}) }; cfg.pages = { ...DEFAULTS.pages, ...(cfg.pages || {}) };
   const saveCfg = () => { store.set("omega.alerts.cfg", cfg); paintBell(); };

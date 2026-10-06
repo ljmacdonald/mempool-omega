@@ -18,6 +18,7 @@
     fx: { path: "fx/", name: "Forex & gold", group: "markets", risk: "Medium risk", kind: "Live ideas", blurb: "Currency pairs, gold and silver, buy or sell, checked for manipulation.", action: "Start with the major pairs and avoid the news windows." },
     ict: { path: "ict/", name: "ICT setups", group: "strategies", risk: "Medium risk", kind: "Live setups", blurb: "Inner Circle Trader setups coded exactly, with exact entries and how they really did.", action: "Place the limit order only when the grade and test evidence are good." },
     lab: { path: "lab/", name: "Strategy lab", group: "strategies", risk: "Risk varies", kind: "Tested ideas", blurb: "Famous public strategies re-tested honestly, and which ones still hold up.", action: "Check the Scoreboard: only strategies marked Held up give ideas." },
+    predict: { path: "predict/", name: "Prediction markets", group: "strategies", risk: "Paper only", kind: "Research", blurb: "Kalshi and Polymarket: favourites that may be underpriced, tested on paper at real prices.", action: "Information only until 50 paper trades have settled." },
     whales: { path: "whales/", name: "Whale tracker", group: "strategies", risk: "Paper only", kind: "Research", blurb: "Last month's best big traders, what they hold now, and a paper copy of them.", action: "Information only until the 30-day verdict is in." },
   };
   // the menu: what the visitor wants to trade, then the strategies and research that cut across markets
