@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-07 11:28 UTC
+# Trade ideas: 2026-10-07 12:26 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,50 +6,50 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (1% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (0% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **GTC** | 3.1/10 | Avoid - watch only | Very high | $0.18754 | $0.206294 (+10.0%) | $0.178163 (-5.0%) | 12:25 07-Oct |
-| 2 | **RLC** | 3.0/10 | Avoid - watch only | Very high | $0.7443 | $0.797309 (+7.1%) | $0.713036 (-4.2%) | 12:25 07-Oct |
+| 1 | **NMR** | 3.3/10 | Avoid - watch only | Very high | $15.10 | $16.30 (+8.0%) | $14.50 (-4.0%) | 13:20 07-Oct |
+| 2 | **RLC** | 2.8/10 | Avoid - watch only | Very high | $0.7355 | $0.786448 (+6.9%) | $0.710026 (-3.5%) | 13:20 07-Oct |
 | 3 | **VANRY** | 2.7/10 | Avoid - watch only | Very high | $0.00074 | $0.000814 (+10.0%) | $0.000703 (-5.0%) | 04:00 17-Aug |
-| 4 | **NMR** | 2.0/10 | Avoid - watch only | High | $16.55 | $17.57 (+6.2%) | $16.04 (-3.1%) | 12:25 07-Oct |
-| 5 | **PUMP** | 2.0/10 | Avoid - watch only | Medium | $0.006427 | $0.00667522 (+3.9%) | $0.00630289 (-1.9%) | 12:25 07-Oct |
+| 4 | **MINA** | 2.4/10 | Avoid - watch only | High | $0.0986 | $0.103843 (+5.3%) | $0.0959783 (-2.7%) | 13:20 07-Oct |
+| 5 | **ORCA** | 2.2/10 | Avoid - watch only | High | $2.72 | $2.86 (+5.1%) | $2.65 (-2.5%) | 13:20 07-Oct |
 
-- **GTC:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **RLC:** Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Buyers have been more eager than sellers over the last 30 minutes (53% of trades were buys). Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **NMR:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **RLC:** Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 - **VANRY:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (5% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (19% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ORCA** | 6.1/10 | Moderate | Very high | $2.87 | $3.23 (+12.7%) | $2.69 (-6.3%) | 15:15 07-Oct |
-| 2 | **ZRO** | 5.1/10 | Weak | High | $2.12 | $2.27 (+7.0%) | $2.05 (-3.5%) | 15:15 07-Oct |
-| 3 | **PROM** | 5.0/10 | Weak | Very high | $5.96 | $6.58 (+10.4%) | $5.65 (-5.2%) | 15:15 07-Oct |
-| 4 | **ACE** | 4.8/10 | Avoid - watch only | High | $0.1686 | $0.18505 (+9.8%) | $0.160375 (-4.9%) | 15:15 07-Oct |
-| 5 | **MOVR** | 4.7/10 | Avoid - watch only | Very high | $2.03 | $2.28 (+12.6%) | $1.90 (-6.3%) | 15:15 07-Oct |
+| 1 | **NMR** | 7.4/10 | Strong | Very high | $15.69 | $18.07 (+15.2%) | $14.50 (-7.6%) | 16:15 07-Oct |
+| 2 | **ORCA** | 6.5/10 | Strong | Very high | $2.73 | $3.07 (+12.5%) | $2.56 (-6.3%) | 16:15 07-Oct |
+| 3 | **SAND** | 6.3/10 | Moderate | High | $0.07053 | $0.0774295 (+9.8%) | $0.0670803 (-4.9%) | 16:15 07-Oct |
+| 4 | **TRB** | 5.6/10 | Moderate | Medium | $20.10 | $21.26 (+5.7%) | $19.52 (-2.9%) | 16:15 07-Oct |
+| 5 | **NIGHT** | 5.6/10 | Moderate | Medium | $0.04791 | $0.0503155 (+5.0%) | $0.0467073 (-2.5%) | 16:15 07-Oct |
 
-- **ORCA:** Momentum is healthy: not overheated, not collapsing.
-- **ZRO:** The model sees a slightly better-than-usual pattern, with no single strong reason.
-- **PROM:** It did 10.0% better than Bitcoin over the last 6 hours. Buyers have been more eager than sellers over the last 1.5 hours (57% of trades were buys). Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up.
+- **NMR:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **ORCA:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **SAND:** Trading activity is 1.6x higher than usual, so people are paying attention to it. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
 
 ## Day: exit within 24 hours
 
-Market mood: **Mixed** (56% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Mixed** (60% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ENJ** | 9.3/10 | Strong | Very high | $0.02987 | $0.0346684 (+16.1%) | $0.0274708 (-8.0%) | 11:00 08-Oct |
-| 2 | **ETHFI** | 9.1/10 | Strong | High | $0.7123 | $0.815593 (+14.5%) | $0.660654 (-7.3%) | 11:00 08-Oct |
-| 3 | **INJ** | 8.8/10 | Strong | High | $7.39 | $8.46 (+14.5%) | $6.86 (-7.2%) | 11:00 08-Oct |
-| 4 | **MARSCOIN** | 8.7/10 | Strong | Very high | $0.1017 | $0.120216 (+18.2%) | $0.0924419 (-9.1%) | 11:00 08-Oct |
-| 5 | **FIL** | 8.7/10 | Strong | High | $1.06 | $1.19 (+12.8%) | $0.990422 (-6.4%) | 11:00 08-Oct |
+| 1 | **ENJ** | 9.0/10 | Strong | Very high | $0.02953 | $0.0341997 (+15.8%) | $0.0271952 (-7.9%) | 12:00 08-Oct |
+| 2 | **ENA** | 8.8/10 | Strong | High | $0.2279 | $0.258968 (+13.6%) | $0.212366 (-6.8%) | 12:00 08-Oct |
+| 3 | **INJ** | 8.8/10 | Strong | High | $7.31 | $8.36 (+14.3%) | $6.79 (-7.1%) | 12:00 08-Oct |
+| 4 | **ETHFI** | 8.5/10 | Strong | High | $0.7029 | $0.803853 (+14.4%) | $0.652423 (-7.2%) | 12:00 08-Oct |
+| 5 | **MARSCOIN** | 8.3/10 | Strong | Very high | $0.1 | $0.118067 (+18.1%) | $0.0909665 (-9.0%) | 12:00 08-Oct |
 
 - **ENJ:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **ETHFI:** Trading activity is 1.7x higher than usual, so people are paying attention to it. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
+- **ENA:** The model sees a slightly better-than-usual pattern, with no single strong reason.
 - **INJ:** Trading activity is 2.1x higher than usual, so people are paying attention to it. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
 
 ---
@@ -57,8 +57,8 @@ Market mood: **Mixed** (56% of 150 coins look positive). If it says *Unfavourabl
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 250 | 40% | -0.33% | -0.27% |
-| Short: exit within 4 hours | 245 | 36% | -0.51% | -0.45% |
-| Day: exit within 24 hours | 201 | 24% | -1.24% | -1.01% |
+| Quick: exit within 1 hour | 251 | 40% | -0.34% | -0.27% |
+| Short: exit within 4 hours | 251 | 36% | -0.57% | -0.48% |
+| Day: exit within 24 hours | 202 | 25% | -1.24% | -1.02% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
