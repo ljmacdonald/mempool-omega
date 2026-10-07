@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-07 03:59 UTC
+# Trade ideas: 2026-10-07 04:53 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,51 +6,51 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (4% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (0% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **TIA** | 5.3/10 | Weak | High | $0.4482 | $0.467561 (+4.3%) | $0.43852 (-2.2%) | 04:55 07-Oct |
-| 2 | **MINA** | 4.7/10 | Avoid - watch only | High | $0.1052 | $0.110501 (+5.0%) | $0.10255 (-2.5%) | 04:55 07-Oct |
-| 3 | **AVAX** | 4.6/10 | Avoid - watch only | Medium | $11.04 | $11.36 (+2.9%) | $10.88 (-1.5%) | 04:55 07-Oct |
-| 4 | **FIL** | 4.6/10 | Avoid - watch only | Medium | $1.10 | $1.13 (+3.2%) | $1.07 (-2.0%) | 04:55 07-Oct |
-| 5 | **EIGEN** | 4.6/10 | Avoid - watch only | Medium | $0.238 | $0.246407 (+3.5%) | $0.233797 (-1.8%) | 04:55 07-Oct |
+| 1 | **API3** | 4.5/10 | Avoid - watch only | High | $0.3267 | $0.344841 (+5.6%) | $0.31763 (-2.8%) | 05:50 07-Oct |
+| 2 | **ORCA** | 4.1/10 | Avoid - watch only | Very high | $2.91 | $3.13 (+7.3%) | $2.81 (-3.7%) | 05:50 07-Oct |
+| 3 | **WLD** | 3.8/10 | Avoid - watch only | Medium | $0.5165 | $0.532718 (+3.1%) | $0.508391 (-1.6%) | 05:50 07-Oct |
+| 4 | **TRB** | 3.8/10 | Avoid - watch only | Medium | $20.90 | $21.78 (+4.2%) | $20.46 (-2.1%) | 05:50 07-Oct |
+| 5 | **RENDER** | 3.8/10 | Avoid - watch only | Medium | $2.04 | $2.11 (+3.4%) | $2.01 (-1.7%) | 05:50 07-Oct |
 
-- **TIA:** Trading activity is 2.3x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **MINA:** Buyers have been more eager than sellers over the last 30 minutes (53% of trades were buys).
-- **AVAX:** Trading activity is 2.6x higher than usual, so people are paying attention to it. It is bouncing up from near its lowest price of the last 14 hours.
+- **API3:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **ORCA:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **WLD:** It is bouncing up from near its lowest price of the last 14 hours. Trading activity is 1.5x higher than usual, so people are paying attention to it.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (13% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (18% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ETH** | 6.7/10 | Strong | Low | $2,611.90 | $2,690.76 (+3.0%) | $2,572.47 (-1.5%) | 07:45 07-Oct |
-| 2 | **C98** | 6.6/10 | Strong | High | $0.01674 | $0.0182498 (+9.0%) | $0.0159851 (-4.5%) | 07:45 07-Oct |
-| 3 | **FLUX** | 6.4/10 | Moderate | High | $0.0805 | $0.0876895 (+8.9%) | $0.0769053 (-4.5%) | 07:45 07-Oct |
-| 4 | **INJ** | 6.1/10 | Moderate | High | $7.52 | $8.09 (+7.5%) | $7.24 (-3.8%) | 07:45 07-Oct |
-| 5 | **SCR** | 5.7/10 | Moderate | High | $0.02484 | $0.0265833 (+7.0%) | $0.0239684 (-3.5%) | 07:45 07-Oct |
+| 1 | **SCR** | 6.4/10 | Moderate | Medium | $0.02473 | $0.0263402 (+6.5%) | $0.0239249 (-3.3%) | 08:45 07-Oct |
+| 2 | **DOGE** | 6.3/10 | Moderate | Low | $0.08986 | $0.0929451 (+3.4%) | $0.0883175 (-1.7%) | 08:45 07-Oct |
+| 3 | **C98** | 6.1/10 | Moderate | High | $0.01674 | $0.0181842 (+8.6%) | $0.0160179 (-4.3%) | 08:45 07-Oct |
+| 4 | **TRUMP** | 6.1/10 | Moderate | Medium | $1.88 | $1.98 (+5.7%) | $1.82 (-2.9%) | 08:45 07-Oct |
+| 5 | **UMA** | 6.1/10 | Moderate | Medium | $0.41 | $0.435233 (+6.2%) | $0.397384 (-3.1%) | 08:45 07-Oct |
 
-- **ETH:** Trading activity is 1.6x higher than usual, so people are paying attention to it.
-- **C98:** Buyers have been more eager than sellers over the last 1.5 hours (54% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **FLUX:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **SCR:** Buyers have been more eager than sellers over the last 1.5 hours (54% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **DOGE:** Trading activity is 2.4x higher than usual, so people are paying attention to it.
+- **C98:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Day: exit within 24 hours
 
-Market mood: **Mixed** (43% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Mixed** (39% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **BIO** | 5.0/10 | Weak | High | $0.02874 | $0.0331503 (+15.3%) | $0.0265349 (-7.7%) | 03:00 08-Oct |
-| 2 | **CFG** | 4.8/10 | Avoid - watch only | High | $0.1386 | $0.153327 (+10.6%) | $0.131236 (-5.3%) | 03:00 08-Oct |
-| 3 | **ARB** | 4.7/10 | Avoid - watch only | High | $0.1852 | $0.20824 (+12.4%) | $0.17368 (-6.2%) | 03:00 08-Oct |
-| 4 | **DOT** | 4.6/10 | Avoid - watch only | High | $1.13 | $1.25 (+10.7%) | $1.07 (-5.4%) | 03:00 08-Oct |
-| 5 | **ORDI** | 4.5/10 | Avoid - watch only | High | $4.29 | $4.75 (+10.9%) | $4.05 (-5.4%) | 03:00 08-Oct |
+| 1 | **ENJ** | 4.7/10 | Avoid - watch only | Very high | $0.03066 | $0.0359182 (+17.1%) | $0.0280309 (-8.6%) | 04:00 08-Oct |
+| 2 | **APT** | 4.6/10 | Avoid - watch only | High | $0.7697 | $0.86507 (+12.4%) | $0.722015 (-6.2%) | 04:00 08-Oct |
+| 3 | **CFG** | 4.6/10 | Avoid - watch only | High | $0.1378 | $0.152155 (+10.4%) | $0.130622 (-5.2%) | 04:00 08-Oct |
+| 4 | **SAGA** | 4.5/10 | Avoid - watch only | High | $0.02289 | $0.0258574 (+13.0%) | $0.0214063 (-6.5%) | 04:00 08-Oct |
+| 5 | **ARB** | 4.5/10 | Avoid - watch only | High | $0.1856 | $0.208311 (+12.2%) | $0.174244 (-6.1%) | 04:00 08-Oct |
 
-- **BIO:** Buyers have been more eager than sellers over the last 6 hours (54% of trades were buys). Trading activity is 1.7x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ENJ:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **APT:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 - **CFG:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **ARB:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ---
 ## Track record (how past ideas actually did)
@@ -58,7 +58,7 @@ Market mood: **Mixed** (43% of 150 coins look positive). If it says *Unfavourabl
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
 | Quick: exit within 1 hour | 213 | 41% | -0.27% | -0.27% |
-| Short: exit within 4 hours | 207 | 35% | -0.58% | -0.40% |
-| Day: exit within 24 hours | 177 | 20% | -2.62% | -0.85% |
+| Short: exit within 4 hours | 212 | 36% | -0.52% | -0.43% |
+| Day: exit within 24 hours | 179 | 20% | -2.64% | -0.87% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
