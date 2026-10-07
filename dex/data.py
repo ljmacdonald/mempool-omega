@@ -82,12 +82,11 @@ def gt_multi(chain: str, pools: list[str]) -> dict[str, dict]:
     return out
 
 
-def gt_ohlcv(chain: str, pool: str, n: int = 300, timeframe: str = "hour", aggregate: int = 1) -> pd.DataFrame:
-    """CLOSED candles in USD, oldest first. Columns match scanner candles (taker volume unknown on DEX data,
-    so buy pressure is set neutral)."""
+def gt_ohlcv(chain: str, pool: str, n: int = 300, timeframe: str = "hour", aggregate: int = 1, before: int | None = None) -> pd.DataFrame:
+    """CLOSED candles in USD, oldest first, ending before `before` (unix seconds; default: now). Columns match
+    scanner candles (taker volume unknown on DEX data, so buy pressure is set neutral)."""
     net = CHAINS[chain]["gt"]
     rows: list = []
-    before = None
     while len(rows) < n:
         params = {"aggregate": aggregate, "limit": min(1000, n - len(rows) + 1), "currency": "usd"}
         if before:
