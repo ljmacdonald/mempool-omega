@@ -50,6 +50,7 @@ PLANS = {
     "runner": {"name": "Runner", "tp": 1.00, "sl": 0.35, "hours": 12.0},
 }
 FINAL_AFTER_H = 12.5           # judge a position once the longest plan has run its course
+MAX_FINISH = 60                # positions judged per run (one candle request each; the rest wait for the next run)
 RUG_DROP = 0.90                # fell 90% from the entry, or the pool lost 90% of its money: rugged
 GAP = 0.8                      # a candle whose low is below 80% of the stop crashed through it (filled at the low)
 HIST = "sniper/positions.csv"
@@ -158,7 +159,9 @@ def simulate(c: pd.DataFrame, entry: float, entry_t: pd.Timestamp, plan: dict) -
 def finish(row: dict, now: pd.Timestamp) -> dict:
     """Judge a position on its 5-minute candles once every plan has run its course."""
     try:
-        c = G.gt_ohlcv(row["chain"], row["pool"], n=200, timeframe="minute", aggregate=5)
+        # the candles of this position's own window (entry to the end of the longest plan), however long ago it was
+        end = pd.Timestamp(row["entry_t"]) + pd.Timedelta(hours=FINAL_AFTER_H + 0.5)
+        c = G.gt_ohlcv(row["chain"], row["pool"], n=200, timeframe="minute", aggregate=5, before=int(min(end, now).timestamp()))
     except Exception as e:  # noqa: BLE001
         log.warning("candles %s %s: %s", row["chain"], row["pool"], e)
         return row
@@ -310,8 +313,9 @@ def run() -> dict:
             else:
                 rejected.append({k: row[k] for k in ("chain", "symbol", "dex", "delay_min", "reserve")} | {"reasons": [x["text"] for x in a["hard"]][:3]})
     # follow open positions: live price and pool money; judge the ones whose plans have all run their course
+    finished = 0
     for chain in NETS:
-        op = h[(h["status"] == "open") & (h["chain"] == chain)]
+        op = h[(h["status"] == "open") & (h["chain"] == chain)].sort_values("entry_t")   # oldest first
         if op.empty:
             continue
         live = G.gt_multi(chain, op["pool"].tolist())
@@ -319,7 +323,8 @@ def run() -> dict:
             cur = live.get(r["pool"])
             if cur and cur.get("price") == cur.get("price") and cur.get("price"):
                 h.loc[i, ["last", "last_t", "last_reserve"]] = [cur["price"], str(now), cur.get("reserve_usd")]
-            if now - pd.Timestamp(r["entry_t"]) >= pd.Timedelta(hours=FINAL_AFTER_H):
+            if now - pd.Timestamp(r["entry_t"]) >= pd.Timedelta(hours=FINAL_AFTER_H) and finished < MAX_FINISH:
+                finished += 1
                 fin = finish({**r.to_dict(), **{k: h.loc[i, k] for k in ("last", "last_reserve")}}, now)
                 for k in ["status", "rug"] + [f"{p}_{x}" for p in PLANS for x in ("net", "reason")]:
                     if k in fin:
