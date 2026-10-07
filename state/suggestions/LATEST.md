@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-07 12:26 UTC
+# Trade ideas: 2026-10-07 13:27 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -10,55 +10,55 @@ Market mood: **Unfavourable** (0% of 150 coins look positive). If it says *Unfav
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **NMR** | 3.3/10 | Avoid - watch only | Very high | $15.10 | $16.30 (+8.0%) | $14.50 (-4.0%) | 13:20 07-Oct |
-| 2 | **RLC** | 2.8/10 | Avoid - watch only | Very high | $0.7355 | $0.786448 (+6.9%) | $0.710026 (-3.5%) | 13:20 07-Oct |
-| 3 | **VANRY** | 2.7/10 | Avoid - watch only | Very high | $0.00074 | $0.000814 (+10.0%) | $0.000703 (-5.0%) | 04:00 17-Aug |
-| 4 | **MINA** | 2.4/10 | Avoid - watch only | High | $0.0986 | $0.103843 (+5.3%) | $0.0959783 (-2.7%) | 13:20 07-Oct |
-| 5 | **ORCA** | 2.2/10 | Avoid - watch only | High | $2.72 | $2.86 (+5.1%) | $2.65 (-2.5%) | 13:20 07-Oct |
+| 1 | **VANRY** | 2.7/10 | Avoid - watch only | Very high | $0.00074 | $0.000814 (+10.0%) | $0.000703 (-5.0%) | 04:00 17-Aug |
+| 2 | **MOVR** | 2.1/10 | Avoid - watch only | Very high | $1.86 | $2.00 (+7.9%) | $1.78 (-4.0%) | 14:25 07-Oct |
+| 3 | **GLMR** | 2.1/10 | Avoid - watch only | Very high | $0.011364 | $0.0125004 (+10.0%) | $0.0107958 (-5.0%) | 14:25 07-Oct |
+| 4 | **RLC** | 2.0/10 | Avoid - watch only | Very high | $0.725 | $0.774253 (+6.8%) | $0.6979 (-3.7%) | 14:25 07-Oct |
+| 5 | **GTC** | 2.0/10 | Avoid - watch only | Very high | $0.18128 | $0.199408 (+10.0%) | $0.172216 (-5.0%) | 14:25 07-Oct |
 
-- **NMR:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **RLC:** Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 - **VANRY:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MOVR:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **GLMR:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (19% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (17% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **NMR** | 7.4/10 | Strong | Very high | $15.69 | $18.07 (+15.2%) | $14.50 (-7.6%) | 16:15 07-Oct |
-| 2 | **ORCA** | 6.5/10 | Strong | Very high | $2.73 | $3.07 (+12.5%) | $2.56 (-6.3%) | 16:15 07-Oct |
-| 3 | **SAND** | 6.3/10 | Moderate | High | $0.07053 | $0.0774295 (+9.8%) | $0.0670803 (-4.9%) | 16:15 07-Oct |
-| 4 | **TRB** | 5.6/10 | Moderate | Medium | $20.10 | $21.26 (+5.7%) | $19.52 (-2.9%) | 16:15 07-Oct |
-| 5 | **NIGHT** | 5.6/10 | Moderate | Medium | $0.04791 | $0.0503155 (+5.0%) | $0.0467073 (-2.5%) | 16:15 07-Oct |
+| 1 | **ORCA** | 7.0/10 | Strong | Very high | $2.73 | $3.07 (+12.7%) | $2.55 (-6.3%) | 17:15 07-Oct |
+| 2 | **BAR** | 6.9/10 | Strong | Very high | $0.293 | $0.334211 (+14.1%) | $0.272394 (-7.0%) | 17:15 07-Oct |
+| 3 | **MARSCOIN** | 6.9/10 | Strong | Medium | $0.0987 | $0.104744 (+6.1%) | $0.0956778 (-3.1%) | 17:15 07-Oct |
+| 4 | **TRB** | 6.9/10 | Strong | Medium | $19.95 | $21.03 (+5.4%) | $19.41 (-2.7%) | 17:15 07-Oct |
+| 5 | **NMR** | 6.8/10 | Strong | Very high | $14.94 | $17.33 (+16.0%) | $13.74 (-8.0%) | 17:15 07-Oct |
 
-- **NMR:** The model sees a slightly better-than-usual pattern, with no single strong reason.
 - **ORCA:** The model sees a slightly better-than-usual pattern, with no single strong reason.
-- **SAND:** Trading activity is 1.6x higher than usual, so people are paying attention to it. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
+- **BAR:** It did 5.4% better than Bitcoin over the last 6 hours. Trading activity is 5.1x higher than usual, so people are paying attention to it. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
+- **MARSCOIN:** The model sees a slightly better-than-usual pattern, with no single strong reason.
 
 ## Day: exit within 24 hours
 
-Market mood: **Mixed** (60% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Mixed** (55% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ENJ** | 9.0/10 | Strong | Very high | $0.02953 | $0.0341997 (+15.8%) | $0.0271952 (-7.9%) | 12:00 08-Oct |
-| 2 | **ENA** | 8.8/10 | Strong | High | $0.2279 | $0.258968 (+13.6%) | $0.212366 (-6.8%) | 12:00 08-Oct |
-| 3 | **INJ** | 8.8/10 | Strong | High | $7.31 | $8.36 (+14.3%) | $6.79 (-7.1%) | 12:00 08-Oct |
-| 4 | **ETHFI** | 8.5/10 | Strong | High | $0.7029 | $0.803853 (+14.4%) | $0.652423 (-7.2%) | 12:00 08-Oct |
-| 5 | **MARSCOIN** | 8.3/10 | Strong | Very high | $0.1 | $0.118067 (+18.1%) | $0.0909665 (-9.0%) | 12:00 08-Oct |
+| 1 | **ENJ** | 9.1/10 | Strong | High | $0.02961 | $0.0342106 (+15.5%) | $0.0273097 (-7.8%) | 13:00 08-Oct |
+| 2 | **INJ** | 8.8/10 | Strong | High | $7.30 | $8.33 (+14.0%) | $6.79 (-7.0%) | 13:00 08-Oct |
+| 3 | **ENA** | 8.4/10 | Strong | High | $0.2306 | $0.262006 (+13.6%) | $0.214897 (-6.8%) | 13:00 08-Oct |
+| 4 | **MARSCOIN** | 8.3/10 | Strong | Very high | $0.0989 | $0.116476 (+17.8%) | $0.08973 (-9.3%) | 13:00 08-Oct |
+| 5 | **FIL** | 8.3/10 | Strong | High | $1.05 | $1.19 (+12.4%) | $0.989849 (-6.2%) | 13:00 08-Oct |
 
-- **ENJ:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **ENA:** The model sees a slightly better-than-usual pattern, with no single strong reason.
-- **INJ:** Trading activity is 2.1x higher than usual, so people are paying attention to it. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
+- **ENJ:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin.
+- **INJ:** Trading activity is 2.1x higher than usual, so people are paying attention to it. ⚠️ Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin. In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
+- **ENA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 251 | 40% | -0.34% | -0.27% |
-| Short: exit within 4 hours | 251 | 36% | -0.57% | -0.48% |
-| Day: exit within 24 hours | 202 | 25% | -1.24% | -1.02% |
+| Quick: exit within 1 hour | 258 | 40% | -0.37% | -0.28% |
+| Short: exit within 4 hours | 258 | 35% | -0.64% | -0.51% |
+| Day: exit within 24 hours | 203 | 25% | -1.23% | -1.03% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
