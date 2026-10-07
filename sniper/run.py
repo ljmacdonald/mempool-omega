@@ -323,6 +323,8 @@ def run() -> dict:
                 fin = finish({**r.to_dict(), **{k: h.loc[i, k] for k in ("last", "last_reserve")}}, now)
                 for k in ["status", "rug"] + [f"{p}_{x}" for p in PLANS for x in ("net", "reason")]:
                     if k in fin:
+                        if k in h.columns and not k.endswith("_net") and h[k].dtype != object:
+                            h[k] = h[k].astype(object)      # read back from CSV as numbers when still empty: True/text won't fit
                         h.loc[i, k] = fin[k]
                 time.sleep(0.2)
     state_path(HIST).write_text(h.to_csv(index=False))
