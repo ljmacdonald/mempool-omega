@@ -257,6 +257,7 @@
     const c = s.counts || {};
     return `<p><b>Sniper lab</b> (paper only, updated ${esc(ago(s.generated_at))}): it checks brand-new DEX tokens for scams and paper-buys the ones that pass, to test whether sniping pays after the bots and the costs.</p>
       <p>${Object.entries(c).slice(0, 4).map(([k, v]) => `${esc(k)}: <b>${esc(v)}</b>`).join(" · ")}</p>
+      <p>${s.proven ? "The current rules have held up in paper tests." : `<b>Not proven:</b> 147 of the first 152 coins that passed the earlier, looser checks were rug-pulled within 12 hours. The stricter rules (locked pool money and a proven test sale) need ${esc(s.proof_n || 50)} passed paper snipes before anything here raises an alert.`} The Sniper lab is never part of "the best ideas".</p>
       <p>No real-money sniping until the results prove it works.</p>${open("sniper")}`;
   }
 

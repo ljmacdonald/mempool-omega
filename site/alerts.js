@@ -284,9 +284,10 @@
         body: "The first hours after a listing are the wildest. Open to see what usually happens next.", tab: "" }); });
     return out;
   } };
-  // paper snipes: only once a plan has held up and the grade is good (until then everything there is watch-only)
+  // paper snipes: only once the current (stricter) rules have held up over 50+ passed snipes and the grade is good;
+  // until then everything there is watch-only (97% of the first passed snipes rugged)
   WATCH.sniper = { file: "sniper/snapshot.json", ideas(s) {
-    if (unreliable(s.quality)) return [];
+    if (s.proven !== true || unreliable(s.quality)) return [];
     return (s.ideas || []).filter((x) => x.evidence === "Held up in paper tests" && gradeOk(x.grade)).map((x) => ({ score: +x.score, key: `idea-${x.id}`,
       short: x.symbol, title: `${x.symbol} on ${x.chain} passed every scam check (${x.grade}, score ${(+x.score).toFixed(1)})`,
       body: `Paper snipe: opened ${Math.round(x.delay_min)} min ago, ${Math.round(x.prob * 100)}% of similar paper snipes made money. Check the address on DexScreener.`, tab: "" }));

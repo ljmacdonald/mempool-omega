@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 import sys
 import time
 
@@ -52,12 +53,15 @@ PLANS = {
 FINAL_AFTER_H = 12.5           # judge a position once the longest plan has run its course
 MAX_FINISH = 60                # positions judged per run (one candle request each; the rest wait for the next run)
 RUG_DROP = 0.90                # fell 90% from the entry, or the pool lost 90% of its money: rugged
+RULES = 2                      # 2 = since 8 Oct 2026: an unlocked pool or an unproven sale rejects (was a warning)
+PROOF_N = 50                   # passed snipes under the current rules before anything here may raise an alert
+STRICT_WARNINGS = ("isn't (fully) locked", "sell simulation didn't confirm", "No buy-and-sell simulation")
 UNSELLABLE = ("Honeypot:", "wallets sold against")    # rejection reasons meaning ordinary holders couldn't sell
 GAP = 0.8                      # a candle whose low is below 80% of the stop crashed through it (filled at the low)
 HIST = "sniper/positions.csv"
 COLS = ["id", "chain", "pool", "token", "symbol", "name", "dex", "created", "entry_t", "delay_min", "entry", "reserve",
         "reserve0", "pool_fee", "buy_tax", "sell_tax", "cost_rt", "verdict", "reasons", "warnings", "grade", "score", "plan",
-        "status", "last", "last_t", "last_reserve", "rug"] + [f"{p}_{k}" for p in PLANS for k in ("net", "reason")]
+        "status", "last", "last_t", "last_reserve", "rug", "rules"] + [f"{p}_{k}" for p in PLANS for k in ("net", "reason")]
 K_HIT, K_AVG = 20, 30
 MIN_PROVEN = 30
 
@@ -121,6 +125,25 @@ def market(r: dict) -> dict:
             "sells_h24": tx.get("sells", 0), "vol_h24": r.get("vol_h24") or 0.0, "liq_change_6h": None, "liq_change_24h": None,
             "liq_change_72h": None, "boosted": bool(r.get("boosted")), "copycat": False,
             "impersonator": (r.get("base_symbol") or "").upper() in PROTECTED, "rules_changed": False}
+
+
+def strict_rejections(f: dict) -> list[str]:
+    """Since 8 Oct 2026 these reject instead of warning: 97% of the first 152 passed snipes rugged, 141 of them with
+    an unlocked pool and every one without a proven sale (DECISIONS D91)."""
+    out = []
+    if not f.get("sim_ok"):
+        out.append("Selling isn't proven: no test buy-and-sell succeeded (none is possible on Solana yet).")
+    if f.get("lp_secured_pct") is None or (f.get("lp_secured_pct") or 0) < 0.9:
+        out.append("The pool's money isn't locked: the creator can pull it at any time.")
+    return out
+
+
+def effective_verdict(h: pd.DataFrame) -> pd.Series:
+    """Positions taken before the stricter rules are judged by them too: an old 'pass' that carried an unlocked-pool or
+    unproven-sale warning counts as a rejection, so 'passed' only ever means passed under the current rules."""
+    old = pd.to_numeric(h.get("rules", pd.Series(index=h.index, dtype=float)), errors="coerce").fillna(1) < RULES
+    hit = h.get("warnings", pd.Series("", index=h.index)).astype(str).str.contains("|".join(map(re.escape, STRICT_WARNINGS)), regex=True)
+    return h["verdict"].where(~(old & (h["verdict"] == "pass") & hit), "reject")
 
 
 def launch_warnings(f: dict, m: dict, chain: str) -> list[str]:
@@ -193,6 +216,8 @@ def results(h: pd.DataFrame) -> dict:
     """Per plan: tokens that passed vs ones rejected (bought anyway), paired by network and time: each passed
     trade's baseline is the average result of rejected tokens on the same network within 6 hours."""
     d = h[h["status"] == "closed"].copy()
+    if not d.empty:
+        d["verdict"] = effective_verdict(d)
     if d.empty:
         return {p: {"passed": summarize([]), "rejected": summarize([]), "early": summarize([]), "late": summarize([]),
                     "level": "warn", "verdict": "No finished paper snipes yet: results build up from the first day.", "rug_passed": None,
@@ -250,7 +275,8 @@ def judge(res: dict, plan: str, warnings: list[str], penalty: float, cost_rt: fl
     adj = exp / ru - pen
     sc = score_from_r(adj)
     return {"prob": prob, "exp_ret": exp, "exp_r_adj": adj, "score": sc, "grade": grade_of(sc), "hist_n": n,
-            "evidence": {"good": "Held up in paper tests", "warn": "Not proven yet", "bad": "Failed in paper tests"}[res[plan]["level"]]}
+            "evidence": {"good": "Held up in paper tests" if n >= PROOF_N else "Not proven yet", "warn": "Not proven yet",
+                         "bad": "Failed in paper tests"}[res[plan]["level"]]}
 
 
 # ---------------------------------------------------------------------------------------------- run
@@ -300,6 +326,8 @@ def run() -> dict:
             m = market({**r, **{k: cur.get(k) for k in ("tx_h24", "vol_h24") if cur.get(k) is not None}})
             f = facts.get(r["token"]) or S.empty_facts()
             a = S.assess(f, m, t, chain)
+            if a["verdict"] == "pass" and (strict := strict_rejections(f)):
+                a = {**a, "verdict": "reject", "hard": a["hard"] + [{"text": x} for x in strict]}
             fee = (r.get("fee_pct") / 100) if r.get("fee_pct") == r.get("fee_pct") and r.get("fee_pct") else 0.003
             bt, st = f.get("buy_tax") or 0.0, f.get("sell_tax") or 0.0
             cost = dex_cost(AMOUNT, px, m["liq_real"], fee, bt, st, gas, CHAINS[chain]["mev"], SNIPE_COST)["round_trip"]
@@ -311,7 +339,7 @@ def run() -> dict:
                    "pool_fee": fee, "buy_tax": bt, "sell_tax": st, "cost_rt": min(cost, 0.99), "verdict": a["verdict"],
                    "reasons": " | ".join(x["text"] for x in a["hard"]), "warnings": " | ".join(warns), "grade": j.get("grade"),
                    "score": j.get("score"), "plan": plan, "status": "open", "last": px, "last_t": str(now), "last_reserve": cur.get("reserve_usd") or r.get("reserve_usd"),
-                   "reserve0": cur.get("reserve_usd") or r.get("reserve_usd")}
+                   "reserve0": cur.get("reserve_usd") or r.get("reserve_usd"), "rules": RULES}
             h = pd.concat([h, pd.DataFrame([row]).reindex(columns=COLS)], ignore_index=True)
             if a["verdict"] == "pass":
                 fresh.append({**row, **j, "checks": [c["text"] for c in a["checks"] if c["ok"]], "warn_list": warns,
@@ -353,6 +381,7 @@ def exit_price(r: dict, plan: str) -> float | None:
 
 
 def snapshot(h: pd.DataFrame, res: dict, plan: str, fresh: list, rejected: list, now: pd.Timestamp) -> dict:
+    h = h.assign(verdict=effective_verdict(h)) if len(h) else h          # shown and counted under the current rules
     op = h[h["status"] == "open"].copy()
     open_rows = []
     for r in op.to_dict("records"):
@@ -387,7 +416,8 @@ def snapshot(h: pd.DataFrame, res: dict, plan: str, fresh: list, rejected: list,
             "open": sorted(open_rows, key=lambda r: r["entry_t"], reverse=True)[:60], "recent": recent, "counts": counts,
             "speed": {"median_delay_min": float(delays.median()) if len(delays) else None, "p90_delay_min": float(delays.quantile(0.9)) if len(delays) else None},
             "costs": {"snipe": SNIPE_COST, "min_liq": MIN_LIQ, "median_cost_rt": float(h["cost_rt"].astype(float).median()) if len(h) else None},
-            "quality": qual}
+            "quality": qual, "rules_since": "2026-10-08", "proof_n": PROOF_N,
+            "proven": bool(res[plan]["passed"]["n"] >= PROOF_N and res[plan]["level"] == "good")}
     out = REPO_ROOT / ".cache" / "sniper_out" / "snapshot.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(clean(snap), allow_nan=False))

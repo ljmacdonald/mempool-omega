@@ -78,3 +78,27 @@ def test_rejected_tokens_that_cant_be_sold_stay_out_of_the_comparison():
                      "rug": False, **{f"{p}_net": net for p in run.PLANS}})
     res = run.results(pd.DataFrame(rows))["quick"]
     assert res["unsellable"] == 2 and res["rejected"]["n"] == 1 and abs(res["rejected"]["avg"] + 0.1) < 1e-9
+
+
+def test_unlocked_pool_or_unproven_sale_rejects_and_old_passes_are_rescored():
+    """Since D91 an unlocked pool or an unproven sale rejects; earlier passes that carried those warnings count as
+    rejections, so 'passed' only means passed under the current rules."""
+    from sniper import run
+
+    assert run.strict_rejections({"sim_ok": True, "lp_secured_pct": 0.95}) == []
+    assert len(run.strict_rejections({"sim_ok": None, "lp_secured_pct": 0.95})) == 1
+    assert len(run.strict_rejections({"sim_ok": False, "lp_secured_pct": None})) == 2
+    h = pd.DataFrame([
+        {"verdict": "pass", "rules": None, "warnings": "The pool's money isn't (fully) locked: it can be pulled."},
+        {"verdict": "pass", "rules": None, "warnings": "No wallet has sold yet: the first sellers are usually the launch bots."},
+        {"verdict": "pass", "rules": 2, "warnings": ""},
+        {"verdict": "reject", "rules": None, "warnings": ""}])
+    assert run.effective_verdict(h).tolist() == ["reject", "pass", "pass", "reject"]
+
+
+def test_sniper_alerts_need_proof_under_the_current_rules():
+    from sniper import run
+
+    res = {"passed": {"n": 49}, "level": "good"}
+    assert run.judge({"standard": {**res, "passed": {"n": 49, "hit": 0.6, "avg": 0.1, "avg_loss": -0.2}}}, "standard", [], 0, 0.02)["evidence"] == "Not proven yet"
+    assert run.judge({"standard": {**res, "passed": {"n": 50, "hit": 0.6, "avg": 0.1, "avg_loss": -0.2}}}, "standard", [], 0, 0.02)["evidence"] == "Held up in paper tests"
