@@ -457,9 +457,9 @@ def hourly() -> dict:
     ideas, ideas_r = {}, {}
     for key in DEX_STYLES:
         ideas[key] = ideas_for(cands, key)
-        track.append(ideas[key], len(cands), hist)
+        track.append(ideas[key], len(cands), hist, one_per_coin=True)
         ideas_r[key] = ideas_for(cands, key, profile="assess_risky")
-        track.append(ideas_r[key], len(cands), hist_r)
+        track.append(ideas_r[key], len(cands), hist_r, one_per_coin=True)
     settle = {f"{c['chain']}:{c['token']}": candles.get(f"{c['chain']}:{c['pool']}") for c in cands}
     settle = {k: v for k, v in settle.items() if v is not None and len(v)}
     _fill_open_candles(settle, hist)
@@ -468,6 +468,8 @@ def hourly() -> dict:
         track.resolve(settle, key, hist)
         track.resolve(settle, key, hist_r)
     first_hour_runup(settle, hist)
+    for f in (hist, hist_r):                           # one trade per coin at a time (D92); also cleans older records
+        track.drop_repeats(f)
     def by_chain(sym: str) -> str:                     # grade tables per network
         return CHAINS.get(sym.split(":")[0], {}).get("name", sym.split(":")[0])
 

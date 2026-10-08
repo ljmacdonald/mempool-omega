@@ -554,6 +554,7 @@
         }
         html += `</tbody></table></div>`;
       }
+      html += `<p class="small muted">Each coin counts once until its trade ends: a coin that stays at the top of the list isn't counted again every hour, as you'd already be in that trade.</p>`;
       html += Q.gradeTable(b.quality);
       try {
         const h = parseCSV(await getText(REPO + histFile)).filter((r) => r.status === "closed").slice(-15).reverse();
