@@ -46,9 +46,44 @@ def _normalise(h: pd.DataFrame) -> pd.DataFrame:
     return h
 
 
-def append(ideas: list[dict], universe_size: int, hist: str = HIST, min_gap_minutes: float = 0) -> None:
+def repeats(h: pd.DataFrame) -> pd.Series:
+    """True for a row recorded while an earlier counted idea for the same coin and speed was still running: following
+    the page, you'd already be in that trade, so counting it again would multiply one coin's result."""
+    out = pd.Series(False, index=h.index)
+    if h.empty:
+        return out
+    t = pd.to_datetime(h["ts"], utc=True)
+    for (_, st), g in h.groupby(["symbol", "style"]):
+        horizon = pd.Timedelta(minutes=get_style(st).horizon_minutes) if st in STYLES else pd.Timedelta(days=2)
+        busy_until = None
+        for i in t[g.index].sort_values().index:
+            if busy_until is not None and t[i] < busy_until:
+                out[i] = True
+                continue
+            r = h.loc[i]
+            if r["status"] == "open":
+                busy_until = pd.Timestamp.max.tz_localize("UTC")
+            elif r["status"] == "closed" and pd.notna(r.get("hours")):
+                busy_until = t[i] + pd.Timedelta(hours=float(r["hours"]))
+            else:
+                busy_until = t[i] + horizon
+    return out
+
+
+def drop_repeats(hist: str) -> int:
+    """Remove rows recorded while the same coin's earlier idea (same speed) was still running. Idempotent."""
+    h = load_history(hist)
+    rep = repeats(h)
+    if rep.any():
+        h[~rep].to_csv(state_path(hist), index=False)
+    return int(rep.sum())
+
+
+def append(ideas: list[dict], universe_size: int, hist: str = HIST, min_gap_minutes: float = 0,
+           one_per_coin: bool = False) -> None:
     """Add the ideas as open rows. With `min_gap_minutes`, a speed that already has ideas saved less than that long
-    before these is skipped, so a job that runs every 15 minutes still records about one set an hour."""
+    before these is skipped, so a job that runs every 15 minutes still records about one set an hour. With
+    `one_per_coin`, a coin whose earlier idea at the same speed is still open isn't recorded again."""
     rows = [{"ts": d["ts"], "style": d["style"], "rank": d["rank"], "symbol": d["symbol"], "score": d["score"],
              "grade": d["grade"], "chance_beats_market": d["chance_beats_market"], "risk_unit": d["risk_unit"],
              "price_at_idea": d["price_now"], "universe_size": universe_size, "status": "open", "outcome": "",
@@ -68,6 +103,9 @@ def append(ideas: list[dict], universe_size: int, hist: str = HIST, min_gap_minu
         last = h.groupby("style")["ts"].max().map(lambda x: pd.Timestamp(x))
         new = new[[not (st in last and pd.Timestamp(ts) - last[st] < pd.Timedelta(minutes=min_gap_minutes))
                    for ts, st in zip(new["ts"], new["style"])]]
+    if len(h) and one_per_coin:
+        busy = set(zip(h.loc[h["status"] == "open", "symbol"], h.loc[h["status"] == "open", "style"]))
+        new = new[[(sy, st) not in busy for sy, st in zip(new["symbol"], new["style"])]]
     if len(h):
         key = ["ts", "symbol", "style"]
         new = new[~new.set_index(key).index.isin(h.set_index(key).index)]

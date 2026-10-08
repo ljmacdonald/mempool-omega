@@ -326,3 +326,30 @@ def test_discovery_survives_a_token_whose_pools_carry_different_names(monkeypatc
     monkeypatch.setattr(live, "ds_boosted", lambda: set())
     cands, _, _ = live.discover()
     assert [c["copycat"] for c in cands if c["token"] == "0xjup"] == [False]
+
+
+def test_dex_record_counts_one_trade_per_coin_at_a_time(tmp_path, monkeypatch):
+    """A coin that stays at the top of the list isn't counted again every hour while its earlier idea is running
+    (D92): following the page, you'd already be in that trade."""
+    import pandas as pd
+
+    from core import config
+    from scanner import track
+
+    monkeypatch.setattr(config, "STATE_DIR", tmp_path)
+    (tmp_path / "dex").mkdir()
+    rows = [  # coin A: closed after 3 h, re-listed at +1 h (repeat), +4 h (new trade); coin B: still open, re-listed
+        {"ts": "2026-10-06T00:00:00+00:00", "style": "dex_day", "symbol": "A", "status": "closed", "hours": 3.0, "net_ret": -0.1},
+        {"ts": "2026-10-06T01:00:00+00:00", "style": "dex_day", "symbol": "A", "status": "closed", "hours": 2.0, "net_ret": -0.1},
+        {"ts": "2026-10-06T04:00:00+00:00", "style": "dex_day", "symbol": "A", "status": "closed", "hours": 1.0, "net_ret": 0.05},
+        {"ts": "2026-10-06T00:00:00+00:00", "style": "dex_short", "symbol": "A", "status": "closed", "hours": 1.0, "net_ret": 0.0},
+        {"ts": "2026-10-06T02:00:00+00:00", "style": "dex_day", "symbol": "B", "status": "open", "hours": None, "net_ret": None},
+        {"ts": "2026-10-06T09:00:00+00:00", "style": "dex_day", "symbol": "B", "status": "open", "hours": None, "net_ret": None}]
+    pd.DataFrame(rows).to_csv(tmp_path / "dex" / "h.csv", index=False)
+    assert track.repeats(track.load_history("dex/h.csv")).tolist() == [False, True, False, False, False, True]
+    assert track.drop_repeats("dex/h.csv") == 2 and track.drop_repeats("dex/h.csv") == 0
+    idea = {"ts": "2026-10-06T10:00:00+00:00", "style": "dex_day", "rank": 1, "score": 5, "grade": "Weak", "chance_beats_market": 0.5,
+            "risk_unit": 0.05, "price_now": 1.0}
+    track.append([{**idea, "symbol": "B"}, {**idea, "symbol": "C"}], 10, "dex/h.csv", one_per_coin=True)
+    h = track.load_history("dex/h.csv")
+    assert (h["symbol"] == "B").sum() == 1 and (h["symbol"] == "C").sum() == 1
