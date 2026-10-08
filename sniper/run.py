@@ -52,6 +52,7 @@ PLANS = {
 FINAL_AFTER_H = 12.5           # judge a position once the longest plan has run its course
 MAX_FINISH = 60                # positions judged per run (one candle request each; the rest wait for the next run)
 RUG_DROP = 0.90                # fell 90% from the entry, or the pool lost 90% of its money: rugged
+UNSELLABLE = ("Honeypot:", "wallets sold against")    # rejection reasons meaning ordinary holders couldn't sell
 GAP = 0.8                      # a candle whose low is below 80% of the stop crashed through it (filled at the low)
 HIST = "sniper/positions.csv"
 COLS = ["id", "chain", "pool", "token", "symbol", "name", "dex", "created", "entry_t", "delay_min", "entry", "reserve",
@@ -199,6 +200,11 @@ def results(h: pd.DataFrame) -> dict:
     d["t"] = pd.to_datetime(d["entry_t"], utc=True)
     t0, t1 = d["t"].min(), d["t"].max()
     cut = t0 + (t1 - t0) * 2 / 3
+    # rejected because selling looked blocked: on paper their price only rises (nobody can sell), so a paper
+    # "bought anyway" result would be fiction; they're left out of the comparison and counted separately
+    unsellable = d["reasons"].astype(str).str.contains("|".join(UNSELLABLE), regex=True)
+    n_unsellable = int((unsellable & (d["verdict"] == "reject")).sum())
+    d = d[~(unsellable & (d["verdict"] == "reject"))]
     out = {}
     for p in PLANS:
         rows_p, rows_r = [], []
@@ -219,7 +225,7 @@ def results(h: pd.DataFrame) -> dict:
         level, text = verdict(a, late)
         out[p] = {"passed": a, "rejected": summarize(rows_r), "early": early, "late": late, "level": level, "verdict": text,
                   "rug_passed": float(np.mean([r["rug"] for r in rows_p])) if rows_p else None,
-                  "rug_rejected": float(np.mean([r["rug"] for r in rows_r])) if rows_r else None}
+                  "rug_rejected": float(np.mean([r["rug"] for r in rows_r])) if rows_r else None, "unsellable": n_unsellable}
     return out
 
 

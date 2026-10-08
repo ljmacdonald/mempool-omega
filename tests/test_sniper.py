@@ -63,3 +63,18 @@ def test_no_evidence_means_watch_only():
     res = R.results(pd.DataFrame(columns=R.COLS))
     j = R.judge(res, "standard", [], 0.0, 0.05)
     assert j["grade"] == "Avoid - watch only" and j["evidence"] == "Not proven yet"
+
+
+def test_rejected_tokens_that_cant_be_sold_stay_out_of_the_comparison():
+    """A token rejected because selling looks blocked only rises on paper; counting it as a 'bought anyway' winner
+    would make the checks look worse than they are."""
+    from sniper import run
+
+    rows = []
+    for i, (verdict, reason, net) in enumerate([("pass", "", -0.2), ("reject", "The creator/owner still holds 100%.", -0.1),
+                                                ("reject", "Only 0 wallets sold against 5 that bought in 24 hours. X", 0.25),
+                                                ("reject", "Honeypot: a test buy-and-sell failed", 0.25)]):
+        rows.append({"chain": "bsc", "entry_t": f"2026-10-06T0{i}:00:00Z", "verdict": verdict, "reasons": reason, "status": "closed",
+                     "rug": False, **{f"{p}_net": net for p in run.PLANS}})
+    res = run.results(pd.DataFrame(rows))["quick"]
+    assert res["unsellable"] == 2 and res["rejected"]["n"] == 1 and abs(res["rejected"]["avg"] + 0.1) < 1e-9
