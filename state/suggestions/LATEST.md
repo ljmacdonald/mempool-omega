@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-08 02:04 UTC
+# Trade ideas: 2026-10-08 03:09 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (2% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (1% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **MET** | 2.9/10 | Avoid - watch only | Very high | $0.4596 | $0.494613 (+7.6%) | $0.442093 (-3.8%) | 03:00 08-Oct |
-| 2 | **VANRY** | 2.7/10 | Avoid - watch only | Very high | $0.00074 | $0.000814 (+10.0%) | $0.000703 (-5.0%) | 04:00 17-Aug |
-| 3 | **ACE** | 2.6/10 | Avoid - watch only | Very high | $0.1885 | $0.203527 (+8.0%) | $0.180987 (-4.0%) | 03:00 08-Oct |
-| 4 | **ORCA** | 2.5/10 | Avoid - watch only | Very high | $2.91 | $3.11 (+6.9%) | $2.81 (-3.4%) | 03:00 08-Oct |
-| 5 | **MARSCOIN** | 2.0/10 | Avoid - watch only | Medium | $0.0943 | $0.096738 (+2.6%) | $0.093081 (-1.3%) | 03:00 08-Oct |
+| 1 | **VANRY** | 3.3/10 | Avoid - watch only | Very high | $0.00074 | $0.000814 (+10.0%) | $0.000703 (-5.0%) | 04:00 17-Aug |
+| 2 | **ORCA** | 3.0/10 | Avoid - watch only | High | $2.90 | $3.08 (+6.4%) | $2.81 (-3.2%) | 04:05 08-Oct |
+| 3 | **MET** | 3.0/10 | Avoid - watch only | Very high | $0.4583 | $0.491017 (+7.1%) | $0.441942 (-3.6%) | 04:05 08-Oct |
+| 4 | **LAZIO** | 2.3/10 | Avoid - watch only | Very high | $0.447 | $0.491559 (+10.0%) | $0.424721 (-5.0%) | 04:05 08-Oct |
+| 5 | **HEMI** | 2.1/10 | Avoid - watch only | Medium | $0.00637 | $0.00663572 (+4.2%) | $0.00623714 (-2.1%) | 04:05 08-Oct |
 
-- **MET:** Buyers have been more eager than sellers over the last 30 minutes (60% of trades were buys). It did 3.5% better than Bitcoin over the last 2 hours. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 - **VANRY:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **ACE:** It did 6.6% better than Bitcoin over the last 2 hours. Trading activity is 3.7x higher than usual, so people are paying attention to it. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ORCA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MET:** Buyers have been more eager than sellers over the last 30 minutes (56% of trades were buys). It did 1.8% better than Bitcoin over the last 2 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (11% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (6% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ACE** | 8.3/10 | Strong | Very high | $0.1885 | $0.217541 (+15.4%) | $0.173979 (-7.7%) | 06:00 08-Oct |
-| 2 | **MET** | 6.9/10 | Strong | Very high | $0.4596 | $0.533136 (+16.0%) | $0.422832 (-8.0%) | 06:00 08-Oct |
-| 3 | **RAD** | 5.8/10 | Moderate | High | $0.302 | $0.328776 (+8.9%) | $0.288612 (-4.4%) | 06:00 08-Oct |
-| 4 | **STX** | 5.0/10 | Weak | Medium | $0.366 | $0.38277 (+4.6%) | $0.357615 (-2.3%) | 06:00 08-Oct |
-| 5 | **MARSCOIN** | 4.9/10 | Avoid - watch only | Medium | $0.0943 | $0.0995297 (+5.5%) | $0.0916852 (-2.8%) | 06:00 08-Oct |
+| 1 | **NMR** | 4.5/10 | Avoid - watch only | High | $14.55 | $15.93 (+9.5%) | $13.86 (-4.7%) | 07:00 08-Oct |
+| 2 | **ACE** | 4.5/10 | Avoid - watch only | Very high | $0.1932 | $0.222307 (+15.1%) | $0.178646 (-7.5%) | 07:00 08-Oct |
+| 3 | **SAND** | 3.8/10 | Avoid - watch only | Very high | $0.0761 | $0.08483 (+11.5%) | $0.0717336 (-5.7%) | 07:00 08-Oct |
+| 4 | **BAR** | 3.6/10 | Avoid - watch only | Medium | $0.283 | $0.298026 (+5.3%) | $0.275487 (-2.7%) | 07:00 08-Oct |
+| 5 | **RESOLV** | 3.5/10 | Avoid - watch only | Medium | $0.01943 | $0.0204143 (+5.1%) | $0.0189379 (-2.5%) | 07:00 08-Oct |
 
-- **ACE:** It did 12.8% better than Bitcoin over the last 6 hours. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing.
-- **MET:** It did 5.9% better than Bitcoin over the last 6 hours. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Buyers have been more eager than sellers over the last 1.5 hours (54% of trades were buys). ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
-- **RAD:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **NMR:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ACE:** It did 15.1% better than Bitcoin over the last 6 hours. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **SAND:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
-Market mood: **Mixed** (35% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (12% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ACE** | 8.2/10 | Strong | Very high | $0.1885 | $0.23374 (+24.0%) | $0.16588 (-12.0%) | 02:00 09-Oct |
-| 2 | **ENJ** | 8.0/10 | Strong | High | $0.03051 | $0.0347834 (+14.0%) | $0.0283733 (-7.0%) | 02:00 09-Oct |
-| 3 | **MAGIC** | 7.2/10 | Strong | High | $0.0645 | $0.0745311 (+15.6%) | $0.0594845 (-7.8%) | 02:00 09-Oct |
-| 4 | **ARK** | 7.1/10 | Strong | High | $0.2122 | $0.237831 (+12.1%) | $0.199385 (-6.0%) | 02:00 09-Oct |
-| 5 | **RAD** | 7.0/10 | Strong | Very high | $0.302 | $0.37448 (+24.0%) | $0.26576 (-12.0%) | 02:00 09-Oct |
+| 1 | **VANRY** | 6.5/10 | Strong | Very high | $0.00074 | $0.0009176 (+24.0%) | $0.00064805 (-12.4%) | 03:00 18-Aug |
+| 2 | **MAGIC** | 6.1/10 | Moderate | High | $0.0646 | $0.0744425 (+15.2%) | $0.0596788 (-7.6%) | 03:00 09-Oct |
+| 3 | **BAT** | 5.3/10 | Weak | High | $0.1046 | $0.120221 (+14.9%) | $0.0962136 (-8.0%) | 03:00 09-Oct |
+| 4 | **ENJ** | 5.3/10 | Weak | High | $0.03023 | $0.0344045 (+13.8%) | $0.0281428 (-6.9%) | 03:00 09-Oct |
+| 5 | **RAD** | 5.2/10 | Weak | Very high | $0.303 | $0.37572 (+24.0%) | $0.26664 (-12.0%) | 03:00 09-Oct |
 
-- **ACE:** Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
-- **ENJ:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **MAGIC:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **VANRY:** Trading activity is 1.8x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
+- **MAGIC:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **BAT:** It did 5.7% better than Bitcoin over the last 24 hours. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 307 | 41% | -0.35% | -0.27% |
-| Short: exit within 4 hours | 312 | 37% | -0.54% | -0.43% |
-| Day: exit within 24 hours | 215 | 26% | -1.18% | -1.14% |
+| Quick: exit within 1 hour | 314 | 41% | -0.32% | -0.27% |
+| Short: exit within 4 hours | 319 | 36% | -0.58% | -0.43% |
+| Day: exit within 24 hours | 223 | 27% | -1.09% | -1.09% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
