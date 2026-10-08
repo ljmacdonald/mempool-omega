@@ -306,3 +306,23 @@ def test_snapshot_json_never_contains_nan():
     out = json.dumps(clean({"a": float("nan"), "b": [np.float64("inf"), np.int64(3)], "c": {"d": np.bool_(True)}}),
                      allow_nan=False)
     assert out == '{"a": null, "b": [null, 3], "c": {"d": true}}'
+
+
+def test_discovery_survives_a_token_whose_pools_carry_different_names(monkeypatch):
+    """A token's pools can be labelled differently ("Jupiter USD" vs "JupUSD"); the copycat check must read names
+    from the same pool it ranks by (crashed the hourly scan with KeyError before)."""
+    from dex import live
+
+    weth = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+
+    def pool(pid, token, sym, name, reserve):
+        return {"chain": "ethereum", "pool": pid, "dex": "uniswap_v2", "name": f"{sym} / WETH", "base_symbol": sym,
+                "base_name": name, "token": token, "quote_symbol": "WETH", "quote": weth, "price": 1.0,
+                "quote_price": 3000.0, "reserve_usd": reserve, "created": "2025-01-01T00:00:00Z", "fee_pct": float("nan"),
+                "tx_h24": {"buys": 3000, "sells": 2900, "buyers": 900, "sellers": 800}, "tx_h1": {}, "vol_h24": 1e6}
+
+    pools = [pool("P1", "0xjup", "JUPUSD", "JupUSD", 1e5), pool("P2", "0xjup", "JUPUSD", "Jupiter USD", 2e6)]
+    monkeypatch.setattr(live, "gt_pools", lambda chain, sort, pages, dex=None: pools if chain == "ethereum" else [])
+    monkeypatch.setattr(live, "ds_boosted", lambda: set())
+    cands, _, _ = live.discover()
+    assert [c["copycat"] for c in cands if c["token"] == "0xjup"] == [False]

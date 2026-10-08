@@ -113,11 +113,11 @@ def discover() -> tuple[list[dict], list[dict], dict]:
         total = {t: sum(p["reserve_usd"] or 0 for p in ps) for t, ps in by_token.items()}
         best_by_name: dict[str, tuple[float, str]] = {}
         for t, ps in by_token.items():
+            ps.sort(key=lambda p: -(p["reserve_usd"] or 0))     # names from the same (biggest) pool as below
             for key in {(ps[0]["base_symbol"] or "").upper(), (ps[0]["base_name"] or "").lower()} - {""}:
                 if total[t] > best_by_name.get(key, (-1, ""))[0]:
                     best_by_name[key] = (total[t], t)
         for t, ps in by_token.items():
-            ps.sort(key=lambda p: -(p["reserve_usd"] or 0))
             main = ps[0]
             keys = {(main["base_symbol"] or "").upper(), (main["base_name"] or "").lower()} - {""}
             copy = any(best_by_name[k][1] != t for k in keys)
