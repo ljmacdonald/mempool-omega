@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-08 15:17 UTC
+# Trade ideas: 2026-10-08 16:11 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (3% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (30% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ERA** | 5.2/10 | Weak | Very high | $0.0664 | $0.0722224 (+8.8%) | $0.0634888 (-4.4%) | 16:10 08-Oct |
-| 2 | **ALGO** | 4.7/10 | Avoid - watch only | High | $0.1186 | $0.125307 (+5.7%) | $0.115247 (-2.8%) | 16:10 08-Oct |
-| 3 | **WIN** | 4.4/10 | Avoid - watch only | Very high | $5.737e-05 | $6.18736e-05 (+7.9%) | $5.51182e-05 (-3.9%) | 16:10 08-Oct |
-| 4 | **VANRY** | 4.1/10 | Avoid - watch only | Very high | $0.00074 | $0.000814 (+10.0%) | $0.000703 (-5.0%) | 04:00 17-Aug |
-| 5 | **RLC** | 3.6/10 | Avoid - watch only | High | $0.7185 | $0.762413 (+6.1%) | $0.696543 (-3.1%) | 16:10 08-Oct |
+| 1 | **MET** | 5.5/10 | Weak | Very high | $0.4279 | $0.465702 (+8.8%) | $0.408999 (-4.4%) | 17:05 08-Oct |
+| 2 | **PROM** | 4.7/10 | Avoid - watch only | High | $5.01 | $5.27 (+5.2%) | $4.88 (-2.6%) | 17:05 08-Oct |
+| 3 | **VANRY** | 4.1/10 | Avoid - watch only | Very high | $0.00074 | $0.000814 (+10.0%) | $0.000703 (-5.0%) | 04:00 17-Aug |
+| 4 | **GLMR** | 4.0/10 | Avoid - watch only | High | $0.011037 | $0.0116166 (+5.3%) | $0.0107472 (-2.6%) | 17:05 08-Oct |
+| 5 | **WIN** | 4.0/10 | Avoid - watch only | Very high | $5.511e-05 | $5.8854e-05 (+6.8%) | $5.3238e-05 (-3.4%) | 17:05 08-Oct |
 
-- **ERA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **ALGO:** Buyers have been more eager than sellers over the last 30 minutes (52% of trades were buys).
-- **WIN:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **MET:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **PROM:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **VANRY:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (21% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (23% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **LAZIO** | 7.1/10 | Strong | Very high | $0.412 | $0.462134 (+12.2%) | $0.386933 (-6.1%) | 19:15 08-Oct |
-| 2 | **GLMR** | 6.6/10 | Strong | Very high | $0.011401 | $0.0127833 (+12.1%) | $0.0107099 (-6.1%) | 19:15 08-Oct |
-| 3 | **RLC** | 6.5/10 | Strong | Very high | $0.7193 | $0.833614 (+15.9%) | $0.662143 (-7.9%) | 19:15 08-Oct |
-| 4 | **RAD** | 6.2/10 | Moderate | High | $0.287 | $0.307977 (+7.3%) | $0.276512 (-3.7%) | 19:15 08-Oct |
-| 5 | **ACE** | 5.5/10 | Weak | High | $0.1823 | $0.198927 (+9.1%) | $0.173986 (-4.6%) | 19:15 08-Oct |
+| 1 | **GLMR** | 5.9/10 | Moderate | Very high | $0.011031 | $0.0123317 (+11.8%) | $0.0103806 (-5.9%) | 20:00 08-Oct |
+| 2 | **BIO** | 5.9/10 | Moderate | High | $0.02719 | $0.0291754 (+7.3%) | $0.0261973 (-3.7%) | 20:00 08-Oct |
+| 3 | **RAD** | 5.0/10 | Weak | High | $0.278 | $0.298267 (+7.3%) | $0.267866 (-3.6%) | 20:00 08-Oct |
+| 4 | **MANA** | 3.4/10 | Avoid - watch only | High | $0.0913 | $0.0980117 (+7.4%) | $0.0879442 (-3.7%) | 20:00 08-Oct |
+| 5 | **RAY** | 3.3/10 | Avoid - watch only | High | $2.31 | $2.49 (+7.7%) | $2.23 (-3.8%) | 20:00 08-Oct |
 
-- **LAZIO:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 - **GLMR:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **RLC:** Buyers have been more eager than sellers over the last 1.5 hours (54% of trades were buys).
+- **BIO:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **RAD:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Day: exit within 24 hours
 
-Market mood: **Mixed** (36% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Favourable** (79% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **KORUB** | 9.1/10 | Strong | High | $18.36 | $20.74 (+13.0%) | $17.17 (-6.5%) | 15:00 09-Oct |
-| 2 | **ALGO** | 8.2/10 | Strong | Very high | $0.12 | $0.146995 (+22.5%) | $0.106503 (-11.2%) | 15:00 09-Oct |
-| 3 | **RLC** | 8.2/10 | Strong | Very high | $0.7161 | $0.887964 (+24.0%) | $0.630168 (-12.0%) | 15:00 09-Oct |
-| 4 | **SNXXB** | 7.1/10 | Strong | Very high | $14.84 | $17.16 (+15.6%) | $13.68 (-7.8%) | 15:00 09-Oct |
-| 5 | **GALA** | 6.9/10 | Strong | Medium | $0.002333 | $0.00255403 (+9.5%) | $0.00222248 (-4.7%) | 15:00 09-Oct |
+| 1 | **PHA** | 9.3/10 | Strong | Very high | $0.0598 | $0.0691472 (+15.6%) | $0.0551264 (-7.8%) | 16:00 09-Oct |
+| 2 | **CRV** | 9.2/10 | Strong | Very high | $0.3399 | $0.413608 (+21.7%) | $0.303046 (-10.8%) | 16:00 09-Oct |
+| 3 | **APT** | 9.2/10 | Strong | Very high | $0.7115 | $0.87787 (+23.4%) | $0.628315 (-11.7%) | 16:00 09-Oct |
+| 4 | **LDO** | 9.2/10 | Strong | Very high | $0.4043 | $0.49007 (+21.2%) | $0.361415 (-10.6%) | 16:00 09-Oct |
+| 5 | **PENDLE** | 9.2/10 | Strong | Very high | $2.07 | $2.44 (+18.1%) | $1.88 (-9.0%) | 16:00 09-Oct |
 
-- **KORUB:** Trading activity is 1.6x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
-- **ALGO:** It did 3.8% better than Bitcoin over the last 24 hours. Trading activity is 2.8x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
-- **RLC:** It did 2.5% better than Bitcoin over the last 24 hours. Buyers have been more eager than sellers over the last 6 hours (53% of trades were buys). Momentum is healthy: not overheated, not collapsing.
+- **PHA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **CRV:** Trading activity is 2.6x higher than usual, so people are paying attention to it. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
+- **APT:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 358 | 41% | -0.31% | -0.28% |
-| Short: exit within 4 hours | 382 | 35% | -0.58% | -0.46% |
-| Day: exit within 24 hours | 291 | 32% | -0.62% | -0.71% |
+| Quick: exit within 1 hour | 360 | 41% | -0.33% | -0.28% |
+| Short: exit within 4 hours | 388 | 35% | -0.61% | -0.48% |
+| Day: exit within 24 hours | 318 | 29% | -1.14% | -0.86% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
