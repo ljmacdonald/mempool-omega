@@ -539,7 +539,37 @@
     for (const [name, file, histFile] of [["Standard", "dex/scoreboard.json", "dex/history.csv"], ["Higher risk", "dex/scoreboard_risky.json", "dex/history_risky.csv"]]) {
       html += `<h2>${name}</h2>` + await recordBlock(file, histFile);
     }
-    box.innerHTML = html;
+    box.innerHTML = html + await archiveBlock();
+  }
+  // Every hourly list exactly as published, repeats included (DECISIONS D93): for research, not a follower's result
+  async function archiveBlock() {
+    const files = [["Standard", "dex/history_all.csv"], ["Higher risk", "dex/history_risky_all.csv"]];
+    const GH = "https://github.com/ljmacdonald/mempool-omega/blob/main/state/";
+    const num = (x) => (x === undefined || x === "" ? NaN : +x);
+    const mean = (a) => (a.length ? a.reduce((s, x) => s + x, 0) / a.length : NaN);
+    let rowsHtml = "", latest = [];
+    for (const [name, f] of files) {
+      let h;
+      try { h = parseCSV(await getText(REPO + f)); } catch { continue; }
+      const closed = h.filter((r) => r.status === "closed" && Number.isFinite(num(r.net_ret)));
+      const net = closed.map((r) => num(r.net_ret)), base = closed.map((r) => num(r.baseline_ret)).filter(Number.isFinite);
+      const run = h.filter((r) => Number.isFinite(num(r.first_hour_runup)) && Number.isFinite(num(r.first_hour_runup_base)))
+        .map((r) => num(r.first_hour_runup) - num(r.first_hour_runup_base));
+      const times = h.map((r) => r.ts).filter(Boolean).sort();
+      rowsHtml += `<tr><td>${name}</td><td class="num">${new Set(times).size}</td><td class="num">${h.length}</td><td class="num">${new Set(h.map((r) => r.symbol)).size}</td>
+        <td class="num">${closed.length}</td><td class="num">${closed.length ? Math.round(net.filter((x) => x > 0).length / closed.length * 100) + "%" : "–"}</td>
+        <td class="num ${mean(net) >= 0 ? "up" : "down"}">${pct(mean(net), 2)}</td><td class="num">${pct(mean(base), 2)}</td><td class="num">${run.length ? pct(mean(run), 2) : "–"}</td>
+        <td><a href="${GH + f}" target="_blank" rel="noopener">view</a> · <a href="${REPO + f}" target="_blank" rel="noopener">raw CSV</a></td></tr>`;
+      if (name === "Standard") latest = h.slice(-12).reverse();
+    }
+    if (!rowsHtml) return "";
+    const what = { take_profit: "Hit take profit", safety_exit: "Hit safety exit", time_limit: "Time limit reached", no_data: "No price data" };
+    return `<h2>Every hourly list (research archive)</h2>
+      <p class="small muted">Every list exactly as published each hour, including coins listed again while their earlier idea was still running. That's why it has more rows than the track records above, which count one trade per coin at a time (what a person following the page would have had). Use this for research, e.g. how far coins rise in the hour after a list goes out ("first-hour run-up vs the other coins": front-runners buying our list would push it up).</p>
+      <div class="table-wrap"><table><thead><tr><th>List</th><th class="num">Hourly lists</th><th class="num">Rows</th><th class="num">Different coins</th><th class="num">Finished</th><th class="num">Ended in profit</th><th class="num">Average per row</th><th class="num">Random pick average</th><th class="num">First-hour run-up vs other coins</th><th>Full file</th></tr></thead><tbody>${rowsHtml}</tbody></table></div>
+      ${latest.length ? `<details><summary>Latest archived rows (standard list)</summary><div class="table-wrap"><table><thead><tr><th>Listed (UTC)</th><th>Network</th><th>Grade</th><th class="num">Score</th><th>What happened</th><th class="num">Result after all costs</th></tr></thead><tbody>
+        ${latest.map((r) => `<tr><td>${esc((r.ts || "").slice(5, 16))}</td><td>${esc((r.symbol || "").split(":")[0])}</td><td>${esc(r.grade || "")}</td><td class="num">${esc(r.score || "")}</td><td>${r.status === "closed" ? esc(what[r.outcome] || r.outcome) : "Still running"}</td><td class="num ${num(r.net_ret) >= 0 ? "up" : "down"}">${Number.isFinite(num(r.net_ret)) ? pct(num(r.net_ret), 2) : "–"}</td></tr>`).join("")}</tbody></table></div></details>` : ""}
+      <p class="small muted">The file opens in Excel or Google Sheets. Gap: repeat rows from 8 Oct ~09:00 UTC until 9 Oct 13:00 UTC weren't recorded.</p>`;
   }
   async function recordBlock(file, histFile) {
     try {
