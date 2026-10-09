@@ -1,5 +1,158 @@
 [
  {
+  "date": "2026-10-09 09:15",
+  "notes": [
+   "Quick: tested 4 model settings on the most recent data they had never seen. Kept/chose 'simpler' (a challenger must beat the standard setting by 0.05% per idea to replace it): its top-5 picks beat the average coin by +0.10% per idea there (50% of the time).",
+   "Short: tested 4 model settings on the most recent data they had never seen. Kept/chose 'base' (a challenger must beat the standard setting by 0.05% per idea to replace it): its top-5 picks beat the average coin by +0.16% per idea there (51% of the time).",
+   "Day: tested 4 model settings on the most recent data they had never seen. Kept/chose 'recent-only' (a challenger must beat the standard setting by 0.05% per idea to replace it): its top-5 picks beat the average coin by +0.60% per idea there (43% of the time).",
+   "Fake-signal check 'walls': after 8 flagged ideas, its weight moved from 0.15 to 0.13 based on how flagged ideas actually did.",
+   "Fake-signal check 'thin_book': after 151 flagged ideas, its weight moved from 0.05 to 0.02 based on how flagged ideas actually did.",
+   "Fake-signal check 'impact': after 6 flagged ideas, its weight moved from 0.10 to 0.09 based on how flagged ideas actually did.",
+   "Fake-signal check 'engineered': after 25 flagged ideas, its weight moved from 0.10 to 0.17 based on how flagged ideas actually did.",
+   "Bait monitor: Ideas with these patterns did worse after being suggested, a sign of baiting: surge"
+  ],
+  "model_selection": {
+   "quick": {
+    "winner": "simpler",
+    "tested_on": "2026-10-07 18:50:00+00:00 onwards (never seen in training)",
+    "results": {
+     "base": {
+      "top5_excess": 0.00038,
+      "top5_beat_market": 0.485,
+      "train_rows": 193742
+     },
+     "simpler": {
+      "top5_excess": 0.00102,
+      "top5_beat_market": 0.502,
+      "train_rows": 193742
+     },
+     "richer": {
+      "top5_excess": -0.00103,
+      "top5_beat_market": 0.44,
+      "train_rows": 193742
+     },
+     "recent-only": {
+      "top5_excess": -0.00107,
+      "top5_beat_market": 0.469,
+      "train_rows": 96944
+     }
+    },
+    "beats_random": true
+   },
+   "short": {
+    "winner": "base",
+    "tested_on": "2026-10-05 20:30:00+00:00 onwards (never seen in training)",
+    "results": {
+     "base": {
+      "top5_excess": 0.00164,
+      "top5_beat_market": 0.508,
+      "train_rows": 137903
+     },
+     "simpler": {
+      "top5_excess": 0.00078,
+      "top5_beat_market": 0.483,
+      "train_rows": 137903
+     },
+     "richer": {
+      "top5_excess": 0.00096,
+      "top5_beat_market": 0.493,
+      "train_rows": 137903
+     },
+     "recent-only": {
+      "top5_excess": 0.00117,
+      "top5_beat_market": 0.459,
+      "train_rows": 69058
+     }
+    },
+    "beats_random": true
+   },
+   "day": {
+    "winner": "recent-only",
+    "tested_on": "2026-09-30 06:00:00+00:00 onwards (never seen in training)",
+    "results": {
+     "base": {
+      "top5_excess": 0.00152,
+      "top5_beat_market": 0.42,
+      "train_rows": 80055
+     },
+     "simpler": {
+      "top5_excess": 0.00219,
+      "top5_beat_market": 0.4,
+      "train_rows": 80055
+     },
+     "richer": {
+      "top5_excess": 0.00284,
+      "top5_beat_market": 0.423,
+      "train_rows": 80055
+     },
+     "recent-only": {
+      "top5_excess": 0.00595,
+      "top5_beat_market": 0.43,
+      "train_rows": 40186
+     }
+    },
+    "beats_random": true
+   }
+  },
+  "check_penalties": {
+   "walls": {
+    "penalty": 0.1293,
+    "n_failed": 8,
+    "learned": 0.0
+   },
+   "thin_book": {
+    "penalty": 0.02,
+    "n_failed": 151,
+    "learned": 0.0
+   },
+   "wash": {
+    "penalty": 0.1,
+    "n_failed": 2,
+    "learned": null
+   },
+   "impact": {
+    "penalty": 0.0893,
+    "n_failed": 6,
+    "learned": 0.0
+   },
+   "venues": {
+    "penalty": 0.15,
+    "n_failed": 1,
+    "learned": null
+   },
+   "whale": {
+    "penalty": 0.05,
+    "n_failed": 0,
+    "learned": null
+   },
+   "engineered": {
+    "penalty": 0.1667,
+    "n_failed": 25,
+    "learned": 0.3
+   }
+  },
+  "probation": {
+   "quick": {
+    "active": false,
+    "n": 50,
+    "avg_vs_random": 0.00523,
+    "penalty": 0.0
+   },
+   "short": {
+    "active": false,
+    "n": 50,
+    "avg_vs_random": 0.01715,
+    "penalty": 0.0
+   },
+   "day": {
+    "active": false,
+    "n": 50,
+    "avg_vs_random": 0.03301,
+    "penalty": 0.0
+   }
+  }
+ },
+ {
   "date": "2026-10-09 02:34",
   "notes": [
    "Quick: tested 4 model settings on the most recent data they had never seen. Kept/chose 'base' (a challenger must beat the standard setting by 0.05% per idea to replace it): its top-5 picks beat the average coin by +0.05% per idea there (48% of the time).",
