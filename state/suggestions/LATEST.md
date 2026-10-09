@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-09 13:07 UTC
+# Trade ideas: 2026-10-09 14:11 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -11,54 +11,54 @@ Market mood: **Unfavourable** (1% of 150 coins look positive). If it says *Unfav
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
 | 1 | **VANRY** | 5.3/10 | Weak | Very high | $0.00074 | $0.000814 (+10.0%) | $0.000703 (-5.0%) | 04:00 17-Aug |
-| 2 | **OGN** | 3.9/10 | Avoid - watch only | Very high | $0.03828 | $0.0414349 (+8.2%) | $0.0367025 (-4.1%) | 14:05 09-Oct |
-| 3 | **GTC** | 2.9/10 | Avoid - watch only | High | $0.18984 | $0.1996 (+5.1%) | $0.184917 (-2.6%) | 14:05 09-Oct |
-| 4 | **HFT** | 2.5/10 | Avoid - watch only | Very high | $0.00711 | $0.007821 (+10.0%) | $0.00670607 (-5.7%) | 04:00 17-Aug |
-| 5 | **MAGIC** | 2.4/10 | Avoid - watch only | Very high | $0.0774 | $0.0829532 (+7.2%) | $0.0746234 (-3.6%) | 14:05 09-Oct |
+| 2 | **RLC** | 4.4/10 | Avoid - watch only | Very high | $1.04 | $1.15 (+10.0%) | $0.99161 (-5.0%) | 15:05 09-Oct |
+| 3 | **KAIA** | 4.1/10 | Avoid - watch only | Very high | $0.0547 | $0.06017 (+10.0%) | $0.051965 (-5.0%) | 15:05 09-Oct |
+| 4 | **OGN** | 3.9/10 | Avoid - watch only | Very high | $0.03746 | $0.0403339 (+7.7%) | $0.0360231 (-3.8%) | 15:05 09-Oct |
+| 5 | **CTSI** | 3.1/10 | Avoid - watch only | Very high | $0.03494 | $0.0376118 (+7.6%) | $0.0336041 (-3.8%) | 15:05 09-Oct |
 
 - **VANRY:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **OGN:** Momentum is healthy: not overheated, not collapsing.
-- **GTC:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **RLC:** It did 2.5% better than Bitcoin over the last 2 hours.
+- **KAIA:** The model sees a slightly better-than-usual pattern, with no single strong reason.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (0% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (1% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **OGN** | 5.7/10 | Moderate | Very high | $0.03788 | $0.0439408 (+16.0%) | $0.0348496 (-8.0%) | 17:00 09-Oct |
-| 2 | **GTC** | 5.5/10 | Weak | Very high | $0.1912 | $0.218723 (+14.4%) | $0.177438 (-7.2%) | 17:00 09-Oct |
-| 3 | **ENSO** | 4.8/10 | Avoid - watch only | Very high | $0.93 | $1.04 (+11.3%) | $0.877288 (-5.7%) | 17:00 09-Oct |
-| 4 | **CTSI** | 4.4/10 | Avoid - watch only | Very high | $0.03575 | $0.04147 (+16.0%) | $0.03289 (-8.0%) | 17:00 09-Oct |
-| 5 | **MINA** | 4.0/10 | Avoid - watch only | High | $0.0775 | $0.0845629 (+9.1%) | $0.0739685 (-4.6%) | 17:00 09-Oct |
+| 1 | **GTC** | 6.1/10 | Moderate | Very high | $0.18715 | $0.212045 (+13.3%) | $0.174702 (-6.7%) | 18:00 09-Oct |
+| 2 | **OGN** | 5.2/10 | Weak | Very high | $0.0384 | $0.044544 (+16.0%) | $0.035328 (-8.0%) | 18:00 09-Oct |
+| 3 | **CTSI** | 4.9/10 | Avoid - watch only | Very high | $0.03501 | $0.0406116 (+16.0%) | $0.0322092 (-8.0%) | 18:00 09-Oct |
+| 4 | **MET** | 4.5/10 | Avoid - watch only | Very high | $0.4276 | $0.478412 (+11.9%) | $0.402194 (-5.9%) | 18:00 09-Oct |
+| 5 | **ZRO** | 4.2/10 | Avoid - watch only | High | $2.04 | $2.19 (+7.2%) | $1.97 (-3.6%) | 18:00 09-Oct |
 
+- **GTC:** Buyers have been more eager than sellers over the last 1.5 hours (54% of trades were buys).
 - **OGN:** The model sees a slightly better-than-usual pattern, with no single strong reason.
-- **GTC:** The model sees a slightly better-than-usual pattern, with no single strong reason.
-- **ENSO:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **CTSI:** Momentum is healthy: not overheated, not collapsing.
 
 ## Day: exit within 24 hours
 
-Market mood: **Mixed** (39% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Mixed** (44% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **SENT** | 8.6/10 | Strong | High | $0.02251 | $0.0260129 (+15.6%) | $0.0207586 (-7.8%) | 13:00 10-Oct |
-| 2 | **SUPER** | 8.3/10 | Strong | High | $0.2241 | $0.255421 (+14.0%) | $0.20844 (-7.0%) | 13:00 10-Oct |
-| 3 | **SAGA** | 7.8/10 | Strong | High | $0.02195 | $0.0249422 (+13.6%) | $0.0204539 (-6.8%) | 13:00 10-Oct |
-| 4 | **CHIP** | 7.8/10 | Strong | Very high | $0.04904 | $0.0573482 (+16.9%) | $0.0448859 (-8.5%) | 13:00 10-Oct |
-| 5 | **OPEN** | 7.6/10 | Strong | High | $0.1078 | $0.122688 (+13.8%) | $0.100356 (-6.9%) | 13:00 10-Oct |
+| 1 | **CHIP** | 8.7/10 | Strong | Very high | $0.04811 | $0.0562792 (+17.0%) | $0.0440254 (-8.5%) | 14:00 10-Oct |
+| 2 | **GTC** | 8.4/10 | Strong | Very high | $0.18715 | $0.232066 (+24.0%) | $0.164692 (-12.0%) | 14:00 10-Oct |
+| 3 | **SUPER** | 8.2/10 | Strong | High | $0.2227 | $0.253281 (+13.7%) | $0.207409 (-6.9%) | 14:00 10-Oct |
+| 4 | **SOXLB** | 7.8/10 | Strong | High | $141.22 | $162.90 (+15.4%) | $130.38 (-7.7%) | 14:00 10-Oct |
+| 5 | **FET** | 7.7/10 | Strong | Very high | $0.2166 | $0.251454 (+16.1%) | $0.199173 (-8.0%) | 14:00 10-Oct |
 
-- **SENT:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
-- **SUPER:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **SAGA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **CHIP:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **GTC:** It did 6.9% better than Bitcoin over the last 24 hours. Momentum is healthy: not overheated, not collapsing.
+- **SUPER:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 448 | 43% | -0.22% | -0.26% |
-| Short: exit within 4 hours | 494 | 41% | +0.06% | -0.24% |
-| Day: exit within 24 hours | 384 | 31% | -0.76% | -1.17% |
+| Quick: exit within 1 hour | 451 | 43% | -0.22% | -0.26% |
+| Short: exit within 4 hours | 498 | 42% | +0.06% | -0.25% |
+| Day: exit within 24 hours | 386 | 31% | -0.77% | -1.18% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
