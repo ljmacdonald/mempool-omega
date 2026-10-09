@@ -353,3 +353,24 @@ def test_dex_record_counts_one_trade_per_coin_at_a_time(tmp_path, monkeypatch):
     track.append([{**idea, "symbol": "B"}, {**idea, "symbol": "C"}], 10, "dex/h.csv", one_per_coin=True)
     h = track.load_history("dex/h.csv")
     assert (h["symbol"] == "B").sum() == 1 and (h["symbol"] == "C").sum() == 1
+
+
+def test_discovery_survives_pools_with_missing_pool_money(monkeypatch):
+    """GeckoTerminal sometimes leaves a pool's money out (NaN): the copycat check must still see the token's name
+    (crashed every hourly DEX scan with KeyError: 'jupiter usd' on 8-9 Oct)."""
+    from dex import live
+
+    weth = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+
+    def pool(pid, token, reserve):
+        return {"chain": "ethereum", "pool": pid, "dex": "uniswap_v2", "name": "JUPUSD / WETH", "base_symbol": "JUPUSD",
+                "base_name": "Jupiter USD", "token": token, "quote_symbol": "WETH", "quote": weth, "price": 1.0,
+                "quote_price": 3000.0, "reserve_usd": reserve, "created": "2025-01-01T00:00:00Z", "fee_pct": float("nan"),
+                "tx_h24": {"buys": 3000, "sells": 2900, "buyers": 900, "sellers": 800}, "tx_h1": {}, "vol_h24": 1e6}
+
+    monkeypatch.setattr(live, "ds_boosted", lambda: set())
+    for pools, want in (([pool("P1", "0xjup", float("nan"))], {"0xjup": False}),          # the only one with that name
+                        ([pool("P1", "0xjup", float("nan")), pool("P2", "0xother", 2e6)], {"0xjup": True, "0xother": False})):
+        monkeypatch.setattr(live, "gt_pools", lambda chain, sort, pages, dex=None, pools=pools: pools if chain == "ethereum" else [])
+        cands, _, _ = live.discover()
+        assert {c["token"]: c["copycat"] for c in cands} == want
