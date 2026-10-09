@@ -110,17 +110,18 @@ def discover() -> tuple[list[dict], list[dict], dict]:
                 continue
             by_token[p["token"]].append(p)
         # copycats: same symbol or name as a token with more money behind it, on the same network
-        total = {t: sum(p["reserve_usd"] or 0 for p in ps) for t, ps in by_token.items()}
+        money = lambda p: p["reserve_usd"] if p["reserve_usd"] == p["reserve_usd"] and p["reserve_usd"] else 0.0  # noqa: E731  (missing = NaN)
+        total = {t: sum(money(p) for p in ps) for t, ps in by_token.items()}
         best_by_name: dict[str, tuple[float, str]] = {}
         for t, ps in by_token.items():
-            ps.sort(key=lambda p: -(p["reserve_usd"] or 0))     # names from the same (biggest) pool as below
+            ps.sort(key=lambda p: -money(p))                    # names from the same (biggest) pool as below
             for key in {(ps[0]["base_symbol"] or "").upper(), (ps[0]["base_name"] or "").lower()} - {""}:
                 if total[t] > best_by_name.get(key, (-1, ""))[0]:
                     best_by_name[key] = (total[t], t)
         for t, ps in by_token.items():
             main = ps[0]
             keys = {(main["base_symbol"] or "").upper(), (main["base_name"] or "").lower()} - {""}
-            copy = any(best_by_name[k][1] != t for k in keys)
+            copy = any(best_by_name.get(k, (0.0, t))[1] != t for k in keys)
             created = [pd.Timestamp(p["created"]) for p in ps if p.get("created")]
             age = (now - min(created)).total_seconds() / 86400 if created else 0.0
             tx = main["tx_h24"]
