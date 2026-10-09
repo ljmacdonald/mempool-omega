@@ -353,3 +353,21 @@ def test_dex_record_counts_one_trade_per_coin_at_a_time(tmp_path, monkeypatch):
     track.append([{**idea, "symbol": "B"}, {**idea, "symbol": "C"}], 10, "dex/h.csv", one_per_coin=True)
     h = track.load_history("dex/h.csv")
     assert (h["symbol"] == "B").sum() == 1 and (h["symbol"] == "C").sum() == 1
+
+
+def test_front_running_cost_is_learned_from_the_full_hourly_archive(tmp_path, monkeypatch):
+    """The track record counts one trade per coin (D92); the front-running cost reads the archive of every published
+    list (D93), so repeats still count there."""
+    import pandas as pd
+
+    from core import config
+    from dex import improve
+
+    monkeypatch.setattr(config, "STATE_DIR", tmp_path)
+    (tmp_path / "dex").mkdir()
+    row = {"style": "dex_short", "symbol": "ethereum:0xa", "status": "closed", "net_ret": 0.0, "baseline_ret": 0.0,
+           "first_hour_runup": 0.03, "first_hour_runup_base": 0.0}
+    pd.DataFrame([{**row, "ts": "2026-10-06T00:00:00+00:00"}]).to_csv(tmp_path / "dex" / "history.csv", index=False)
+    pd.DataFrame([{**row, "ts": f"2026-10-06T{h:02d}:00:00+00:00"} for h in range(20)]).to_csv(tmp_path / "dex" / "history_all.csv", index=False)
+    one = improve.sniper_costs(pd.read_csv(tmp_path / "dex" / "history.csv"))["ethereum"]
+    assert improve.nightly()["sniper"]["ethereum"] > one          # 20 archived lists weigh more than 1 record row

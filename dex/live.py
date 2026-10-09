@@ -458,16 +458,20 @@ def hourly() -> dict:
     for key in DEX_STYLES:
         ideas[key] = ideas_for(cands, key)
         track.append(ideas[key], len(cands), hist, one_per_coin=True)
+        track.append(ideas[key], len(cands), ARCHIVE[hist])          # research archive: every hourly list, repeats kept
         ideas_r[key] = ideas_for(cands, key, profile="assess_risky")
         track.append(ideas_r[key], len(cands), hist_r, one_per_coin=True)
+        track.append(ideas_r[key], len(cands), ARCHIVE[hist_r])
     settle = {f"{c['chain']}:{c['token']}": candles.get(f"{c['chain']}:{c['pool']}") for c in cands}
     settle = {k: v for k, v in settle.items() if v is not None and len(v)}
-    _fill_open_candles(settle, hist)
-    _fill_open_candles(settle, hist_r)
+    every = (hist, hist_r, ARCHIVE[hist], ARCHIVE[hist_r])
+    for f in every:
+        _fill_open_candles(settle, f)
     for key in DEX_STYLES:
-        track.resolve(settle, key, hist)
-        track.resolve(settle, key, hist_r)
+        for f in every:
+            track.resolve(settle, key, f)
     first_hour_runup(settle, hist)
+    first_hour_runup(settle, ARCHIVE[hist])
     for f in (hist, hist_r):                           # one trade per coin at a time (D92); also cleans older records
         track.drop_repeats(f)
     def by_chain(sym: str) -> str:                     # grade tables per network
@@ -479,6 +483,11 @@ def hourly() -> dict:
     log.info("dex hourly: %d candidates, %d passed, ideas %s", len(cands),
              sum(c["assess"]["verdict"] == "pass" for c in cands), {k: [d["coin"] for d in v] for k, v in ideas.items()})
     return {"ideas": ideas, "scoreboard": board, "candidates": len(cands)}
+
+
+# Every hourly list exactly as published, a coin's repeats included (D93). The track records above count one trade
+# per coin at a time (D92); this archive is for research only, e.g. what happens in the hour after each list.
+ARCHIVE = {"dex/history.csv": "dex/history_all.csv", "dex/history_risky.csv": "dex/history_risky_all.csv"}
 
 
 def _open_pools() -> set[str]:
