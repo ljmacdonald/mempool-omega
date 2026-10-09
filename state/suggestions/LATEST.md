@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-09 02:16 UTC
+# Trade ideas: 2026-10-09 03:24 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (1% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (2% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **AMP** | 4.8/10 | Avoid - watch only | Very high | $0.00071 | $0.000781 (+10.0%) | $0.0006745 (-5.0%) | 03:10 09-Oct |
-| 2 | **SKL** | 4.7/10 | Avoid - watch only | Very high | $0.00517 | $0.00559993 (+8.3%) | $0.00495503 (-4.2%) | 03:10 09-Oct |
-| 3 | **VANRY** | 4.0/10 | Avoid - watch only | Very high | $0.00074 | $0.000814 (+10.0%) | $0.000703 (-5.0%) | 04:00 17-Aug |
-| 4 | **OGN** | 4.0/10 | Avoid - watch only | Very high | $0.04368 | $0.048048 (+10.0%) | $0.041496 (-5.0%) | 03:10 09-Oct |
-| 5 | **CTSI** | 3.9/10 | Avoid - watch only | High | $0.03486 | $0.0370004 (+6.1%) | $0.0337898 (-3.1%) | 03:10 09-Oct |
+| 1 | **OGN** | 5.3/10 | Weak | Very high | $0.04239 | $0.046629 (+10.0%) | $0.0402705 (-5.0%) | 04:20 09-Oct |
+| 2 | **VANRY** | 4.3/10 | Avoid - watch only | Very high | $0.00074 | $0.000814 (+10.0%) | $0.000703 (-5.0%) | 04:00 17-Aug |
+| 3 | **AMP** | 4.0/10 | Avoid - watch only | Very high | $0.000705 | $0.000765072 (+8.5%) | $0.000674964 (-4.3%) | 04:20 09-Oct |
+| 4 | **FTT** | 3.6/10 | Avoid - watch only | High | $0.238 | $0.249221 (+4.7%) | $0.232389 (-2.4%) | 04:20 09-Oct |
+| 5 | **SKL** | 2.3/10 | Avoid - watch only | Very high | $0.00505 | $0.00542973 (+7.5%) | $0.00486013 (-3.8%) | 04:20 09-Oct |
 
-- **AMP:** It did 3.6% better than Bitcoin over the last 2 hours. Buyers have been more eager than sellers over the last 30 minutes (53% of trades were buys). Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **SKL:** Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing.
+- **OGN:** Momentum is healthy: not overheated, not collapsing.
 - **VANRY:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **AMP:** Buyers have been more eager than sellers over the last 30 minutes (65% of trades were buys). Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (5% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (3% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **FTT** | 6.7/10 | Strong | Very high | $0.2368 | $0.268924 (+13.6%) | $0.220738 (-6.8%) | 06:00 09-Oct |
-| 2 | **RLC** | 5.5/10 | Weak | Very high | $0.8492 | $0.985072 (+16.0%) | $0.781264 (-8.0%) | 06:00 09-Oct |
-| 3 | **AUDIO** | 5.4/10 | Weak | Very high | $0.01675 | $0.0186774 (+11.5%) | $0.0157863 (-5.8%) | 06:00 09-Oct |
-| 4 | **MET** | 5.2/10 | Weak | High | $0.4349 | $0.471062 (+8.3%) | $0.416819 (-4.2%) | 06:00 09-Oct |
-| 5 | **CTSI** | 5.1/10 | Weak | Very high | $0.03462 | $0.0401592 (+16.0%) | $0.0318504 (-8.0%) | 06:00 09-Oct |
+| 1 | **RLC** | 6.2/10 | Moderate | Very high | $0.9206 | $1.07 (+16.0%) | $0.846952 (-8.0%) | 07:15 09-Oct |
+| 2 | **OGN** | 6.1/10 | Moderate | Very high | $0.04334 | $0.0502744 (+16.0%) | $0.0398728 (-8.0%) | 07:15 09-Oct |
+| 3 | **SKL** | 6.0/10 | Moderate | Very high | $0.00504 | $0.0058464 (+16.0%) | $0.0046368 (-8.0%) | 07:15 09-Oct |
+| 4 | **FTT** | 5.8/10 | Moderate | Very high | $0.2383 | $0.267778 (+12.4%) | $0.223561 (-6.2%) | 07:15 09-Oct |
+| 5 | **STRK** | 5.2/10 | Weak | Very high | $0.06572 | $0.0750813 (+14.2%) | $0.0610394 (-7.1%) | 07:15 09-Oct |
 
-- **FTT:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **RLC:** Momentum is healthy: not overheated, not collapsing.
-- **AUDIO:** Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. It did 2.7% better than Bitcoin over the last 6 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **RLC:** It did 6.1% better than Bitcoin over the last 6 hours. Buyers have been more eager than sellers over the last 1.5 hours (56% of trades were buys). Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up.
+- **OGN:** Momentum is healthy: not overheated, not collapsing.
+- **SKL:** Momentum is healthy: not overheated, not collapsing.
 
 ## Day: exit within 24 hours
 
-Market mood: **Favourable** (62% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Favourable** (61% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **PENDLE** | 8.6/10 | Strong | Very high | $2.10 | $2.43 (+15.9%) | $1.93 (-7.9%) | 02:00 10-Oct |
-| 2 | **EIGEN** | 8.5/10 | Strong | Very high | $0.2229 | $0.261035 (+17.1%) | $0.203833 (-8.6%) | 02:00 10-Oct |
-| 3 | **FTT** | 8.3/10 | Strong | Very high | $0.2368 | $0.293632 (+24.0%) | $0.208384 (-12.0%) | 02:00 10-Oct |
-| 4 | **APT** | 8.3/10 | Strong | Very high | $0.756 | $0.923848 (+22.2%) | $0.672076 (-11.1%) | 02:00 10-Oct |
-| 5 | **ENJ** | 8.2/10 | Strong | Very high | $0.03043 | $0.0360239 (+18.4%) | $0.027633 (-9.2%) | 02:00 10-Oct |
+| 1 | **ACE** | 9.0/10 | Strong | Very high | $0.1817 | $0.221633 (+22.0%) | $0.161733 (-11.0%) | 03:00 10-Oct |
+| 2 | **QNT** | 8.4/10 | Strong | Very high | $237.99 | $281.00 (+18.1%) | $216.48 (-9.0%) | 03:00 10-Oct |
+| 3 | **ZRO** | 8.2/10 | Strong | Very high | $2.06 | $2.41 (+16.9%) | $1.89 (-8.5%) | 03:00 10-Oct |
+| 4 | **WLD** | 8.0/10 | Strong | High | $0.4882 | $0.560714 (+14.9%) | $0.451943 (-7.4%) | 03:00 10-Oct |
+| 5 | **ETHFI** | 8.0/10 | Strong | Very high | $0.6961 | $0.8463 (+21.6%) | $0.621 (-10.8%) | 03:00 10-Oct |
 
-- **PENDLE:** Trading activity is 1.6x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
-- **EIGEN:** Trading activity is 1.9x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
-- **FTT:** Trading activity is 4.6x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
+- **ACE:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **QNT:** Momentum is healthy: not overheated, not collapsing.
+- **ZRO:** Momentum is healthy: not overheated, not collapsing.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 408 | 43% | -0.29% | -0.28% |
-| Short: exit within 4 hours | 440 | 39% | -0.39% | -0.44% |
-| Day: exit within 24 hours | 367 | 29% | -0.89% | -1.12% |
+| Quick: exit within 1 hour | 412 | 42% | -0.29% | -0.27% |
+| Short: exit within 4 hours | 445 | 39% | -0.34% | -0.42% |
+| Day: exit within 24 hours | 370 | 29% | -0.88% | -1.13% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
