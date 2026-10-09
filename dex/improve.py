@@ -156,7 +156,9 @@ def nightly() -> dict:
             if active else "No sign that our DEX ideas are being used as bait."
     else:
         bait = dict(NEUTRAL)
-    adaptive = {**bait, "probation": probation(h), "sniper": sniper_costs(h),
+    # front-running is measured after every published list, so it reads the archive with repeats (D93)
+    every = load_history("dex/history_all.csv")
+    adaptive = {**bait, "probation": probation(h), "sniper": sniper_costs(every if len(every) else h),
                 "updated": str(pd.Timestamp.now(tz="UTC"))}
     state_path("dex", "adaptive.json").write_text(json.dumps(adaptive, indent=1))
     return adaptive
