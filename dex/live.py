@@ -475,6 +475,16 @@ def hourly() -> dict:
     first_hour_runup(settle, ARCHIVE[hist])
     for f in (hist, hist_r):                           # one trade per coin at a time (D92); also cleans older records
         track.drop_repeats(f)
+    try:                                               # the $100 DEX challenge (paper, D95): never breaks the scan
+        from dex import challenge
+        from dex.data import gt_multi
+        from scanner.quality import load as load_quality
+
+        challenge.run(ideas, cands, candles, chains, adaptive, fetch_candles=cache.candles, fetch_pools=gt_multi,
+                      quality_check=(load_quality("dex/scoreboard.json") or {}).get("check"))
+    except Exception as e:  # noqa: BLE001
+        log.warning("challenge: %s", e)
+
     def by_chain(sym: str) -> str:                     # grade tables per network
         return CHAINS.get(sym.split(":")[0], {}).get("name", sym.split(":")[0])
 
