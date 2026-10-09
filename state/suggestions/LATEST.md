@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-08 23:14 UTC
+# Trade ideas: 2026-10-09 00:10 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (3% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (4% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **OGN** | 5.4/10 | Weak | Very high | $0.0478 | $0.05258 (+10.0%) | $0.04541 (-5.0%) | 00:10 09-Oct |
-| 2 | **SKL** | 4.5/10 | Avoid - watch only | Very high | $0.00511 | $0.005621 (+10.0%) | $0.0048545 (-5.0%) | 00:10 09-Oct |
-| 3 | **RLC** | 4.4/10 | Avoid - watch only | Very high | $0.8636 | $0.937123 (+8.5%) | $0.826839 (-4.3%) | 00:10 09-Oct |
-| 4 | **VANRY** | 4.0/10 | Avoid - watch only | Very high | $0.00074 | $0.000814 (+10.0%) | $0.000703 (-5.0%) | 04:00 17-Aug |
-| 5 | **AUDIO** | 3.7/10 | Avoid - watch only | High | $0.01652 | $0.0174574 (+5.7%) | $0.0160513 (-2.8%) | 00:10 09-Oct |
+| 1 | **OGN** | 6.1/10 | Moderate | Very high | $0.04585 | $0.050435 (+10.0%) | $0.0435575 (-5.0%) | 01:05 09-Oct |
+| 2 | **UNI** | 5.0/10 | Weak | High | $7.16 | $7.51 (+4.9%) | $6.98 (-2.5%) | 01:05 09-Oct |
+| 3 | **RLC** | 5.0/10 | Weak | Very high | $0.8973 | $0.96689 (+7.8%) | $0.862505 (-3.9%) | 01:05 09-Oct |
+| 4 | **BCH** | 4.3/10 | Avoid - watch only | High | $273.00 | $288.12 (+5.5%) | $265.44 (-2.8%) | 01:05 09-Oct |
+| 5 | **CTSI** | 4.2/10 | Avoid - watch only | Very high | $0.03314 | $0.0357243 (+7.8%) | $0.0318478 (-3.9%) | 01:05 09-Oct |
 
-- **OGN:** Buyers have been more eager than sellers over the last 30 minutes (52% of trades were buys). Momentum is healthy: not overheated, not collapsing.
-- **SKL:** Momentum is healthy: not overheated, not collapsing.
-- **RLC:** Momentum is healthy: not overheated, not collapsing.
+- **OGN:** Buyers have been more eager than sellers over the last 30 minutes (54% of trades were buys).
+- **UNI:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **RLC:** It did 3.9% better than Bitcoin over the last 2 hours. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Buyers have been more eager than sellers over the last 30 minutes (52% of trades were buys).
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (10% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (9% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **RLC** | 7.2/10 | Strong | Very high | $0.8661 | $1.00 (+16.0%) | $0.796812 (-8.0%) | 03:00 09-Oct |
-| 2 | **OGN** | 6.4/10 | Moderate | Very high | $0.04718 | $0.0547288 (+16.0%) | $0.0434056 (-8.0%) | 03:00 09-Oct |
-| 3 | **CRV** | 4.9/10 | Avoid - watch only | Medium | $0.337 | $0.358513 (+6.4%) | $0.326243 (-3.2%) | 03:00 09-Oct |
-| 4 | **CTSI** | 3.4/10 | Avoid - watch only | Very high | $0.03341 | $0.0387556 (+16.0%) | $0.0307372 (-8.0%) | 03:00 09-Oct |
-| 5 | **LAZIO** | 3.2/10 | Avoid - watch only | Very high | $0.417 | $0.474943 (+13.9%) | $0.388029 (-6.9%) | 03:00 09-Oct |
+| 1 | **RLC** | 7.5/10 | Strong | Very high | $0.8835 | $1.02 (+16.0%) | $0.81282 (-8.0%) | 04:00 09-Oct |
+| 2 | **OGN** | 6.5/10 | Strong | Very high | $0.04567 | $0.0529772 (+16.0%) | $0.0420164 (-8.0%) | 04:00 09-Oct |
+| 3 | **UNI** | 6.0/10 | Moderate | Medium | $7.12 | $7.61 (+6.8%) | $6.88 (-3.4%) | 04:00 09-Oct |
+| 4 | **AUDIO** | 5.7/10 | Moderate | Very high | $0.01652 | $0.0186172 (+12.7%) | $0.0154714 (-6.3%) | 04:00 09-Oct |
+| 5 | **STRK** | 3.8/10 | Avoid - watch only | Very high | $0.05557 | $0.0616484 (+10.9%) | $0.0525308 (-5.5%) | 04:00 09-Oct |
 
-- **RLC:** Trading activity is 2.9x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
-- **OGN:** It did 17.7% better than Bitcoin over the last 6 hours. Trading activity is 2.5x higher than usual, so people are paying attention to it. Buyers have been more eager than sellers over the last 1.5 hours (52% of trades were buys). ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
-- **CRV:** Buyers have been more eager than sellers over the last 1.5 hours (54% of trades were buys). It is bouncing up from near its lowest price of the last 42 hours.
+- **RLC:** Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
+- **OGN:** Buyers have been more eager than sellers over the last 1.5 hours (54% of trades were buys). Trading activity is 1.8x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
+- **UNI:** The model sees a slightly better-than-usual pattern, with no single strong reason.
 
 ## Day: exit within 24 hours
 
-Market mood: **Favourable** (69% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Favourable** (71% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ALGO** | 9.0/10 | Strong | Very high | $0.1179 | $0.141949 (+20.4%) | $0.105876 (-10.2%) | 23:00 09-Oct |
-| 2 | **PENDLE** | 8.8/10 | Strong | Very high | $2.10 | $2.45 (+16.7%) | $1.92 (-8.3%) | 23:00 09-Oct |
-| 3 | **LDO** | 8.7/10 | Strong | Very high | $0.409 | $0.489167 (+19.6%) | $0.368916 (-9.8%) | 23:00 09-Oct |
-| 4 | **CRV** | 8.6/10 | Strong | Very high | $0.337 | $0.403178 (+19.6%) | $0.303911 (-9.8%) | 23:00 09-Oct |
-| 5 | **ENJ** | 8.5/10 | Strong | Very high | $0.03038 | $0.0362685 (+19.4%) | $0.0274358 (-9.7%) | 23:00 09-Oct |
+| 1 | **ETHFI** | 8.8/10 | Strong | Very high | $0.6797 | $0.832767 (+22.5%) | $0.603166 (-11.3%) | 00:00 10-Oct |
+| 2 | **BCH** | 8.7/10 | Strong | High | $271.10 | $309.74 (+14.3%) | $251.78 (-7.1%) | 00:00 10-Oct |
+| 3 | **APT** | 8.7/10 | Strong | Very high | $0.7367 | $0.902548 (+22.5%) | $0.653776 (-11.3%) | 00:00 10-Oct |
+| 4 | **FIDA** | 8.6/10 | Strong | Very high | $0.0202 | $0.0242611 (+20.1%) | $0.0181695 (-10.1%) | 00:00 10-Oct |
+| 5 | **ALGO** | 8.0/10 | Strong | Very high | $0.1174 | $0.140863 (+20.0%) | $0.105669 (-10.0%) | 00:00 10-Oct |
 
-- **ALGO:** Trading activity is 3.2x higher than usual, so people are paying attention to it. It did 1.2% better than Bitcoin over the last 24 hours. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
-- **PENDLE:** Buyers have been more eager than sellers over the last 6 hours (55% of trades were buys). Trading activity is 1.6x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
-- **LDO:** Trading activity is 1.8x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
+- **ETHFI:** Trading activity is 1.9x higher than usual, so people are paying attention to it. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
+- **BCH:** Trading activity is 1.6x higher than usual, so people are paying attention to it. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
+- **APT:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 395 | 42% | -0.30% | -0.28% |
-| Short: exit within 4 hours | 418 | 37% | -0.44% | -0.45% |
-| Day: exit within 24 hours | 358 | 29% | -0.89% | -1.08% |
+| Quick: exit within 1 hour | 396 | 42% | -0.32% | -0.28% |
+| Short: exit within 4 hours | 423 | 38% | -0.43% | -0.43% |
+| Day: exit within 24 hours | 361 | 29% | -0.90% | -1.10% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
