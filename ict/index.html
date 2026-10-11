@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mempool Omega · ICT setups</title>
+<meta name="description" content="ICT (Inner Circle Trader) setups found by exact rules on crypto, forex, gold and US index futures: liquidity sweep, market structure shift, fair value gap, with the confluence checklist and how the same rules really did in tests. Paper trading and education only.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../style.css">
+<script src="../theme.js"></script>
+<script src="../shell.js" defer></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Mempool Omega · ICT setups</h1>
+      <p class="muted small">Inner Circle Trader rules, coded exactly and tested honestly · practice and education only, not financial advice</p>
+    </div>
+    <div class="top-right">
+      <nav class="sites" aria-label="Choose a page"><a href="../coins/" data-site="main">Exchange coins</a><a href="../small/" data-site="small">Small coins</a><a href="../dex/" data-site="dex">DEX tokens</a><a href="../stocks/" data-site="stocks">US stocks</a><a href="../fx/" data-site="fx">Forex</a><a href="./" data-site="ict" aria-current="page">ICT setups</a><a href="../lab/" data-site="lab">Strategy lab</a><a href="../whales/" data-site="whales">Whale tracker</a><a href="../listings/" data-site="listings">New listings</a><a href="../sniper/" data-site="sniper">Sniper lab</a><a href="../predict/" data-site="predict">Prediction markets</a><a href="../challenge/" data-site="challenge">$100 challenge</a><a href="../challenge-small/" data-site="challenge-small">$100 Small-coin challenge</a></nav>
+      <div class="theme-switch" data-theme-switch role="group" aria-label="Day or night colours"></div>
+      <span class="tag" id="clock">NY --:--</span>
+    </div>
+  </header>
+
+  <div id="zone" class="banner calm">Checking the trading sessions…</div>
+  <div id="honest" class="banner warn">Loading how these rules did in tests…</div>
+
+  <div class="rail" role="toolbar" aria-label="Settings">
+    <div class="seg" id="market" role="group" aria-label="Which market">
+      <button type="button" data-market="crypto" aria-pressed="true">Crypto<small>15 coins, live</small></button>
+      <button type="button" data-market="fx" aria-pressed="false">Forex &amp; gold<small>15-min updates</small></button>
+      <button type="button" data-market="index" aria-pressed="false">US index futures<small>S&amp;P, Nasdaq, Dow</small></button>
+      <button type="button" data-market="index_h1" aria-pressed="false">Index · 1-hour<small>experiment</small></button>
+    </div>
+    <label class="inline" for="money">Your money $<input id="money" type="number" min="1" step="any" value="100" style="width:7em"></label>
+    <label class="inline" for="lev">Leverage
+      <select id="lev"><option value="1" selected>none (1x)</option><option value="2">2x</option><option value="3">3x</option><option value="5">5x</option><option value="10">10x</option><option value="20">20x</option></select>
+    </label>
+    <button class="btn primary" id="refreshNow" type="button">Refresh now</button>
+    <span class="status" id="status" aria-live="polite">Starting…</span>
+  </div>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button role="tab" data-tab="setups" aria-selected="true">Setups now</button>
+    <button role="tab" data-tab="movers" aria-selected="false">Biggest movers</button>
+    <button role="tab" data-tab="trades" aria-selected="false">My ICT trades <span class="count" id="tradeCount" hidden>0</span></button>
+    <button role="tab" data-tab="record" aria-selected="false">Track record</button>
+    <button role="tab" data-tab="guide" aria-selected="false">ICT in plain words</button>
+  </nav>
+
+  <section class="panel" id="tab-setups" role="tabpanel">
+    <div id="mood" class="banner calm">Loading…</div>
+    <div id="setups"><div class="skeleton"></div></div>
+  </section>
+  <section class="panel" id="tab-movers" role="tabpanel" hidden>
+    <p class="muted lead">The biggest 24-hour moves in this market, and whether each has an ICT setup right now.</p>
+    <div id="movers"><div class="skeleton"></div></div>
+  </section>
+  <section class="panel" id="tab-trades" role="tabpanel" hidden>
+    <p class="muted">Tap <b>“I placed this order”</b> on a setup. This page then tells you when the entry fills, when the target or stop is reached, and when time is up. Saved in this browser only.</p>
+    <div class="actions"><button class="btn" id="notifyBtn" type="button">Turn on alerts for my trades</button><span class="small muted" id="notifyState"></span></div>
+    <div id="trades"></div>
+  </section>
+  <section class="panel" id="tab-record" role="tabpanel" hidden>
+    <p class="muted lead">Every night the exact same rules are run over the last 60 days or more of 15-minute prices, and every setup is followed to its end: filled or not, take profit or safety exit first, after trading costs, and compared with random entries. Below that is the live record: setups recorded as they appeared, then followed the same way, with how each grade actually turned out.</p>
+    <div id="record"><div class="skeleton"></div></div>
+  </section>
+  <section class="panel" id="tab-guide" role="tabpanel" hidden>
+    <div class="prose">
+      <h2>What ICT is</h2>
+      <p>ICT ("Inner Circle Trader") is a trading method taught by Michael J. Huddleston. Its idea: big players push prices to where other traders' stop orders sit ("liquidity"), fill their own orders there, then move the price the other way, leaving recognisable footprints. This page turns the core model into exact rules a computer can check, so every setup is found the same way every time, and so the rules can be tested.</p>
+      <h2>The setup this page looks for (a buy; a sell is the mirror image)</h2>
+      <ol>
+        <li><b>Liquidity sweep:</b> the price dips below a level where many sell stops sit (yesterday's low, the Asian session low, "equal lows", or a recent swing low) and quickly closes back above it. This is the "stop hunt" or "Judas swing".</li>
+        <li><b>Market structure shift with displacement:</b> after the sweep, a strong candle closes above the last swing high. The trend has turned.</li>
+        <li><b>Fair value gap (FVG):</b> the fast move leaves a gap between candle 1's high and candle 3's low. The order goes in the middle of that gap ("consequent encroachment"), waiting for the price to come back.</li>
+        <li><b>Stop:</b> just below the sweep low. <b>Target:</b> the nearest untouched buy-side liquidity (yesterday's high, equal highs, a swing high) at least twice the risk away, otherwise exactly twice the risk.</li>
+      </ol>
+      <h2>The confluence checklist</h2>
+      <ul>
+        <li><b>Higher timeframe agrees:</b> the 1-hour chart's last break of structure was in the same direction.</li>
+        <li><b>Discount / premium:</b> buying in the lower half of the last 24 hours' range (selling in the upper half).</li>
+        <li><b>Optimal trade entry (OTE):</b> the gap sits 62–79% of the way back down the move.</li>
+        <li><b>Order block:</b> the gap overlaps the last opposite candle before the move.</li>
+        <li><b>Kill zone:</b> the move happened in the London open (2–5 am New York), New York open (7–10 am) or London close (10 am–noon).</li>
+        <li><b>Silver bullet hour:</b> 3–4 am, 10–11 am or 2–3 pm New York.</li>
+        <li><b>SMT divergence:</b> a closely related market (ETH for BTC, BTC for other coins, GBP/USD for EUR/USD, Nasdaq for S&amp;P, silver for gold) did <i>not</i> make the same new low.</li>
+        <li><b>Major liquidity:</b> the level swept was yesterday's low/high, the Asian range, or equal lows/highs, not just any swing.</li>
+        <li><b>Midnight open:</b> buying below the New York midnight opening price (selling above it).</li>
+      </ul>
+      <h2>How to read a setup</h2>
+      <ul>
+        <li><b>Waiting:</b> the order isn't filled yet. It's a limit order at the entry price, valid for 4 hours. If the price reaches the target first, the setup is missed and cancelled.</li>
+        <li><b>Entry reached:</b> the order would have filled; the trade is running to its target or stop, for at most 24 hours.</li>
+        <li><b>Chance of target first</b> comes from how often past setups of the same kind, with the same number of checklist items, reached the target before the stop. With few past examples it's pulled towards the break-even chance, and the grade says "Unproven".</li>
+      </ul>
+      <h2>The same checks as the other pages</h2>
+      <ul>
+        <li><b>Score out of 10, grade and risk level</b>, from the expected result after costs, lowered by every warning below. If the track record shows the grades aren't working, the words are switched off and the page says why.</li>
+        <li><b>News:</b> no new orders in the 30 minutes before a high-impact announcement, and a big mark-down if one falls before the trade's time limit (central banks, jobs, inflation; big US news moves crypto too).</li>
+        <li><b>Manipulation checks:</b> for forex, gold and futures, the Forex page's rate-fix and thin-market checks. For coins, the Exchange coins page's fake-signal checks: order books read three times for fake walls, wash trading, price impact, other exchanges, whale trades.</li>
+        <li><b>Warnings:</b> already ran far in the trade's direction (chasing), overheated momentum, and for coins, BTC (or ETH for BTC) moving against the trade.</li>
+        <li><b>Self-improvement:</b> jumpy markets are marked down when the record shows they disappoint, and a market type goes on probation when its live setups do worse than random entries.</li>
+        <li><b>Where to buy it cheapest</b> (coins), a money calculator with leverage, Biggest movers, and a Track record that compares everything with random entries.</li>
+      </ul>
+      <h2>Honest limits</h2>
+      <p>No independent study has shown that ICT concepts give traders an edge. Read the "How the rules did" tab: it shows exactly how these rules did on recent data, after costs, including when they lost. On crypto, exchange fees are large compared with the small stops of 15-minute setups, which hurts results a lot. Paper trading and education only; never use money you can't afford to lose.</p>
+    </div>
+  </section>
+
+  <footer>Mempool Omega is research and education software. It never places orders and never connects to a broker or exchange account. Nothing here is financial advice. ICT and Inner Circle Trader are the names of Michael J. Huddleston's teaching; this page is not affiliated with him. Data: Binance (crypto, live), Yahoo Finance (forex, gold, index futures, via the project's GitHub Actions), Coinbase public rates (live forex prices).</footer>
+</div>
+<script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
+<script src="../engine.js"></script>
+<script src="../quality.js"></script>
+<script src="../market.js"></script>
+<script src="../ictengine.js"></script>
+<script src="../alerts.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

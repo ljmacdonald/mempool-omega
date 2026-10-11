@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mempool Omega · US stocks</title>
+<meta name="description" content="US stock ideas in plain English: the most-traded large stocks and a high-volatility list, with real costs and a monitor that tells you when to sell. Paper trading and education only.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../style.css">
+<script src="../theme.js"></script>
+<script src="../shell.js" defer></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Mempool Omega · US stocks</h1>
+      <p class="muted small">The most-traded US stocks and a high-volatility list · practice and education only, not financial advice</p>
+    </div>
+    <div class="top-right">
+      <nav class="sites" aria-label="Choose a page"><a href="../coins/" data-site="main">Exchange coins</a><a href="../small/" data-site="small">Small coins</a><a href="../dex/" data-site="dex">DEX tokens</a><a href="./" data-site="stocks" aria-current="page">US stocks</a><a href="../fx/" data-site="fx">Forex</a><a href="../ict/" data-site="ict">ICT setups</a><a href="../lab/" data-site="lab">Strategy lab</a><a href="../whales/" data-site="whales">Whale tracker</a><a href="../listings/" data-site="listings">New listings</a><a href="../sniper/" data-site="sniper">Sniper lab</a><a href="../predict/" data-site="predict">Prediction markets</a><a href="../challenge/" data-site="challenge">$100 challenge</a><a href="../challenge-small/" data-site="challenge-small">$100 Small-coin challenge</a></nav>
+      <div class="theme-switch" data-theme-switch role="group" aria-label="Day or night colours"></div>
+      <span class="tag" id="clock">NY --:--</span>
+    </div>
+  </header>
+
+  <div id="market" class="banner calm">Checking whether the US market is open…</div>
+
+  <div class="rail" role="toolbar" aria-label="Settings">
+    <div class="seg" id="list" role="group" aria-label="Which stocks">
+      <button type="button" data-list="large" aria-pressed="true">Large stocks<small>most traded, $10B+</small></button>
+      <button type="button" data-list="volatile" aria-pressed="false">High volatility<small>often ±20% a week</small></button>
+    </div>
+    <div class="seg" id="speed" role="group" aria-label="Trading speed">
+      <button type="button" data-style="stk_today" aria-pressed="true">Today<small>sell within 2 h</small></button>
+      <button type="button" data-style="stk_days" aria-pressed="false">Few days<small>within 3 days</small></button>
+    </div>
+    <label class="inline" for="refresh">Refresh
+      <select id="refresh">
+        <option value="0">Off</option><option value="60">every 1 min</option><option value="300" selected>every 5 min</option>
+        <option value="900">every 15 min</option><option value="1800">every 30 min</option>
+      </select>
+    </label>
+    <label class="inline" for="amount">Amount $<input id="amount" type="number" min="1" step="any" value="100" style="width:7em"></label>
+    <label class="inline" for="fx">Currency fee
+      <select id="fx" title="What your broker charges to convert your money to US dollars, each way">
+        <option value="0">0% (account in USD)</option><option value="0.0025">0.25%</option><option value="0.005">0.5%</option>
+        <option value="0.01" selected>1%</option><option value="0.015">1.5%</option>
+      </select>
+    </label>
+    <button class="btn primary" id="refreshNow" type="button">Refresh now</button>
+    <span class="status" id="status" aria-live="polite">Starting…</span>
+  </div>
+  <details class="card" id="liveBox">
+    <summary>Live prices (optional): add your free Finnhub key</summary>
+    <p class="small muted">Without a key, prices and rankings update every 15 minutes while the market is open (the free data sources don't let web pages read them directly). With a free key from <a href="https://finnhub.io/register" target="_blank" rel="noopener">finnhub.io</a>, this page shows live prices for the ideas and your trades. The key is saved only in this browser on this device and sent only to Finnhub.</p>
+    <div class="actions"><input id="fhKey" type="text" placeholder="Paste your Finnhub API key" autocomplete="off" style="flex:1;min-width:0"><button class="btn" id="fhSave" type="button">Save</button><button class="btn" id="fhClear" type="button">Remove</button></div>
+    <p class="small muted" id="fhMsg"></p>
+  </details>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button role="tab" data-tab="ideas" aria-selected="true">Top 5 ideas</button>
+    <button role="tab" data-tab="movers" aria-selected="false">Biggest movers</button>
+    <button role="tab" data-tab="trades" aria-selected="false">My stock trades <span class="count" id="tradeCount" hidden>0</span></button>
+    <button role="tab" data-tab="record" aria-selected="false">Track record</button>
+    <button role="tab" data-tab="guide" aria-selected="false">How it works</button>
+  </nav>
+
+  <section class="panel" id="tab-ideas" role="tabpanel">
+    <div id="mood" class="banner calm">Loading…</div>
+    <div id="ideas"><div class="skeleton"></div></div>
+  </section>
+
+  <section class="panel" id="tab-movers" role="tabpanel" hidden>
+    <p class="muted lead">Today's biggest US gainers (stocks trading at least $5M a day), and why each one is or isn't among the suggestions.</p>
+    <div id="movers"><div class="skeleton"></div></div>
+  </section>
+
+  <section class="panel" id="tab-trades" role="tabpanel" hidden>
+    <p class="muted">Tap <b>“I bought this”</b> on an idea. This page tells you when to take profit, when to get out, and when time is up. Trades are saved in this browser on this device.</p>
+    <div class="actions"><button class="btn" id="notifyBtn" type="button">Turn on alerts for my trades</button><span class="small muted" id="notifyState"></span></div>
+    <div id="trades"></div>
+  </section>
+
+  <section class="panel" id="tab-record" role="tabpanel" hidden>
+    <p class="muted lead">Every hour while the market is open, the system saves its top 5 for each list and speed. Once each idea's time limit has passed, it checks what really happened, after the spread and fees (currency fees are not included because they depend on your broker). It also checks what picking a stock at random from the same list would have done.</p>
+    <div id="record"><div class="skeleton"></div></div>
+  </section>
+
+  <section class="panel" id="tab-guide" role="tabpanel" hidden>
+    <div class="prose">
+      <h2>What this page does</h2>
+      <p>While the US market is open, the system checks two lists every 15 minutes:</p>
+      <ul>
+        <li><b>Large stocks:</b> the 200 most-traded US companies worth $10 billion or more. This covers most of the S&amp;P 500 and Nasdaq-100 by trading activity.</li>
+        <li><b>High volatility:</b> companies worth $300 million to $10 billion, priced above $3 and trading at least $10 million a day, that rose 20% or more within a week at least 15% of the time over the last year. They can move 20–50%, and they fall just as fast.</li>
+      </ul>
+      <p>A model trained every night on recent price history estimates the chance each stock does better than the others over your chosen time. That becomes a score after costs, with a take-profit, a safety exit and a sell-by time, exactly like the crypto pages.</p>
+      <h2>The two speeds</h2>
+      <ul>
+        <li><b>Today:</b> sell within 2 hours, and always before the 4 pm close. Ideas aren't held overnight.</li>
+        <li><b>Few days:</b> hold for up to 3 trading days. Prices can jump overnight, and results announcements ("earnings") inside that window get a heavy penalty and a warning.</li>
+      </ul>
+      <h2>Things to know about US stocks</h2>
+      <ul>
+        <li><b>Market hours:</b> Monday to Friday, 9:30 am to 4:00 pm New York time. The banner at the top shows whether it's open and the time in New York.</li>
+        <li><b>Day-trading rule:</b> US brokers limit margin accounts under $25,000 to 3 same-day buy-and-sell round trips in any 5 business days. Cash accounts avoid this, but your money from a sale takes a day to settle.</li>
+        <li><b>Costs:</b> most brokers charge no commission. You still pay the gap between buying and selling prices (the spread), a tiny US regulatory fee when you sell and, if your account isn't in US dollars, a currency conversion fee each way. Pick your broker's rate in "Currency fee"; it's often the biggest cost.</li>
+        <li><b>Results days ("earnings"):</b> a company's quarterly results can move its price 5–20% in a moment. The page shows the date when it's close.</li>
+        <li><b>Prices without a key</b> are refreshed every 15 minutes while the market is open. Add a free Finnhub key above for live prices.</li>
+      </ul>
+      <h2>Honest limits</h2>
+      <p>Stock prices are hard to predict: tested on past data, the model's edge is small. The Track record tab shows how its ideas actually turn out, so judge it by that, over weeks. Paper trading and education only; never use money you can't afford to lose.</p>
+    </div>
+  </section>
+
+  <footer>Mempool Omega is research and education software. It never places orders and never asks for a brokerage login. Nothing here is financial advice. Data: Nasdaq and Yahoo Finance (refreshed by the project's GitHub Actions), and optionally Finnhub with your own key.</footer>
+</div>
+<script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
+<script src="../engine.js"></script>
+<script src="../quality.js"></script>
+<script src="../alerts.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

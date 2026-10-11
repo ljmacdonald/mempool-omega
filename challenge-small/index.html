@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mempool Omega · $100 Small-coin challenge</title>
+<meta name="description" content="A $100 paper account that trades the Small coins page's Day ideas on Binance with orders anyone can place by hand, paying every real cost, with every step written down.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../style.css">
+<script src="../theme.js"></script>
+<script src="../shell.js" defer></script>
+<style>
+  .wrap > .card, .wrap > .banner { margin-block: 14px; } .card > * { min-width: 0; }
+  :root { --series: #3b4ee8; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --series: #6f82f5; } }
+  :root[data-theme="dark"] { --series: #6f82f5; }
+  .chart { position: relative; } .chart svg { display: block; width: 100%; height: 220px; }
+  .chart .tip { position: absolute; pointer-events: none; background: var(--raised); border: 1px solid var(--line); border-radius: 8px; padding: 6px 9px; font-size: 0.8rem; box-shadow: var(--shadow-2); white-space: nowrap; }
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  .steps li { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+  .steps time { font-size: 0.78rem; color: var(--muted); white-space: nowrap; }
+  .steps p { margin: 4px 0 0; line-height: 1.5; }
+  .rules li { margin-block: 4px; }
+  @media (max-width: 560px) { .steps li { grid-template-columns: 1fr; gap: 4px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Mempool Omega · $100 Small-coin challenge</h1>
+      <p class="muted small">A $100 paper account trading the Small coins Day ideas on Binance, with orders anyone can place by hand · paper only, not financial advice</p>
+    </div>
+    <div class="top-right">
+      <nav class="sites" aria-label="Choose a page"><a href="../coins/" data-site="main">Exchange coins</a><a href="../small/" data-site="small">Small coins</a><a href="../dex/" data-site="dex">DEX tokens</a><a href="../stocks/" data-site="stocks">US stocks</a><a href="../fx/" data-site="fx">Forex</a><a href="../ict/" data-site="ict">ICT setups</a><a href="../lab/" data-site="lab">Strategy lab</a><a href="../whales/" data-site="whales">Whale tracker</a><a href="../listings/" data-site="listings">New listings</a><a href="../sniper/" data-site="sniper">Sniper lab</a><a href="../predict/" data-site="predict">Prediction markets</a><a href="../challenge/" data-site="challenge">$100 challenge</a><a href="./" data-site="challenge-small" aria-current="page">$100 Small-coin challenge</a></nav>
+      <div class="theme-switch" data-theme-switch role="group" aria-label="Day or night colours"></div>
+      <span class="status" id="status">Loading…</span>
+    </div>
+  </header>
+
+  <div id="summary" class="banner calm">Loading the $100 Small-coin challenge…</div>
+
+  <article class="card">
+    <h2>Account value</h2>
+    <div id="chart"><p class="muted">Loading…</p></div>
+  </article>
+
+  <article class="card">
+    <h2>Trades open now</h2>
+    <div id="open"><p class="muted">Loading…</p></div>
+  </article>
+
+  <article class="card">
+    <h2>Every step, newest first</h2>
+    <div id="steps"><p class="muted">Loading…</p></div>
+  </article>
+
+  <article class="card">
+    <h2>Day by day</h2>
+    <div id="days"><p class="muted">Loading…</p></div>
+  </article>
+
+  <article class="card">
+    <h2>Finished trades</h2>
+    <div id="trades"><p class="muted">Loading…</p></div>
+  </article>
+
+  <article class="card">
+    <h2>How to copy a trade on Binance</h2>
+    <ol class="rules">
+      <li>When a <b>"Decided to buy"</b> step appears, buy the coin on Binance (spot, USDT pair) with the <b>same share of your account</b>, using a market order.</li>
+      <li>When the <b>"Bought"</b> step appears (about an hour later), place <b>one OCO order</b> to sell everything: the <b>take profit</b> as the limit price and the <b>safety exit</b> as the stop price. Both prices are in that step and under "Trades open now".</li>
+      <li>If neither is hit by the <b>sell-by time</b>, cancel the OCO order and sell at the market price.</li>
+      <li>Your prices, fees and timing will never match exactly, so your result will differ a little from this page. Only use money you can afford to lose: this is a paper test, not advice, and it has no proven record yet.</li>
+    </ol>
+  </article>
+
+  <article class="card">
+    <h2>The rules it follows</h2>
+    <ul class="rules">
+      <li><b>Capital first.</b> Staying in cash is always allowed and is the default. It only buys a <b>Small coins Day idea</b> (sell within 24 hours) graded <b>Moderate or better</b> that is still expected to make money <b>after every cost</b>.</li>
+      <li>No trades while the Small coins grade check says grades can't be trusted, or while the Day speed is <b>on probation</b>: when its last 50 ideas did no better than picking coins at random (judged on Small coins' own record).</li>
+      <li>At most <b>25%</b> of the account in one trade, sized so that hitting the safety exit loses at most <b>2%</b> of the account.</li>
+      <li>At most <b>2</b> trades open and <b>1</b> new trade an hour.</li>
+      <li>No new trades for the rest of the day after a <b>5%</b> loss in a day (UTC). Everything pauses if the account falls <b>20%</b> below its peak, until the owner restarts it.</li>
+    </ul>
+    <h3>Why the results are realistic</h3>
+    <ul class="rules">
+      <li><b>No bots, no head start.</b> It acts on the same hourly list anyone can see, and buys at the price at the end of the hour the list came out.</li>
+      <li><b>Every cost:</b> Binance's 0.1% fee each way, the gap between the buy and sell prices (read from the live order book when it decides), and slippage on market and stop orders.</li>
+      <li><b>Real exchange orders.</b> The take profit is a limit order: it fills at its price once the price trades above it. The safety exit is a stop order: it fills at its price minus the gap and slippage, or at the opening price if the price jumped straight past it. If both are touched in the same hour, it assumes the safety exit.</li>
+    </ul>
+  </article>
+
+  <footer>Paper only: no account, no keys, no real orders. The account, every step and every trade are recorded by the project's hourly Small coins job on GitHub. Past results do not predict future results.</footer>
+</div>
+<script>window.OMEGA_CHALLENGE = { dir: "suggestions/challenge_small/", listName: "the Small coins Day list", worthNote: "\"Worth if sold now\" is after Binance's fee, the buy-sell gap and slippage.", buyNote: "The buying costs (the 0.1% fee, half the buy-sell gap and slippage) are already inside the result." };</script>
+<script src="../challenge/app.js"></script>
+</body>
+</html>
