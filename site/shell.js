@@ -21,10 +21,13 @@
     predict: { path: "predict/", name: "Prediction markets", group: "strategies", risk: "Paper only", kind: "Research", blurb: "Kalshi and Polymarket: favourites that may be underpriced, tested on paper at real prices.", action: "Information only until 50 paper trades have settled." },
     challenge: { path: "challenge/", name: "$100 DEX challenge", group: "strategies", risk: "Paper only", kind: "Paper account", blurb: "A $100 paper account trading the DEX list like a person without bots, paying every real cost.", action: "Watch how it does day by day: every step is written down." },
     "challenge-small": { path: "challenge-small/", name: "$100 Small-coin challenge", group: "strategies", risk: "Paper only", kind: "Paper account", blurb: "A $100 paper account trading the Small coins Day ideas on Binance, with orders anyone can copy by hand.", action: "Copy the trades by hand if you like: every step says exactly what to do." },
+    results: { path: "results/", name: "Results", group: "proof", risk: "Paper only", kind: "Every record", blurb: "Every section's live paper record on one screen, after every cost, against random picks.", action: "See what is working, what isn't, and what's too early to tell." },
+    status: { path: "status/", name: "System status", group: "proof", risk: "Paper only", kind: "Watchdog", blurb: "Is every page up to date and every background job running? Checked every 15 minutes.", action: "Check here if a page looks out of date." },
     whales: { path: "whales/", name: "Whale tracker", group: "strategies", risk: "Paper only", kind: "Research", blurb: "Last month's best big traders, what they hold now, and a paper copy of them.", action: "Information only until the 30-day verdict is in." },
   };
   // the menu: what the visitor wants to trade, then the strategies and research that cut across markets
   const GROUPS = [
+    { id: "proof", name: "Proof", blurb: "Is it working? Every record, live" },
     { id: "crypto", name: "Crypto", blurb: "Coins and tokens, scored live" },
     { id: "new", name: "New coins", blurb: "Fresh listings and launches" },
     { id: "markets", name: "Stocks & forex", blurb: "US shares, currencies, gold" },
@@ -114,6 +117,7 @@
     footer();
     tidyTabs();
     sectionBar();
+    staleBanner();
   }
 
   function buildMenus(nav) {
@@ -192,6 +196,27 @@
     const b = document.createElement("div"); b.className = "foot-brand";
     b.innerHTML = `${logo}<span>Mempool Omega · paper trading and education only, not financial advice</span>`;
     f.prepend(b);
+    const l = document.createElement("div"); l.className = "foot-links small";
+    l.innerHTML = `<a href="${BASE}results/">Results</a> · <a href="${BASE}status/">System status</a>`;
+    b.after(l);
+  }
+
+  // ------------------------------------------------------------------ watchdog: say so when this page's data is stuck (D98)
+  const SUMMARY = (root.OMEGA_REPO || "https://raw.githubusercontent.com/ljmacdonald/mempool-omega/main/state/") + "summary.json";
+  async function staleBanner() {
+    if (!PAGES[HERE] || HERE === "status" || HERE === "results") return;
+    try {
+      const r = await fetch(`${SUMMARY}?t=${Math.floor(Date.now() / 300000)}`);
+      if (!r.ok) return;
+      const S = await r.json();
+      const s = (S.sections || []).find((x) => x.key === HERE);
+      if (!s || !s.stale) return;
+      const h = s.age_min == null ? "a long time" : s.age_min < 120 ? `${s.age_min} minutes` : `${Math.round(s.age_min / 60)} hours`;
+      const b = document.createElement("div"); b.className = "banner warn"; b.setAttribute("role", "status");
+      b.innerHTML = `<b>This page's data hasn't updated for ${esc(h)}.</b> The watchdog has flagged it and the owner has been notified; what you see may be out of date. <a href="${BASE}status/">System status</a>`;
+      const hero = document.querySelector(".page-hero");
+      (hero || document.querySelector(".wrap") || document.body).insertAdjacentElement(hero ? "afterend" : "afterbegin", b);
+    } catch { /* the banner is a courtesy: never break the page */ }
   }
 
   // ------------------------------------------------------------------ coming back: where you were, what you're tracking
