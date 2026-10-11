@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-11 05:52 UTC
+# Trade ideas: 2026-10-11 06:58 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -10,31 +10,31 @@ Market mood: **Unfavourable** (0% of 150 coins look positive). If it says *Unfav
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **TIA** | 1.4/10 | Avoid - watch only | High | $0.6093 | $0.646991 (+6.2%) | $0.58754 (-3.6%) | 06:50 11-Oct |
-| 2 | **RLC** | 1.2/10 | Avoid - watch only | Very high | $1.02 | $1.12 (+9.8%) | $0.970241 (-4.9%) | 06:50 11-Oct |
-| 3 | **ERA** | 1.1/10 | Avoid - watch only | Very high | $0.0827 | $0.09097 (+10.0%) | $0.078565 (-5.0%) | 06:50 11-Oct |
-| 4 | **APT** | 1.1/10 | Avoid - watch only | Medium | $0.8429 | $0.86468 (+2.6%) | $0.83201 (-1.3%) | 06:50 11-Oct |
-| 5 | **LUMIA** | 1.0/10 | Avoid - watch only | Very high | $0.1539 | $0.16929 (+10.0%) | $0.146205 (-5.0%) | 06:50 11-Oct |
+| 1 | **STRK** | 1.8/10 | Avoid - watch only | Very high | $0.11036 | $0.121396 (+10.0%) | $0.104451 (-5.4%) | 07:55 11-Oct |
+| 2 | **RLC** | 1.6/10 | Avoid - watch only | Very high | $1.00 | $1.09 (+8.6%) | $0.95917 (-4.3%) | 07:55 11-Oct |
+| 3 | **BAT** | 0.9/10 | Avoid - watch only | Very high | $0.146 | $0.156555 (+7.2%) | $0.140723 (-3.6%) | 07:55 11-Oct |
+| 4 | **LA** | 0.8/10 | Avoid - watch only | High | $0.0694 | $0.0725178 (+4.5%) | $0.0678411 (-2.2%) | 07:55 11-Oct |
+| 5 | **ERA** | 0.7/10 | Avoid - watch only | Very high | $0.0882 | $0.09702 (+10.0%) | $0.08379 (-5.0%) | 07:55 11-Oct |
 
-- **TIA:** Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **RLC:** Buyers have been more eager than sellers over the last 30 minutes (62% of trades were buys). It did 5.3% better than Bitcoin over the last 2 hours. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **ERA:** It did 9.5% better than Bitcoin over the last 2 hours. Trading activity is 2.5x higher than usual, so people are paying attention to it. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **STRK:** Buyers have been more eager than sellers over the last 30 minutes (56% of trades were buys). Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. It did 1.7% better than Bitcoin over the last 2 hours. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **RLC:** Buyers have been more eager than sellers over the last 30 minutes (68% of trades were buys). Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. It did 2.0% better than Bitcoin over the last 2 hours. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **BAT:** Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. It did 2.4% better than Bitcoin over the last 2 hours. Trading activity is 2.0x higher than usual, so people are paying attention to it. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (9% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (7% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ACT** | 3.7/10 | Avoid - watch only | High | $0.01084 | $0.0119589 (+10.3%) | $0.0102805 (-5.2%) | 09:45 11-Oct |
-| 2 | **STRAX** | 3.6/10 | Avoid - watch only | Very high | $0.0111 | $0.0122576 (+10.4%) | $0.0105212 (-5.2%) | 09:45 11-Oct |
-| 3 | **YB** | 3.1/10 | Avoid - watch only | Medium | $0.0808 | $0.0847655 (+4.9%) | $0.0788172 (-2.5%) | 09:45 11-Oct |
-| 4 | **STRK** | 2.7/10 | Avoid - watch only | Very high | $0.10694 | $0.12405 (+16.0%) | $0.0983848 (-8.0%) | 09:45 11-Oct |
-| 5 | **MAGIC** | 2.5/10 | Avoid - watch only | Very high | $0.1092 | $0.125794 (+15.2%) | $0.100903 (-7.6%) | 09:45 11-Oct |
+| 1 | **ACT** | 4.1/10 | Avoid - watch only | High | $0.01062 | $0.0116675 (+9.9%) | $0.0100963 (-4.9%) | 10:45 11-Oct |
+| 2 | **RLC** | 2.9/10 | Avoid - watch only | Very high | $1.01 | $1.17 (+16.0%) | $0.930948 (-8.0%) | 10:45 11-Oct |
+| 3 | **CFX** | 2.9/10 | Avoid - watch only | Very high | $0.06633 | $0.0757774 (+14.2%) | $0.0616063 (-7.1%) | 10:45 11-Oct |
+| 4 | **STRAX** | 2.9/10 | Avoid - watch only | High | $0.01102 | $0.0120829 (+9.6%) | $0.0104886 (-4.8%) | 10:45 11-Oct |
+| 5 | **OGN** | 2.7/10 | Avoid - watch only | Very high | $0.03532 | $0.0390923 (+10.7%) | $0.0334339 (-5.3%) | 10:45 11-Oct |
 
-- **ACT:** Buyers have been more eager than sellers over the last 1.5 hours (58% of trades were buys). Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. It did 1.0% better than Bitcoin over the last 6 hours. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **STRAX:** Buyers have been more eager than sellers over the last 1.5 hours (64% of trades were buys). Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **YB:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ACT:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **RLC:** It did 5.7% better than Bitcoin over the last 6 hours. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Buyers have been more eager than sellers over the last 1.5 hours (54% of trades were buys). ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **CFX:** It did 7.5% better than Bitcoin over the last 6 hours. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Buyers have been more eager than sellers over the last 1.5 hours (54% of trades were buys). ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
@@ -42,23 +42,23 @@ Market mood: **Unfavourable** (26% of 150 coins look positive). If it says *Unfa
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **OGN** | 7.2/10 | Strong | Very high | $0.03429 | $0.0425196 (+24.0%) | $0.0301752 (-12.0%) | 05:00 12-Oct |
-| 2 | **RLC** | 5.4/10 | Weak | Very high | $0.9854 | $1.22 (+24.0%) | $0.867152 (-12.0%) | 05:00 12-Oct |
-| 3 | **RAD** | 5.2/10 | Weak | Very high | $0.306 | $0.373317 (+22.0%) | $0.272342 (-11.0%) | 05:00 12-Oct |
-| 4 | **SKL** | 5.1/10 | Weak | Very high | $0.00492 | $0.0061008 (+24.0%) | $0.0043296 (-12.0%) | 05:00 12-Oct |
-| 5 | **MET** | 4.9/10 | Avoid - watch only | Very high | $0.413 | $0.488089 (+18.2%) | $0.375456 (-9.1%) | 05:00 12-Oct |
+| 1 | **OGN** | 7.0/10 | Strong | Very high | $0.03499 | $0.0433876 (+24.0%) | $0.0307912 (-12.0%) | 06:00 12-Oct |
+| 2 | **RLC** | 6.0/10 | Moderate | Very high | $1.02 | $1.27 (+24.0%) | $0.8973 (-12.3%) | 06:00 12-Oct |
+| 3 | **MET** | 5.6/10 | Moderate | Very high | $0.4135 | $0.487145 (+17.8%) | $0.376678 (-8.9%) | 06:00 12-Oct |
+| 4 | **RAD** | 5.3/10 | Weak | Very high | $0.303 | $0.368496 (+21.6%) | $0.270252 (-10.8%) | 06:00 12-Oct |
+| 5 | **SKL** | 4.7/10 | Avoid - watch only | Very high | $0.00498 | $0.0061752 (+24.0%) | $0.0043824 (-12.0%) | 06:00 12-Oct |
 
-- **OGN:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **OGN:** Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 - **RLC:** Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **RAD:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MET:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 595 | 44% | -0.17% | -0.23% |
-| Short: exit within 4 hours | 664 | 40% | -0.07% | -0.17% |
-| Day: exit within 24 hours | 570 | 42% | +0.05% | +0.35% |
+| Quick: exit within 1 hour | 600 | 44% | -0.14% | -0.23% |
+| Short: exit within 4 hours | 670 | 40% | +0.02% | -0.16% |
+| Day: exit within 24 hours | 573 | 42% | +0.04% | +0.35% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
