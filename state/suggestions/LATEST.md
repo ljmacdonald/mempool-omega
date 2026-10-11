@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-11 14:54 UTC
+# Trade ideas: 2026-10-11 15:53 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (1% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (2% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **LUMIA** | 3.8/10 | Avoid - watch only | Very high | $0.138 | $0.1518 (+10.0%) | $0.1311 (-5.0%) | 15:50 11-Oct |
-| 2 | **MAGIC** | 2.4/10 | Avoid - watch only | Very high | $0.1308 | $0.142371 (+8.8%) | $0.125014 (-4.4%) | 15:50 11-Oct |
-| 3 | **CFX** | 1.9/10 | Avoid - watch only | Very high | $0.06968 | $0.0746487 (+7.1%) | $0.0671957 (-3.6%) | 15:50 11-Oct |
-| 4 | **ERA** | 1.9/10 | Avoid - watch only | Medium | $0.0792 | $0.0823613 (+4.0%) | $0.0776194 (-2.0%) | 15:50 11-Oct |
-| 5 | **MUBARAK** | 1.9/10 | Avoid - watch only | Medium | $0.07247 | $0.0755294 (+4.2%) | $0.0709403 (-2.1%) | 15:50 11-Oct |
+| 1 | **MBL** | 4.9/10 | Avoid - watch only | Very high | $0.000959 | $0.0010549 (+10.0%) | $0.00091105 (-5.0%) | 16:50 11-Oct |
+| 2 | **LUMIA** | 4.8/10 | Avoid - watch only | Very high | $0.127 | $0.1397 (+10.0%) | $0.12065 (-5.0%) | 16:50 11-Oct |
+| 3 | **MAGIC** | 2.9/10 | Avoid - watch only | Very high | $0.1284 | $0.137837 (+7.3%) | $0.123682 (-3.7%) | 16:50 11-Oct |
+| 4 | **ZK** | 1.6/10 | Avoid - watch only | High | $0.01589 | $0.0165973 (+4.5%) | $0.0155364 (-2.2%) | 16:50 11-Oct |
+| 5 | **ERA** | 1.6/10 | Avoid - watch only | Medium | $0.0788 | $0.0814903 (+3.4%) | $0.0774548 (-1.7%) | 16:50 11-Oct |
 
+- **MBL:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 - **LUMIA:** The model sees a slightly better-than-usual pattern, with no single strong reason.
-- **MAGIC:** Buyers have been more eager than sellers over the last 30 minutes (55% of trades were buys). It did 3.0% better than Bitcoin over the last 2 hours. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
-- **CFX:** It did 2.7% better than Bitcoin over the last 2 hours. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
+- **MAGIC:** It did 4.0% better than Bitcoin over the last 2 hours. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (1% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (0% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ERA** | 5.9/10 | Moderate | Very high | $0.0802 | $0.0904137 (+12.7%) | $0.074775 (-6.8%) | 18:45 11-Oct |
-| 2 | **MAGIC** | 5.4/10 | Weak | Very high | $0.1279 | $0.148364 (+16.0%) | $0.117668 (-8.0%) | 18:45 11-Oct |
-| 3 | **RLC** | 3.9/10 | Avoid - watch only | Very high | $1.08 | $1.25 (+16.0%) | $0.989828 (-8.0%) | 18:45 11-Oct |
-| 4 | **LUMIA** | 3.4/10 | Avoid - watch only | Very high | $0.1398 | $0.162168 (+16.0%) | $0.128616 (-8.0%) | 18:45 11-Oct |
-| 5 | **CHIP** | 3.3/10 | Avoid - watch only | Very high | $0.07016 | $0.0786617 (+12.1%) | $0.0659091 (-6.1%) | 18:45 11-Oct |
+| 1 | **MAGIC** | 6.1/10 | Moderate | Very high | $0.1277 | $0.148132 (+16.0%) | $0.117484 (-8.0%) | 19:45 11-Oct |
+| 2 | **ERA** | 5.7/10 | Moderate | Very high | $0.0789 | $0.088548 (+12.2%) | $0.074076 (-6.1%) | 19:45 11-Oct |
+| 3 | **RLC** | 4.5/10 | Avoid - watch only | Very high | $1.04 | $1.21 (+16.0%) | $0.961308 (-8.0%) | 19:45 11-Oct |
+| 4 | **BAT** | 4.4/10 | Avoid - watch only | Very high | $0.1551 | $0.17251 (+11.2%) | $0.146395 (-5.6%) | 19:45 11-Oct |
+| 5 | **STRK** | 4.2/10 | Avoid - watch only | Very high | $0.11934 | $0.138434 (+16.0%) | $0.109793 (-8.0%) | 19:45 11-Oct |
 
-- **ERA:** The model sees a slightly better-than-usual pattern, with no single strong reason.
 - **MAGIC:** Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing.
-- **RLC:** It did 7.1% better than Bitcoin over the last 6 hours. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Buyers have been more eager than sellers over the last 1.5 hours (53% of trades were buys). ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
+- **ERA:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **RLC:** Trading activity is 1.6x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (28% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (26% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **MAGIC** | 7.8/10 | Strong | Very high | $0.126 | $0.15624 (+24.0%) | $0.11088 (-12.0%) | 14:00 12-Oct |
-| 2 | **KAIA** | 6.3/10 | Moderate | Very high | $0.0533 | $0.066092 (+24.0%) | $0.046904 (-12.0%) | 14:00 12-Oct |
-| 3 | **MUBARAK** | 5.9/10 | Moderate | Very high | $0.07322 | $0.0873918 (+19.4%) | $0.0661341 (-9.7%) | 14:00 12-Oct |
-| 4 | **C98** | 5.8/10 | Moderate | Very high | $0.01819 | $0.0212268 (+16.7%) | $0.0166716 (-8.3%) | 14:00 12-Oct |
-| 5 | **BAT** | 5.5/10 | Weak | Very high | $0.1416 | $0.175584 (+24.0%) | $0.124608 (-12.0%) | 14:00 12-Oct |
+| 1 | **MAGIC** | 6.5/10 | Strong | Very high | $0.1303 | $0.161572 (+24.0%) | $0.114664 (-12.0%) | 15:00 12-Oct |
+| 2 | **C98** | 6.0/10 | Moderate | Very high | $0.01831 | $0.0213096 (+16.4%) | $0.0168102 (-8.2%) | 15:00 12-Oct |
+| 3 | **KAIA** | 5.9/10 | Moderate | Very high | $0.0538 | $0.066712 (+24.0%) | $0.047344 (-12.0%) | 15:00 12-Oct |
+| 4 | **PIXEL** | 5.5/10 | Weak | Very high | $0.00611 | $0.00739304 (+21.0%) | $0.00546848 (-10.5%) | 15:00 12-Oct |
+| 5 | **LUMIA** | 5.3/10 | Weak | Very high | $0.1352 | $0.167648 (+24.0%) | $0.118976 (-12.0%) | 15:00 12-Oct |
 
-- **MAGIC:** It did 17.8% better than Bitcoin over the last 24 hours. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Trading activity is 1.5x higher than usual, so people are paying attention to it. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **KAIA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **MUBARAK:** Buyers have been more eager than sellers over the last 6 hours (55% of trades were buys). ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MAGIC:** It did 21.5% better than Bitcoin over the last 24 hours. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Trading activity is 1.5x higher than usual, so people are paying attention to it. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **C98:** Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **KAIA:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 635 | 44% | -0.16% | -0.22% |
-| Short: exit within 4 hours | 710 | 41% | +0.03% | -0.14% |
-| Day: exit within 24 hours | 605 | 42% | +0.20% | +0.48% |
+| Quick: exit within 1 hour | 645 | 44% | -0.18% | -0.22% |
+| Short: exit within 4 hours | 715 | 41% | +0.03% | -0.13% |
+| Day: exit within 24 hours | 608 | 42% | +0.19% | +0.48% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
