@@ -3,7 +3,7 @@
 (() => {
   "use strict";
   const DATA = window.OMEGA_REPO || "https://raw.githubusercontent.com/ljmacdonald/mempool-omega/main/state/";
-  const D = DATA + "dex/challenge/";
+  const D = DATA + ((window.OMEGA_CHALLENGE || {}).dir || "dex/challenge/");     // the Small-coin page sets its own (D97)
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const fin = (x) => typeof x === "number" && Number.isFinite(x);
@@ -12,7 +12,8 @@
   const cls = (x) => (fin(x) ? (x > 0 ? "up" : x < 0 ? "down" : "") : "");
   const px = (x) => (fin(x) ? (x >= 1 ? x.toFixed(4) : x.toPrecision(4)) : "–");
   const when = (t) => new Date(t).toLocaleString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
-  const CH = { solana: "Solana", bsc: "BNB Chain", ethereum: "Ethereum", robinhood: "Robinhood Chain", base: "Base" };
+  const CH = { solana: "Solana", bsc: "BNB Chain", ethereum: "Ethereum", robinhood: "Robinhood Chain", base: "Base", binance: "Binance" };
+  const COST = { fee: "fee", impact: "price impact", mev: "sandwich bots", tax: "tax", gas: "network fee", spread_slippage: "buy-sell gap and slippage" };
   const KIND = { buy: ["Bought", "good"], sell: ["Sold", "calm"], order: ["Decided to buy", "calm"], check: ["Hourly check", ""], skip: ["Cancelled", "warn"], pause: ["Paused", "bad"] };
   const get = async (f, json = true) => { const r = await fetch(`${D}${f}?t=${Date.now()}`, { cache: "no-store" }); if (!r.ok) throw new Error(r.status); return json ? r.json() : r.text(); };
   const csv = (text) => { const l = text.trim().split(/\r?\n/); const h = l.shift().split(","); return l.map((x) => { const v = x.split(","); return Object.fromEntries(h.map((k, i) => [k, v[i] !== undefined && v[i] !== "" && !Number.isNaN(+v[i]) ? +v[i] : v[i]])); }); };
@@ -30,7 +31,7 @@
       <div class="stat"><div class="k">Today</div><div class="v ${cls(dayChg)}">${pct(dayChg)}</div><div class="small muted">since 00:00 UTC</div></div>
       <div class="stat"><div class="k">Peak</div><div class="v">${usd(a.peak)}</div><div class="small muted">${pct(eq / a.peak - 1)} from it</div></div>
       <div class="stat"><div class="k">Finished trades</div><div class="v">${a.trades || 0}</div><div class="small muted">cash ${usd(a.cash)}</div></div></div>
-      <p style="margin:10px 0 0">${status}. <b>Paper only.</b> Started ${a.started_at ? esc(when(a.started_at)) : "–"}; checked every hour with the DEX list.</p>`;
+      <p style="margin:10px 0 0">${status}. <b>Paper only.</b> Started ${a.started_at ? esc(when(a.started_at)) : "–"}; checked every hour with ${esc((window.OMEGA_CHALLENGE || {}).listName || "the DEX list")}.</p>`;
     const st = document.querySelector(".top .status") || $("status");
     if (st && a.updated) st.textContent = `Checked ${Math.max(0, Math.round((Date.now() - Date.parse(a.updated)) / 60000))} min ago`;
   }
@@ -69,9 +70,9 @@
         ${ps.map((p) => `<tr><td><b>${esc(p.coin)}</b> <span class="small muted">${esc(CH[p.chain] || p.chain)} · ${esc(p.grade)} ${esc(p.score)}</span></td>
           <td>${p.status === "pending" ? '<span class="pill calm">being bought</span>' : `<span class="pill good">open</span> <span class="small muted">since ${esc(when(p.fill_t))}</span>`}</td>
           <td class="num">${usd(p.amount)}</td><td class="num">${p.status === "open" ? px(p.entry) : "end of this hour"}</td><td class="num">${p.status === "open" ? px(p.last) : "–"}</td>
-          <td class="num small">${p.status === "open" ? `<span class="up">${px(p.tp)}</span> / <span class="down">${px(p.stop)}</span>` : `${pct(p.tp_pct)} / ${pct(p.sl_pct)}`}</td>
+          <td class="num small">${p.status === "open" ? `<span class="up">${px(p.tp)}</span> / <span class="down">${px(p.stop)}</span>${p.sell_by ? `<br><span class="muted">sell by ${esc(when(p.sell_by))}</span>` : ""}` : `${pct(p.tp_pct)} / ${pct(p.sl_pct)}`}</td>
           <td class="num ${p.status === "open" ? cls(p.value - p.amount) : ""}">${p.status === "open" ? `${usd(p.value)} <span class="small">(${pct(p.value / p.amount - 1)})</span>` : "–"}</td></tr>`).join("")}
-        </tbody></table></div><p class="small muted">"Worth if sold now" is after the selling costs, against the pool's money right now.</p>`;
+        </tbody></table></div><p class="small muted">${esc((window.OMEGA_CHALLENGE || {}).worthNote || "\"Worth if sold now\" is after the selling costs, against the pool's money right now.")}</p>`;
   }
 
   function steps(log) {
@@ -96,12 +97,12 @@
   function finished(trades) {
     $("trades").innerHTML = !trades.length ? `<p class="muted">No finished trades yet. Staying in cash until a trade is worth the risk is part of the plan.</p>`
       : `<div class="table-wrap"><table><thead><tr><th>Coin</th><th>Bought → sold</th><th class="num">Put in</th><th class="num">Price in → out</th><th>Why it closed</th><th class="num">Selling costs</th><th class="num">Result after every cost</th></tr></thead><tbody>
-        ${trades.slice().reverse().map((t) => { const sc = ["fee", "impact", "mev", "tax", "gas"].reduce((s, k) => s + (+t[`sell_${k}`] || 0), 0);
+        ${trades.slice().reverse().map((t) => { const ks = Object.keys(COST).filter((k) => fin(+t[`sell_${k}`])); const sc = ks.reduce((s, k) => s + (+t[`sell_${k}`] || 0), 0);
           return `<tr><td><b>${esc(t.coin)}</b> <span class="small muted">${esc(CH[t.chain] || t.chain)} · ${esc(t.grade)}</span></td><td class="small">${esc(when(t.opened))} → ${esc(when(t.closed))}</td>
           <td class="num">${usd(+t.amount)}</td><td class="num small">${px(+t.entry)} → ${px(+t.exit)}</td><td class="small">${esc(t.why)}</td>
-          <td class="num small" title="pool fee ${usd(+t.sell_fee)}, price impact ${usd(+t.sell_impact)}, sandwich bots ${usd(+t.sell_mev)}, tax ${usd(+t.sell_tax)}, network fee ${usd(+t.sell_gas)}">${usd(sc)}</td>
+          <td class="num small" title="${esc(ks.map((k) => `${COST[k]} ${usd(+t[`sell_${k}`])}`).join(", "))}">${usd(sc)}</td>
           <td class="num ${cls(+t.net)}"><b>${usd(+t.net)}</b> <span class="small">(${pct(+t.ret)})</span></td></tr>`; }).join("")}
-        </tbody></table></div><p class="small muted">The buying costs (fees, impact, bots, front-runners, tax, network fee) are already inside the result: they reduce the coins bought. Hover the selling costs for the breakdown.</p>`;
+        </tbody></table></div><p class="small muted">${esc((window.OMEGA_CHALLENGE || {}).buyNote || "The buying costs (fees, impact, bots, front-runners, tax, network fee) are already inside the result: they reduce the coins bought.")} Hover the selling costs for the breakdown.</p>`;
   }
 
   async function load() {
