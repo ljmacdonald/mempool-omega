@@ -211,3 +211,17 @@ def test_js_old_prices_are_never_used_as_now():
     assert r["wait"] == "Waiting for a live price" and r["timeUp"] == "Time's up: sell now"
     assert r["asOfTp"] == "Check now: take profit reached" and r["asOfSl"] == "Check now: safety exit reached"
     assert r["asOfMid"] == "Waiting for a live price" and r["asOfNone"] == "Waiting for a live price"
+
+
+def test_js_universe_skips_delisted_pairs():
+    """D96: a delisted pair (no bid, frozen closeTime) must not reach either coin page."""
+    js = r"""
+const E = require(process.argv[1]);
+const now = Date.now(), u = { exclude_stablecoins: [], exclude_other: [], exclude_stock_tokens: [], always_include: [],
+  min_quote_volume_usd: 1e6, max_coins: 10, small_min_quote_volume_usd: 1e5, small_max_coins: 10 };
+const t = [{ symbol: 'BIGUSDT', quoteVolume: '5e7', lastPrice: '1', priceChangePercent: '0', closeTime: now, bidPrice: '1' },
+           { symbol: 'LIVEUSDT', quoteVolume: '5e5', lastPrice: '1', priceChangePercent: '0', closeTime: now, bidPrice: '1' },
+           { symbol: 'DEADUSDT', quoteVolume: '7e6', lastPrice: '1', priceChangePercent: '0', closeTime: now - 9e9, bidPrice: '0.0' }];
+console.log(JSON.stringify([E.selectUniverse(t, u).map((r) => r.symbol), E.selectSmallUniverse(t, u).map((r) => r.symbol)]));"""
+    out = subprocess.run(["node", "-e", js, str(ROOT / "site" / "engine.js")], capture_output=True, text=True, timeout=60)
+    assert json.loads(out.stdout) == [["BIGUSDT"], ["LIVEUSDT"]], out.stderr

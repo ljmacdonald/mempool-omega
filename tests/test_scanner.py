@@ -124,3 +124,31 @@ def test_track_record_settles_after_csv_roundtrip(tmp_path, monkeypatch):
     assert h.loc[0, "status"] == "closed" and h.loc[0, "outcome"] in {"take_profit", "safety_exit", "time_limit"}
     board = T.scoreboard()
     assert board["by_style"]["day"]["closed"] == 1
+
+
+def test_delisted_pairs_are_left_out_and_their_stale_ideas_expire(tmp_path, monkeypatch):
+    """Binance's 24 h ticker keeps delisted pairs with frozen numbers (no bid, old closeTime); they were ranked as
+    live small coins (D96)."""
+    import time
+
+    import pandas as pd
+
+    from core import config
+    from scanner import track
+    from scanner.data import live_pairs
+
+    now = time.time() * 1000
+    tick = pd.DataFrame([{"symbol": "LIVEUSDT", "closeTime": now - 60e3, "bidPrice": "1.0"},
+                         {"symbol": "DEADUSDT", "closeTime": now - 90 * 86400e3, "bidPrice": "0.00000000"},
+                         {"symbol": "HALTUSDT", "closeTime": now - 60e3, "bidPrice": "0"}])
+    assert live_pairs(tick)["symbol"].tolist() == ["LIVEUSDT"]
+
+    monkeypatch.setattr(config, "STATE_DIR", tmp_path)
+    (tmp_path / "suggestions").mkdir()
+    old = pd.Timestamp("2025-05-02T02:00:00Z")
+    pd.DataFrame([{"ts": str(old), "style": "day", "symbol": "DEADUSDT", "status": "open", "risk_unit": 0.1,
+                   "tp_pct": 0.2, "sl_pct": -0.1}]).to_csv(tmp_path / "suggestions" / "h.csv", index=False)
+    idx = pd.date_range(old - pd.Timedelta(hours=5), periods=8, freq="h", tz="UTC")     # prices stop soon after
+    df = pd.DataFrame({"open": 1.0, "high": 1.0, "low": 1.0, "close": 1.0, "volume": 1.0}, index=idx)
+    track.resolve({"DEADUSDT": df}, "day", "suggestions/h.csv")
+    assert track.load_history("suggestions/h.csv").loc[0, "status"] == "expired"

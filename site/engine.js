@@ -220,10 +220,16 @@
   }
 
   // ---------------------------------------------------------------- universe filter (scanner/data.py)
+  // Binance keeps delisted pairs in the 24 h ticker with frozen numbers (no bid, closeTime long past): skip them
+  // (scanner/data.py live_pairs, DECISIONS D96). Older test fixtures without these fields count as live.
+  function livePair(t, now = Date.now()) {
+    if (t.closeTime === undefined || t.bidPrice === undefined) return true;
+    return +t.closeTime >= now - 2 * 3600e3 && +t.bidPrice > 0;
+  }
   function selectUniverse(tickers, ucfg) {
     const excluded = new Set([...ucfg.exclude_stablecoins, ...ucfg.exclude_other, ...ucfg.exclude_stock_tokens]);
     const must = new Set(ucfg.always_include || []);
-    const rows = tickers.filter((t) => t.symbol.endsWith("USDT")).map((t) => ({
+    const rows = tickers.filter((t) => t.symbol.endsWith("USDT") && livePair(t)).map((t) => ({
       symbol: t.symbol, base: t.symbol.slice(0, -4), quoteVolume: +t.quoteVolume, lastPrice: +t.lastPrice,
       change: +t.priceChangePercent }))
       .filter((t) => /^[A-Z0-9]{2,15}$/.test(t.base) && !excluded.has(t.base) && !/(UP|DOWN|BULL|BEAR)$/.test(t.base))
@@ -238,7 +244,7 @@
   function selectSmallUniverse(tickers, ucfg) {
     const main = new Set(selectUniverse(tickers, ucfg).map((r) => r.symbol));
     const excluded = new Set([...ucfg.exclude_stablecoins, ...ucfg.exclude_other, ...ucfg.exclude_stock_tokens]);
-    return tickers.filter((t) => t.symbol.endsWith("USDT")).map((t) => ({
+    return tickers.filter((t) => t.symbol.endsWith("USDT") && livePair(t)).map((t) => ({
       symbol: t.symbol, base: t.symbol.slice(0, -4), quoteVolume: +t.quoteVolume, lastPrice: +t.lastPrice, change: +t.priceChangePercent }))
       .filter((t) => /^[A-Z0-9]{2,15}$/.test(t.base) && !excluded.has(t.base) && !/(UP|DOWN|BULL|BEAR)$/.test(t.base))
       .filter((t) => !main.has(t.symbol) && t.quoteVolume >= ucfg.small_min_quote_volume_usd)
