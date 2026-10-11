@@ -121,11 +121,23 @@ def small_coins(top_n: int = 5) -> dict:
     for key in STYLES:
         opened = hist[(hist["status"] == "open") & (hist["style"] == key)]["symbol"].tolist() if len(hist) else []
         res = scan(key, load_model(key), uni, cfg["small_top_n"], extra_symbols=opened, candidates=15,
-                       board="suggestions/small_scoreboard.json")
+                       board="suggestions/small_scoreboard.json", probation_hist=SMALL_HIST)
         track.append(res.payload["ideas"], res.payload["coins_scanned"], SMALL_HIST)
         res.payload["settled_this_run"] = track.resolve(res.candles, key, SMALL_HIST)
         state_path("suggestions", f"small_latest_{key}.json").write_text(json.dumps(res.payload, indent=2, default=str))
         out[key] = res.payload
+        if key == "day":                               # the $100 Small-coin challenge (paper, D97): never breaks the scan
+            try:
+                from scanner import challenge
+                from scanner.data import candles as fetch_candles
+                from scanner.improve import probation
+                from scanner.quality import load as load_quality
+
+                challenge.run(res.payload["ideas"], res.candles, probation=probation(track.load_history(SMALL_HIST)),
+                              quality_check=(load_quality("suggestions/small_scoreboard.json") or {}).get("check"),
+                              fetch_candles=fetch_candles)
+            except Exception as e:  # noqa: BLE001
+                log.warning("small challenge: %s", e)
     track.scoreboard(SMALL_HIST, "suggestions/small_scoreboard.json")
     return out
 

@@ -160,7 +160,9 @@ def nightly(selection: dict) -> dict:
     bait = update_adaptive()
     checks = tune_check_penalties(h)
     prob = probation(h)
-    adaptive = {**bait, "check_penalties": {k: v["penalty"] for k, v in checks.items()}, "probation": prob}
+    from scanner.run import SMALL_HIST  # Small coins: their own record (D97)
+    adaptive = {**bait, "check_penalties": {k: v["penalty"] for k, v in checks.items()}, "probation": prob,
+                "probation_small": probation(load_history(SMALL_HIST))}
     state_path("web", "adaptive.json").write_text(json.dumps(adaptive, indent=1))
     entry = {"date": str(pd.Timestamp.now(tz="UTC"))[:16], "notes": _notes(selection, checks, prob, bait),
              "model_selection": selection, "check_penalties": checks, "probation": prob}

@@ -141,6 +141,8 @@
       getJSON(REPO + `suggestions/${SMALL ? "small_" : ""}scoreboard.json`).catch(() => null)]);
     state.quality = (board && board.quality) || null;          // grade check + jumpiness adjustment from the track record
     state.adaptive = ad || state.quality ? { ...(ad || {}), vol: state.quality ? state.quality.vol : null } : null;
+    // Small coins are put on probation by their own record, not the Exchange coins one (DECISIONS D97)
+    if (SMALL && state.adaptive && state.adaptive.probation_small) state.adaptive.probation = state.adaptive.probation_small;
     state.adaptiveAt = Date.now();
     return state.adaptive;
   }
