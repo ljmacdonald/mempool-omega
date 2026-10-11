@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import re
+import time
 from concurrent.futures import ThreadPoolExecutor
 from functools import lru_cache
 from pathlib import Path
@@ -22,11 +23,21 @@ def config() -> dict:
     return yaml.safe_load(CFG_PATH.read_text())
 
 
+def live_pairs(tick: pd.DataFrame, max_age_h: float = 2.0) -> pd.DataFrame:
+    """Only pairs that still trade. Binance's 24 h ticker keeps delisted pairs with their last day's numbers frozen
+    (no bid, closeTime long past): 255 USDT pairs in Oct 2026, some with millions of 'volume' (D96)."""
+    if not len(tick) or "closeTime" not in tick or "bidPrice" not in tick:
+        return tick
+    fresh = pd.to_numeric(tick["closeTime"], errors="coerce") >= (time.time() - max_age_h * 3600) * 1000
+    bid = pd.to_numeric(tick["bidPrice"], errors="coerce") > 0
+    return tick[fresh & bid]
+
+
 def select_universe(max_coins: int | None = None) -> pd.DataFrame:
     """Most-traded USDT pairs after removing stablecoins, gold, wrapped and stock tokens."""
     cfg = config()
     tick = pd.DataFrame(_binance_get("/api/v3/ticker/24hr", {}))
-    tick = tick[tick["symbol"].str.endswith("USDT")].copy()
+    tick = live_pairs(tick[tick["symbol"].str.endswith("USDT")]).copy()
     tick["base"] = tick["symbol"].str[:-4]
     excluded = set(cfg["exclude_stablecoins"]) | set(cfg["exclude_other"]) | set(cfg["exclude_stock_tokens"])
     ok = tick["base"].map(lambda b: bool(re.fullmatch(r"[A-Z0-9]{2,15}", b)) and b not in excluded)
@@ -46,7 +57,7 @@ def select_small_universe() -> pd.DataFrame:
     """'Small coins': the next tier after the main universe, down to small_min_quote_volume_usd."""
     cfg = config()
     tick = pd.DataFrame(_binance_get("/api/v3/ticker/24hr", {}))
-    tick = tick[tick["symbol"].str.endswith("USDT")].copy()
+    tick = live_pairs(tick[tick["symbol"].str.endswith("USDT")]).copy()
     tick["base"] = tick["symbol"].str[:-4]
     excluded = set(cfg["exclude_stablecoins"]) | set(cfg["exclude_other"]) | set(cfg["exclude_stock_tokens"])
     ok = tick["base"].map(lambda b: bool(re.fullmatch(r"[A-Z0-9]{2,15}", b)) and b not in excluded)

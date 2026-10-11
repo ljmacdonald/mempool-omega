@@ -128,8 +128,9 @@ def resolve(candles: dict[str, pd.DataFrame], style_key: str, hist: str = HIST) 
     for i, row in h[(h["status"] == "open") & (h["style"] == style_key)].iterrows():
         df = candles.get(row["symbol"])
         ts = pd.Timestamp(row["ts"])
+        too_old = pd.Timestamp.now(tz="UTC") - ts > pd.Timedelta(minutes=style.horizon_minutes) * 6 + pd.Timedelta(days=2)
         if df is None or ts not in df.index:
-            if pd.Timestamp.now(tz="UTC") - ts > pd.Timedelta(minutes=style.horizon_minutes) * 6 + pd.Timedelta(days=2):
+            if too_old:
                 h.loc[i, ["status", "outcome"]] = ["expired", "no_data"]
             continue
         t = df.index.get_loc(ts)
@@ -138,6 +139,8 @@ def resolve(candles: dict[str, pd.DataFrame], style_key: str, hist: str = HIST) 
         res = simulate_idea(df, t, float(row["risk_unit"]), style.horizon_bars,
                             float(tp) if pd.notna(tp) else None, float(sl) if pd.notna(sl) else None)
         if res is None:
+            if too_old:                                # never enough prices after the idea (e.g. a delisted coin, D96)
+                h.loc[i, ["status", "outcome"]] = ["expired", "no_data"]
             continue
         net, outcome, bars = res
         if row["ts"] not in cache:
