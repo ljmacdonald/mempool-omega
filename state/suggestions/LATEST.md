@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-12 09:12 UTC
+# Trade ideas: 2026-10-12 10:28 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,50 +6,50 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (3% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (0% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **CKB** | 4.1/10 | Avoid - watch only | High | $0.001667 | $0.00175504 (+5.3%) | $0.00162298 (-2.6%) | 10:10 12-Oct |
-| 2 | **METIS** | 3.8/10 | Avoid - watch only | High | $3.88 | $4.12 (+6.1%) | $3.76 (-3.0%) | 10:10 12-Oct |
-| 3 | **MUBARAK** | 3.5/10 | Avoid - watch only | Very high | $0.07573 | $0.081822 (+8.0%) | $0.072684 (-4.0%) | 10:10 12-Oct |
-| 4 | **IO** | 3.5/10 | Avoid - watch only | High | $0.1845 | $0.194047 (+5.2%) | $0.179726 (-2.6%) | 10:10 12-Oct |
-| 5 | **RLC** | 3.0/10 | Avoid - watch only | High | $0.9981 | $1.04 (+4.6%) | $0.975259 (-2.3%) | 10:10 12-Oct |
+| 1 | **MUBARAK** | 2.0/10 | Avoid - watch only | High | $0.07552 | $0.0801185 (+6.1%) | $0.0732208 (-3.0%) | 11:25 12-Oct |
+| 2 | **RLC** | 1.4/10 | Avoid - watch only | High | $0.9933 | $1.04 (+4.7%) | $0.96981 (-2.4%) | 11:25 12-Oct |
+| 3 | **BAT** | 1.4/10 | Avoid - watch only | High | $0.1444 | $0.152882 (+5.9%) | $0.140159 (-2.9%) | 11:25 12-Oct |
+| 4 | **CYBER** | 1.3/10 | Avoid - watch only | Very high | $0.385 | $0.417297 (+8.4%) | $0.368851 (-4.2%) | 11:25 12-Oct |
+| 5 | **MAGIC** | 1.3/10 | Avoid - watch only | High | $0.127 | $0.13437 (+5.8%) | $0.123315 (-2.9%) | 11:25 12-Oct |
 
-- **CKB:** It is bouncing up from near its lowest price of the last 14 hours.
-- **METIS:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **MUBARAK:** Momentum is healthy: not overheated, not collapsing.
+- **MUBARAK:** Buyers have been more eager than sellers over the last 30 minutes (56% of trades were buys). ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **RLC:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **BAT:** Trading activity is 2.1x higher than usual, so people are paying attention to it. It is bouncing up from near its lowest price of the last 14 hours. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (7% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (2% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **MBL** | 6.3/10 | Moderate | High | $0.000875 | $0.000947501 (+8.3%) | $0.00083875 (-4.1%) | 13:00 12-Oct |
-| 2 | **LUMIA** | 4.2/10 | Avoid - watch only | Very high | $0.1128 | $0.126786 (+12.4%) | $0.105807 (-6.2%) | 13:00 12-Oct |
-| 3 | **CKB** | 3.8/10 | Avoid - watch only | Very high | $0.001656 | $0.00191857 (+15.9%) | $0.00152471 (-7.9%) | 13:00 12-Oct |
-| 4 | **MAGIC** | 3.5/10 | Avoid - watch only | Very high | $0.122 | $0.139119 (+14.0%) | $0.113441 (-7.0%) | 13:00 12-Oct |
-| 5 | **RLC** | 3.3/10 | Avoid - watch only | Very high | $0.9973 | $1.11 (+11.6%) | $0.939483 (-5.8%) | 13:00 12-Oct |
+| 1 | **STRK** | 3.9/10 | Avoid - watch only | Very high | $0.10479 | $0.117711 (+12.3%) | $0.0983297 (-6.2%) | 14:15 12-Oct |
+| 2 | **CKB** | 3.7/10 | Avoid - watch only | Very high | $0.001641 | $0.00188836 (+15.1%) | $0.00151732 (-7.5%) | 14:15 12-Oct |
+| 3 | **MAGIC** | 3.2/10 | Avoid - watch only | Very high | $0.1262 | $0.142927 (+13.3%) | $0.117836 (-6.6%) | 14:15 12-Oct |
+| 4 | **RLC** | 2.7/10 | Avoid - watch only | Very high | $1.01 | $1.12 (+10.8%) | $0.954608 (-5.4%) | 14:15 12-Oct |
+| 5 | **CHIP** | 2.5/10 | Avoid - watch only | High | $0.06519 | $0.0708802 (+8.7%) | $0.0619811 (-4.9%) | 14:15 12-Oct |
 
-- **MBL:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **LUMIA:** Buyers have been more eager than sellers over the last 1.5 hours (53% of trades were buys). ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **STRK:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 - **CKB:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MAGIC:** Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (14% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (11% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **RLC** | 6.8/10 | Strong | Very high | $0.9973 | $1.24 (+24.0%) | $0.877624 (-12.0%) | 09:00 13-Oct |
-| 2 | **MBL** | 5.8/10 | Moderate | Very high | $0.000875 | $0.001085 (+24.0%) | $0.00077 (-12.0%) | 09:00 13-Oct |
-| 3 | **GTC** | 5.4/10 | Weak | Very high | $0.16592 | $0.202468 (+22.0%) | $0.147646 (-11.0%) | 09:00 13-Oct |
-| 4 | **BAT** | 5.4/10 | Weak | Very high | $0.1502 | $0.186248 (+24.0%) | $0.132176 (-12.0%) | 09:00 13-Oct |
-| 5 | **BOME** | 5.3/10 | Weak | Very high | $0.0009557 | $0.00113122 (+18.4%) | $0.000867938 (-9.2%) | 09:00 13-Oct |
+| 1 | **SKL** | 6.2/10 | Moderate | Very high | $0.00532 | $0.00634506 (+19.3%) | $0.00480747 (-9.6%) | 10:00 13-Oct |
+| 2 | **OGN** | 5.6/10 | Moderate | Very high | $0.03116 | $0.037935 (+21.7%) | $0.0277725 (-10.9%) | 10:00 13-Oct |
+| 3 | **GTC** | 5.0/10 | Weak | Very high | $0.16579 | $0.201565 (+21.6%) | $0.147902 (-10.8%) | 10:00 13-Oct |
+| 4 | **BAT** | 4.9/10 | Avoid - watch only | Very high | $0.1447 | $0.179428 (+24.0%) | $0.127336 (-12.0%) | 10:00 13-Oct |
+| 5 | **RLC** | 4.7/10 | Avoid - watch only | Very high | $0.998 | $1.24 (+24.0%) | $0.87824 (-12.0%) | 10:00 13-Oct |
 
-- **RLC:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **MBL:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **SKL:** It did 5.5% better than Bitcoin over the last 24 hours. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Buyers have been more eager than sellers over the last 6 hours (53% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **OGN:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 - **GTC:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ---
@@ -57,8 +57,8 @@ Market mood: **Unfavourable** (14% of 150 coins look positive). If it says *Unfa
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 735 | 44% | -0.18% | -0.22% |
-| Short: exit within 4 hours | 803 | 40% | -0.13% | -0.13% |
+| Quick: exit within 1 hour | 745 | 44% | -0.17% | -0.23% |
+| Short: exit within 4 hours | 817 | 40% | -0.16% | -0.14% |
 | Day: exit within 24 hours | 695 | 42% | -0.03% | +0.78% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
