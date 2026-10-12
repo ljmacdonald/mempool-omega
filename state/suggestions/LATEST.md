@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-12 22:13 UTC
+# Trade ideas: 2026-10-12 23:09 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,50 +6,50 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (4% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (5% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **CTK** | 2.2/10 | Avoid - watch only | Very high | $0.1303 | $0.14333 (+10.0%) | $0.123785 (-5.0%) | 23:10 12-Oct |
-| 2 | **RLC** | 2.0/10 | Avoid - watch only | Medium | $0.924 | $0.959652 (+3.9%) | $0.906174 (-1.9%) | 23:10 12-Oct |
-| 3 | **ZRO** | 1.8/10 | Avoid - watch only | Medium | $2.13 | $2.22 (+3.9%) | $2.09 (-1.9%) | 23:10 12-Oct |
-| 4 | **NEAR** | 1.8/10 | Avoid - watch only | High | $5.22 | $5.51 (+5.6%) | $5.07 (-2.8%) | 23:10 12-Oct |
-| 5 | **SXT** | 1.8/10 | Avoid - watch only | Medium | $0.00921 | $0.00955398 (+3.7%) | $0.00903801 (-1.9%) | 23:10 12-Oct |
+| 1 | **OGN** | 2.8/10 | Avoid - watch only | Very high | $0.03658 | $0.0396627 (+8.4%) | $0.034895 (-4.6%) | 00:05 13-Oct |
+| 2 | **GTC** | 2.6/10 | Avoid - watch only | Very high | $0.28104 | $0.309144 (+10.0%) | $0.266988 (-5.0%) | 00:05 13-Oct |
+| 3 | **RSR** | 2.1/10 | Avoid - watch only | High | $0.002146 | $0.00227634 (+6.1%) | $0.00208083 (-3.0%) | 00:05 13-Oct |
+| 4 | **STX** | 2.0/10 | Avoid - watch only | Very high | $0.4103 | $0.440082 (+7.3%) | $0.395409 (-3.6%) | 00:05 13-Oct |
+| 5 | **STRK** | 1.9/10 | Avoid - watch only | High | $0.08323 | $0.0884142 (+6.2%) | $0.0806379 (-3.1%) | 00:05 13-Oct |
 
-- **CTK:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **RLC:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **ZRO:** It is bouncing up from near its lowest price of the last 14 hours. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **OGN:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **GTC:** Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **RSR:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (25% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (23% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **RSR** | 5.2/10 | Weak | Very high | $0.00218 | $0.0025288 (+16.0%) | $0.0020056 (-8.0%) | 02:00 13-Oct |
-| 2 | **CTK** | 4.2/10 | Avoid - watch only | Very high | $0.1278 | $0.148248 (+16.0%) | $0.117576 (-8.0%) | 02:00 13-Oct |
-| 3 | **OGN** | 3.7/10 | Avoid - watch only | Very high | $0.03676 | $0.0426416 (+16.0%) | $0.0338192 (-8.0%) | 02:00 13-Oct |
-| 4 | **OSMO** | 3.4/10 | Avoid - watch only | Very high | $0.05 | $0.058 (+16.0%) | $0.046 (-8.0%) | 02:00 13-Oct |
-| 5 | **GTC** | 2.9/10 | Avoid - watch only | Very high | $0.27721 | $0.321564 (+16.0%) | $0.255033 (-8.0%) | 02:00 13-Oct |
+| 1 | **MAGIC** | 4.0/10 | Avoid - watch only | Very high | $0.1167 | $0.129551 (+11.0%) | $0.110275 (-5.5%) | 03:00 13-Oct |
+| 2 | **LUMIA** | 3.5/10 | Avoid - watch only | High | $0.106 | $0.114431 (+8.0%) | $0.101785 (-4.0%) | 03:00 13-Oct |
+| 3 | **OSMO** | 3.5/10 | Avoid - watch only | Very high | $0.053 | $0.06148 (+16.0%) | $0.04876 (-8.0%) | 03:00 13-Oct |
+| 4 | **ZRO** | 3.3/10 | Avoid - watch only | High | $2.08 | $2.25 (+7.8%) | $1.99 (-4.4%) | 03:00 13-Oct |
+| 5 | **CTK** | 3.2/10 | Avoid - watch only | Very high | $0.1333 | $0.154628 (+16.0%) | $0.122636 (-8.0%) | 03:00 13-Oct |
 
-- **RSR:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **CTK:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **OGN:** It did 10.2% better than Bitcoin over the last 6 hours. Trading activity is 3.6x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MAGIC:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **LUMIA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **OSMO:** It did 17.5% better than Bitcoin over the last 6 hours. Trading activity is 3.1x higher than usual, so people are paying attention to it. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (22% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (27% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **MINA** | 5.2/10 | Weak | High | $0.0776 | $0.088816 (+14.5%) | $0.071992 (-7.2%) | 22:00 13-Oct |
-| 2 | **IO** | 5.1/10 | Weak | Very high | $0.1633 | $0.198101 (+21.3%) | $0.1459 (-10.7%) | 22:00 13-Oct |
-| 3 | **LUMIA** | 4.8/10 | Avoid - watch only | Very high | $0.1077 | $0.133548 (+24.0%) | $0.094776 (-12.0%) | 22:00 13-Oct |
-| 4 | **KAIA** | 4.8/10 | Avoid - watch only | Very high | $0.0454 | $0.0537795 (+18.5%) | $0.0412103 (-9.2%) | 22:00 13-Oct |
-| 5 | **PUMP** | 4.6/10 | Avoid - watch only | High | $0.005102 | $0.00584508 (+14.6%) | $0.00473046 (-7.3%) | 22:00 13-Oct |
+| 1 | **CTSI** | 4.7/10 | Avoid - watch only | Very high | $0.0327 | $0.038154 (+16.7%) | $0.02991 (-8.5%) | 23:00 13-Oct |
+| 2 | **KAIA** | 4.7/10 | Avoid - watch only | Very high | $0.0454 | $0.0536138 (+18.1%) | $0.0412931 (-9.0%) | 23:00 13-Oct |
+| 3 | **LUMIA** | 4.6/10 | Avoid - watch only | Very high | $0.106 | $0.13144 (+24.0%) | $0.09328 (-12.0%) | 23:00 13-Oct |
+| 4 | **MOVR** | 4.5/10 | Avoid - watch only | High | $1.54 | $1.75 (+13.4%) | $1.44 (-6.7%) | 23:00 13-Oct |
+| 5 | **PUMP** | 4.4/10 | Avoid - watch only | High | $0.004995 | $0.00572849 (+14.7%) | $0.00462826 (-7.3%) | 23:00 13-Oct |
 
-- **MINA:** Buyers have been more eager than sellers over the last 6 hours (54% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **IO:** Trading activity is 3.0x higher than usual, so people are paying attention to it. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **CTSI:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **KAIA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 - **LUMIA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ---
@@ -57,8 +57,8 @@ Market mood: **Unfavourable** (22% of 150 coins look positive). If it says *Unfa
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 805 | 43% | -0.25% | -0.25% |
-| Short: exit within 4 hours | 872 | 39% | -0.26% | -0.20% |
-| Day: exit within 24 hours | 773 | 41% | -0.06% | +0.63% |
+| Quick: exit within 1 hour | 807 | 43% | -0.25% | -0.25% |
+| Short: exit within 4 hours | 881 | 38% | -0.29% | -0.22% |
+| Day: exit within 24 hours | 777 | 41% | -0.09% | +0.61% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
