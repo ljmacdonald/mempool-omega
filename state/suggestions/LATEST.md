@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-13 15:29 UTC
+# Trade ideas: 2026-10-13 16:31 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (0% of 149 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (3% of 149 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **OSMO** | 3.2/10 | Avoid - watch only | Very high | $0.0436 | $0.0469793 (+7.8%) | $0.0419103 (-3.9%) | 16:25 13-Oct |
-| 2 | **LUMIA** | 2.7/10 | Avoid - watch only | Very high | $0.0944 | $0.10384 (+10.0%) | $0.08968 (-5.0%) | 16:25 13-Oct |
-| 3 | **GTC** | 2.5/10 | Avoid - watch only | High | $0.24012 | $0.254928 (+6.2%) | $0.232716 (-3.1%) | 16:25 13-Oct |
-| 4 | **AMP** | 2.5/10 | Avoid - watch only | Very high | $0.000682 | $0.00073792 (+8.2%) | $0.00065404 (-4.1%) | 16:25 13-Oct |
-| 5 | **ZK** | 2.5/10 | Avoid - watch only | Very high | $0.01717 | $0.0186688 (+8.7%) | $0.0164206 (-4.4%) | 16:25 13-Oct |
+| 1 | **OGN** | 4.8/10 | Avoid - watch only | High | $0.03535 | $0.0375282 (+6.2%) | $0.0342609 (-3.1%) | 17:25 13-Oct |
+| 2 | **LUMIA** | 3.7/10 | Avoid - watch only | Very high | $0.0954 | $0.10494 (+10.0%) | $0.09063 (-5.0%) | 17:25 13-Oct |
+| 3 | **AMP** | 2.5/10 | Avoid - watch only | Very high | $0.000702 | $0.0007722 (+10.0%) | $0.0006669 (-5.0%) | 17:25 13-Oct |
+| 4 | **OSMO** | 2.3/10 | Avoid - watch only | Very high | $0.0424 | $0.0452778 (+6.8%) | $0.0409611 (-3.4%) | 17:25 13-Oct |
+| 5 | **ZK** | 2.3/10 | Avoid - watch only | Very high | $0.01667 | $0.0180344 (+8.2%) | $0.0159878 (-4.1%) | 17:25 13-Oct |
 
-- **OSMO:** Buyers have been more eager than sellers over the last 30 minutes (53% of trades were buys). It is bouncing up from near its lowest price of the last 14 hours. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **LUMIA:** Trading activity is 1.9x higher than usual, so people are paying attention to it. Buyers have been more eager than sellers over the last 30 minutes (52% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
-- **GTC:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **OGN:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **LUMIA:** Trading activity is 2.3x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
+- **AMP:** It did 2.3% better than Bitcoin over the last 2 hours. Trading activity is 1.7x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (2% of 149 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (5% of 149 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **OSMO** | 4.9/10 | Avoid - watch only | Very high | $0.0445 | $0.05162 (+16.0%) | $0.04094 (-8.0%) | 19:15 13-Oct |
-| 2 | **MAGIC** | 3.8/10 | Avoid - watch only | Very high | $0.1182 | $0.131808 (+11.5%) | $0.111396 (-5.8%) | 19:15 13-Oct |
-| 3 | **QNT** | 3.7/10 | Avoid - watch only | High | $207.18 | $225.96 (+9.1%) | $197.79 (-4.5%) | 19:15 13-Oct |
-| 4 | **KORUB** | 3.2/10 | Avoid - watch only | High | $14.23 | $15.58 (+9.5%) | $13.55 (-4.8%) | 19:15 13-Oct |
-| 5 | **LAZIO** | 3.2/10 | Avoid - watch only | High | $0.417 | $0.45916 (+10.1%) | $0.39592 (-5.1%) | 19:15 13-Oct |
+| 1 | **QNT** | 6.3/10 | Moderate | High | $204.10 | $221.35 (+8.5%) | $195.47 (-4.2%) | 20:15 13-Oct |
+| 2 | **OGN** | 6.0/10 | Moderate | Very high | $0.03551 | $0.0411916 (+16.0%) | $0.0326692 (-8.0%) | 20:15 13-Oct |
+| 3 | **CTK** | 4.9/10 | Avoid - watch only | Very high | $0.121 | $0.139747 (+15.5%) | $0.111626 (-7.7%) | 20:15 13-Oct |
+| 4 | **OSMO** | 4.3/10 | Avoid - watch only | Very high | $0.0429 | $0.049764 (+16.0%) | $0.039468 (-8.0%) | 20:15 13-Oct |
+| 5 | **BAT** | 4.3/10 | Avoid - watch only | Very high | $0.1832 | $0.207031 (+13.0%) | $0.170017 (-7.2%) | 20:15 13-Oct |
 
-- **OSMO:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **MAGIC:** The model sees a slightly better-than-usual pattern, with no single strong reason.
 - **QNT:** Trading activity is 2.3x higher than usual, so people are paying attention to it. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
+- **OGN:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
+- **CTK:** The model sees a slightly better-than-usual pattern, with no single strong reason.
 
 ## Day: exit within 24 hours
 
-Market mood: **Mixed** (37% of 149 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (30% of 149 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ORCA** | 8.3/10 | Strong | High | $2.02 | $2.28 (+12.8%) | $1.89 (-6.4%) | 15:00 14-Oct |
-| 2 | **SNXXB** | 7.9/10 | Strong | Very high | $11.22 | $12.99 (+15.8%) | $10.33 (-7.9%) | 15:00 14-Oct |
-| 3 | **BOME** | 7.8/10 | Strong | Very high | $0.0007934 | $0.000924937 (+16.6%) | $0.000727632 (-8.3%) | 15:00 14-Oct |
-| 4 | **RLC** | 7.5/10 | Strong | Very high | $0.9115 | $1.11 (+22.1%) | $0.810609 (-11.1%) | 15:00 14-Oct |
-| 5 | **ERA** | 7.5/10 | Strong | Very high | $0.0641 | $0.07485 (+16.8%) | $0.058668 (-8.5%) | 15:00 14-Oct |
+| 1 | **BOME** | 7.7/10 | Strong | Very high | $0.0007922 | $0.000920894 (+16.2%) | $0.000727853 (-8.1%) | 16:00 14-Oct |
+| 2 | **ERA** | 7.3/10 | Strong | Very high | $0.0636 | $0.0741735 (+16.6%) | $0.0583133 (-8.3%) | 16:00 14-Oct |
+| 3 | **MAGIC** | 6.9/10 | Strong | Very high | $0.1188 | $0.147312 (+24.0%) | $0.104544 (-12.0%) | 16:00 14-Oct |
+| 4 | **LUMIA** | 6.8/10 | Strong | Very high | $0.094 | $0.11656 (+24.0%) | $0.08272 (-12.0%) | 16:00 14-Oct |
+| 5 | **BAT** | 6.3/10 | Moderate | Very high | $0.1776 | $0.220224 (+24.0%) | $0.156288 (-12.0%) | 16:00 14-Oct |
 
-- **ORCA:** Buyers have been more eager than sellers over the last 6 hours (54% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **SNXXB:** Trading activity is 1.5x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
-- **BOME:** Trading activity is 1.9x higher than usual, so people are paying attention to it. Buyers have been more eager than sellers over the last 6 hours (53% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
+- **BOME:** Trading activity is 1.7x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
+- **ERA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **MAGIC:** The model sees a slightly better-than-usual pattern, with no single strong reason.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 895 | 43% | -0.19% | -0.24% |
-| Short: exit within 4 hours | 966 | 39% | -0.27% | -0.22% |
-| Day: exit within 24 hours | 846 | 40% | -0.04% | +0.29% |
+| Quick: exit within 1 hour | 900 | 44% | -0.19% | -0.24% |
+| Short: exit within 4 hours | 971 | 39% | -0.27% | -0.22% |
+| Day: exit within 24 hours | 855 | 40% | -0.15% | +0.27% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
