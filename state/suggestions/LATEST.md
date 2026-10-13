@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-13 22:45 UTC
+# Trade ideas: 2026-10-13 22:54 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -10,15 +10,15 @@ Market mood: **Unfavourable** (1% of 149 coins look positive). If it says *Unfav
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **QI** | 3.7/10 | Avoid - watch only | High | $0.002624 | $0.00279294 (+6.4%) | $0.00253953 (-3.2%) | 23:40 13-Oct |
-| 2 | **ZK** | 3.4/10 | Avoid - watch only | Medium | $0.01621 | $0.0168914 (+4.2%) | $0.0158693 (-2.1%) | 23:40 13-Oct |
-| 3 | **GNS** | 3.2/10 | Avoid - watch only | Very high | $0.732 | $0.8052 (+10.0%) | $0.6954 (-5.0%) | 23:40 13-Oct |
-| 4 | **BAT** | 2.7/10 | Avoid - watch only | Very high | $0.1955 | $0.211036 (+7.9%) | $0.187732 (-4.0%) | 23:40 13-Oct |
-| 5 | **AMP** | 2.7/10 | Avoid - watch only | Very high | $0.000757 | $0.0008327 (+10.0%) | $0.000715128 (-5.5%) | 23:40 13-Oct |
+| 1 | **QI** | 3.7/10 | Avoid - watch only | High | $0.002625 | $0.0027872 (+6.2%) | $0.0025439 (-3.1%) | 23:50 13-Oct |
+| 2 | **ZK** | 3.4/10 | Avoid - watch only | Medium | $0.0161 | $0.0167586 (+4.1%) | $0.0157707 (-2.0%) | 23:50 13-Oct |
+| 3 | **AMP** | 2.6/10 | Avoid - watch only | Very high | $0.000756 | $0.0008316 (+10.0%) | $0.000716124 (-5.3%) | 23:50 13-Oct |
+| 4 | **BLUR** | 2.3/10 | Avoid - watch only | High | $0.01235 | $0.0130324 (+5.5%) | $0.0120088 (-2.8%) | 23:50 13-Oct |
+| 5 | **AVA** | 2.3/10 | Avoid - watch only | High | $0.2372 | $0.250757 (+5.7%) | $0.230421 (-2.9%) | 23:50 13-Oct |
 
 - **QI:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 - **ZK:** The model sees a slightly better-than-usual pattern, with no single strong reason.
-- **GNS:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **AMP:** Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. It did 2.7% better than Bitcoin over the last 2 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Short: exit within 4 hours
 
@@ -26,15 +26,15 @@ Market mood: **Unfavourable** (5% of 149 coins look positive). If it says *Unfav
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **GNS** | 4.4/10 | Avoid - watch only | Very high | $0.73 | $0.8468 (+16.0%) | $0.6716 (-8.0%) | 02:30 14-Oct |
-| 2 | **ZK** | 4.4/10 | Avoid - watch only | Very high | $0.01631 | $0.0180796 (+10.8%) | $0.0154252 (-5.4%) | 02:30 14-Oct |
-| 3 | **OGN** | 4.3/10 | Avoid - watch only | High | $0.03487 | $0.0384754 (+10.3%) | $0.0330673 (-5.2%) | 02:30 14-Oct |
-| 4 | **OSMO** | 4.2/10 | Avoid - watch only | Very high | $0.0419 | $0.0467686 (+11.6%) | $0.0394657 (-5.8%) | 02:30 14-Oct |
-| 5 | **STRK** | 4.2/10 | Avoid - watch only | High | $0.08366 | $0.0920418 (+10.0%) | $0.0794691 (-5.0%) | 02:30 14-Oct |
+| 1 | **GNS** | 4.7/10 | Avoid - watch only | Very high | $0.743 | $0.86188 (+16.0%) | $0.68356 (-8.0%) | 02:45 14-Oct |
+| 2 | **STRK** | 4.6/10 | Avoid - watch only | High | $0.0847 | $0.093213 (+10.1%) | $0.0804435 (-5.0%) | 02:45 14-Oct |
+| 3 | **OSMO** | 4.5/10 | Avoid - watch only | Very high | $0.0418 | $0.0465568 (+11.4%) | $0.0394216 (-5.7%) | 02:45 14-Oct |
+| 4 | **ZK** | 4.5/10 | Avoid - watch only | Very high | $0.01612 | $0.0178618 (+10.8%) | $0.0152491 (-5.4%) | 02:45 14-Oct |
+| 5 | **BAT** | 4.4/10 | Avoid - watch only | Very high | $0.1964 | $0.22273 (+13.4%) | $0.183235 (-6.7%) | 02:45 14-Oct |
 
-- **GNS:** It did 22.4% better than Bitcoin over the last 6 hours. Trading activity is 5.2x higher than usual, so people are paying attention to it. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
-- **ZK:** Momentum is healthy: not overheated, not collapsing. ⚠️ In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
-- **OGN:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **GNS:** It did 9.2% better than Bitcoin over the last 6 hours. Trading activity is 4.7x higher than usual, so people are paying attention to it. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. In our own track record, ideas with a volume burst like this tended to reverse after being suggested. Score lowered.
+- **STRK:** Momentum is healthy: not overheated, not collapsing.
+- **OSMO:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Day: exit within 24 hours
 
