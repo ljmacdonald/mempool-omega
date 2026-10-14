@@ -154,6 +154,10 @@ def sections(now: datetime) -> list[dict]:
     add("whales", "Whale tracker", "whales/", {"n": days, "avg": v.get("lead"), "random": v.get("rand"),
                                                "status": "early" if days < 30 else status_of(MIN_N, v.get("lead"), v.get("rand"))},
         s.get("generated_at"), 60, note="Finished = days of paper-copying the whales (a verdict needs 30); figures are its total return so far vs random picks.")
+    s = read_data("mev/snapshot.json") or {}
+    add("mev", "Arbitrage lab", "mev/", {"n": (s.get("counts") or {}).get("opportunities") or 0, "avg": None,
+                                         "random": None, "status": "early"}, s.get("generated_at"), 150,
+        note="Shadow research: do Solana arbitrage opportunities survive long enough to trade? No trades are made.")
     for key, name, path, rel in (("challenge", "$100 DEX challenge", "challenge/", "dex/challenge"),
                                  ("challenge-small", "$100 Small-coin challenge", "challenge-small/", "suggestions/challenge_small")):
         a = read_state(f"{rel}/account.json") or {}
