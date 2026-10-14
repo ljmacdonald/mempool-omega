@@ -21,6 +21,7 @@
     predict: { path: "predict/", name: "Prediction markets", group: "lab", risk: "Paper only", kind: "Research", blurb: "Kalshi and Polymarket: favourites that may be underpriced, tested on paper at real prices.", action: "Information only until 50 paper trades have settled." },
     results: { path: "results/", name: "Results", group: "proof", risk: "Paper only", kind: "Every record", blurb: "Every section's live paper record on one screen, after every cost, against random picks.", action: "See what is working, what isn't, and what's too early to tell." },
     status: { path: "status/", name: "System status", group: "proof", risk: "Paper only", kind: "Watchdog", blurb: "Is every page up to date and every background job running? Checked every 15 minutes.", action: "Check here if a page looks out of date." },
+    legal: { path: "legal/", name: "Legal", group: "proof", risk: "Draft", kind: "Terms, privacy, risk", blurb: "Terms of use, privacy and risk disclosure (drafts pending legal review).", action: "Read before relying on anything here." },
     challenge: { path: "challenge/", name: "$100 DEX challenge", group: "proof", risk: "Paper only", kind: "Paper account", blurb: "A $100 paper account trading the DEX list like a person without bots, paying every real cost.", action: "Watch how it does day by day: every step is written down." },
     "challenge-small": { path: "challenge-small/", name: "$100 Small-coin challenge", group: "proof", risk: "Paper only", kind: "Paper account", blurb: "A $100 paper account trading the Small coins Day ideas on Binance, with orders anyone can copy by hand.", action: "Copy the trades by hand if you like: every step says exactly what to do." },
     whales: { path: "whales/", name: "Whale tracker", group: "lab", risk: "Paper only", kind: "Research", blurb: "Last month's best big traders, what they hold now, and a paper copy of them.", action: "Information only until the 30-day verdict is in." },
@@ -195,7 +196,7 @@
     b.innerHTML = `${logo}<span>Mempool Omega · paper trading and education only, not financial advice</span>`;
     f.prepend(b);
     const l = document.createElement("div"); l.className = "foot-links small";
-    l.innerHTML = `<a href="${BASE}results/">Results</a> · <a href="${BASE}status/">System status</a>`;
+    l.innerHTML = `<a href="${BASE}results/">Results</a> · <a href="${BASE}status/">System status</a> · <a href="${BASE}legal/terms.html">Terms</a> · <a href="${BASE}legal/privacy.html">Privacy</a> · <a href="${BASE}legal/risk.html">Risk disclosure</a>`;
     b.after(l);
   }
 
