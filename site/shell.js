@@ -322,6 +322,7 @@
     if (!store.get("omega.onb.tour", false)) setTimeout(() => tour(false), 700);
     else checklist();
     root.addEventListener("storage", checklist);
+    if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) navigator.serviceWorker.register(`${BASE}sw.js`, { scope: BASE }).catch(() => {});   // installable app (D101)
     setInterval(checklist, 4000);           // ticks items off as the visitor uses the page (trades, alerts)
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
