@@ -116,7 +116,9 @@ def challenge_card(s: dict, curve: list[float], when: str):
         x0, x1, y0, y1 = 60, W - 60, 400, H - 100
         lo, hi = min(min(curve), 100), max(max(curve), 100)
         span = (hi - lo) or 1
-        ys = lambda v: y1 - (v - lo) / span * (y1 - y0)
+
+        def ys(v):
+            return y1 - (v - lo) / span * (y1 - y0)
         d.line([(x0, ys(100)), (x1, ys(100))], fill=LINE, width=2)
         d.text((x1 - 60, ys(100) - 26), "$100", font=font(18), fill=MUTED)
         pts = [(x0 + i / (len(curve) - 1) * (x1 - x0), ys(v)) for i, v in enumerate(curve)]
