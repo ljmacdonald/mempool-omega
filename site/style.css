@@ -378,6 +378,11 @@ nav.tabs.sections a.on { color: var(--accent); border-bottom-color: var(--accent
 .ask-chip:hover { border-color: var(--accent); }
 .ask-chip:active { transform: translateY(1px); }
 .ask-chip span { font-size: 0.8rem; color: var(--muted); }
+.door { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; width: 100%; margin-top: 6px; text-align: left; }
+.door-card { display: grid; gap: 4px; align-content: start; padding: 12px 14px; border: 1px solid var(--line); background: var(--sunken); border-radius: 14px; color: var(--fg); text-decoration: none; font-size: 0.86rem; line-height: 1.45; }
+.door-card span { color: var(--fg-2); }
+a.door-card:hover { border-color: var(--accent); }
+@media (max-width: 720px) { .door { grid-template-columns: 1fr; } }
 .ask-started .ask-hero { display: none; }
 .ask-started .ask { padding-top: 16px; }
 .ask-thread { display: grid; gap: 16px; flex: 1; padding-bottom: 16px; }
