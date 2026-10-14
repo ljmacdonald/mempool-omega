@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mempool Omega · Arbitrage lab</title>
+<meta name="description" content="Shadow-only research: do Solana arbitrage opportunities survive bots, fees and Jito tips long enough to trade? Measured live, nothing signed or sent.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../style.css">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#3b4ee8">
+<link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32.png">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<script src="../theme.js"></script>
+<script src="../shell.js" defer></script>
+<style>.wrap > .card, .wrap > .banner { margin-block: 14px; } .card > * { min-width: 0; } .gate li { list-style: none; margin: 4px 0; } .gate { padding-left: 0; }</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Mempool Omega · Arbitrage lab</h1>
+      <p class="muted small">Solana arbitrage against real bots, fees and Jito tips: does an opportunity survive long enough to take? · shadow mode, nothing is signed or sent</p>
+    </div>
+    <div class="top-right">
+      <nav class="sites" aria-label="Choose a page"><a href="../coins/" data-site="main">Exchange coins</a><a href="../small/" data-site="small">Small coins</a><a href="../dex/" data-site="dex">DEX tokens</a><a href="../stocks/" data-site="stocks">US stocks</a><a href="../fx/" data-site="fx">Forex</a><a href="../ict/" data-site="ict">ICT setups</a><a href="../lab/" data-site="lab">Strategy lab</a><a href="../whales/" data-site="whales">Whale tracker</a><a href="../listings/" data-site="listings">New listings</a><a href="../sniper/" data-site="sniper">Sniper lab</a><a href="./" data-site="mev" aria-current="page">Arbitrage lab</a><a href="../predict/" data-site="predict">Prediction markets</a><a href="../challenge/" data-site="challenge">$100 challenge</a><a href="../challenge-small/" data-site="challenge-small">$100 Small-coin challenge</a><a href="../results/" data-site="results">Results</a><a href="../report/" data-site="report">Weekly report</a><a href="../status/" data-site="status">System status</a></nav>
+      <div class="theme-switch" data-theme-switch role="group" aria-label="Day or night colours"></div>
+      <span class="status" id="status">Loading…</span>
+    </div>
+  </header>
+
+  <div id="summary" class="banner calm">Loading the arbitrage lab…</div>
+
+  <article class="card">
+    <h2>What this lab does</h2>
+    <p>Every hour, for about 8 minutes, it looks for <b>round trips</b> on Solana: buy a token with 1 SOL on one exchange, sell it straight back on another, and end with more SOL than you started with. Prices come from Jupiter quotes, which already include each pool's fee and the price impact of the trade.</p>
+    <p>When a round trip would pay after every cost, it is checked again <b>1, 3, 10 and 30 seconds later</b> with the same amounts and exchanges. Professional bots act within one Solana slot (about 0.4 seconds), so an opportunity that is gone after a second was never really available to anyone slower.</p>
+    <p><span class="pill calm">Shadow mode</span> No wallet, no keys: nothing is ever signed or sent. Landing (does a transaction get into a block in time?) can't be measured without sending one, so it is always shown as <b>not enough evidence</b>.</p>
+  </article>
+
+  <article class="card">
+    <h2>Do opportunities survive?</h2>
+    <div id="survival"><p class="muted">Loading…</p></div>
+  </article>
+
+  <article class="card">
+    <h2>What a trade costs right now</h2>
+    <div id="costs"><p class="muted">Loading…</p></div>
+  </article>
+
+  <article class="card">
+    <h2>Every hour's search</h2>
+    <div id="sessions"><p class="muted">Loading…</p></div>
+  </article>
+
+  <article class="card">
+    <h2>Opportunities by route</h2>
+    <div id="routes"><p class="muted">Loading…</p></div>
+  </article>
+
+  <article class="card">
+    <h2>Who you are up against</h2>
+    <ul class="rules">
+      <li><b>Competing arbitrage bots.</b> Hundreds of programs watch the same pools and close price gaps within a slot or two. Being second means getting nothing, or a loss.</li>
+      <li><b>No public waiting room on Solana.</b> Unlike Ethereum, Solana has no conventional public mempool: transactions go to the current block leader, and the leader's software decides the order. Bots compete through speed, priority fees and Jito bundles, not by watching a public queue.</li>
+      <li><b>Jito bundles and tips.</b> Most leaders run Jito's software, which runs short auctions for ordered, all-or-nothing bundles. A tip is a bid: it buys a better chance of being included, never a guaranteed place.</li>
+      <li><b>Sandwich attacks.</b> A bot can put a buy just before your trade and a sell just after it, pocketing the difference. A strict minimum output limits the damage; Jito's <i>DontFront</i> marker asks Jito's block engine to keep your transaction first in any bundle, which "may help reduce sandwich attacks but is not guaranteed to do so" (Jito) and does nothing outside Jito.</li>
+      <li><b>Stale opportunities.</b> A price gap seen a second ago may already be gone; trading on it means paying fees for a transaction that then fails its minimum-output check.</li>
+      <li><b>Paying for failures.</b> A normal transaction that lands but fails still pays its fees. A Jito bundle that would fail is not included, so it costs nothing, but it only counts if a Jito leader picks it up.</li>
+    </ul>
+    <p class="small muted">No method protects completely from front-running or other bots, and this page never claims one does.</p>
+  </article>
+
+  <article class="card">
+    <h2>Before any real trade</h2>
+    <div id="gate"><p class="muted">Loading…</p></div>
+  </article>
+
+  <article class="card">
+    <h2>What this lab can't tell you</h2>
+    <ul class="rules">
+      <li>It runs on free cloud servers that wait about a second between price requests; real bots are hundreds of times faster and sit next to the validators. Opportunities that last under a second are invisible here.</li>
+      <li>A Jupiter quote is not an executed trade: the price can move between a quote and a transaction even with no competitor.</li>
+      <li>Results "per landed attempt" assume the transaction got in. How often it would get in is unknown until real transactions are sent, which needs the owner's explicit approval and a separate build.</li>
+    </ul>
+  </article>
+
+  <footer>Mempool Omega is research and education software. The Arbitrage lab is shadow-only: no wallet, no keys, no transactions. Not financial advice.</footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
