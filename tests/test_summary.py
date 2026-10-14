@@ -1,10 +1,14 @@
 """The summary of every section and the watchdog (D98)."""
+import importlib.util
 import json
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 import pytest
 
-import infra.summary as S
+_spec = importlib.util.spec_from_file_location("summary", Path(__file__).resolve().parent.parent / "infra" / "summary.py")
+S = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(S)
 
 NOW = datetime(2026, 10, 12, 15, 0, tzinfo=timezone.utc)          # a Monday, US market and forex open
 
