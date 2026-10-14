@@ -1,0 +1,31 @@
+name: Summary + watchdog
+
+# Every 15 minutes (started by infra/tick.py): one summary of every section's record and freshness for the Results
+# and System status pages (state/summary.json), and a watchdog that opens one GitHub issue while a page is out of
+# date or a job keeps failing, and closes it when all is well (DECISIONS D98). Standard library only.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  actions: read
+
+concurrency:
+  group: omega-summary
+  cancel-in-progress: false
+
+jobs:
+  summary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch the pages' published data
+        run: git fetch --depth 1 origin data || true
+      - name: Summarise every section and check that nothing is stuck
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 infra/summary.py
+      - name: Commit state
+        run: bash infra/commit_state.sh "summary $(date -u +%Y-%m-%dT%H:%MZ)"
