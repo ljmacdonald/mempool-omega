@@ -2,7 +2,8 @@ name: Summary + watchdog
 
 # Every 15 minutes (started by infra/tick.py): one summary of every section's record and freshness for the Results
 # and System status pages (state/summary.json), and a watchdog that opens one GitHub issue while a page is out of
-# date or a job keeps failing, and closes it when all is well (DECISIONS D98). Standard library only.
+# date or a job keeps failing, and closes it when all is well (DECISIONS D98). Standard library only, except the
+# share cards (D102), which install Pillow when they are due.
 on:
   workflow_dispatch:
 
@@ -27,5 +28,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 infra/summary.py
+      - name: Weekly report (freezes each week's record on its first run; D102)
+        run: python3 infra/report.py
+      # Share cards (D102): pictures for links shared on social media, remade every 12 hours. Pillow is installed
+      # only when they are due, so the other runs stay quick. A failure here never stops the summary being saved.
+      - name: Are the share cards due?
+        id: cards
+        run: if python3 infra/cards.py --due; then echo "due=true" >> "$GITHUB_OUTPUT"; else echo "due=false" >> "$GITHUB_OUTPUT"; fi
+      - uses: actions/setup-python@v5
+        if: steps.cards.outputs.due == 'true'
+        with:
+          python-version: "3.11"
+      - name: Make the share cards
+        if: steps.cards.outputs.due == 'true'
+        continue-on-error: true
+        run: pip install --quiet pillow && python infra/cards.py
       - name: Commit state
         run: bash infra/commit_state.sh "summary $(date -u +%Y-%m-%dT%H:%MZ)"

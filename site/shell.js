@@ -20,6 +20,7 @@
     lab: { path: "lab/", name: "Strategy lab", group: "lab", risk: "Risk varies", kind: "Tested ideas", blurb: "Famous public strategies re-tested honestly, and which ones still hold up.", action: "Check the Scoreboard: only strategies marked Held up give ideas." },
     predict: { path: "predict/", name: "Prediction markets", group: "lab", risk: "Paper only", kind: "Research", blurb: "Kalshi and Polymarket: favourites that may be underpriced, tested on paper at real prices.", action: "Information only until 50 paper trades have settled." },
     results: { path: "results/", name: "Results", group: "proof", risk: "Paper only", kind: "Every record", blurb: "Every section's live paper record on one screen, after every cost, against random picks.", action: "See what is working, what isn't, and what's too early to tell." },
+    report: { path: "report/", name: "Weekly report", group: "proof", risk: "Paper only", kind: "Week by week", blurb: "Each week's finished paper trades in every section, after every cost, against random picks.", action: "See how the last week went, losers included." },
     status: { path: "status/", name: "System status", group: "proof", risk: "Paper only", kind: "Watchdog", blurb: "Is every page up to date and every background job running? Checked every 15 minutes.", action: "Check here if a page looks out of date." },
     legal: { path: "legal/", name: "Legal", group: "proof", risk: "Draft", kind: "Terms, privacy, risk", blurb: "Terms of use, privacy and risk disclosure (drafts pending legal review).", action: "Read before relying on anything here." },
     challenge: { path: "challenge/", name: "$100 DEX challenge", group: "proof", risk: "Paper only", kind: "Paper account", blurb: "A $100 paper account trading the DEX list like a person without bots, paying every real cost.", action: "Watch how it does day by day: every step is written down." },
@@ -105,6 +106,10 @@
     if (sub) { left.appendChild(sub); tidySub(sub); new MutationObserver(() => tidySub(sub)).observe(sub, { childList: true, characterData: true, subtree: true }); }
     const metaBox = document.createElement("div"); metaBox.className = "hero-meta";
     for (const m of meta) metaBox.appendChild(m);
+    if (["results", "report", "challenge", "challenge-small"].includes(HERE)) {        // the shareable records (D102)
+      const sh = document.createElement("button"); sh.type = "button"; sh.className = "btn share"; sh.dataset.share = ""; sh.textContent = "Share";
+      metaBox.appendChild(sh);
+    }
     hero.append(left, metaBox);
     header.innerHTML = ""; header.appendChild(inner); header.classList.add("appbar");
     // sticky control rails dock right under the bar, whatever its height on this screen
@@ -196,7 +201,7 @@
     b.innerHTML = `${logo}<span>Mempool Omega · paper trading and education only, not financial advice</span>`;
     f.prepend(b);
     const l = document.createElement("div"); l.className = "foot-links small";
-    l.innerHTML = `<a href="${BASE}results/">Results</a> · <a href="${BASE}status/">System status</a> · <a href="${BASE}legal/terms.html">Terms</a> · <a href="${BASE}legal/privacy.html">Privacy</a> · <a href="${BASE}legal/risk.html">Risk disclosure</a>`;
+    l.innerHTML = `<a href="${BASE}results/">Results</a> · <a href="${BASE}report/">Weekly report</a> · <a href="${BASE}status/">System status</a> · <a href="${BASE}legal/terms.html">Terms</a> · <a href="${BASE}legal/privacy.html">Privacy</a> · <a href="${BASE}legal/risk.html">Risk disclosure</a>`;
     b.after(l);
   }
 
@@ -316,8 +321,24 @@
     };
   }
 
+  // ------------------------------------------------------------------ Share buttons (D102): the phone's share sheet, or copy the link
+  async function share(btn) {
+    const url = location.href.replace(/[?#].*$/, "");
+    const desc = document.querySelector('meta[name="description"]')?.content || "";
+    try {
+      if (navigator.share) { await navigator.share({ title: document.title, text: desc, url }); return; }
+      await navigator.clipboard.writeText(url);
+      btn.textContent = "Link copied";
+    } catch (e) {
+      if (e && e.name === "AbortError") return;             // the visitor closed the share sheet
+      btn.textContent = "Copy this page's address to share it";
+    }
+    setTimeout(() => { btn.textContent = "Share"; }, 2500);
+  }
+
   function start() {
     buildShell();
+    document.addEventListener("click", (e) => { const b = e.target.closest("[data-share]"); if (b) share(b); });
     if (!root.OmegaExplain) { const x = document.createElement("script"); x.src = `${BASE}explain.js`; document.head.appendChild(x); }
     if (!store.get("omega.onb.tour", false)) setTimeout(() => tour(false), 700);
     else checklist();
