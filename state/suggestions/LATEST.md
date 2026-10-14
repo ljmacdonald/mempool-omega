@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-14 06:11 UTC
+# Trade ideas: 2026-10-14 07:14 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (1% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (2% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **AMP** | 4.4/10 | Avoid - watch only | Very high | $0.000734 | $0.0008074 (+10.0%) | $0.0006973 (-5.0%) | 07:05 14-Oct |
-| 2 | **GNS** | 4.1/10 | Avoid - watch only | Very high | $0.73 | $0.803 (+10.0%) | $0.6935 (-5.0%) | 07:05 14-Oct |
-| 3 | **BAT** | 3.4/10 | Avoid - watch only | Very high | $0.1968 | $0.210878 (+7.2%) | $0.189761 (-3.6%) | 07:05 14-Oct |
-| 4 | **MUBARAK** | 2.9/10 | Avoid - watch only | High | $0.06124 | $0.0643388 (+5.1%) | $0.0596906 (-2.5%) | 07:05 14-Oct |
-| 5 | **MAGIC** | 2.6/10 | Avoid - watch only | Medium | $0.1134 | $0.11743 (+3.6%) | $0.111385 (-1.8%) | 07:05 14-Oct |
+| 1 | **GNS** | 5.2/10 | Weak | Very high | $0.702 | $0.76191 (+8.5%) | $0.672045 (-4.3%) | 08:10 14-Oct |
+| 2 | **WAL** | 4.1/10 | Avoid - watch only | Very high | $0.05053 | $0.055583 (+10.0%) | $0.0480035 (-5.0%) | 08:10 14-Oct |
+| 3 | **AMP** | 3.7/10 | Avoid - watch only | Very high | $0.000734 | $0.000798245 (+8.8%) | $0.000701878 (-4.4%) | 08:10 14-Oct |
+| 4 | **BAT** | 2.9/10 | Avoid - watch only | High | $0.1945 | $0.206205 (+6.0%) | $0.188648 (-3.0%) | 08:10 14-Oct |
+| 5 | **KORUB** | 2.8/10 | Avoid - watch only | High | $14.08 | $14.82 (+5.3%) | $13.71 (-2.6%) | 08:10 14-Oct |
 
-- **AMP:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **GNS:** Momentum is healthy: not overheated, not collapsing.
-- **BAT:** It did 2.7% better than Bitcoin over the last 2 hours. Momentum is healthy: not overheated, not collapsing.
+- **GNS:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **WAL:** It did 20.6% better than Bitcoin over the last 2 hours. Trading activity is 4.3x higher than usual, so people are paying attention to it. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up.
+- **AMP:** The model sees a slightly better-than-usual pattern, with no single strong reason.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (6% of 149 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (3% of 149 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **STRK** | 4.6/10 | Avoid - watch only | High | $0.08124 | $0.0879582 (+8.3%) | $0.0778809 (-4.1%) | 10:00 14-Oct |
-| 2 | **BAT** | 4.6/10 | Avoid - watch only | Very high | $0.1945 | $0.222342 (+14.3%) | $0.180579 (-7.2%) | 10:00 14-Oct |
-| 3 | **OSMO** | 4.4/10 | Avoid - watch only | High | $0.0402 | $0.0432038 (+7.5%) | $0.0386981 (-3.7%) | 10:00 14-Oct |
-| 4 | **MAGIC** | 4.3/10 | Avoid - watch only | High | $0.113 | $0.121215 (+7.3%) | $0.108892 (-3.6%) | 10:00 14-Oct |
-| 5 | **AMP** | 4.1/10 | Avoid - watch only | Very high | $0.000736 | $0.00085376 (+16.0%) | $0.00067712 (-8.0%) | 10:00 14-Oct |
+| 1 | **LUMIA** | 4.6/10 | Avoid - watch only | High | $0.0982 | $0.105974 (+7.9%) | $0.0943129 (-4.0%) | 11:00 14-Oct |
+| 2 | **AMP** | 4.5/10 | Avoid - watch only | Very high | $0.000728 | $0.00084448 (+16.0%) | $0.00066976 (-8.0%) | 11:00 14-Oct |
+| 3 | **STRK** | 4.4/10 | Avoid - watch only | High | $0.08149 | $0.0881397 (+8.2%) | $0.0781651 (-4.1%) | 11:00 14-Oct |
+| 4 | **BAT** | 4.4/10 | Avoid - watch only | Very high | $0.1941 | $0.219994 (+13.3%) | $0.181153 (-6.7%) | 11:00 14-Oct |
+| 5 | **MAGIC** | 4.3/10 | Avoid - watch only | Medium | $0.1114 | $0.118921 (+6.8%) | $0.107639 (-3.4%) | 11:00 14-Oct |
 
-- **STRK:** The model sees a slightly better-than-usual pattern, with no single strong reason.
-- **BAT:** Momentum is healthy: not overheated, not collapsing.
-- **OSMO:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **LUMIA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **AMP:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **STRK:** It is bouncing up from near its lowest price of the last 42 hours.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (28% of 149 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (27% of 149 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **STRK** | 8.2/10 | Strong | Very high | $0.08124 | $0.100738 (+24.0%) | $0.0714912 (-12.0%) | 06:00 15-Oct |
-| 2 | **QNT** | 7.9/10 | Strong | Very high | $213.10 | $247.52 (+16.2%) | $195.89 (-8.1%) | 06:00 15-Oct |
-| 3 | **HUMA** | 7.4/10 | Strong | High | $0.0325 | $0.0361929 (+11.4%) | $0.0306535 (-5.7%) | 06:00 15-Oct |
-| 4 | **CKB** | 7.4/10 | Strong | Very high | $0.001615 | $0.0020026 (+24.0%) | $0.0014212 (-12.0%) | 06:00 15-Oct |
-| 5 | **RVN** | 7.4/10 | Strong | High | $0.001602 | $0.001782 (+11.2%) | $0.001512 (-5.6%) | 06:00 15-Oct |
+| 1 | **QNT** | 7.9/10 | Strong | Very high | $212.50 | $246.12 (+15.8%) | $195.69 (-7.9%) | 07:00 15-Oct |
+| 2 | **PYTH** | 7.2/10 | Strong | Very high | $0.0797 | $0.0956435 (+20.0%) | $0.0717282 (-10.0%) | 07:00 15-Oct |
+| 3 | **RENDER** | 7.0/10 | Strong | High | $1.99 | $2.26 (+13.7%) | $1.86 (-6.8%) | 07:00 15-Oct |
+| 4 | **STRK** | 6.8/10 | Strong | Very high | $0.08149 | $0.101048 (+24.0%) | $0.0717112 (-12.0%) | 07:00 15-Oct |
+| 5 | **HUMA** | 6.8/10 | Strong | High | $0.0327 | $0.0363789 (+11.3%) | $0.0308605 (-5.6%) | 07:00 15-Oct |
 
-- **STRK:** The model sees a slightly better-than-usual pattern, with no single strong reason.
 - **QNT:** The model sees a slightly better-than-usual pattern, with no single strong reason.
-- **HUMA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **PYTH:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **RENDER:** Buyers have been more eager than sellers over the last 6 hours (54% of trades were buys).
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 970 | 44% | -0.18% | -0.23% |
-| Short: exit within 4 hours | 1038 | 40% | -0.22% | -0.21% |
-| Day: exit within 24 hours | 914 | 40% | -0.26% | +0.22% |
+| Quick: exit within 1 hour | 975 | 44% | -0.18% | -0.23% |
+| Short: exit within 4 hours | 1045 | 40% | -0.23% | -0.22% |
+| Day: exit within 24 hours | 918 | 40% | -0.28% | +0.21% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
