@@ -1,0 +1,40 @@
+name: Funding income ($100 paper account, hourly)
+
+# PAPER ONLY (DECISIONS D108). Every hour: OKX spot and perpetual-futures prices and funding rates for a basket of
+# major coins; the $100 account collects funding on its paired positions (coin held, equal futures short) and opens
+# or closes them by fixed rules. No account, no keys, no orders.
+run-name: "Carry: ${{ github.event.schedule || 'run' }}"
+on:
+  schedule:
+    - cron: "52 * * * *"   # hourly (backup for the Tick job)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: omega-carry-writer
+  cancel-in-progress: false
+
+jobs:
+  carry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        run: pip install -e .
+      - name: Update the funding account
+        run: python -m carry.run
+      - name: Publish the snapshot for the website (data branch)
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash infra/publish_data.sh .cache/carry_out/snapshot.json carry/snapshot.json
+      - name: Commit state (the account)
+        if: always()
+        run: bash infra/commit_state.sh "carry $(date -u +%Y-%m-%dT%H%MZ)"

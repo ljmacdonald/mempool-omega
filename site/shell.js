@@ -26,6 +26,7 @@
     legal: { path: "legal/", name: "Legal", group: "proof", risk: "Draft", kind: "Terms, privacy, risk", blurb: "Terms of use, privacy and risk disclosure (drafts pending legal review).", action: "Read before relying on anything here." },
     challenge: { path: "challenge/", name: "$100 DEX challenge", group: "proof", risk: "Paper only", kind: "Paper account", blurb: "A $100 paper account trading the DEX list like a person without bots, paying every real cost.", action: "Watch how it does day by day: every step is written down." },
     "challenge-small": { path: "challenge-small/", name: "$100 Small-coin challenge", group: "proof", risk: "Paper only", kind: "Paper account", blurb: "A $100 paper account trading the Small coins Day ideas on Binance, with orders anyone can copy by hand.", action: "Copy the trades by hand if you like: every step says exactly what to do." },
+    carry: { path: "carry/", name: "$100 funding account", group: "proof", risk: "Paper only", kind: "Paper account", blurb: "A $100 paper account that holds coins with an equal futures short and collects the funding payments.", action: "Watch the funding come in: price moves cancel out." },
     whales: { path: "whales/", name: "Whale tracker", group: "lab", risk: "Paper only", kind: "Research", blurb: "Last month's best big traders, what they hold now, and a paper copy of them.", action: "Information only until the 30-day verdict is in." },
   };
   // the menu: what the visitor wants to trade, then the strategies and research that cut across markets
