@@ -20,7 +20,8 @@
     const [vt] = VERDICT[S.verdict] || [S.verdict];
     $("summary").className = `banner ${S.verdict === "PROMISING_IN_SHADOW" ? "good" : S.verdict === "NOT_VIABLE" ? "warn" : "calm"}`;
     $("summary").innerHTML = `<b>Verdict: ${esc(vt)}.</b> ${c.sessions || 0} hourly search${c.sessions === 1 ? "" : "es"} so far checked ${(c.candidates || 0).toLocaleString()} round trips of ${esc(S.trade_sol)} SOL; `
-      + `${(c.opportunities || 0).toLocaleString()} would have paid after every cost when first seen. Transactions sent: <b>0</b> (shadow mode). Landing: <b>not enough evidence</b>.`;
+      + `${(c.opportunities || 0).toLocaleString()} would have paid after every cost when first seen. Transactions sent: <b>0</b> (shadow mode). Landing: <b>not enough evidence</b>.`
+      + (c.opportunities_unpaired ? ` <span class="small muted">${c.opportunities_unpaired} earlier ones are kept but not judged: their buy and sell prices were taken seconds apart, so part of the gap could just be SOL's price moving in between.</span>` : "");
 
     const delays = S.delays || [];
     $("survival").innerHTML = `<p>For each way of sending a trade: of the opportunities that would have paid when first seen, how many still paid after each delay (after that method's own costs). The lower bound is the cautious estimate used for decisions.</p>

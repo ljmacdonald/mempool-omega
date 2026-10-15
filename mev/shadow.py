@@ -57,9 +57,10 @@ def session(q: clients.Quotes, seconds: float = K.SESSION_S, tokens: dict = K.TO
             if due > time.monotonic():
                 time.sleep(due - time.monotonic())
             b = q.quote(K.SOL, c["mint"], c["amount_in"], c["buy_dex"])
-            s = q.quote(c["mint"], K.SOL, b["out"], c["sell_dex"]) if b else None
+            s = q.quote(c["mint"], K.SOL, b["out"], c["sell_dex"], paired=True) if b else None
             c["rechecks"].append({"delay": d, "elapsed_s": round(time.monotonic() - c["_t"], 2),
-                                  "slot": s and s["slot"], "out": s and s["out"]})
+                                  "slot": s and s["slot"], "out": s and s["out"],
+                                  "leg_gap_s": round(s["at"] - b["at"], 3) if s else None})
 
     done = 0
     while time.monotonic() - t0 < seconds and (passes is None or done < passes):
@@ -68,15 +69,13 @@ def session(q: clients.Quotes, seconds: float = K.SESSION_S, tokens: dict = K.TO
             recheck_due()
             if time.monotonic() - t0 >= seconds:
                 break
-            buys = {d: q.quote(K.SOL, mint, K.TRADE_LAMPORTS, d) for d in dexes}
-            for bd, b in buys.items():
-                if not b:
-                    continue
+            for bd in dexes:
                 for sd in dexes:
                     if sd == bd:
                         continue
                     recheck_due()
-                    s = q.quote(mint, K.SOL, b["out"], sd)
+                    b = q.quote(K.SOL, mint, K.TRADE_LAMPORTS, bd)
+                    s = q.quote(mint, K.SOL, b["out"], sd, paired=True) if b else None
                     if not s:
                         continue
                     quoted += 1
@@ -86,6 +85,7 @@ def session(q: clients.Quotes, seconds: float = K.SESSION_S, tokens: dict = K.TO
                     c = {"id": f"{int(time.time() * 1000)}-{sym}-{bd}-{sd}", "found_at": now_iso(),
                          "found_slot": b["slot"], "quote_slot": s["slot"], "token": sym, "mint": mint, "buy_dex": bd,
                          "sell_dex": sd, "amount_in": K.TRADE_LAMPORTS, "out": s["out"], "gross": gross,
+                         "v": K.METHOD_VERSION, "leg_gap_s": round(s["at"] - b["at"], 3),
                          "cu_price": cu_price, "tip": tip, "rechecks": [], "_t": time.monotonic(),
                          "submitted_at": None, "landed_slot": None, "actual_out": None, "realized_pnl": None}
                     cs = method_costs(cu_price, tip)
@@ -118,7 +118,10 @@ def _write_jsonl(p: Path, rows: list[dict]) -> None:
 
 
 def snapshot(opps: list[dict], sessions: list[dict]) -> dict:
-    """Everything the Arbitrage lab page shows."""
+    """Everything the Arbitrage lab page shows. Only opportunities measured with paired legs (METHOD_VERSION) are
+    judged; earlier ones stay in the file and are counted separately."""
+    paired = [c for c in opps if c.get("v", 1) >= K.METHOD_VERSION and (c.get("leg_gap_s") or 99) <= K.MAX_LEG_GAP_S]
+    old, opps = [c for c in opps if c not in paired], paired
     surv = {m: [evaluate(opps, lambda c, m=m: costs_for(c)[m], d) for d in K.DELAYS_S] for m in METHODS}
     fastest = {m: surv[m][0] for m in METHODS}
     verdict = next((v["verdict"] for v in fastest.values() if v["verdict"] != INSUFFICIENT), INSUFFICIENT)
@@ -138,7 +141,7 @@ def snapshot(opps: list[dict], sessions: list[dict]) -> dict:
         "tokens": list(K.TOKENS), "dexes": list(K.DEXES), "delays": list(K.DELAYS_S),
         "verdict": verdict, "landing": INSUFFICIENT,
         "counts": {"sessions": len(sessions), "candidates": sum(s.get("candidates", 0) for s in sessions),
-                   "opportunities": len(opps), "submitted": 0, "landed": 0, "failed": 0},
+                   "opportunities": len(opps), "opportunities_unpaired": len(old), "submitted": 0, "landed": 0, "failed": 0},
         "fees_now": {"base_fee": K.BASE_FEE, "cu_limit": K.CU_LIMIT, "cu_price_p50": last.get("cu_price_p50"),
                      "cu_price_p75": last.get("cu_price_p75"), "priority_floor_used": last.get("priority_floor_used"),
                      "priority_floor": K.PRIORITY_FLOOR, "priority_fee_p50": priority_fee(last.get("cu_price_p50") or 0),
