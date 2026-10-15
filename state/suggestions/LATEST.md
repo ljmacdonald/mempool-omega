@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-15 02:38 UTC
+# Trade ideas: 2026-10-15 03:42 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (9% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (7% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **FOGO** | 3.7/10 | Avoid - watch only | Very high | $0.00412 | $0.004532 (+10.0%) | $0.003914 (-5.0%) | 03:35 15-Oct |
-| 2 | **MARSCOIN** | 3.6/10 | Avoid - watch only | Very high | $0.0737 | $0.0808355 (+9.7%) | $0.06979 (-5.3%) | 03:35 15-Oct |
-| 3 | **OP** | 3.4/10 | Avoid - watch only | Very high | $0.133 | $0.142911 (+7.5%) | $0.128044 (-3.7%) | 03:35 15-Oct |
-| 4 | **TRUMP** | 3.1/10 | Avoid - watch only | High | $1.77 | $1.88 (+6.0%) | $1.72 (-3.0%) | 03:35 15-Oct |
-| 5 | **DOT** | 3.1/10 | Avoid - watch only | High | $1.09 | $1.16 (+5.8%) | $1.06 (-2.9%) | 03:35 15-Oct |
+| 1 | **FOGO** | 4.5/10 | Avoid - watch only | Very high | $0.00413 | $0.00454279 (+10.0%) | $0.00391428 (-5.2%) | 04:40 15-Oct |
+| 2 | **WAL** | 4.1/10 | Avoid - watch only | Very high | $0.05839 | $0.064229 (+10.0%) | $0.0554705 (-5.0%) | 04:40 15-Oct |
+| 3 | **AXL** | 3.8/10 | Avoid - watch only | Very high | $0.0561 | $0.0600878 (+7.1%) | $0.0541061 (-3.6%) | 04:40 15-Oct |
+| 4 | **AVA** | 3.4/10 | Avoid - watch only | Very high | $0.2694 | $0.294089 (+9.2%) | $0.257055 (-4.6%) | 04:40 15-Oct |
+| 5 | **MARSCOIN** | 3.4/10 | Avoid - watch only | Very high | $0.0737 | $0.0797526 (+8.2%) | $0.0706737 (-4.1%) | 04:40 15-Oct |
 
 - **FOGO:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **MARSCOIN:** Trading activity is 2.2x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **OP:** Trading activity is 2.1x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **WAL:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **AXL:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
 
-Market mood: **Mixed** (48% of 149 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (29% of 149 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **RVN** | 6.7/10 | Strong | Very high | $0.001439 | $0.0016099 (+11.9%) | $0.00135355 (-5.9%) | 06:30 15-Oct |
-| 2 | **FOGO** | 5.9/10 | Moderate | Very high | $0.0041 | $0.004756 (+16.0%) | $0.003772 (-8.0%) | 06:30 15-Oct |
-| 3 | **PUMP** | 5.9/10 | Moderate | High | $0.004387 | $0.0048268 (+10.0%) | $0.0041671 (-5.0%) | 06:30 15-Oct |
-| 4 | **MARSCOIN** | 5.8/10 | Moderate | Very high | $0.0727 | $0.0812355 (+11.7%) | $0.0684323 (-5.9%) | 06:30 15-Oct |
-| 5 | **OPEN** | 5.8/10 | Moderate | High | $0.0936 | $0.103276 (+10.3%) | $0.0887619 (-5.2%) | 06:30 15-Oct |
+| 1 | **PUMP** | 7.5/10 | Strong | Very high | $0.004378 | $0.00493589 (+12.7%) | $0.00409905 (-6.4%) | 07:30 15-Oct |
+| 2 | **FOGO** | 7.2/10 | Strong | Very high | $0.00409 | $0.00473605 (+15.8%) | $0.00376698 (-7.9%) | 07:30 15-Oct |
+| 3 | **MARSCOIN** | 7.2/10 | Strong | Very high | $0.0736 | $0.0825082 (+12.1%) | $0.0691459 (-6.1%) | 07:30 15-Oct |
+| 4 | **OPEN** | 6.6/10 | Strong | High | $0.0943 | $0.103649 (+9.9%) | $0.0896257 (-5.0%) | 07:30 15-Oct |
+| 5 | **RVN** | 6.4/10 | Moderate | Very high | $0.001473 | $0.00164877 (+11.9%) | $0.00138512 (-6.0%) | 07:30 15-Oct |
 
-- **RVN:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **FOGO:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **PUMP:** Trading activity is 1.5x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **PUMP:** Trading activity is 2.0x higher than usual, so people are paying attention to it.
+- **FOGO:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **MARSCOIN:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (30% of 149 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Favourable** (62% of 149 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **FOGO** | 4.9/10 | Avoid - watch only | Very high | $0.00453 | $0.00531023 (+17.2%) | $0.00413989 (-8.6%) | 02:00 16-Oct |
-| 2 | **KORUB** | 4.8/10 | Avoid - watch only | Very high | $10.59 | $13.03 (+23.0%) | $9.37 (-11.5%) | 02:00 16-Oct |
-| 3 | **MARSCOIN** | 4.7/10 | Avoid - watch only | Very high | $0.0782 | $0.0923624 (+18.1%) | $0.0711188 (-9.1%) | 02:00 16-Oct |
-| 4 | **AXL** | 4.5/10 | Avoid - watch only | Very high | $0.0581 | $0.072044 (+24.0%) | $0.051128 (-12.0%) | 02:00 16-Oct |
-| 5 | **ONE** | 4.5/10 | Avoid - watch only | Very high | $0.001562 | $0.0018555 (+18.8%) | $0.00141525 (-9.4%) | 02:00 16-Oct |
+| 1 | **MARSCOIN** | 7.9/10 | Strong | Very high | $0.0742 | $0.0892647 (+20.3%) | $0.0666676 (-10.2%) | 03:00 16-Oct |
+| 2 | **OP** | 7.4/10 | Strong | High | $0.1344 | $0.15496 (+15.3%) | $0.12412 (-7.6%) | 03:00 16-Oct |
+| 3 | **ZAMA** | 7.3/10 | Strong | High | $0.0668 | $0.0769282 (+15.2%) | $0.0617359 (-7.6%) | 03:00 16-Oct |
+| 4 | **PUMP** | 7.2/10 | Strong | High | $0.004574 | $0.00516066 (+12.8%) | $0.00428067 (-6.4%) | 03:00 16-Oct |
+| 5 | **BLUR** | 7.0/10 | Strong | Very high | $0.0103 | $0.0124162 (+20.5%) | $0.00924192 (-10.3%) | 03:00 16-Oct |
 
-- **FOGO:** Trading activity is 3.0x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **KORUB:** Trading activity is 2.8x higher than usual, so people are paying attention to it. Buyers have been more eager than sellers over the last 6 hours (52% of trades were buys). ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 - **MARSCOIN:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **OP:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ZAMA:** Trading activity is 1.9x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 1085 | 43% | -0.21% | -0.26% |
-| Short: exit within 4 hours | 1155 | 39% | -0.35% | -0.30% |
-| Day: exit within 24 hours | 1011 | 38% | -0.59% | +0.01% |
+| Quick: exit within 1 hour | 1090 | 43% | -0.21% | -0.26% |
+| Short: exit within 4 hours | 1156 | 39% | -0.35% | -0.30% |
+| Day: exit within 24 hours | 1031 | 37% | -0.73% | -0.07% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
