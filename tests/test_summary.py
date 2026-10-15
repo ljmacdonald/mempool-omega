@@ -58,3 +58,18 @@ def test_never_touches_github_outside_the_scheduled_job(tmp_path, monkeypatch):
     monkeypatch.setattr(S.urllib.request, "urlopen", lambda *a, **k: called.append(a))
     assert S.main() == 0 and not called
     assert json.loads((tmp_path / "summary.json").read_text())["problems"]
+
+
+@pytest.mark.parametrize("n,avg,rnd,unit,verdict,hedged", [
+    (100, -0.0051, -0.0079, "%", "beats", 0.0028 - 0.001),    # lost money, but beat the market by more than the margin
+    (100, -0.0050, -0.0023, "%", "lags", -0.0027 - 0.001),
+    (100, -0.0013, -0.0017, "%", "level", 0.0004 - 0.001),
+    (100, 0.0030, 0.0009, "%", "level", 0.0021 - 0.001),      # 0.21%: under the 0.25% margin
+    (10, 0.05, 0.0, "%", "early", 0.05 - 0.001),
+    (100, -0.03, -0.24, "R", "beats", None),                   # in R there is no hedge cost
+])
+def test_picks_against_the_market(n, avg, rnd, unit, verdict, hedged):
+    v = S.vs_market(n, avg, rnd, unit)
+    assert v["verdict"] == verdict and v["edge"] == pytest.approx(avg - rnd)
+    assert (v["hedged"] is None) if hedged is None else v["hedged"] == pytest.approx(hedged)
+    assert S.vs_market(100, None, 0.0) is None

@@ -11,6 +11,13 @@
   const PILL = { ahead: ["Ahead", "good"], even: ["Even", "calm"], behind: ["Behind", "bad"], early: ["Too early", "warn"] };
   const ORDER = { ahead: 0, even: 1, behind: 2, early: 3 };
   const BASE = new URL("../", location.href).href;
+  const VM = { beats: ["Beats the market", "good"], level: ["No clear difference", "calm"], lags: ["Lags the market", "bad"], early: ["Too early", "warn"] };
+  const vm = (s) => {
+    const v = s.vs_market;
+    if (!v) return '<span class="small muted">–</span>';
+    const [t, c] = VM[v.verdict] || [v.verdict, ""];
+    return `<span class="pill ${c}">${t}</span><div class="small muted">${val(v.edge, s.unit)} a trade${fin(v.hedged) ? ` · hedged ${val(v.hedged, s.unit)}` : ""}</div>`;
+  };
 
   function render(S) {
     const secs = S.sections || [];
@@ -25,11 +32,11 @@
         <div class="small muted">${s.n} finished trade${s.n === 1 ? "" : "s"}${s.open ? `, ${s.open} open` : ", in cash"}${s.paused ? " · paused" : ""} · from $100</div></a>`).join("")}</div>
       <p class="small muted">Three $100 paper accounts: two trade the site's own signals by fixed rules, one takes Solana arbitrage; capital first, paying every real cost. Staying in cash is part of the plan.</p>`;
     rest.sort((a, b) => ORDER[a.status] - ORDER[b.status] || b.n - a.n);
-    $("sections").innerHTML = `<div class="table-wrap"><table><thead><tr><th>Section</th><th>Status</th><th class="num">Finished</th><th class="num">Average per trade</th><th class="num">Random picks</th><th>Updated</th></tr></thead><tbody>
+    $("sections").innerHTML = `<div class="table-wrap"><table><thead><tr><th>Section</th><th>Status</th><th class="num">Finished</th><th class="num">Average per trade</th><th class="num">Random picks</th><th>Picks vs market</th><th>Updated</th></tr></thead><tbody>
       ${rest.map((s) => { const [label, tone] = PILL[s.status] || [s.status, ""]; return `<tr>
         <td><a href="${BASE}${esc(s.path)}"><b>${esc(s.name)}</b></a>${s.note ? `<div class="small muted">${esc(s.note)}</div>` : ""}</td>
         <td><span class="pill ${tone}">${label}</span></td><td class="num">${s.n.toLocaleString()}</td>
-        <td class="num ${fin(s.avg) ? (s.avg >= 0 ? "up" : "down") : ""}">${val(s.avg, s.unit)}</td><td class="num">${val(s.random, s.unit)}</td>
+        <td class="num ${fin(s.avg) ? (s.avg >= 0 ? "up" : "down") : ""}">${val(s.avg, s.unit)}</td><td class="num">${val(s.random, s.unit)}</td><td>${vm(s)}</td>
         <td class="small">${s.market_closed ? "market closed" : esc(ago(s.age_min))}${s.stale ? ' <span class="pill warn">out of date</span>' : ""}</td></tr>`; }).join("")}
       </tbody></table></div>`;
     const st = document.querySelector(".top .status") || $("status");
