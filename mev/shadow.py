@@ -1,6 +1,6 @@
 """SHADOW sessions (B, F): find cross-venue round trips on Solana, re-check them after realistic delays, record everything.
 
-A candidate is a round trip of TRADE_LAMPORTS of SOL: buy a token on one venue (Jupiter quote restricted to that DEX),
+A candidate is a round trip of SOL sized at the $100 account's value (mev/account.py; TRADE_LAMPORTS if unknown): buy a token on one venue (Jupiter quote restricted to that DEX),
 sell what that buys on another venue, back to SOL. Quoted outputs already include pool fees, price impact and integer
 rounding. An "opportunity" is a candidate that clears at least one method's minimum output (economics.min_out); each
 one is re-quoted, with the same amounts and venues, at DELAYS_S seconds after discovery (the actual elapsed time and
@@ -22,7 +22,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from core.config import state_path
-from mev import clients
+from mev import account, clients
 from mev import config as K
 from mev.economics import method_costs, min_out, priority_fee, tip_from_floor
 from mev.policy import live_gate
@@ -42,7 +42,7 @@ def costs_for(c: dict) -> dict:
 
 
 def session(q: clients.Quotes, seconds: float = K.SESSION_S, tokens: dict = K.TOKENS, dexes=K.DEXES,
-            passes: int | None = None) -> dict:
+            passes: int | None = None, size: int = K.TRADE_LAMPORTS) -> dict:
     t0 = time.monotonic()
     fees, floor = clients.priority_fees(), clients.tip_floor()
     cu_price = fees.get("p50") or 0
@@ -74,22 +74,22 @@ def session(q: clients.Quotes, seconds: float = K.SESSION_S, tokens: dict = K.TO
                     if sd == bd:
                         continue
                     recheck_due()
-                    b = q.quote(K.SOL, mint, K.TRADE_LAMPORTS, bd)
+                    b = q.quote(K.SOL, mint, size, bd)
                     s = q.quote(mint, K.SOL, b["out"], sd, paired=True) if b else None
                     if not s:
                         continue
                     quoted += 1
-                    gross = s["out"] - K.TRADE_LAMPORTS
+                    gross = s["out"] - size
                     if best is None or gross > best["gross"]:
                         best = {"gross": gross, "token": sym, "buy_dex": bd, "sell_dex": sd}
                     c = {"id": f"{int(time.time() * 1000)}-{sym}-{bd}-{sd}", "found_at": now_iso(),
                          "found_slot": b["slot"], "quote_slot": s["slot"], "token": sym, "mint": mint, "buy_dex": bd,
-                         "sell_dex": sd, "amount_in": K.TRADE_LAMPORTS, "out": s["out"], "gross": gross,
+                         "sell_dex": sd, "amount_in": size, "out": s["out"], "gross": gross,
                          "v": K.METHOD_VERSION, "leg_gap_s": round(s["at"] - b["at"], 3),
                          "cu_price": cu_price, "tip": tip, "rechecks": [], "_t": time.monotonic(),
                          "submitted_at": None, "landed_slot": None, "actual_out": None, "realized_pnl": None}
                     cs = method_costs(cu_price, tip)
-                    if any(s["out"] >= min_out(K.TRADE_LAMPORTS, cs[m]) for m in METHODS):
+                    if any(s["out"] >= min_out(size, cs[m]) for m in METHODS):
                         opps.append(c)
                         if len(opps) <= MAX_TRACKED:
                             pending.extend((c["_t"] + d, c, d) for d in K.DELAYS_S)
@@ -98,7 +98,8 @@ def session(q: clients.Quotes, seconds: float = K.SESSION_S, tokens: dict = K.TO
     recheck_due(force=True)
     for c in opps:
         c.pop("_t", None)
-    return {"at": now_iso(), "seconds": round(time.monotonic() - t0), "quotes": q.calls, "refused": q.refused,
+    return {"at": now_iso(), "seconds": round(time.monotonic() - t0), "size_lamports": size,
+            "quotes": q.calls, "refused": q.refused,
             "candidates": quoted, "opportunities": len(opps), "best": best, "cu_price_p50": fees.get("p50"),
             "cu_price_p75": fees.get("p75"), "share_paying_priority": fees.get("share_paying"),
             "priority_floor_used": fees.get("floor_used"), "tip_floor": floor,
@@ -117,7 +118,7 @@ def _write_jsonl(p: Path, rows: list[dict]) -> None:
     p.write_text("".join(json.dumps(r, default=str) + "\n" for r in rows[-KEEP:]))
 
 
-def snapshot(opps: list[dict], sessions: list[dict]) -> dict:
+def snapshot(opps: list[dict], sessions: list[dict], account_view: dict | None = None) -> dict:
     """Everything the Arbitrage lab page shows. Only opportunities measured with paired legs (METHOD_VERSION) are
     judged; earlier ones stay in the file and are counted separately."""
     paired = [c for c in opps if c.get("v", 1) >= K.METHOD_VERSION and (c.get("leg_gap_s") or 99) <= K.MAX_LEG_GAP_S]
@@ -137,7 +138,7 @@ def snapshot(opps: list[dict], sessions: list[dict]) -> dict:
             r["survived_1s"] += 1
         r["best_gross"] = max(r["best_gross"] if r["best_gross"] is not None else c["gross"], c["gross"])
     return {
-        "generated_at": now_iso(), "mode": "SHADOW", "trade_sol": K.TRADE_LAMPORTS / K.LAMPORTS,
+        "generated_at": now_iso(), "mode": "SHADOW", "trade_sol": round((last.get("size_lamports") or K.TRADE_LAMPORTS) / K.LAMPORTS, 4),
         "tokens": list(K.TOKENS), "dexes": list(K.DEXES), "delays": list(K.DELAYS_S),
         "verdict": verdict, "landing": INSUFFICIENT,
         "counts": {"sessions": len(sessions), "candidates": sum(s.get("candidates", 0) for s in sessions),
@@ -154,6 +155,7 @@ def snapshot(opps: list[dict], sessions: list[dict]) -> dict:
         "recent": [{k: c.get(k) for k in ("found_at", "found_slot", "token", "buy_dex", "sell_dex", "gross", "rechecks", "tip", "cu_price")}
                    for c in opps[-20:]][::-1],
         "gate": live_gate(evidence={"landing": INSUFFICIENT, "survival": verdict}),
+        "account": account_view,
     }
 
 
@@ -166,8 +168,15 @@ def main() -> None:
     op, sp = state_path("mev", "opportunities.jsonl"), state_path("mev", "sessions.jsonl")
     opps, sessions = _read_jsonl(op), _read_jsonl(sp)
     if not a.snapshot:
-        s = session(clients.Quotes(), a.seconds)
-        opps += s.pop("new")
+        q = clients.Quotes()
+        last_price = account.load().get("sol_usd")
+        price = clients.sol_usd(q) or last_price
+        s = session(q, a.seconds, size=account.trade_lamports(account.load(), price))
+        price = price or clients.sol_usd(q)           # refused at the start: try once more at the end
+        s["sol_usd"] = price
+        new = s.pop("new")
+        account.apply(new, price, s["at"])
+        opps += new
         sessions.append(s)
         _write_jsonl(op, opps)
         _write_jsonl(sp, sessions)
@@ -175,7 +184,7 @@ def main() -> None:
               f"({s['refused']} refused); best {s['best']}")
     out = Path(a.out)
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(snapshot(opps, sessions), indent=1, default=str))
+    out.write_text(json.dumps(snapshot(opps, sessions, account.view()), indent=1, default=str))
 
 
 if __name__ == "__main__":

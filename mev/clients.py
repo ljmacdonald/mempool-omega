@@ -47,6 +47,12 @@ class Quotes:
         return None
 
 
+def sol_usd(q: Quotes) -> float | None:
+    """SOL's price in dollars from a Jupiter quote of 1 SOL into USDC (6 decimals)."""
+    r = q.quote(K.SOL, K.TOKENS["USDC"], K.LAMPORTS)
+    return r["out"] / 1e6 if r else None
+
+
 def _rpc(method: str, params: list | None = None, url: str = K.RPC):
     r = requests.post(url, json={"jsonrpc": "2.0", "id": 1, "method": method, "params": params or []}, timeout=15)
     r.raise_for_status()

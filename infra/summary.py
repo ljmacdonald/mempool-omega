@@ -159,7 +159,8 @@ def sections(now: datetime) -> list[dict]:
                                          "random": None, "status": "early"}, s.get("generated_at"), 150,
         note="Shadow research: do Solana arbitrage opportunities survive long enough to trade? No trades are made.")
     for key, name, path, rel in (("challenge", "$100 DEX challenge", "challenge/", "dex/challenge"),
-                                 ("challenge-small", "$100 Small-coin challenge", "challenge-small/", "suggestions/challenge_small")):
+                                 ("challenge-small", "$100 Small-coin challenge", "challenge-small/", "suggestions/challenge_small"),
+                                 ("challenge-arb", "$100 arbitrage account", "mev/", "mev/account")):
         a = read_state(f"{rel}/account.json") or {}
         eq, start = a.get("equity"), a.get("start") or 100.0
         add(key, name, path, {"n": a.get("trades") or 0, "avg": (eq / start - 1) if eq else None, "random": 0.0,
