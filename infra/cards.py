@@ -134,7 +134,8 @@ def make(now: datetime | None = None) -> list[str]:
     made = []
     results_card(summary, when).save(OUT / "results.png", optimize=True)
     made.append("results.png")
-    files = {"challenge": "dex/challenge/equity.csv", "challenge-small": "suggestions/challenge_small/equity.csv"}
+    files = {"challenge": "dex/challenge/equity.csv", "challenge-small": "suggestions/challenge_small/equity.csv",
+             "challenge-arb": "mev/account/equity.csv"}
     for s in summary.get("sections", []):
         if s["key"] in files:
             challenge_card(s, read_equity(files[s["key"]]), when).save(OUT / f"{s['key']}.png", optimize=True)

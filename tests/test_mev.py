@@ -244,3 +244,34 @@ def test_a_paired_leg_skips_the_pause_but_owes_it_to_the_next_request(monkeypatc
     t1 = t[0]
     q.quote("a", "b", 1)
     assert t[0] - t1 == pytest.approx(2.0 - K.LEG_GAP_S)       # its own pause plus the one skipped
+
+
+# ------------------------------------------------------------------------------------------- the $100 account
+def opp(i, out0, out1, v=2):
+    return {"id": f"o{i}", "found_at": f"2026-10-15T10:00:{i:02d}+00:00", "token": "USDT", "buy_dex": "Whirlpool",
+            "sell_dex": "Raydium CLMM", "amount_in": 500_000_000, "out": out0, "cu_price": 10_000, "tip": 20_000,
+            "v": v, "leg_gap_s": 0.2, "rechecks": [{"delay": K.DELAYS_S[0], "elapsed_s": 1.3, "slot": 7, "out": out1}]}
+
+
+def test_account_trades_when_the_gap_survives_and_misses_when_it_closes(state):
+    from mev import account as AC
+    tip_cost = K.BASE_FEE + 20_000
+    acc = AC.apply([opp(1, 500_200_000, 500_100_000), opp(2, 500_200_000, 499_900_000)], sol_usd=200.0,
+                   session_at="2026-10-15T10:08:00+00:00")
+    assert acc["trades"] == 1 and acc["missed"] == 1
+    assert acc["equity"] == pytest.approx(100 + (100_000 - tip_cost) / 1e9 * 200)
+    v = AC.view()
+    assert [r["result"] for r in v["recent"]] == ["missed", "traded"]
+    assert v["recent"][1]["time"].startswith("2026-10-15T10:00:02.3")           # sent ~1 s after discovery
+    assert v["daily"][0] == {"day": "2026-10-15", "traded": 1, "missed": 1, "profit_usd": pytest.approx((100_000 - tip_cost) / 1e9 * 200, abs=1e-4)}
+    again = AC.apply([opp(1, 500_200_000, 500_100_000)], sol_usd=200.0, session_at="2026-10-15T11:08:00+00:00")
+    assert again["trades"] == 1                                                  # never counted twice
+
+
+def test_account_ignores_unpaired_quotes_and_sizes_at_its_own_value(state):
+    from mev import account as AC
+    acc = AC.apply([opp(1, 500_200_000, 500_100_000, v=1)], sol_usd=200.0, session_at="2026-10-15T10:08:00+00:00")
+    assert acc["trades"] == acc["missed"] == 0 and acc["equity"] == 100
+    assert AC.trade_lamports(acc, 200.0) == 500_000_000                          # $100 at $200 a SOL
+    assert AC.trade_lamports({"equity": 10_000}, 1.0) == K.MAX_INPUT_LAMPORTS     # never above the hard cap
+    assert AC.trade_lamports(acc, None) == K.TRADE_LAMPORTS

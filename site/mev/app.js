@@ -15,7 +15,34 @@
   };
   const pill = (v) => { const [t, c] = VERDICT[v] || [v, "calm"]; return `<span class="pill ${c}">${esc(t)}</span>`; };
 
+  const usd = (x, dp = 2) => (fin(x) ? `${x < 0 ? "−" : ""}$${Math.abs(x).toFixed(dp)}` : "–");
+  const clock = (t) => (t ? new Date(t).toLocaleString(undefined, { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", second: "2-digit" }) : "–");
+
+  function renderAccount(A) {
+    if (!A) { $("account").innerHTML = '<p class="muted">The account starts with the next hourly search.</p>'; $("acctDaily").innerHTML = $("acctTrades").innerHTML = ""; return; }
+    const ch = A.equity - A.start;
+    $("account").innerHTML = `<div class="stats">
+        <div class="stat"><div class="k">Account value</div><div class="v ${ch > 0 ? "up" : ch < 0 ? "down" : ""}">${usd(A.equity)}</div><div class="small muted">from ${usd(A.start)} on ${esc(when(A.started_at))}</div></div>
+        <div class="stat"><div class="k">Arbitrages taken</div><div class="v">${A.trades}</div><div class="small muted">gap still there when the bundle was sent</div></div>
+        <div class="stat"><div class="k">Missed</div><div class="v">${A.missed}</div><div class="small muted">gap closed within about a second (no cost)</div></div>
+        <div class="stat"><div class="k">Fees and tips paid</div><div class="v">${usd(A.fees_usd, 4)}</div><div class="small muted">only on trades that went through</div></div></div>
+      <p>Every hour it searches with its whole value (${fin(A.sol_usd) ? `SOL at ${usd(A.sol_usd)}` : "in SOL"}). When a round trip pays after every cost, it acts about one second later, this engine's fastest reaction, as one <b>Jito bundle</b>: buy on one exchange and sell on the other <b>in the same transaction</b>, so entry and exit share one time. If the gap has closed by then, the bundle would revert and cost nothing, so it is recorded as missed. Most hours nothing pays, and the account simply waits in cash.</p>
+      <p class="small muted">Assumes every bundle sent would land and pay what the quote said at that moment; neither can be confirmed without sending real transactions. Paper only: nothing is signed or sent.</p>`;
+    const days = A.daily || [];
+    $("acctDaily").innerHTML = !days.length ? '<p class="muted">No arbitrage has paid after costs yet, so there is nothing to show by day. The account is in cash.</p>'
+      : `<div class="table-wrap"><table><thead><tr><th>Day (UTC)</th><th class="num">Taken</th><th class="num">Missed</th><th class="num">Profit</th></tr></thead><tbody>
+        ${days.map((d) => `<tr><td>${esc(d.day)}</td><td class="num">${d.traded || 0}</td><td class="num">${d.missed || 0}</td><td class="num ${d.profit_usd > 0 ? "up" : ""}">${usd(d.profit_usd, 4)}</td></tr>`).join("")}</tbody></table></div>`;
+    const rows = A.recent || [];
+    $("acctTrades").innerHTML = (!rows.length ? '<p class="muted">None yet.</p>' : `<div class="table-wrap"><table><thead><tr><th>Entry and exit (same transaction)</th><th>Round trip</th><th class="num">Size</th><th class="num">Gap when seen</th><th>Result</th><th class="num">Profit after costs</th></tr></thead><tbody>
+        ${rows.map((r) => `<tr><td>${esc(clock(r.time))}<div class="small muted">slot ${esc(r.slot)}</div></td><td>${esc(r.token)}: buy on ${esc(r.buy_dex)}, sell on ${esc(r.sell_dex)}</td>
+          <td class="num">${usd(+r.size_usd)}</td><td class="num">${usd(+r.seen_gain_usd, 4)}</td>
+          <td>${r.result === "traded" ? '<span class="pill good">Taken</span>' : '<span class="pill calm">Missed</span>'}</td>
+          <td class="num ${+r.profit_usd > 0 ? "up" : ""}">${r.result === "traded" ? usd(+r.profit_usd, 4) : "–"}</td></tr>`).join("")}</tbody></table></div>`)
+      + (A.log && A.log.length ? `<details><summary>Every step, in words</summary><ul class="rules">${A.log.slice(0, 25).map((x) => `<li><span class="small muted">${esc(clock(x.t))}</span> ${esc(x.text)}</li>`).join("")}</ul></details>` : "");
+  }
+
   function render(S) {
+    renderAccount(S.account);
     const c = S.counts || {};
     const [vt] = VERDICT[S.verdict] || [S.verdict];
     $("summary").className = `banner ${S.verdict === "PROMISING_IN_SHADOW" ? "good" : S.verdict === "NOT_VIABLE" ? "warn" : "calm"}`;
