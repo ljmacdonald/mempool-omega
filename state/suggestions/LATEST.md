@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-15 14:43 UTC
+# Trade ideas: 2026-10-15 15:43 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (3% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (5% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **BLUR** | 3.9/10 | Avoid - watch only | Very high | $0.01095 | $0.012045 (+10.0%) | $0.0104025 (-5.0%) | 15:40 15-Oct |
-| 2 | **INTWB** | 2.7/10 | Avoid - watch only | Very high | $18.10 | $19.63 (+8.5%) | $17.33 (-4.2%) | 15:40 15-Oct |
-| 3 | **RWUSD** | 2.5/10 | Avoid - watch only | Low | $0.9999 | $1.01 (+1.2%) | $0.993901 (-0.6%) | 15:40 15-Oct |
-| 4 | **SOPH** | 2.3/10 | Avoid - watch only | High | $0.00249 | $0.00261612 (+5.1%) | $0.00242694 (-2.5%) | 15:40 15-Oct |
-| 5 | **TRX** | 1.9/10 | Avoid - watch only | Low | $0.3306 | $0.334567 (+1.2%) | $0.328616 (-0.6%) | 15:40 15-Oct |
+| 1 | **OSMO** | 4.6/10 | Avoid - watch only | Very high | $0.0454 | $0.0499 (+9.9%) | $0.04313 (-5.0%) | 16:40 15-Oct |
+| 2 | **BLUR** | 4.3/10 | Avoid - watch only | Very high | $0.0111 | $0.01221 (+10.0%) | $0.010545 (-5.0%) | 16:40 15-Oct |
+| 3 | **INTWB** | 4.2/10 | Avoid - watch only | Very high | $18.93 | $20.44 (+8.0%) | $18.18 (-4.0%) | 16:40 15-Oct |
+| 4 | **STRAX** | 3.6/10 | Avoid - watch only | Very high | $0.01023 | $0.011253 (+10.0%) | $0.0097185 (-5.0%) | 16:40 15-Oct |
+| 5 | **KORUB** | 3.4/10 | Avoid - watch only | Very high | $11.62 | $12.47 (+7.3%) | $11.20 (-3.6%) | 16:40 15-Oct |
 
+- **OSMO:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 - **BLUR:** The model sees a slightly better-than-usual pattern, with no single strong reason.
-- **INTWB:** Buyers have been more eager than sellers over the last 30 minutes (71% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **RWUSD:** It is close to its highest price of the last 14 hours. A breakout is possible. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **INTWB:** Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (3% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (4% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **AAOIB** | 4.0/10 | Avoid - watch only | High | $79.25 | $85.46 (+7.8%) | $76.15 (-3.9%) | 18:30 15-Oct |
-| 2 | **NIL** | 3.8/10 | Avoid - watch only | Very high | $0.08683 | $0.0959902 (+10.5%) | $0.0822499 (-5.3%) | 18:30 15-Oct |
-| 3 | **GNS** | 3.7/10 | Avoid - watch only | Very high | $0.519 | $0.60204 (+16.0%) | $0.47748 (-8.0%) | 18:30 15-Oct |
-| 4 | **KORUB** | 3.6/10 | Avoid - watch only | Very high | $11.07 | $12.48 (+12.8%) | $10.30 (-7.0%) | 18:30 15-Oct |
-| 5 | **BLUR** | 3.3/10 | Avoid - watch only | Very high | $0.01093 | $0.0126788 (+16.0%) | $0.0100556 (-8.0%) | 18:30 15-Oct |
+| 1 | **STRAX** | 5.3/10 | Weak | Very high | $0.01029 | $0.0119364 (+16.0%) | $0.0094668 (-8.0%) | 19:30 15-Oct |
+| 2 | **KORUB** | 4.1/10 | Avoid - watch only | Very high | $11.64 | $13.16 (+13.0%) | $10.88 (-6.5%) | 19:30 15-Oct |
+| 3 | **BLUR** | 3.5/10 | Avoid - watch only | Very high | $0.01103 | $0.0127948 (+16.0%) | $0.0101476 (-8.0%) | 19:30 15-Oct |
+| 4 | **SOPH** | 3.0/10 | Avoid - watch only | Very high | $0.00256 | $0.00289434 (+13.1%) | $0.00239283 (-6.5%) | 19:30 15-Oct |
+| 5 | **NBISB** | 2.8/10 | Avoid - watch only | High | $176.70 | $194.33 (+10.0%) | $167.88 (-5.0%) | 19:30 15-Oct |
 
-- **AAOIB:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **NIL:** Momentum is healthy: not overheated, not collapsing.
-- **GNS:** It did 2.7% better than Bitcoin over the last 6 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **STRAX:** Trading activity is 5.7x higher than usual, so people are paying attention to it. It did 1.5% better than Bitcoin over the last 6 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **KORUB:** It did 6.4% better than Bitcoin over the last 6 hours. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Buyers have been more eager than sellers over the last 1.5 hours (53% of trades were buys).
+- **BLUR:** Trading activity is 3.7x higher than usual, so people are paying attention to it.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (35% of 149 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Mixed** (43% of 149 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **BERA** | 7.5/10 | Strong | Very high | $0.2126 | $0.258602 (+21.6%) | $0.189599 (-10.8%) | 14:00 16-Oct |
-| 2 | **FOGO** | 6.7/10 | Strong | Very high | $0.00406 | $0.00488758 (+20.4%) | $0.00364621 (-10.2%) | 14:00 16-Oct |
-| 3 | **GNS** | 6.2/10 | Moderate | Very high | $0.496 | $0.61504 (+24.0%) | $0.43648 (-12.0%) | 14:00 16-Oct |
-| 4 | **AMP** | 6.0/10 | Moderate | Very high | $0.000639 | $0.00079236 (+24.0%) | $0.00056232 (-12.0%) | 14:00 16-Oct |
-| 5 | **WCT** | 4.7/10 | Avoid - watch only | Very high | $0.03741 | $0.0436523 (+16.7%) | $0.0342888 (-8.3%) | 14:00 16-Oct |
+| 1 | **DUSK** | 7.4/10 | Strong | Very high | $0.1156 | $0.143344 (+24.0%) | $0.101728 (-12.0%) | 15:00 16-Oct |
+| 2 | **SOXSB** | 7.3/10 | Strong | Very high | $45.31 | $52.85 (+16.6%) | $41.54 (-8.3%) | 15:00 16-Oct |
+| 3 | **JST** | 5.8/10 | Moderate | Low | $0.13338 | $0.139925 (+4.9%) | $0.130107 (-2.5%) | 15:00 16-Oct |
+| 4 | **SOPH** | 5.3/10 | Weak | Very high | $0.00254 | $0.0031496 (+24.0%) | $0.0022352 (-12.0%) | 15:00 16-Oct |
+| 5 | **GNS** | 5.1/10 | Weak | Very high | $0.519 | $0.64356 (+24.0%) | $0.45672 (-12.0%) | 15:00 16-Oct |
 
-- **BERA:** Trading activity is 3.4x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **FOGO:** Trading activity is 3.4x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **GNS:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **DUSK:** It did 15.4% better than Bitcoin over the last 24 hours. Trading activity is 2.4x higher than usual, so people are paying attention to it. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **SOXSB:** It did 13.1% better than Bitcoin over the last 24 hours. Buyers have been more eager than sellers over the last 6 hours (54% of trades were buys). Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **JST:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 1145 | 44% | -0.20% | -0.27% |
-| Short: exit within 4 hours | 1215 | 39% | -0.31% | -0.33% |
-| Day: exit within 24 hours | 1083 | 37% | -0.61% | -0.19% |
+| Quick: exit within 1 hour | 1150 | 44% | -0.19% | -0.26% |
+| Short: exit within 4 hours | 1219 | 39% | -0.29% | -0.32% |
+| Day: exit within 24 hours | 1087 | 37% | -0.59% | -0.20% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
