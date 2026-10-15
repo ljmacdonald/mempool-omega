@@ -560,6 +560,22 @@
     const lines = text.trim().split(/\r?\n/); const head = lines.shift().split(",");
     return lines.map((l) => { const v = l.split(","); return Object.fromEntries(head.map((h, i) => [h, v[i]])); });
   }
+  // Shadow test (D107): a Day model trained on Small coins themselves, recorded alongside the live one
+  async function shadowBlock() {
+    try {
+      const x = await getJSON(REPO + "suggestions/small_shadow.json");
+      const row = (name, v) => `<tr><td>${name}</td><td class="num">${v.n}</td><td class="num ${v.avg >= 0 ? "up" : "down"}">${v.n ? pct(v.avg, 2) : "–"}</td><td class="num">${v.n ? pct(v.random, 2) : "–"}</td><td class="num ${v.edge >= 0 ? "up" : "down"}">${v.n ? pct(v.edge, 2) : "–"}</td></tr>`;
+      const verdict = { early: `Each side needs ${x.switch_n} finished ideas before anything is decided.`,
+        challenger_better: "The challenger did better than the live model and than random picks. A switch can be proposed to the owner.",
+        no_better: "The challenger did no better. The live model stays." }[x.verdict] || "";
+      return `<h3>Shadow test: a model trained on Small coins</h3>
+        <p class="small muted">Research found the live model (trained on the big coins) ranks Small coins no better than random. A challenger trained on Small coins' own last 90 days is scoring the same coins every hour in the background since ${esc((x.since || "").slice(0, 16))} UTC. Visitors only ever see the live model's ideas. Day speed, top 10 an hour, same exits and fees.</p>
+        <div class="table-wrap"><table><thead><tr><th>Model</th><th class="num">Finished ideas</th><th class="num">Average per idea</th><th class="num">Random picks</th><th class="num">Better than random by</th></tr></thead><tbody>
+        ${row("Live (big-coin model)", x.live)}${row("Challenger (Small-coin model)", x.challenger)}</tbody></table></div>
+        <p class="small"><span class="pill ${x.verdict === "challenger_better" ? "good" : x.verdict === "no_better" ? "bad" : "warn"}">${x.verdict === "early" ? "Too early" : x.verdict === "challenger_better" ? "Challenger better" : "No better"}</span> ${verdict}</p>`;
+    } catch { return ""; }
+  }
+
   async function renderRecord() {
     const box = $("record");
     try {
@@ -579,6 +595,7 @@
         }
         html += `</tbody></table></div><p class="small muted">If a speed doesn't beat “random pick” over a few weeks, its ranking isn't adding value.</p>`;
       }
+      if (SMALL) html += await shadowBlock();
       html += Q.gradeTable(b.quality);
       try {
         const h = parseCSV(await getText(REPO + `suggestions/${SMALL ? "small_" : ""}history.csv`)).filter((r) => r.status === "closed").slice(-25).reverse();
