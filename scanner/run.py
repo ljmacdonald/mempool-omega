@@ -49,6 +49,12 @@ def train(styles: list[str] | None = None) -> dict:
         except Exception as e:  # noqa: BLE001
             log.warning("daily %s: %s", s, e)
     state_path("reports", "scanner_bigmovers.json").write_text(json.dumps(bm, indent=2))
+    try:                                   # the Small-coin challenger model (shadow test, D107)
+        from scanner import shadow
+
+        infos["small_shadow"] = shadow.train(small_universe()["symbol"].tolist())
+    except Exception as e:  # noqa: BLE001
+        log.warning("small shadow model: %s", e)
     state_path("reports", "scanner_train.json").write_text(json.dumps(infos, indent=2, default=str))
     infos["self_improvement"] = nightly(selection)
     return infos
@@ -120,6 +126,10 @@ def small_coins(top_n: int = 5) -> dict:
     out = {}
     for key in STYLES:
         opened = hist[(hist["status"] == "open") & (hist["style"] == key)]["symbol"].tolist() if len(hist) else []
+        if key == "day":                               # the shadow test's open ideas need prices too (D107)
+            from scanner import shadow
+
+            opened += shadow.open_symbols()
         res = scan(key, load_model(key), uni, cfg["small_top_n"], extra_symbols=opened, candidates=15,
                        board="suggestions/small_scoreboard.json", probation_hist=SMALL_HIST)
         track.append(res.payload["ideas"], res.payload["coins_scanned"], SMALL_HIST)
@@ -138,6 +148,10 @@ def small_coins(top_n: int = 5) -> dict:
                               fetch_candles=fetch_candles)
             except Exception as e:  # noqa: BLE001
                 log.warning("small challenge: %s", e)
+            try:                                       # shadow test of the Small-coin model: never breaks the scan
+                shadow.run(res.candles, uni)
+            except Exception as e:  # noqa: BLE001
+                log.warning("small shadow: %s", e)
     track.scoreboard(SMALL_HIST, "suggestions/small_scoreboard.json")
     return out
 
