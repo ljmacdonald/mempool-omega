@@ -85,6 +85,30 @@ def status_of(n, avg, random, unit: str = "%") -> str:
     return "ahead" if avg - (random or 0.0) >= MARGIN[unit] else "even"
 
 
+# Picks against the market (D106): sections whose "random picks" line is the same rules on randomly chosen coins or
+# markets over the same hours, i.e. what the market itself did. Their difference is the picks' own edge with the
+# market's rise or fall taken out: what a trader would have kept had each idea been paired with an opposite bet on the
+# market (a hedge), before the hedge's own cost (about HEDGE_COST a trade with futures).
+MARKET_KEYS = {"main", "small", "dex", "stocks", "fx", "ict", "lab", "listings"}
+HEDGE_COST = 0.001
+
+
+def vs_market(n, avg, random, unit: str = "%") -> dict | None:
+    if avg is None or random is None:
+        return None
+    edge = avg - random
+    hedged = edge - HEDGE_COST if unit == "%" else None
+    if not n or n < MIN_N:
+        verdict = "early"
+    elif edge >= MARGIN[unit] and (hedged is None or hedged > 0):
+        verdict = "beats"
+    elif edge <= -MARGIN[unit]:
+        verdict = "lags"
+    else:
+        verdict = "level"
+    return {"edge": edge, "hedged": hedged, "verdict": verdict}
+
+
 def board(rel: str) -> dict:
     b = read_state(rel) or {}
     return {"n": b.get("closed") or 0, "avg": b.get("avg_return_per_idea"), "random": b.get("random_pick_avg_return"),
@@ -119,7 +143,8 @@ def sections(now: datetime) -> list[dict]:
                     "random": rec.get("random"), "win": rec.get("win"), "unit": unit,
                     "status": rec.get("status") or status_of(rec.get("n"), rec.get("avg"), rec.get("random"), unit),
                     "updated": str(t) if t else None, "age_min": age, "max_age_min": max_age_min,
-                    "market_closed": not watched, "stale": stale, "note": note})
+                    "market_closed": not watched, "stale": stale, "note": note,
+                    "vs_market": vs_market(rec.get("n"), rec.get("avg"), rec.get("random"), unit) if key in MARKET_KEYS else None})
 
     add("main", "Exchange coins", "coins/", board("suggestions/scoreboard.json"),
         (read_state("suggestions/latest.json") or {}).get("generated_at"), 150)
