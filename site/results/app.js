@@ -30,7 +30,7 @@
     $("challenges").innerHTML = `<div class="stats">${ch.map((s) => `<a class="stat" href="${BASE}${esc(s.path)}" style="text-decoration:none;color:inherit">
         <div class="k">${esc(s.name)}</div><div class="v ${fin(s.equity) ? (s.equity >= 100 ? "up" : "down") : ""}">${fin(s.equity) ? `$${s.equity.toFixed(2)}` : "–"}</div>
         <div class="small muted">${s.n} finished trade${s.n === 1 ? "" : "s"}${s.open ? `, ${s.open} open` : ", in cash"}${s.paused ? " · paused" : ""} · from $100</div></a>`).join("")}</div>
-      <p class="small muted">Three $100 paper accounts: two trade the site's own signals by fixed rules, one takes Solana arbitrage; capital first, paying every real cost. Staying in cash is part of the plan.</p>`;
+      <p class="small muted">$100 paper accounts, each trading by fixed rules: the site's own signals, Solana arbitrage, and funding income. Capital first, paying every real cost. Staying in cash is part of the plan.</p>`;
     rest.sort((a, b) => ORDER[a.status] - ORDER[b.status] || b.n - a.n);
     $("sections").innerHTML = `<div class="table-wrap"><table><thead><tr><th>Section</th><th>Status</th><th class="num">Finished</th><th class="num">Average per trade</th><th class="num">Random picks</th><th>Picks vs market</th><th>Updated</th></tr></thead><tbody>
       ${rest.map((s) => { const [label, tone] = PILL[s.status] || [s.status, ""]; return `<tr>
