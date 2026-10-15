@@ -188,7 +188,7 @@ class FakeQuotes:
         self.calls = self.refused = 0
         self.rechecks = 0
 
-    def quote(self, i, o, amount, dex=None):
+    def quote(self, i, o, amount, dex=None, paired=False):
         self.calls += 1
         if i == K.SOL:
             return {"out": amount * 3 // 10, "slot": 100 + self.calls, "at": 0, "route": [dex]}
@@ -206,6 +206,41 @@ def test_session_records_opportunities_and_their_rechecks(monkeypatch, state):
     c = s["new"][0]
     assert (c["buy_dex"], c["sell_dex"]) == ("Whirlpool", "Raydium CLMM") and c["submitted_at"] is None
     assert [r["delay"] for r in c["rechecks"]] == [0, 1] and all(r["out"] is not None for r in c["rechecks"])
+    assert c["v"] == K.METHOD_VERSION and c["leg_gap_s"] is not None
     snap = shadow.snapshot(s["new"], [s])
     assert snap["mode"] == "SHADOW" and snap["counts"]["submitted"] == 0 and not snap["gate"]["allowed"]
     assert snap["verdict"] == V.INSUFFICIENT and snap["landing"] == V.INSUFFICIENT
+
+
+def test_unpaired_opportunities_are_kept_but_not_judged():
+    old = [dict(cand(i, IN + 200_000, IN + 150_000), token="USDT", buy_dex="A", sell_dex="B", gross=200_000)
+           for i in range(40)]
+    snap = shadow.snapshot(old, [])
+    assert snap["counts"]["opportunities"] == 0 and snap["counts"]["opportunities_unpaired"] == 40
+    assert snap["verdict"] == V.INSUFFICIENT
+
+
+def test_a_paired_leg_skips_the_pause_but_owes_it_to_the_next_request(monkeypatch):
+    t = [100.0]
+    monkeypatch.setattr(clients.time, "monotonic", lambda: t[0])
+    monkeypatch.setattr(clients.time, "sleep", lambda s: t.__setitem__(0, t[0] + s))
+    monkeypatch.setattr(clients.time, "time", lambda: t[0])
+
+    class R:
+        status_code, headers = 200, {}
+
+        def json(self):
+            return {"outAmount": "5", "contextSlot": 1, "routePlan": []}
+
+    class Sess:
+        def get(self, *a, **k):
+            return R()
+
+    q = clients.Quotes(pace=1.0, session=Sess())
+    q.quote("a", "b", 1)
+    t0 = t[0]
+    q.quote("b", "a", 1, paired=True)
+    assert t[0] - t0 == pytest.approx(K.LEG_GAP_S)
+    t1 = t[0]
+    q.quote("a", "b", 1)
+    assert t[0] - t1 == pytest.approx(2.0 - K.LEG_GAP_S)       # its own pause plus the one skipped

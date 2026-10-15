@@ -30,6 +30,9 @@ SLIPPAGE_BPS = 50
 # fastest re-check is ~1 s; professional searchers act within one slot (~0.4 s). The page says so.
 DELAYS_S = (1, 3, 10, 30)
 SESSION_S = 8 * 60                     # one shadow session per hourly job
+LEG_GAP_S = 0.15                       # the sell leg is quoted straight after its buy leg (then a longer pause)
+MAX_LEG_GAP_S = 0.5                    # judged only if the two legs were quoted at most this far apart
+METHOD_VERSION = 2                     # v1 (14 Oct) quoted the two legs seconds apart: kept, but not judged
 QUOTE_PACE_S = 1.25                    # seconds between Jupiter requests (stays under the free limit)
 
 # Network costs (lamports). Priority fee = compute-unit limit x price (micro-lamports per CU) / 1e6.

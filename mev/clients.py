@@ -14,17 +14,20 @@ class Quotes:
     def __init__(self, pace: float = K.QUOTE_PACE_S, session: requests.Session | None = None):
         self.s, self.pace, self.last, self.calls, self.refused = session or requests.Session(), pace, 0.0, 0, 0
 
-    def quote(self, in_mint: str, out_mint: str, amount: int, dex: str | None = None) -> dict | None:
-        """{"out": int, "slot": int, "at": epoch seconds, "route": [labels]} or None if there's no route."""
+    def quote(self, in_mint: str, out_mint: str, amount: int, dex: str | None = None, paired: bool = False) -> dict | None:
+        """{"out": int, "slot": int, "at": epoch seconds, "route": [labels]} or None if there's no route.
+        paired: the second leg of a round trip, quoted right after the first (LEG_GAP_S) so both legs see the same
+        moment; the pause that pacing skipped is added before the next request, so the average rate is unchanged."""
         params = {"inputMint": in_mint, "outputMint": out_mint, "amount": int(amount), "slippageBps": K.SLIPPAGE_BPS,
                   "restrictIntermediateTokens": "true"}
         if dex:
             params["dexes"] = dex
         for attempt in range(4):
-            wait = self.pace - (time.monotonic() - self.last)
+            gap = K.LEG_GAP_S if paired and attempt == 0 else self.pace
+            wait = gap - (time.monotonic() - self.last)
             if wait > 0:
                 time.sleep(wait)
-            self.last = time.monotonic()
+            self.last = time.monotonic() + (self.pace - gap)   # owe the skipped pause to the next request
             self.calls += 1
             try:
                 r = self.s.get(f"{K.JUPITER}/quote", params=params, timeout=10)
