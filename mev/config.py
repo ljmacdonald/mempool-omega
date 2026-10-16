@@ -33,7 +33,7 @@ SESSION_S = 8 * 60                     # one shadow session per hourly job
 LEG_GAP_S = 0.15                       # the sell leg is quoted straight after its buy leg (then a longer pause)
 MAX_LEG_GAP_S = 0.5                    # judged only if the two legs were quoted at most this far apart
 METHOD_VERSION = 2                     # v1 (14 Oct) quoted the two legs seconds apart: kept, but not judged
-QUOTE_PACE_S = 1.25                    # seconds between Jupiter requests (stays under the free limit)
+QUOTE_PACE_S = 2.2                     # seconds between Jupiter requests: the free limit is 5 per 10 s (16 Oct)
 
 # Network costs (lamports). Priority fee = compute-unit limit x price (micro-lamports per CU) / 1e6.
 BASE_FEE = 5_000                       # per signature; one signer
