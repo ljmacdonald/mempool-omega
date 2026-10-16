@@ -37,6 +37,8 @@ class Quotes:
                 self.refused += 1
                 time.sleep(min(30, float(r.headers.get("Retry-After") or 2 ** (attempt + 1))))
                 continue
+            if r.headers.get("x-ratelimit-remaining") == "0":     # allowance used up: wait for the window to reset
+                self.last = max(self.last, time.monotonic() + min(10.0, max(0.0, float(r.headers.get("x-ratelimit-reset", 0) or 0) - time.time())))
             if r.status_code != 200:
                 return None
             d = r.json()
