@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-17 13:20:23.227814+00:00",
+  "generated_at": "2026-10-17 13:48:14.661977+00:00",
   "style": "day",
   "style_label": "Day: exit within 24 hours",
   "hold_text": "24 hours",
@@ -7,7 +7,7 @@
   "market_mood": {
     "label": "Mixed",
     "share_positive": 0.3825503355704698,
-    "avg_chance_beats_market": 0.4260125585015687
+    "avg_chance_beats_market": 0.42589625368315137
   },
   "model": {
     "style": "day",
@@ -58,10 +58,10 @@
       "symbol": "STRKUSDT",
       "coin": "STRK",
       "style": "day",
-      "score": 9.1,
+      "score": 8.5,
       "grade": "Strong",
       "chance_beats_market": 0.663,
-      "expected_r": 0.388,
+      "expected_r": 0.283,
       "risk_level": "Very high",
       "risk_unit": 0.12,
       "price_now": 0.06624,
@@ -88,13 +88,13 @@
         "checks": [
           {
             "key": "walls",
-            "ok": true,
-            "text": "Big orders near the price stayed in place across 3 checks (they look real)."
+            "ok": false,
+            "text": "Large orders (79% of the nearby order book) disappeared between our order-book checks. That's spoofing: fake orders shown to trick other traders."
           },
           {
             "key": "thin_book",
             "ok": true,
-            "text": "About $315,821 of orders within 2% of the price. Healthy depth."
+            "text": "About $311,148 of orders within 2% of the price. Healthy depth."
           },
           {
             "key": "wash",
@@ -110,6 +110,82 @@
             "key": "venues",
             "ok": true,
             "text": "Other exchanges confirm the price (2 checked)."
+          },
+          {
+            "key": "whale",
+            "ok": true,
+            "text": "Activity comes from many normal-sized trades."
+          },
+          {
+            "key": "engineered",
+            "ok": true,
+            "text": "No artificial-looking burst of activity."
+          }
+        ],
+        "penalty": 0.1064,
+        "passed": 6,
+        "checked": 7,
+        "trust": 0.848
+      }
+    },
+    {
+      "symbol": "NXPCUSDT",
+      "coin": "NXPC",
+      "style": "day",
+      "score": 8.3,
+      "grade": "Strong",
+      "chance_beats_market": 0.6,
+      "expected_r": 0.261,
+      "risk_level": "Very high",
+      "risk_unit": 0.12,
+      "price_now": 0.1708,
+      "take_profit": 0.211792,
+      "take_profit_pct": 0.24,
+      "safety_exit": 0.15030400000000002,
+      "safety_exit_pct": -0.11999999999999988,
+      "hold_minutes": 1440,
+      "hold_text": "24 hours",
+      "exit_by": "2026-10-18 13:00:00+00:00",
+      "size_for_10usd_risk": 83.33333333333341,
+      "pre_ret": -0.14118644404054392,
+      "vol_surge": 1.0886230774854346,
+      "why": [
+        "The model sees a slightly better-than-usual pattern, with no single strong reason."
+      ],
+      "warnings": [
+        "Fairly thin trading (under $10M a day). Prices can jump around and are easier to push."
+      ],
+      "week_up20_pct": 0.12359550561797752,
+      "week_down20_pct": 0.06741573033707865,
+      "ts": "2026-10-17 12:00:00+00:00",
+      "suggested_at": "2026-10-17 13:00:00+00:00",
+      "rank": 2,
+      "integrity": {
+        "checks": [
+          {
+            "key": "walls",
+            "ok": true,
+            "text": "Big orders near the price stayed in place across 3 checks (they look real)."
+          },
+          {
+            "key": "thin_book",
+            "ok": true,
+            "text": "About $177,039 of orders within 2% of the price. Healthy depth."
+          },
+          {
+            "key": "wash",
+            "ok": true,
+            "text": "Recent trades look natural (no back-and-forth fake trading)."
+          },
+          {
+            "key": "impact",
+            "ok": true,
+            "text": "The price reacts normally to the amount being traded."
+          },
+          {
+            "key": "venues",
+            "ok": true,
+            "text": "Other exchanges confirm the price (1 checked)."
           },
           {
             "key": "whale",
@@ -135,7 +211,7 @@
       "score": 7.7,
       "grade": "Strong",
       "chance_beats_market": 0.71,
-      "expected_r": 0.201,
+      "expected_r": 0.2,
       "risk_level": "Low",
       "risk_unit": 0.024488102012593334,
       "price_now": 1.2955,
@@ -157,80 +233,6 @@
       "week_down20_pct": 0.0,
       "ts": "2026-10-17 12:00:00+00:00",
       "suggested_at": "2026-10-17 13:00:00+00:00",
-      "rank": 2,
-      "integrity": {
-        "checks": [
-          {
-            "key": "walls",
-            "ok": true,
-            "text": "Big orders near the price stayed in place across 3 checks (they look real)."
-          },
-          {
-            "key": "thin_book",
-            "ok": true,
-            "text": "About $5,407,297 of orders within 2% of the price. Healthy depth."
-          },
-          {
-            "key": "wash",
-            "ok": true,
-            "text": "Recent trades look natural (no back-and-forth fake trading)."
-          },
-          {
-            "key": "impact",
-            "ok": true,
-            "text": "The price reacts normally to the amount being traded."
-          },
-          {
-            "key": "venues",
-            "ok": true,
-            "text": "Other exchanges confirm the price (2 checked)."
-          },
-          {
-            "key": "whale",
-            "ok": true,
-            "text": "Activity comes from many normal-sized trades."
-          },
-          {
-            "key": "engineered",
-            "ok": true,
-            "text": "No artificial-looking burst of activity."
-          }
-        ],
-        "penalty": 0.0,
-        "passed": 7,
-        "checked": 7,
-        "trust": 1.0
-      }
-    },
-    {
-      "symbol": "SOLUSDT",
-      "coin": "SOL",
-      "style": "day",
-      "score": 7.4,
-      "grade": "Strong",
-      "chance_beats_market": 0.674,
-      "expected_r": 0.171,
-      "risk_level": "Low",
-      "risk_unit": 0.02636745635490976,
-      "price_now": 103.94,
-      "take_profit": 109.42126682705864,
-      "take_profit_pct": 0.05273491270981956,
-      "safety_exit": 101.19936658647067,
-      "safety_exit_pct": -0.02636745635490978,
-      "hold_minutes": 1440,
-      "hold_text": "24 hours",
-      "exit_by": "2026-10-18 13:00:00+00:00",
-      "size_for_10usd_risk": 379.25539215457695,
-      "pre_ret": -0.016317934481770102,
-      "vol_surge": 0.6618747968571005,
-      "why": [
-        "The model sees a slightly better-than-usual pattern, with no single strong reason."
-      ],
-      "warnings": [],
-      "week_up20_pct": 0.10112359550561797,
-      "week_down20_pct": 0.0,
-      "ts": "2026-10-17 12:00:00+00:00",
-      "suggested_at": "2026-10-17 13:00:00+00:00",
       "rank": 3,
       "integrity": {
         "checks": [
@@ -242,7 +244,7 @@
           {
             "key": "thin_book",
             "ok": true,
-            "text": "About $5,586,358 of orders within 2% of the price. Healthy depth."
+            "text": "About $5,658,122 of orders within 2% of the price. Healthy depth."
           },
           {
             "key": "wash",
@@ -283,7 +285,7 @@
       "score": 7.3,
       "grade": "Strong",
       "chance_beats_market": 0.561,
-      "expected_r": 0.164,
+      "expected_r": 0.165,
       "risk_level": "Very high",
       "risk_unit": 0.09804659760068647,
       "price_now": 0.0298,
@@ -318,7 +320,7 @@
           {
             "key": "thin_book",
             "ok": false,
-            "text": "Only about $47,812 of orders within 2% of the price (spread 0.35%). One large trade can push it around."
+            "text": "Only about $50,929 of orders within 2% of the price (spread 0.34%). One large trade can push it around."
           },
           {
             "key": "wash",
@@ -353,31 +355,31 @@
       }
     },
     {
-      "symbol": "DOGEUSDT",
-      "coin": "DOGE",
+      "symbol": "SOLUSDT",
+      "coin": "SOL",
       "style": "day",
       "score": 7.3,
       "grade": "Strong",
-      "chance_beats_market": 0.676,
+      "chance_beats_market": 0.674,
       "expected_r": 0.17,
       "risk_level": "Low",
-      "risk_unit": 0.02592763852387604,
-      "price_now": 0.07963,
-      "take_profit": 0.0837592357113125,
-      "take_profit_pct": 0.05185527704775206,
-      "safety_exit": 0.07756538214434376,
-      "safety_exit_pct": -0.02592763852387603,
+      "risk_unit": 0.02636745635490976,
+      "price_now": 103.94,
+      "take_profit": 109.42126682705864,
+      "take_profit_pct": 0.05273491270981956,
+      "safety_exit": 101.19936658647067,
+      "safety_exit_pct": -0.02636745635490978,
       "hold_minutes": 1440,
       "hold_text": "24 hours",
       "exit_by": "2026-10-18 13:00:00+00:00",
-      "size_for_10usd_risk": 385.68880813388705,
-      "pre_ret": -0.026152571866777663,
-      "vol_surge": 0.8141738701077694,
+      "size_for_10usd_risk": 379.25539215457695,
+      "pre_ret": -0.016317934481770102,
+      "vol_surge": 0.6618747968571005,
       "why": [
-        "Buyers have been more eager than sellers over the last 6 hours (53% of trades were buys)."
+        "The model sees a slightly better-than-usual pattern, with no single strong reason."
       ],
       "warnings": [],
-      "week_up20_pct": 0.15730337078651685,
+      "week_up20_pct": 0.10112359550561797,
       "week_down20_pct": 0.0,
       "ts": "2026-10-17 12:00:00+00:00",
       "suggested_at": "2026-10-17 13:00:00+00:00",
@@ -392,7 +394,7 @@
           {
             "key": "thin_book",
             "ok": true,
-            "text": "About $3,304,141 of orders within 2% of the price. Healthy depth."
+            "text": "About $5,311,109 of orders within 2% of the price. Healthy depth."
           },
           {
             "key": "wash",
@@ -427,5 +429,5 @@
       }
     }
   ],
-  "settled_this_run": 2
+  "settled_this_run": 0
 }
