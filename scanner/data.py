@@ -23,6 +23,25 @@ def config() -> dict:
     return yaml.safe_load(CFG_PATH.read_text())
 
 
+STOCK_GROUP = "TRD_GRP_261"    # Binance's trading group for its tokenised stocks (every one of them, no coin; 18 Oct 2026)
+
+
+@lru_cache(maxsize=1)
+def stock_tokens() -> frozenset:
+    """Tokenised stocks to keep out of the coin pages (D112): the listed ones, plus any USDT pair whose base ends in "B"
+    and that Binance puts in its tokenised-stock trading group, so new listings are caught. If Binance's market list
+    can't be read, the listed ones still apply."""
+    found: set[str] = set()
+    try:
+        info = _binance_get("/api/v3/exchangeInfo", {"permissions": '["SPOT"]'})
+        found = {s["baseAsset"] for s in info.get("symbols", [])
+                 if s.get("quoteAsset") == "USDT" and s.get("baseAsset", "").endswith("B")
+                 and any(STOCK_GROUP in ps for ps in s.get("permissionSets") or [])}
+    except Exception as e:  # noqa: BLE001
+        log.warning("stock-token check unavailable, using the list only: %s", e)
+    return frozenset(set(config()["exclude_stock_tokens"]) | found)
+
+
 def live_pairs(tick: pd.DataFrame, max_age_h: float = 2.0) -> pd.DataFrame:
     """Only pairs that still trade. Binance's 24 h ticker keeps delisted pairs with their last day's numbers frozen
     (no bid, closeTime long past): 255 USDT pairs in Oct 2026, some with millions of 'volume' (D96)."""
@@ -39,7 +58,7 @@ def select_universe(max_coins: int | None = None) -> pd.DataFrame:
     tick = pd.DataFrame(_binance_get("/api/v3/ticker/24hr", {}))
     tick = live_pairs(tick[tick["symbol"].str.endswith("USDT")]).copy()
     tick["base"] = tick["symbol"].str[:-4]
-    excluded = set(cfg["exclude_stablecoins"]) | set(cfg["exclude_other"]) | set(cfg["exclude_stock_tokens"])
+    excluded = set(cfg["exclude_stablecoins"]) | set(cfg["exclude_other"]) | stock_tokens()
     ok = tick["base"].map(lambda b: bool(re.fullmatch(r"[A-Z0-9]{2,15}", b)) and b not in excluded)
     ok &= ~tick["base"].str.contains(r"(?:UP|DOWN|BULL|BEAR)$")
     tick = tick[ok]
@@ -59,7 +78,7 @@ def select_small_universe() -> pd.DataFrame:
     tick = pd.DataFrame(_binance_get("/api/v3/ticker/24hr", {}))
     tick = live_pairs(tick[tick["symbol"].str.endswith("USDT")]).copy()
     tick["base"] = tick["symbol"].str[:-4]
-    excluded = set(cfg["exclude_stablecoins"]) | set(cfg["exclude_other"]) | set(cfg["exclude_stock_tokens"])
+    excluded = set(cfg["exclude_stablecoins"]) | set(cfg["exclude_other"]) | stock_tokens()
     ok = tick["base"].map(lambda b: bool(re.fullmatch(r"[A-Z0-9]{2,15}", b)) and b not in excluded)
     ok &= ~tick["base"].str.contains(r"(?:UP|DOWN|BULL|BEAR)$")
     tick = tick[ok]

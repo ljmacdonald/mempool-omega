@@ -152,3 +152,21 @@ def test_delisted_pairs_are_left_out_and_their_stale_ideas_expire(tmp_path, monk
     df = pd.DataFrame({"open": 1.0, "high": 1.0, "low": 1.0, "close": 1.0, "volume": 1.0}, index=idx)
     track.resolve({"DEADUSDT": df}, "day", "suggestions/h.csv")
     assert track.load_history("suggestions/h.csv").loc[0, "status"] == "expired"
+
+
+def test_tokenised_stocks_are_found_from_binance_trading_groups(monkeypatch):
+    from scanner import data as D
+
+    sym = lambda b, groups: {"baseAsset": b, "quoteAsset": "USDT", "permissionSets": [["SPOT", *groups]]}  # noqa: E731
+    info = {"symbols": [sym("NEWSTOCKB", ["TRD_GRP_004", D.STOCK_GROUP]), sym("ARB", ["TRD_GRP_004"]),
+                        sym("WEIRD", [D.STOCK_GROUP])]}          # doesn't end in B: never treated as a stock
+    monkeypatch.setattr(D, "_binance_get", lambda path, params: info)
+    D.stock_tokens.cache_clear()
+    try:
+        got = D.stock_tokens()
+        assert "NEWSTOCKB" in got and "NVDAB" in got and "ARB" not in got and "WEIRD" not in got
+        monkeypatch.setattr(D, "_binance_get", lambda path, params: (_ for _ in ()).throw(RuntimeError("down")))
+        D.stock_tokens.cache_clear()
+        assert D.stock_tokens() == frozenset(D.config()["exclude_stock_tokens"])   # the list still applies
+    finally:
+        D.stock_tokens.cache_clear()
