@@ -186,7 +186,9 @@ def sections(now: datetime) -> list[dict]:
     for key, name, path, rel in (("challenge", "$100 DEX challenge", "challenge/", "dex/challenge"),
                                  ("challenge-small", "$100 Small-coin challenge", "challenge-small/", "suggestions/challenge_small"),
                                  ("challenge-arb", "$100 arbitrage account", "mev/", "mev/account"),
-                                 ("challenge-carry", "$100 funding account", "carry/", "carry")):
+                                 ("challenge-carry", "$100 funding account", "carry/", "carry"),
+                                 ("challenge-hedged", "$100 hedged Small-coin account", "challenge-small/#hedged-card",
+                                  "suggestions/challenge_small_hedged")):
         a = read_state(f"{rel}/account.json") or {}
         eq, start = a.get("equity"), a.get("start") or 100.0
         add(key, name, path, {"n": a.get("trades") or 0, "avg": (eq / start - 1) if eq else None, "random": 0.0,

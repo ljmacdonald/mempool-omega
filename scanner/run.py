@@ -148,6 +148,12 @@ def small_coins(top_n: int = 5) -> dict:
                               fetch_candles=fetch_candles)
             except Exception as e:  # noqa: BLE001
                 log.warning("small challenge: %s", e)
+            try:                                       # the same trades hedged with a Bitcoin short (D111)
+                from scanner import hedged
+
+                hedged.run(res.candles, fetch=fetch_candles)
+            except Exception as e:  # noqa: BLE001
+                log.warning("small hedged: %s", e)
             try:                                       # shadow test of the Small-coin model: never breaks the scan
                 shadow.run(res.candles, uni)
             except Exception as e:  # noqa: BLE001
