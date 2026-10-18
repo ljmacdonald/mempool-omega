@@ -43,3 +43,15 @@ def test_settlement_after_fees_and_label():
     assert P.record([w, lost] * 30)["label"] == "Failed"              # ~50% wins at 64c: loses
     mixed = [w] * 50 + [lost] * 8                                      # 86% at 64c: clearly ahead
     assert P.record(mixed)["label"] == "Held up"
+
+
+def test_a_question_whose_own_date_has_passed_never_qualifies():
+    import datetime as dt
+    past = dt.datetime.fromtimestamp(NOW - 30 * 86400, dt.timezone.utc).strftime("%Y-%m-%d")
+    soon = dt.datetime.fromtimestamp(NOW + 2 * 86400, dt.timezone.utc).strftime("%Y-%m-%d")
+    today = dt.datetime.fromtimestamp(NOW, dt.timezone.utc).strftime("%Y-%m-%d")
+    stale = {**poly("s", 0.60, 0.62, 3, ev="s"), "q": f"Will Athletic Club win on {past}?"}    # postponed, still listed
+    ok = {**poly("t", 0.60, 0.62, 3, ev="t"), "q": f"Will FC Barcelona win on {soon}?"}
+    same_day = {**poly("u", 0.60, 0.62, 3, ev="u"), "q": f"Will it rain on {today}?"}
+    assert P.stale_question(stale, NOW) and not P.stale_question(ok, NOW) and not P.stale_question(same_day, NOW)
+    assert [r["id"] for r in P.pick([stale, ok], NOW)] == ["t"]

@@ -27,20 +27,25 @@
     $("summary").innerHTML = `<b>Paper only.</b> Every hour we read every open market on Kalshi and Polymarket (${(c.scanned || 0).toLocaleString()} right now, ${c.liquid ?? "–"} with real trading) and paper-buy the ones that fit the <b>one rule that looked promising in our research</b>: the favourite, priced 55-70¢, 1-7 days before it ends, at the real asking price plus fees, one per event.
       <b>Verdict: ${esc(r.label || "Not proven yet")}.</b> ${esc(r.text || "")}`;
   }
+  // $100 on a prediction (D110): a contract costs its ask plus the fee and pays $1 if right, $0 if wrong
+  const usd0 = (x) => (Number.isFinite(x) ? `${x < 0 ? "−" : ""}$${Math.abs(x).toLocaleString(undefined, { maximumFractionDigits: 0 })}` : "–");
+  const if100 = (x) => { const c = (x.ask ?? NaN) + (x.fee ?? 0); return Number.isFinite(c) && c > 0 ? 100 / c : NaN; };
+  const payBox = (x) => { const v = if100(x); return `<b class="up">${usd0(v)}</b><div class="small muted">if right (+${usd0(v - 100)}) · $0 if wrong</div>`; };
+
   function picks(S) {
     if (stale) { $("picks").innerHTML = `<div class="banner warn">The latest check is out of date, so current picks are hidden.</div>`; return; }
     const p = S.picks || [];
     $("picks").innerHTML = !p.length ? `<p class="muted">No market fits the rule right now. That's normal: it only fires for favourites priced 55-70¢ in liquid markets ending in 1-7 days.</p>`
-      : `<div class="table-wrap"><table><thead><tr><th>Market</th><th>Buy</th><th class="num">Price (ask)</th><th class="num">Fee</th><th class="num">Pays if right</th><th class="num">Ends in</th><th class="num">Traded</th></tr></thead><tbody>
-        ${p.map((x) => `<tr data-alert-key="pick-${esc(x.venue)}-${esc(x.id)}"><td style="white-space:normal;min-width:260px">${q(x)}</td><td>${side(x.side)}</td><td class="num">${cents(x.ask)}</td><td class="num">${cents(x.fee)}</td><td class="num up">${pct(1 / (x.ask + x.fee) - 1, 0)}</td><td class="num">${left(x.end)}</td><td class="num small">${vol(x.vol, x.venue)}</td></tr>`).join("")}
+      : `<div class="table-wrap"><table><thead><tr><th>Market</th><th>Buy</th><th class="num">Price (ask)</th><th class="num">Fee</th><th class="num">Pays if right</th><th class="num">$100 would become</th><th class="num">Ends in</th><th class="num">Traded</th></tr></thead><tbody>
+        ${p.map((x) => `<tr data-alert-key="pick-${esc(x.venue)}-${esc(x.id)}"><td style="white-space:normal;min-width:260px">${q(x)}</td><td>${side(x.side)}</td><td class="num">${cents(x.ask)}</td><td class="num">${cents(x.fee)}</td><td class="num up">${pct(1 / (x.ask + x.fee) - 1, 0)}</td><td class="num">${payBox(x)}</td><td class="num">${left(x.end)}</td><td class="num small">${vol(x.vol, x.venue)}</td></tr>`).join("")}
         </tbody></table></div>
         <p class="small muted">"Buy NO" means buying the other outcome: for "Las Vegas wins", NO pays if Las Vegas does not win. A contract pays $1 if right and $0 if wrong, so at 62¢ plus a 1.6¢ fee, being right pays about +57% and being wrong loses 100%. <b>Not proven:</b> the rule needs ${S.record?.min_trades || 50} settled paper trades before it can be trusted.</p>`;
   }
   function openTrades(S) {
     const o = S.open || [];
     $("open").innerHTML = !o.length ? `<p class="muted">No paper trades open yet.</p>`
-      : `<div class="table-wrap"><table><thead><tr><th>Market</th><th>Side</th><th class="num">Bought at</th><th class="num">Price now</th><th class="num">Ends</th></tr></thead><tbody>
-        ${o.map((x) => `<tr><td style="white-space:normal;min-width:260px">${q(x)}</td><td>${side(x.side)}</td><td class="num">${cents(x.ask)}</td><td class="num ${cls((x.now ?? NaN) - x.ask)}">${stale ? "–" : cents(x.now)}</td><td class="num">${when(x.end)}</td></tr>`).join("")}
+      : `<div class="table-wrap"><table><thead><tr><th>Market</th><th>Side</th><th class="num">Bought at</th><th class="num">Price now</th><th class="num">$100 would become</th><th class="num">Ends</th></tr></thead><tbody>
+        ${o.map((x) => `<tr><td style="white-space:normal;min-width:260px">${q(x)}</td><td>${side(x.side)}</td><td class="num">${cents(x.ask)}</td><td class="num ${cls((x.now ?? NaN) - x.ask)}">${stale ? "–" : cents(x.now)}</td><td class="num">${payBox(x)}${!stale && Number.isFinite(x.now) ? `<div class="small muted">about ${usd0(if100(x) * x.now)} if sold now</div>` : ""}</td><td class="num">${when(x.end)}</td></tr>`).join("")}
         </tbody></table></div><p class="small muted">Each is settled automatically by the market's own result. "Price now" is the middle of the buy and sell price at the last check.</p>`;
   }
   function results(S) {
@@ -48,11 +53,12 @@
     const stats = `<div class="stats"><div class="stat"><div class="k">Settled paper trades</div><div class="v">${r.settled ?? 0}</div><div class="small muted">verdict after ${r.min_trades || 50}</div></div>
       <div class="stat"><div class="k">Won</div><div class="v">${pc0(r.won)}</div><div class="small muted">the prices said ${pc0(r.price)}</div></div>
       <div class="stat"><div class="k">Average per $1</div><div class="v ${cls(r.avg)}">${pct(r.avg)}</div><div class="small muted">after the ask and fees</div></div>
+      <div class="stat"><div class="k">$100 on every settled trade</div><div class="v ${cls(r.total)}">${Number.isFinite(r.total) ? `${r.total >= 0 ? "+" : "−"}${usd0(Math.abs(100 * r.total))}` : "–"}</div><div class="small muted">${Number.isFinite(r.total) && r.settled ? `${usd0(100 * r.settled)} staked in all, ${usd0(100 * r.settled + 100 * r.total)} back` : "no settled trades yet"}</div></div>
       <div class="stat"><div class="k">Open now</div><div class="v">${r.open ?? 0}</div></div></div>`;
     const venues = Object.entries(r.by_venue || {}).map(([v, x]) => `${VENUE[v]}: ${x.n} trade(s), won ${pc0(x.won)}, ${pct(x.avg)} per $1`).join(" · ");
     $("results").innerHTML = stats + (venues ? `<p class="small muted">${esc(venues)}</p>` : "") + (!rc.length ? `<p class="muted">The first results arrive as the first markets resolve, within about a week.</p>`
-      : `<div class="table-wrap"><table><thead><tr><th>Market</th><th>Side</th><th class="num">Bought at</th><th>Result</th><th class="num">Per $1</th></tr></thead><tbody>
-        ${rc.map((x) => `<tr><td style="white-space:normal;min-width:260px">${q(x)}</td><td>${side(x.side)}</td><td class="num">${cents(x.ask)}</td><td>${x.won ? '<span class="pill good">right</span>' : '<span class="pill bad">wrong</span>'}</td><td class="num ${cls(x.net)}">${pct(x.net, 0)}</td></tr>`).join("")}
+      : `<div class="table-wrap"><table><thead><tr><th>Market</th><th>Side</th><th class="num">Bought at</th><th>Result</th><th class="num">Per $1</th><th class="num">$100 became</th></tr></thead><tbody>
+        ${rc.map((x) => `<tr><td style="white-space:normal;min-width:260px">${q(x)}</td><td>${side(x.side)}</td><td class="num">${cents(x.ask)}</td><td>${x.won ? '<span class="pill good">right</span>' : '<span class="pill bad">wrong</span>'}</td><td class="num ${cls(x.net)}">${pct(x.net, 0)}</td><td class="num ${cls(x.net)}"><b>${usd0(100 * (1 + x.net))}</b></td></tr>`).join("")}
         </tbody></table></div>`);
   }
   function markets(S) {
