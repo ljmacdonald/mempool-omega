@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-18 04:10 UTC
+# Trade ideas: 2026-10-18 05:13 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (0% of 146 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (1% of 146 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **SAND** | 1.4/10 | Avoid - watch only | High | $0.06408 | $0.0671103 (+4.7%) | $0.0625648 (-2.4%) | 05:05 18-Oct |
-| 2 | **ERA** | 1.4/10 | Avoid - watch only | High | $0.0671 | $0.0704442 (+5.0%) | $0.0654279 (-2.5%) | 05:05 18-Oct |
-| 3 | **ALT** | 1.3/10 | Avoid - watch only | Medium | $0.00853 | $0.00888041 (+4.1%) | $0.0083548 (-2.1%) | 05:05 18-Oct |
-| 4 | **QUICK** | 1.3/10 | Avoid - watch only | Very high | $0.00703 | $0.00754635 (+7.3%) | $0.00675288 (-3.9%) | 05:05 18-Oct |
-| 5 | **EPIC** | 1.2/10 | Avoid - watch only | Very high | $0.2868 | $0.311138 (+8.5%) | $0.274631 (-4.2%) | 05:05 18-Oct |
+| 1 | **EPIC** | 3.2/10 | Avoid - watch only | Very high | $0.2713 | $0.291175 (+7.3%) | $0.261362 (-3.7%) | 06:10 18-Oct |
+| 2 | **QUICK** | 1.4/10 | Avoid - watch only | High | $0.00694 | $0.00736893 (+6.2%) | $0.00672553 (-3.1%) | 06:10 18-Oct |
+| 3 | **SAND** | 1.4/10 | Avoid - watch only | High | $0.06461 | $0.0674365 (+4.4%) | $0.0631968 (-2.2%) | 06:10 18-Oct |
+| 4 | **ERA** | 1.4/10 | Avoid - watch only | High | $0.0686 | $0.0719897 (+4.9%) | $0.0669051 (-2.5%) | 06:10 18-Oct |
+| 5 | **ALT** | 1.3/10 | Avoid - watch only | Medium | $0.00849 | $0.00877305 (+3.3%) | $0.00834848 (-1.7%) | 06:10 18-Oct |
 
-- **SAND:** It did 6.6% better than Bitcoin over the last 2 hours. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **ERA:** Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **ALT:** It is bouncing up from near its lowest price of the last 14 hours. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **EPIC:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **QUICK:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **SAND:** It did 3.6% better than Bitcoin over the last 2 hours. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (0% of 146 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (1% of 146 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ALT** | 4.8/10 | Avoid - watch only | High | $0.00854 | $0.00934801 (+9.5%) | $0.008136 (-4.7%) | 08:00 18-Oct |
-| 2 | **QUICK** | 4.0/10 | Avoid - watch only | Very high | $0.00702 | $0.0081432 (+16.0%) | $0.0064584 (-8.0%) | 08:00 18-Oct |
-| 3 | **GTC** | 3.8/10 | Avoid - watch only | Very high | $0.266 | $0.30856 (+16.0%) | $0.24472 (-8.0%) | 08:00 18-Oct |
-| 4 | **GNS** | 3.8/10 | Avoid - watch only | Very high | $0.444 | $0.495863 (+11.7%) | $0.418069 (-5.8%) | 08:00 18-Oct |
-| 5 | **AVA** | 3.6/10 | Avoid - watch only | Very high | $0.4039 | $0.468524 (+16.0%) | $0.371588 (-8.0%) | 08:00 18-Oct |
+| 1 | **QUICK** | 5.1/10 | Weak | Very high | $0.00689 | $0.007984 (+15.9%) | $0.0063388 (-8.0%) | 09:00 18-Oct |
+| 2 | **EPIC** | 4.9/10 | Avoid - watch only | Very high | $0.2762 | $0.315322 (+14.2%) | $0.256639 (-7.1%) | 09:00 18-Oct |
+| 3 | **GNS** | 4.0/10 | Avoid - watch only | Very high | $0.441 | $0.488586 (+10.8%) | $0.417207 (-5.4%) | 09:00 18-Oct |
+| 4 | **GTC** | 3.8/10 | Avoid - watch only | Very high | $0.27707 | $0.321401 (+16.0%) | $0.254904 (-8.0%) | 09:00 18-Oct |
+| 5 | **AVA** | 3.5/10 | Avoid - watch only | Very high | $0.3769 | $0.437204 (+16.0%) | $0.346748 (-8.0%) | 09:00 18-Oct |
 
-- **ALT:** The model sees a slightly better-than-usual pattern, with no single strong reason.
-- **QUICK:** Buyers have been more eager than sellers over the last 1.5 hours (54% of trades were buys). Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **GTC:** It did 14.9% better than Bitcoin over the last 6 hours. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Buyers have been more eager than sellers over the last 1.5 hours (53% of trades were buys).
+- **QUICK:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **EPIC:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **GNS:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (28% of 145 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Mixed** (36% of 145 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **SOL** | 8.1/10 | Strong | Low | $104.52 | $110.45 (+5.7%) | $100.84 (-3.5%) | 04:00 19-Oct |
-| 2 | **XRP** | 7.6/10 | Strong | Low | $1.30 | $1.36 (+4.6%) | $1.27 (-2.9%) | 04:00 19-Oct |
-| 3 | **BLUR** | 6.9/10 | Strong | High | $0.01021 | $0.0116513 (+14.1%) | $0.0094715 (-7.2%) | 04:00 19-Oct |
-| 4 | **DOGE** | 6.9/10 | Strong | Medium | $0.07983 | $0.0848272 (+6.3%) | $0.0767318 (-3.9%) | 04:00 19-Oct |
-| 5 | **STRK** | 6.5/10 | Strong | Very high | $0.06367 | $0.0778614 (+22.3%) | $0.0565743 (-11.1%) | 04:00 19-Oct |
+| 1 | **SOL** | 8.5/10 | Strong | Low | $103.85 | $109.77 (+5.7%) | $100.89 (-2.8%) | 05:00 19-Oct |
+| 2 | **GNS** | 8.3/10 | Strong | Very high | $0.441 | $0.54684 (+24.0%) | $0.38808 (-12.0%) | 05:00 19-Oct |
+| 3 | **ETH** | 7.3/10 | Strong | Low | $2,416.88 | $2,530.69 (+4.7%) | $2,347.36 (-2.9%) | 05:00 19-Oct |
+| 4 | **LTC** | 7.1/10 | Strong | Low | $58.91 | $62.53 (+6.1%) | $57.10 (-3.1%) | 05:00 19-Oct |
+| 5 | **MEGA** | 7.1/10 | Strong | High | $0.0432 | $0.0493413 (+14.2%) | $0.0401293 (-7.1%) | 05:00 19-Oct |
 
-- **SOL:** Buyers have been more eager than sellers over the last 6 hours (54% of trades were buys). Momentum is healthy: not overheated, not collapsing.
-- **XRP:** Buyers have been more eager than sellers over the last 6 hours (54% of trades were buys). It is bouncing up from near its lowest price of the last 7 days. Momentum is healthy: not overheated, not collapsing.
-- **BLUR:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **SOL:** Momentum is healthy: not overheated, not collapsing.
+- **GNS:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **ETH:** Buyers have been more eager than sellers over the last 6 hours (52% of trades were buys). Momentum is healthy: not overheated, not collapsing.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 1460 | 43% | -0.19% | -0.26% |
-| Short: exit within 4 hours | 1523 | 40% | -0.27% | -0.32% |
-| Day: exit within 24 hours | 1394 | 40% | -0.10% | -0.38% |
+| Quick: exit within 1 hour | 1465 | 43% | -0.19% | -0.26% |
+| Short: exit within 4 hours | 1533 | 40% | -0.27% | -0.32% |
+| Day: exit within 24 hours | 1398 | 39% | -0.13% | -0.39% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
