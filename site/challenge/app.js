@@ -105,7 +105,34 @@
         </tbody></table></div><p class="small muted">${esc((window.OMEGA_CHALLENGE || {}).buyNote || "The buying costs (fees, impact, bots, front-runners, tax, network fee) are already inside the result: they reduce the coins bought.")} Hover the selling costs for the breakdown.</p>`;
   }
 
+  // The same trades hedged with a Bitcoin short (D111): only on pages that have a "hedged" box
+  async function hedgedBlock() {
+    const box = $("hedged");
+    if (!box) return;
+    try {
+      const H = DATA + "suggestions/challenge_small_hedged/";
+      const g = async (f) => { const r = await fetch(`${H}${f}?t=${Date.now()}`, { cache: "no-store" }); if (!r.ok) throw new Error(r.status); return r.json(); };
+      const [a, led] = await Promise.all([g("account.json"), g("hedges.json")]);
+      const rows = Object.values(led).sort((x, y) => (x.opened < y.opened ? 1 : -1));
+      const diff = a.equity - a.unhedged;
+      box.innerHTML = `<div class="stats">
+          <div class="stat"><div class="k">Hedged account</div><div class="v ${cls(a.equity - a.start)}">${usd(a.equity)}</div><div class="small muted">from ${usd(a.start)}</div></div>
+          <div class="stat"><div class="k">Without the hedge</div><div class="v ${cls(a.unhedged - a.start)}">${usd(a.unhedged)}</div><div class="small muted">this page's account</div></div>
+          <div class="stat"><div class="k">What the hedges added</div><div class="v ${cls(diff)}">${diff >= 0 ? "+" : ""}${usd(diff)}</div><div class="small muted">${a.hedges_closed} closed, ${a.hedges_open} open</div></div></div>
+        <p>Every trade above, paired with a <b>short position in the Bitcoin future</b> opened when the coin is bought and closed when it is sold. When the whole market falls, the short gains and makes up part of the coin's loss; when it rises, the short gives some of the gain back. What's left is closer to the picks' own skill. Each short is sized to how hard that coin has moved with Bitcoin over the previous 10 days (its "beta", kept between 0.5 and 2.5 times the trade).</p>
+        <div class="table-wrap"><table><thead><tr><th>Coin</th><th>Held</th><th class="num">Beta</th><th class="num">Short size</th><th class="num">Bitcoin moved</th><th class="num">Coin trade</th><th class="num">Hedge</th><th class="num">Together</th></tr></thead><tbody>
+        ${rows.map((h) => { const hr = h.status === "closed" ? h.result : h.mark; const tog = h.status === "closed" ? h.coin_net + h.result : NaN;
+          return `<tr><td><b>${esc(h.coin)}</b>${h.status === "open" ? ' <span class="pill calm">open</span>' : ""}</td><td class="small">${esc(when(h.opened))}${h.closed ? ` → ${esc(when(h.closed))}` : ""}</td>
+            <td class="num">${(+h.beta).toFixed(2)}</td><td class="num">${usd(+h.size)}</td>
+            <td class="num">${h.status === "closed" ? pct(h.btc_ret, 2) : pct(h.btc_now / h.btc_entry - 1, 2)}</td>
+            <td class="num ${cls(h.coin_net)}">${h.status === "closed" ? usd(h.coin_net) : "–"}</td><td class="num ${cls(hr)}">${usd(hr)}</td>
+            <td class="num ${cls(tog)}"><b>${fin(tog) ? usd(tog) : "–"}</b></td></tr>`; }).join("")}</tbody></table></div>
+        <p class="small muted">Hedge costs: the future's fee (0.05%) and half its buy-sell gap, both ways, on the short's size; funding is received or paid at OKX's real Bitcoin rates. Open hedges are valued at the latest Bitcoin price with their closing costs already taken. Margin for the short is assumed to come from the account's idle cash. Research before starting (2 weeks of Small coins Day ideas): small coins fell about twice as hard as Bitcoin, so a Bitcoin hedge only partly offsets a falling market: it took the average idea from −0.78% to −0.49%. Paper only.</p>`;
+    } catch { box.innerHTML = `<p class="muted">The hedged account starts with the next hourly check.</p>`; }
+  }
+
   async function load() {
+    hedgedBlock();
     try {
       const a = await get("account.json");
       const [log, eqT, trT] = await Promise.all([get("log.json").catch(() => []), get("equity.csv", false).catch(() => ""), get("trades.csv", false).catch(() => "")]);
