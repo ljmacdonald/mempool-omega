@@ -18,6 +18,7 @@ from __future__ import annotations
 import json
 import logging
 import math
+import re
 import sys
 import time
 from datetime import datetime, timezone
@@ -144,10 +145,28 @@ def liquid(row: dict) -> bool:
     return row["vol"] >= KALSHI_MIN_VOL and row["vol24"] >= KALSHI_MIN_24H
 
 
+QDATE = re.compile(r"\b(20\d\d-\d\d-\d\d)\b")
+
+
+def stale_question(row: dict, now: float) -> bool:
+    """A question that names its own date (e.g. "Will X win on 2026-09-16?") whose day has already passed, while the
+    market says it ends later: usually a postponed or not-yet-settled event (D110). Its price may reflect a result
+    that is already known, and it isn't what the rule was tested on, so it never qualifies."""
+    for d in QDATE.findall(row.get("q") or ""):
+        try:
+            day_end = datetime.strptime(d, "%Y-%m-%d").replace(tzinfo=timezone.utc).timestamp() + 86400
+        except ValueError:
+            continue
+        if day_end < now:
+            return True
+    return False
+
+
 def fits(row: dict, now: float) -> bool:
     days = (row["end"] - now) / 86400
     fv = favourite(row)
-    return liquid(row) and WINDOW_D[0] <= days <= WINDOW_D[1] and RULE_LO <= fv["ask"] < RULE_HI
+    return (liquid(row) and WINDOW_D[0] <= days <= WINDOW_D[1] and RULE_LO <= fv["ask"] < RULE_HI
+            and not stale_question(row, now))
 
 
 def pick(rows: list[dict], now: float) -> list[dict]:
