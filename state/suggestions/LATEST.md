@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-18 09:59 UTC
+# Trade ideas: 2026-10-18 10:54 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,19 +6,19 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (1% of 143 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (0% of 143 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ERA** | 3.3/10 | Avoid - watch only | Very high | $0.0731 | $0.07984 (+9.2%) | $0.0696611 (-4.7%) | 10:55 18-Oct |
-| 2 | **GLMR** | 3.0/10 | Avoid - watch only | Very high | $0.010373 | $0.0112839 (+8.8%) | $0.00991757 (-4.4%) | 10:55 18-Oct |
-| 3 | **GTC** | 2.7/10 | Avoid - watch only | Very high | $0.25755 | $0.274696 (+6.7%) | $0.248977 (-3.3%) | 10:55 18-Oct |
-| 4 | **SAND** | 2.4/10 | Avoid - watch only | High | $0.06219 | $0.0652861 (+5.0%) | $0.0606419 (-2.5%) | 10:55 18-Oct |
-| 5 | **AVA** | 2.2/10 | Avoid - watch only | Very high | $0.3874 | $0.415054 (+7.1%) | $0.373573 (-3.6%) | 10:55 18-Oct |
+| 1 | **GTC** | 3.2/10 | Avoid - watch only | High | $0.24938 | $0.264027 (+5.9%) | $0.242057 (-2.9%) | 11:50 18-Oct |
+| 2 | **ERA** | 2.8/10 | Avoid - watch only | Very high | $0.0732 | $0.0797109 (+8.9%) | $0.06979 (-4.7%) | 11:50 18-Oct |
+| 3 | **ACM** | 2.7/10 | Avoid - watch only | Very high | $0.281 | $0.3091 (+10.0%) | $0.26695 (-5.0%) | 11:50 18-Oct |
+| 4 | **QUICK** | 2.7/10 | Avoid - watch only | High | $0.00672 | $0.00705209 (+4.9%) | $0.00655395 (-2.5%) | 11:50 18-Oct |
+| 5 | **SAND** | 2.1/10 | Avoid - watch only | Medium | $0.06113 | $0.0636589 (+4.1%) | $0.0598655 (-2.1%) | 11:50 18-Oct |
 
-- **ERA:** Trading activity is 2.1x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing.
-- **GLMR:** Trading activity is 4.1x higher than usual, so people are paying attention to it. It did 3.2% better than Bitcoin over the last 2 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 - **GTC:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **ERA:** Momentum is healthy: not overheated, not collapsing.
+- **ACM:** It did 7.9% better than Bitcoin over the last 2 hours. Buyers have been more eager than sellers over the last 30 minutes (55% of trades were buys). Trading activity is 5.9x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Short: exit within 4 hours
 
@@ -26,39 +26,39 @@ Market mood: **Unfavourable** (1% of 143 coins look positive). If it says *Unfav
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **QUICK** | 5.0/10 | Weak | Very high | $0.00672 | $0.00773865 (+15.2%) | $0.00621068 (-7.6%) | 13:45 18-Oct |
-| 2 | **AVA** | 3.8/10 | Avoid - watch only | Very high | $0.3881 | $0.450196 (+16.0%) | $0.357052 (-8.0%) | 13:45 18-Oct |
-| 3 | **ERA** | 3.7/10 | Avoid - watch only | Very high | $0.0745 | $0.08642 (+16.0%) | $0.06854 (-8.0%) | 13:45 18-Oct |
-| 4 | **SAND** | 3.6/10 | Avoid - watch only | Very high | $0.06212 | $0.0687735 (+10.7%) | $0.0587933 (-5.4%) | 13:45 18-Oct |
-| 5 | **GTC** | 3.5/10 | Avoid - watch only | Very high | $0.25785 | $0.297162 (+15.2%) | $0.238194 (-7.6%) | 13:45 18-Oct |
+| 1 | **QUICK** | 4.8/10 | Avoid - watch only | Very high | $0.00673 | $0.00767545 (+14.0%) | $0.00625728 (-7.0%) | 14:45 18-Oct |
+| 2 | **AXL** | 4.2/10 | Avoid - watch only | Very high | $0.0564 | $0.0644712 (+14.3%) | $0.0523644 (-7.2%) | 14:45 18-Oct |
+| 3 | **ACM** | 3.8/10 | Avoid - watch only | Very high | $0.285 | $0.326991 (+14.7%) | $0.264005 (-7.4%) | 14:45 18-Oct |
+| 4 | **GLMR** | 3.6/10 | Avoid - watch only | Very high | $0.010392 | $0.0116882 (+12.5%) | $0.0097439 (-6.2%) | 14:45 18-Oct |
+| 5 | **SAND** | 3.6/10 | Avoid - watch only | High | $0.06113 | $0.0671913 (+9.9%) | $0.0580993 (-5.0%) | 14:45 18-Oct |
 
-- **QUICK:** Buyers have been more eager than sellers over the last 1.5 hours (53% of trades were buys). Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **AVA:** Momentum is healthy: not overheated, not collapsing.
-- **ERA:** It did 10.7% better than Bitcoin over the last 6 hours. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Trading activity is 2.0x higher than usual, so people are paying attention to it.
+- **QUICK:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **AXL:** Trading activity is 2.7x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **ACM:** It did 9.9% better than Bitcoin over the last 6 hours. Buyers have been more eager than sellers over the last 1.5 hours (58% of trades were buys). Trading activity is 5.0x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Day: exit within 24 hours
 
-Market mood: **Mixed** (47% of 142 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Favourable** (64% of 142 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **SOL** | 8.3/10 | Strong | Low | $103.19 | $108.69 (+5.3%) | $100.44 (-2.7%) | 09:00 19-Oct |
-| 2 | **INIT** | 8.3/10 | Strong | Very high | $0.12418 | $0.150198 (+21.0%) | $0.111171 (-10.5%) | 09:00 19-Oct |
-| 3 | **ETH** | 8.0/10 | Strong | Low | $2,410.67 | $2,515.78 (+4.4%) | $2,347.36 (-2.6%) | 09:00 19-Oct |
-| 4 | **WAL** | 8.0/10 | Strong | Very high | $0.04022 | $0.0470973 (+17.1%) | $0.0367814 (-8.5%) | 09:00 19-Oct |
-| 5 | **AMP** | 7.3/10 | Strong | Very high | $0.000714 | $0.000848272 (+18.8%) | $0.000646864 (-9.4%) | 09:00 19-Oct |
+| 1 | **STRK** | 8.9/10 | Strong | Very high | $0.06307 | $0.0759289 (+20.4%) | $0.0566405 (-10.2%) | 10:00 19-Oct |
+| 2 | **QUICK** | 8.1/10 | Strong | Very high | $0.0067 | $0.008308 (+24.0%) | $0.005896 (-12.0%) | 10:00 19-Oct |
+| 3 | **SOL** | 8.1/10 | Strong | Low | $103.99 | $109.67 (+5.5%) | $100.84 (-3.0%) | 10:00 19-Oct |
+| 4 | **INIT** | 7.9/10 | Strong | Very high | $0.12565 | $0.151609 (+20.7%) | $0.112671 (-10.3%) | 10:00 19-Oct |
+| 5 | **ETH** | 7.6/10 | Strong | Low | $2,424.82 | $2,532.26 (+4.4%) | $2,371.10 (-2.2%) | 10:00 19-Oct |
 
-- **SOL:** The model sees a slightly better-than-usual pattern, with no single strong reason.
-- **INIT:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **ETH:** Momentum is healthy: not overheated, not collapsing.
+- **STRK:** It is bouncing up from near its lowest price of the last 7 days.
+- **QUICK:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **SOL:** Momentum is healthy: not overheated, not collapsing.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 1490 | 43% | -0.21% | -0.26% |
-| Short: exit within 4 hours | 1559 | 40% | -0.29% | -0.32% |
-| Day: exit within 24 hours | 1408 | 39% | -0.17% | -0.41% |
+| Quick: exit within 1 hour | 1492 | 43% | -0.21% | -0.26% |
+| Short: exit within 4 hours | 1563 | 40% | -0.30% | -0.32% |
+| Day: exit within 24 hours | 1410 | 39% | -0.17% | -0.41% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
