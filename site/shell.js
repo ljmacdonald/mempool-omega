@@ -126,6 +126,23 @@
     staleBanner();
   }
 
+  // one small icon per page (D113): what kind of page it is at a glance
+  const ICON = {
+    chart: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>', cal: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+    pulse: '<path d="M2 12h4l3-8 4 16 3-8h6"/>', wallet: '<rect x="2" y="6" width="20" height="14" rx="3"/><path d="M16 13h2M2 10h20M6 6l9-3 2 3"/>',
+    coin: '<circle cx="12" cy="12" r="9"/><path d="M9 9.5c0-1.4 1.3-2.5 3-2.5s3 1.1 3 2.5-1.3 2-3 2.5-3 1.1-3 2.5 1.3 2.5 3 2.5 3-1.1 3-2.5M12 5v2M12 17v2"/>',
+    small: '<circle cx="8" cy="15" r="5"/><circle cx="17" cy="8" r="4"/>', dex: '<path d="M7 7h11l-3-3M17 17H6l3 3"/>',
+    stocks: '<path d="M3 17l6-6 4 4 8-8M15 7h6v6"/>', fx: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+    flask: '<path d="M9 3h6M10 3v6l-6 10a2 2 0 0 0 2 3h12a2 2 0 0 0 2-3l-6-10V3M7 15h10"/>', target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+    spark: '<path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/>', dice: '<rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1"/><circle cx="15.5" cy="15.5" r="1"/><circle cx="12" cy="12" r="1"/>',
+    wave: '<path d="M2 15c3 0 3-4 6-4s3 4 6 4 3-4 6-4M2 20c3 0 3-4 6-4s3 4 6 4 3-4 6-4"/>', bolt: '<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',
+    doc: '<path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h8M9 17h8"/>', shield: '<path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/>',
+  };
+  const PAGE_ICON = { results: "chart", report: "cal", status: "pulse", challenge: "wallet", "challenge-small": "wallet", carry: "wallet", main: "coin",
+    small: "small", dex: "dex", stocks: "stocks", fx: "fx", ict: "target", lab: "flask", listings: "spark", sniper: "target", predict: "dice",
+    whales: "wave", mev: "bolt", legal: "doc" };
+  const icon = (k, g) => `<span class="ni-ico" data-g="${g}" aria-hidden="true"><svg viewBox="0 0 24 24">${ICON[PAGE_ICON[k]] || ICON.shield}</svg></span>`;
+
   function buildMenus(nav) {
     const links = Object.fromEntries([...nav.querySelectorAll("a[data-site]")].map((a) => [a.dataset.site, a]));
     nav.innerHTML = "";
@@ -140,11 +157,17 @@
       for (const k of keys) {
         const a = links[k]; const p = PAGES[k];
         a.className = "nav-item";
-        a.innerHTML = `<span class="ni-name">${esc(p.name)}${k === HERE ? '<span class="ni-here">You are here</span>' : ""}</span><span class="ni-blurb">${esc(p.blurb)}</span><span class="ni-tags"><span>${esc(p.kind)}</span><span class="${/Very high|High/.test(p.risk) ? "hot" : /Paper/.test(p.risk) ? "paper" : ""}">${esc(p.risk)}</span></span>`;
+        a.innerHTML = `${icon(k, p.group)}<span class="ni-name">${esc(p.name)}${k === HERE ? '<span class="ni-here">You are here</span>' : ""}</span><span class="ni-blurb">${esc(p.blurb)}</span><span class="ni-tags"><span>${esc(p.kind)}</span><span class="${/Very high|High/.test(p.risk) ? "hot" : /Paper/.test(p.risk) ? "paper" : ""}">${esc(p.risk)}</span></span>`;
         menu.appendChild(a);
       }
       const btn = dd.querySelector(".nav-trigger");
-      btn.addEventListener("click", (e) => { e.stopPropagation(); const open = !dd.classList.contains("open"); closeMenus(); dd.classList.toggle("open", open); btn.setAttribute("aria-expanded", String(open)); });
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation(); const open = !dd.classList.contains("open"); closeMenus(); dd.classList.toggle("open", open); btn.setAttribute("aria-expanded", String(open));
+        if (open) {                                     // keep the whole panel on screen (D113)
+          menu.style.left = ""; const r = menu.getBoundingClientRect();
+          if (r.right > innerWidth - 12) menu.style.left = `${-8 - (r.right - innerWidth + 12)}px`;
+        }
+      });
       dd.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeMenus(); btn.focus(); } });
       nav.appendChild(dd);
     }
@@ -178,9 +201,26 @@
       bar.appendChild(a);
     });
     cards[0].before(bar);
-    const links = [...bar.querySelectorAll("a")];
+    // phones: one sticky "On this page" button that opens the full list (D113), instead of a row that hides most sections
+    const jump = document.createElement("div"); jump.className = "jump";
+    jump.innerHTML = `<button type="button" class="jump-btn" aria-expanded="false"><span>On this page</span><b></b><span aria-hidden="true">▾</span></button><nav class="jump-list" aria-label="On this page"></nav>`;
+    const list = jump.querySelector(".jump-list"), jb = jump.querySelector(".jump-btn"), cur = jb.querySelector("b");
+    [...bar.querySelectorAll("a")].forEach((a, i) => { const c = a.cloneNode(true); c.innerHTML = `<span class="n">${i + 1}</span>${esc(a.textContent)}`; list.appendChild(c); });
+    cur.textContent = bar.querySelector("a").textContent;
+    const setOpen = (o) => { jump.classList.toggle("open", o); jb.setAttribute("aria-expanded", String(o)); };
+    jb.addEventListener("click", (e) => { e.stopPropagation(); setOpen(!jump.classList.contains("open")); });
+    list.addEventListener("click", () => setOpen(false));
+    document.addEventListener("click", (e) => { if (!e.target.closest(".jump")) setOpen(false); });
+    bar.before(jump);
+    if (cards.length > 6) { bar.classList.add("many"); jump.classList.add("many"); }   // too many for one row of chips
+    const links = [...bar.querySelectorAll("a"), ...list.querySelectorAll("a")];
     if ("IntersectionObserver" in root) {
-      const io = new IntersectionObserver((es) => { for (const e of es) if (e.isIntersecting) for (const a of links) a.classList.toggle("on", a.getAttribute("href") === `#${e.target.id}`); }, { rootMargin: "-30% 0px -60% 0px" });
+      const io = new IntersectionObserver((es) => {
+        for (const e of es) if (e.isIntersecting) {
+          for (const a of links) a.classList.toggle("on", a.getAttribute("href") === `#${e.target.id}`);
+          const on = bar.querySelector("a.on"); if (on) cur.textContent = on.textContent;
+        }
+      }, { rootMargin: "-30% 0px -60% 0px" });
       cards.forEach((c) => io.observe(c));
     }
   }
