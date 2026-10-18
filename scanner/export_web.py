@@ -10,6 +10,7 @@ import json
 
 from core.config import state_path
 from scanner.data import config as universe_config
+from scanner.data import stock_tokens
 from scanner.features import FEATURES
 from scanner.live import models_dir
 from scanner.model import COST, PT, SL, ScannerModel
@@ -56,7 +57,7 @@ def export_all() -> list[str]:
             out.append(str(p))
     cfg = {"styles": {k: {**s.__dict__, "label": s.label, "hold_text": s.hold_text} for k, s in STYLES.items()},
            "default_style": DEFAULT_STYLE, "pt": PT, "sl": SL, "cost": COST, "fee_r": FEE_R,
-           "grades": GRADES, "universe": universe_config(), "features": FEATURES}
+           "grades": GRADES, "universe": {**universe_config(), "exclude_stock_tokens": sorted(stock_tokens())}, "features": FEATURES}
     state_path("web", "config.json").write_text(json.dumps(cfg, indent=1))
     return out
 
