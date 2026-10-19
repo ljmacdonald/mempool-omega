@@ -27,15 +27,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
           cache: pip
       - name: Install
         run: pip install -e .
       - name: Restore the stock price history store
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: .cache/stocks
           key: stocks-candles-${{ github.run_id }}
@@ -53,7 +53,7 @@ jobs:
         run: bash infra/publish_data.sh .cache/stocks_out/snapshot.json stocks/snapshot.json
       - name: Save the stock price history store
         if: always()
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: .cache/stocks
           key: stocks-candles-${{ github.run_id }}
