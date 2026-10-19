@@ -44,7 +44,7 @@
     const lateNow = px && fin(x.avg_win) && x.avg_win > 0 && since > 0.5 * x.avg_win && !x.late;
     const warns = [...(x.warnings || []), ...(lateNow ? [`Since the update the live price has moved ${pct(since)} in the trade's favour: much of the usual gain may be gone.`] : [])];
     const gw = Q.gradeWord(x.grade, q, x.rank); const gc = Q.gradeClassFor(x.grade, q);
-    return `<article class="card idea" data-alert-key="idea-${esc(x.id)}"><div class="idea-head"><h3><span class="rank">#${x.rank}</span>${x.side > 0 ? "BUY" : "SELL"} ${esc(x.label)} <span class="muted small">· ${esc(x.name)}</span></h3>
+    return `<article class="card idea" data-alert-key="idea-${esc(x.id)}" data-unit="lab:${esc(x.strategy)}"><div class="idea-head"><h3><span class="rank">#${x.rank}</span>${x.side > 0 ? "BUY" : "SELL"} ${esc(x.label)} <span class="muted small">· ${esc(x.name)}</span></h3>
       <div class="score"><b>${x.score.toFixed(1)}</b><span class="muted">/ 10</span> <span class="pill ${gc}">${esc(gw)}</span> <span class="pill ${x.level === "good" ? "good" : x.level === "bad" ? "bad" : "warn"}">${esc(x.evidence)}</span></div></div>
       <div class="facts">
         <div class="fact"><div class="k">Strategy entered</div><div class="v">${num(x.entry)}</div><div class="d muted">${when(x.t_in)}</div></div>

@@ -53,5 +53,26 @@
       $("summary").textContent = "The results summary isn't available right now. It refreshes every 15 minutes: try again soon.";
     }
   }
-  load(); setInterval(load, 5 * 60e3);
+  // Proven or testing only (D115) and the market filter's test (D116), from site/gate.js
+  async function proof() {
+    const G = window.OMEGA_GATE;
+    if (!G) return;
+    await G.reload();
+    const P = G.proof;
+    if (!P) { $("proofTable").innerHTML = '<p class="muted">Not available right now: it refreshes every 15 minutes.</p>'; return; }
+    const us = [...(P.units || [])].sort((a, b) => (b.proven - a.proven) || ((b.n || 0) - (a.n || 0)));
+    const t = (x) => (fin(x) ? x.toFixed(1) : "–");
+    $("proofTable").innerHTML = `<p><b>${(P.proven_ids || []).length} of ${us.length}</b> parts of the product have passed.</p><div class="table-wrap"><table class="proof-table"><thead><tr><th>Part</th><th>Status</th><th class="num">Trades</th><th class="num">Average</th><th class="num">vs random</th><th class="num">Luck test (t)</th><th>Why</th></tr></thead><tbody>
+      ${us.map((u) => `<tr class="${u.proven ? "is-proven" : ""}"><td><a href="${BASE}${esc(u.path || "")}">${esc(u.name || u.id)}</a><div class="small muted">${esc(u.source || "")}</div></td>
+        <td><span class="pill ${u.proven ? "good" : "warn"}">${u.proven ? "Proven" : "Testing only"}</span></td><td class="num">${fin(u.n) ? u.n.toLocaleString() : "–"}</td>
+        <td class="num ${fin(u.avg) ? (u.avg >= 0 ? "up" : "down") : ""}">${val(u.avg, u.unit)}</td><td class="num">${val(u.edge, u.unit)}</td><td class="num">${t(u.t_edge)}</td>
+        <td class="small">${esc(u.reason || "")}</td></tr>`).join("")}</tbody></table></div>`;
+    const M = G.market;
+    if (M && M.test) {
+      const T = M.test;
+      $("marketTest").innerHTML = `<h3>The market filter</h3><p class="small">Rule, fixed before testing: pause crypto buy ideas while Bitcoin is below its 7-day average. It is switched on only if, on every finished crypto idea, the ideas it lets through did better than the ones it would block, by more than luck, in both halves of the record.</p>
+        <p><span class="pill ${T.enabled ? "good" : "calm"}">${T.enabled ? "On" : "Off"}</span> ${esc(T.verdict || "")}${fin(T.n) ? ` <span class="small muted">(${T.n.toLocaleString()} ideas${T.from ? `, ${esc(String(T.from).slice(0, 10))} to ${esc(String(T.to).slice(0, 10))}` : ""}; re-tested every 15 minutes)</span>` : ""}</p>`;
+    }
+  }
+  load(); proof(); setInterval(() => { load(); proof(); }, 5 * 60e3);
 })();

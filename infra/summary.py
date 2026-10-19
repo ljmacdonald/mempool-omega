@@ -20,6 +20,8 @@ from __future__ import annotations
 import json
 import os
 import subprocess
+import sys
+import types
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
@@ -70,7 +72,6 @@ def read_data(rel: str):
 
 
 def market_open(window: str, now: datetime) -> bool:
-    import sys
     sys.path.insert(0, str(ROOT / "infra"))
     from tick import in_window
 
@@ -267,6 +268,29 @@ def main() -> int:
     problems = [f"{s['name']} data is {s['age_min']} minutes old (should be under {s['max_age_min']})" if s["age_min"] is not None
                 else f"{s['name']} has no data" for s in secs if s["stale"]]
     problems += [f"The '{j['workflow']}' job failed its last two runs (since {j['since']}): {j['url']}" for j in jobs]
+    me = types.SimpleNamespace(**globals())                    # this run's state folder and readers, for the modules below
+    try:                                                       # Proven / Testing only (D115); never stops the summary
+        sys.path.insert(0, str(ROOT / "infra"))
+        import proof
+        proof.S = me
+        pr = proof.build(now)["sections"]
+        for s in secs:
+            if s["key"] in pr:
+                s["proof"] = pr[s["key"]]["status"]
+    except Exception as e:  # noqa: BLE001
+        print("proof:", e)
+    try:                                                       # the market filter (D116); never stops the summary
+        import market  # fresh Bitcoin prices only in the scheduled job
+        market.S = me
+        market.build(now, fetch=market.fetch_btc if os.environ.get("GITHUB_ACTIONS") == "true" else dict)
+    except Exception as e:  # noqa: BLE001
+        print("market:", e)
+    try:                                                       # best idea right now (D117), from the two above
+        import best
+        best.S = me
+        best.build(now)
+    except Exception as e:  # noqa: BLE001
+        print("best:", e)
     summary = {"generated_at": str(now), "min_n": MIN_N, "sections": secs, "failing_jobs": jobs, "problems": problems,
                "ok": not problems}
     (STATE / "summary.json").write_text(json.dumps(summary, indent=1, default=str))

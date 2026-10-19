@@ -478,3 +478,35 @@ nav.tabs.sections.many { display: none; }
 
 .seg button { min-height: 36px; }
 .appbar .theme-switch button { min-height: 32px; }
+
+/* ---- The answer first (D115-D118): proven or testing, the market, the best idea ---- */
+.answer-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin: 0 0 16px; }
+.ab-item { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border-radius: var(--r-sm); background: var(--surface);
+  border: 1px solid var(--line); border-left: 4px solid var(--line-strong); color: inherit; text-decoration: none; box-shadow: var(--shadow-1); }
+.ab-item.good, .ab-item.proven { border-left-color: var(--good); }
+.ab-item.warn, .ab-item.testing { border-left-color: var(--warn); }
+.ab-item.partly { border-left-color: var(--accent); }
+.ab-k { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; }
+.ab-v { font-family: var(--f-display); font-size: 1.15rem; font-weight: 700; }
+.ab-item.proven .ab-v, .ab-item.good .ab-v { color: var(--good); }
+.ab-item.testing .ab-v, .ab-item.warn .ab-v { color: var(--warn); }
+.ab-t { font-size: 0.86rem; color: var(--fg-2); line-height: 1.4; }
+a.ab-item:hover { border-color: var(--accent); }
+.testing-idea { position: relative; }
+.testing-idea > *:not(.testing-ribbon) { opacity: 0.55; filter: grayscale(0.85); }
+.testing-idea:hover > *:not(.testing-ribbon), .testing-idea:focus-within > *:not(.testing-ribbon) { opacity: 0.85; }
+.testing-ribbon { font-size: 0.82rem; margin: -2px 0 10px; padding: 6px 10px; border-radius: var(--r-sm); background: var(--warn-bg); color: var(--warn); }
+/* the home page's one card */
+.best-card { text-align: left; margin: 18px auto 14px; max-width: 760px; padding: 18px 20px; border-radius: var(--r); background: var(--surface);
+  border: 1px solid var(--line); border-top: 4px solid var(--line-strong); box-shadow: var(--shadow-2); }
+.best-card.has-idea { border-top-color: var(--good); }
+.best-card.no-idea { border-top-color: var(--calm); }
+.bc-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.bc-k { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 700; }
+.bc-title { margin: 8px 0 6px; font-size: 1.35rem; line-height: 1.25; }
+.bc-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 10px 0; }
+.bc-facts > div { background: var(--sunken); border-radius: var(--r-sm); padding: 8px 10px; display: flex; flex-direction: column; }
+.bc-facts span { font-size: 0.8rem; color: var(--muted); } .bc-facts b { font-family: var(--f-num); font-size: 1.05rem; }
+.bc-exit, .bc-rec, .bc-soon { font-size: 0.92rem; margin: 6px 0; }
+.best-card p { margin: 6px 0 10px; }
+.proof-table tr.is-proven td:first-child { box-shadow: inset 3px 0 0 var(--good); }
