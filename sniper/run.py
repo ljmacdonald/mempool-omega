@@ -85,8 +85,7 @@ def new_pools(chain: str, now: pd.Timestamp, pages: int = 2) -> list[dict]:
         except Exception as e:  # noqa: BLE001
             log.warning("new pools %s: %s", chain, e)
             break
-        toks = {t["id"]: t["attributes"] for t in d.get("included", [])}
-        out += [G.pool_record(chain, p, toks) for p in d.get("data", [])]
+        out += G.pool_records(chain, d)
     for r in out:
         r["age_min"] = (now - pd.Timestamp(r["created"])).total_seconds() / 60 if r.get("created") else float("nan")
     return out

@@ -390,3 +390,16 @@ def test_discovery_survives_pools_with_missing_pool_money(monkeypatch):
         monkeypatch.setattr(live, "gt_pools", lambda chain, sort, pages, dex=None, pools=pools: pools if chain == "ethereum" else [])
         cands, _, _ = live.discover()
         assert {c["token"]: c["copycat"] for c in cands} == want
+
+
+def test_a_pool_listed_without_its_token_is_skipped_not_fatal():
+    from dex import data as G
+    good = {"attributes": {"address": "0xabc", "name": "AAA / WETH", "pool_created_at": "2026-10-19T16:00:00Z"},
+            "relationships": {"base_token": {"data": {"id": "eth_0xa"}}, "quote_token": {"data": {"id": "eth_0xw"}},
+                              "dex": {"data": {"id": "uniswap_v3"}}}}
+    bad = {"attributes": {"address": "0xdef", "name": "? / WETH"},
+           "relationships": {"base_token": {"data": None}, "quote_token": {"data": {"id": "eth_0xw"}},
+                             "dex": {"data": {"id": "uniswap_v3"}}}}
+    d = {"data": [bad, good], "included": [{"id": "eth_0xa", "attributes": {"symbol": "AAA", "address": "0xa"}}]}
+    out = G.pool_records("eth", d)
+    assert [r["base_symbol"] for r in out] == ["AAA"]

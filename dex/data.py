@@ -36,11 +36,22 @@ def gt_pools(chain: str, sort: str = "h24_volume_usd_desc", pages: int = 5, dex:
         except Exception as e:  # noqa: BLE001
             log.warning("geckoterminal %s page %s: %s", chain, page, e)
             break
-        toks = {t["id"]: t["attributes"] for t in d.get("included", [])}
-        for p in d.get("data", []):
-            out.append(pool_record(chain, p, toks))
+        out += pool_records(chain, d)
         if len(d.get("data", [])) < 20:
             break
+    return out
+
+
+def pool_records(chain: str, d: dict) -> list[dict]:
+    """Every well-formed pool in a GeckoTerminal response. A pool listed without its token or exchange (seen on new
+    pools, 19 Oct 2026) is skipped instead of stopping the whole scan."""
+    toks = {t["id"]: t["attributes"] for t in d.get("included", [])}
+    out = []
+    for p in d.get("data", []):
+        try:
+            out.append(pool_record(chain, p, toks))
+        except (KeyError, TypeError, AttributeError) as e:
+            log.warning("geckoterminal %s: skipped a pool with missing fields: %s", chain, e)
     return out
 
 
@@ -75,9 +86,7 @@ def gt_multi(chain: str, pools: list[str]) -> dict[str, dict]:
         except Exception as e:  # noqa: BLE001
             log.warning("geckoterminal multi %s: %s", chain, e)
             continue
-        toks = {t["id"]: t["attributes"] for t in d.get("included", [])}
-        for p in d.get("data", []):
-            r = pool_record(chain, p, toks)
+        for r in pool_records(chain, d):
             out[r["pool"]] = r
     return out
 
