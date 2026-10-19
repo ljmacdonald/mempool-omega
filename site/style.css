@@ -510,3 +510,37 @@ a.ab-item:hover { border-color: var(--accent); }
 .bc-exit, .bc-rec, .bc-soon { font-size: 0.92rem; margin: 6px 0; }
 .best-card p { margin: 6px 0 10px; }
 .proof-table tr.is-proven td:first-child { box-shadow: inset 3px 0 0 var(--good); }
+
+/* ---- Phones (D118): data tables become labelled cards, no sideways scrolling ---- */
+@media (max-width: 640px) {
+  .table-wrap:has(> table.stack) { overflow: visible; border: 0; background: none; box-shadow: none; }
+  table.stack { border: 0; min-width: 0 !important; width: 100%; }
+  table.stack thead { display: none; }   /* each cell carries its heading (data-label) */
+  table.stack, table.stack tbody, table.stack tfoot, table.stack tr, table.stack td { display: block; width: 100%; }
+  table.stack tr { border: 1px solid var(--line); border-radius: var(--r-sm); padding: 8px 12px; margin: 0 0 10px; background: var(--surface); }
+  table.stack td { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 5px 0; border: 0;
+    text-align: right; white-space: normal; min-width: 0; border-bottom: 1px dashed var(--line); }
+  table.stack td:last-child { border-bottom: 0; }
+  table.stack td::before { content: attr(data-label); flex: 0 0 44%; text-align: left; color: var(--muted); font-size: 0.8rem; font-weight: 600; }
+  table.stack td[data-label=""]::before { display: none; }
+  table.stack td:first-child { justify-content: flex-start; text-align: left; font-size: 1rem; font-weight: 600; border-bottom: 1px solid var(--line); }
+  table.stack td:first-child::before { display: none; }
+  table.stack td > * { min-width: 0; }
+  table.stack td:not(.num) { text-align: left; }
+  /* the answer bar, compact: this section's status in full, the other answers as small tiles */
+  .answer-bar { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .ab-item { padding: 9px 11px; }
+  .ab-item.ab-proof { grid-column: 1 / -1; }
+  .ab-item:not(.ab-proof) .ab-t { display: none; }
+  .ab-item:not(.ab-proof) .ab-v { font-size: 1rem; }
+  .answer-bar > .ab-item:nth-child(4):last-child { grid-column: 1 / -1; }
+  table.stack td, table.stack td * { white-space: normal !important; overflow-wrap: anywhere; }
+  /* tables without headings (the profit calculators, short trade lists): the first cell on its own line, the rest after it */
+  table.rows-wrap { width: 100%; min-width: 0 !important; }
+  table.rows-wrap tr { display: flex; flex-wrap: wrap; justify-content: space-between; column-gap: 12px; row-gap: 2px; padding: 6px 0; border-bottom: 1px dashed var(--line); }
+  table.rows-wrap td { display: block; padding: 0; border: 0; white-space: normal !important; overflow-wrap: anywhere; }
+  table.rows-wrap td:first-child, table.rows-wrap td[colspan] { flex: 1 0 100%; text-align: left; font-weight: 600; }
+  table.rows-wrap td[colspan] { font-weight: 400; }
+}
+.proof-table td, #sections td { white-space: normal; }
+.proof-table td:last-child { min-width: 240px; }

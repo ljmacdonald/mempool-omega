@@ -294,11 +294,17 @@
     const bar = document.createElement("section"); bar.className = "answer-bar"; bar.setAttribute("aria-label", "The answer first");
     const mk = MARKET_PAGES.has(HERE) ? marketText(G.market) : null;
     const b = G.best || {};
+    let rec = null;
+    try { const r = await fetch(`${SUMMARY}?t=${Math.floor(Date.now() / 300000)}`); if (r.ok) rec = ((await r.json()).sections || []).find((x) => x.key === HERE); } catch { rec = null; }
+    const recVal = (x) => (!Number.isFinite(x) ? "–" : rec.unit === "R" ? `${x >= 0 ? "+" : "−"}${Math.abs(x).toFixed(2)} R` : pctS(x));
+    const recItem = rec ? `<a class="ab-item ${rec.status === "ahead" ? "good" : rec.status === "behind" ? "warn" : ""}" href="${BASE}results/"><span class="ab-k">Record so far</span>
+      <span class="ab-v">${rec.n ? `${recVal(rec.avg)} a trade` : "Too early"}</span><span class="ab-t">${rec.n ? `${rec.n.toLocaleString()} finished, after every cost · random picks ${recVal(rec.random)}` : "No finished trades yet."}</span></a>` : "";
     const bestTxt = b.idea ? `<b>${esc(b.idea.title)}</b> · ${esc((b.idea.record || {}).name || "")}`
       : (b.waiting || []).length ? "A proven idea is waiting for the market to stop falling."
       : `${b.considered != null ? `${b.considered} live ideas checked; ` : ""}none comes from a part that passed our tests.`;
     bar.innerHTML = `<div class="ab-item ab-proof ${s.status}"><span class="ab-k">This section</span><span class="ab-v">${esc(head)}</span><span class="ab-t">${text} <a href="${BASE}results/#proof">How we test →</a></span></div>
       ${mk ? `<div class="ab-item ${mk.cls}" title="${esc(mk.title)}"><span class="ab-k">Market</span><span class="ab-v">${esc(mk.head)}</span><span class="ab-t">${esc(mk.text)}</span></div>` : ""}
+      ${recItem}
       <a class="ab-item ab-best ${b.idea ? "good" : ""}" href="${BASE}#best"><span class="ab-k">Best idea right now</span><span class="ab-v">${b.idea ? "One idea" : "Sitting in cash"}</span><span class="ab-t">${bestTxt} →</span></a>`;
     const after = document.querySelector(".page-hero + .banner.warn") || document.querySelector(".page-hero");
     if (!after) return;
@@ -309,6 +315,28 @@
     new MutationObserver(() => { if (!queued) { queued = true; requestAnimationFrame(() => { queued = false; markIdeas(G, s); }); } })
       .observe(document.body, { childList: true, subtree: true });
   }
+  // phones (D118): every data table becomes a stack of labelled cards instead of scrolling sideways
+  function stackTables() {
+    for (const t of document.querySelectorAll("table:not(.stack):not(.no-stack)")) {
+      const head = t.tHead && t.tHead.rows[t.tHead.rows.length - 1];
+      if (!head) { if (!t.classList.contains("rows-wrap") && [...t.rows].some((r) => r.cells.length >= 3)) t.classList.add("rows-wrap"); continue; }
+      if (head.cells.length < 3) continue;
+      const labels = [];
+      for (const c of head.cells) for (let i = 0; i < (c.colSpan || 1); i++) labels.push(c.textContent.trim());
+      for (const body of t.tBodies) for (const row of body.rows) {
+        let i = 0;
+        for (const c of row.cells) { if (!c.hasAttribute("data-label")) c.setAttribute("data-label", labels[i] || ""); i += c.colSpan || 1; }
+      }
+      t.classList.add("stack");
+    }
+  }
+  let stackQueued = false;
+  function watchTables() {
+    stackTables();
+    new MutationObserver(() => { if (!stackQueued) { stackQueued = true; requestAnimationFrame(() => { stackQueued = false; stackTables(); }); } })
+      .observe(document.body, { childList: true, subtree: true });
+  }
+
   // grey every idea card that isn't from a proven unit (the visitor's own trades are never greyed)
   function markIdeas(G, s) {
     for (const c of document.querySelectorAll(".card:not(.trade)")) {
@@ -439,6 +467,7 @@
 
   function start() {
     buildShell();
+    watchTables();
     document.addEventListener("click", (e) => { const b = e.target.closest("[data-share]"); if (b) share(b); });
     if (!root.OmegaExplain) { const x = document.createElement("script"); x.src = `${BASE}explain.js`; document.head.appendChild(x); }
     if (!store.get("omega.onb.tour", false)) setTimeout(() => tour(false), 700);
