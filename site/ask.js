@@ -99,9 +99,19 @@
 
   // ------------------------------------------------------------------ answers
   async function bestOverall() {
+    // the gate decides (D115-D117): only an idea from a proven part of the product is "the best trade"
+    const G = window.OMEGA_GATE;
+    if (G) await G.reload();
+    const B = G && G.best;
+    if (B && B.idea) {
+      const i = B.idea, r = i.record || {};
+      return `<p><b>The best idea that passed our honest tests: ${esc(i.title)}</b> (${esc(r.name || "")}). ${r.hit != null ? `This kind of idea won ${Math.round(r.hit * 100)}% of ${(+r.n).toLocaleString()} trades` : ""}${r.avg != null ? `, averaging ${(r.avg * 100).toFixed(1)}% after costs` : ""}. ${esc(i.exit || "")} <a href="${esc(i.path)}">Open it →</a></p>${NOTE}`;
+    }
+    const head = B ? `<p><b>No idea passes our tests right now. Sitting in cash.</b> Only ${B.proven_units.length ? esc(B.proven_units.join("; ")) : "parts that have passed"} can give a "best trade", and none ${B.proven_units.length === 1 ? "has" : "have"} one now. <a href="results/#proof">What passing means →</a></p>` : "";
     const sets = (await Promise.all(["main", "stocks", "fx", "lab"].map(ideasFor))).filter(Boolean);
     const all = sets.flatMap((s) => s.items.slice(0, 1).map((d) => ({ d, s }))).filter((x) => !x.s.closed);
     const usable = all.filter((x) => !x.s.off && (x.d.grade === "Strong" || x.d.grade === "Moderate")).sort((a, b) => b.d.score - a.d.score);
+    if (head) return `${head}<p class="muted">The highest-scoring ideas from parts still being tested, to learn from (testing only, not to act on):</p>${all.sort((a, b) => b.d.score - a.d.score).slice(0, 3).map((x) => `<div class="ask-src">${esc(PAGE[x.s.m][1])} · testing only</div>${ideaCard(x.d, true)}`).join("")}${NOTE}`;
     if (!usable.length) {
       return `<p><b>Nothing across the markets is graded Strong or Moderate right now</b> (or grades are switched off where they aren't reliable). That's normal: on most days doing nothing is the right call.</p>
         <p>The highest-scoring ideas anyway, to learn from:</p>${all.sort((a, b) => b.d.score - a.d.score).slice(0, 3).map((x) => `<div class="ask-src">${esc(PAGE[x.s.m][1])}</div>${ideaCard(x.d, x.s.off)}`).join("")}${NOTE}`;

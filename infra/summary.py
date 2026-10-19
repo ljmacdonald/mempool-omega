@@ -267,6 +267,26 @@ def main() -> int:
     problems = [f"{s['name']} data is {s['age_min']} minutes old (should be under {s['max_age_min']})" if s["age_min"] is not None
                 else f"{s['name']} has no data" for s in secs if s["stale"]]
     problems += [f"The '{j['workflow']}' job failed its last two runs (since {j['since']}): {j['url']}" for j in jobs]
+    try:                                                       # Proven / Testing only (D115); never stops the summary
+        import sys
+        sys.path.insert(0, str(ROOT / "infra"))
+        import proof
+        pr = proof.build(now)["sections"]
+        for s in secs:
+            if s["key"] in pr:
+                s["proof"] = pr[s["key"]]["status"]
+    except Exception as e:  # noqa: BLE001
+        print("proof:", e)
+    try:                                                       # the market filter (D116); never stops the summary
+        import market  # fresh Bitcoin prices only in the scheduled job
+        market.build(now, fetch=market.fetch_btc if os.environ.get("GITHUB_ACTIONS") == "true" else dict)
+    except Exception as e:  # noqa: BLE001
+        print("market:", e)
+    try:                                                       # best idea right now (D117), from the two above
+        import best
+        best.build(now)
+    except Exception as e:  # noqa: BLE001
+        print("best:", e)
     summary = {"generated_at": str(now), "min_n": MIN_N, "sections": secs, "failing_jobs": jobs, "problems": problems,
                "ok": not problems}
     (STATE / "summary.json").write_text(json.dumps(summary, indent=1, default=str))

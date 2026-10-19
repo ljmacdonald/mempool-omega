@@ -54,7 +54,7 @@
     const px = livePx(x); const ref = px || x.last; const since = x.side * (ref / x.entry - 1);
     const gw = Q.gradeWord(x.grade, q, x.rank); const gc = Q.gradeClassFor(x.grade, q);
     const verb = x.side > 0 ? "BUY" : "SELL";
-    return `<article class="card idea" data-alert-key="idea-${esc(x.id)}"><div class="idea-head"><h3><span class="rank">#${x.rank}</span>${verb} ${esc(x.base)} <span class="muted small">on ${esc(EX[x.exchange])} · ${esc(x.name)}</span></h3>
+    return `<article class="card idea" data-alert-key="idea-${esc(x.id)}" data-unit="listings:${esc(x.rule)}"><div class="idea-head"><h3><span class="rank">#${x.rank}</span>${verb} ${esc(x.base)} <span class="muted small">on ${esc(EX[x.exchange])} · ${esc(x.name)}</span></h3>
       <div class="score"><b>${x.score.toFixed(1)}</b><span class="muted">/ 10</span> <span class="pill ${gc}">${esc(gw)}</span> <span class="pill ${x.level === "good" ? "good" : "warn"}">${esc(x.evidence)}</span></div></div>
       <div class="facts">
         <div class="fact"><div class="k">Rule's entry</div><div class="v">${num(x.entry)}</div><div class="d muted">${when(x.t_in)} · listed ${when(x.listed)}</div></div>

@@ -18,7 +18,7 @@
   const PAGES = { main: "coins/", small: "small/", dex: "dex/", stocks: "stocks/", fx: "fx/", ict: "ict/", lab: "lab/", listings: "listings/", sniper: "sniper/", whales: "whales/", predict: "predict/" };
   const PAGE_NAME = { main: "Exchange coins", small: "Small coins", dex: "DEX tokens", stocks: "US stocks", fx: "Forex & gold", ict: "ICT setups", lab: "Strategy lab", listings: "New listings", sniper: "Sniper lab", whales: "Whale tracker", predict: "Prediction markets" };
   const KINDS = { enter: ["Trade to enter", "▲"], exit: ["Exit the trade", "■"], profit: ["Take profit", "★"], warning: ["Warning", "!"], news: ["New listing", "●"], whale: ["Whale move", "◆"] };
-  const PANEL_TEXT = { enter: "New trades worth entering", exit: "Time to exit (safety exit, time's up, exit signals)", profit: "Take profit reached", warning: "Warnings on my trades", whale: "Whale moves: any change by a followed whale (information only, not proven)", news: "A coin starts trading on Binance, OKX or Gate.io" };
+  const PANEL_TEXT = { enter: "New trades worth entering (only from parts of the product that passed our honest tests)", exit: "Time to exit (safety exit, time's up, exit signals)", profit: "Take profit reached", warning: "Warnings on my trades", whale: "Whale moves: any change by a followed whale (information only, not proven)", news: "A coin starts trading on Binance, OKX or Gate.io" };
   const POLL_MS = 3 * 60 * 1000, LEAD_MS = 4 * 60 * 1000, STALE_MIN = 45, REPEAT_H = { enter: 12, exit: 6, profit: 6, warning: 6, news: 48, whale: 24 };
   const HIGH = { Strong: 2, Moderate: 1 };
   const WHALE_MIN = [10e3, 50e3, 100e3, 250e3, 500e3, 1e6, 2.5e6, 5e6, 10e6, 25e6];      // the size range a visitor can pick for whale moves
@@ -202,7 +202,7 @@
             return { d, sc };
           }).sort((a, b) => b.sc - a.sc).slice(0, 5);
           top.forEach(({ d, sc }) => { const g = gradeOf(sc); if (!gradeOk(g)) return;
-            out.push({ score: sc, key: `idea-${style}-${d.symbol}`, short: `BUY ${d.symbol}`, title: `BUY ${d.symbol} (${g}, score ${sc.toFixed(1)})`,
+            out.push({ unit: `stocks:${style}`, crypto: false, side: "buy", score: sc, key: `idea-${style}-${d.symbol}`, short: `BUY ${d.symbol}`, title: `BUY ${d.symbol} (${g}, score ${sc.toFixed(1)})`,
               body: `${d.name || ""}: take profit ${pctTxt(d.take_profit_pct)}, safety exit ${pctTxt(-Math.abs(d.safety_exit_pct || 0))}.`,
               pick: [`#list button[data-list="${list}"]`, `#speed button[data-style="${style}"]`], tab: "ideas" }); });
         }
@@ -217,7 +217,7 @@
         for (const [style, rows] of Object.entries(styles || {})) {
           const top = (rows || []).filter((d) => !(d.hard || []).length).map((d) => ({ d, sc: scoreFromR(d.expected_r) })).sort((a, b) => b.sc - a.sc).slice(0, 5);
           top.forEach(({ d, sc }) => { const g = gradeOf(sc); if (!gradeOk(g)) return;
-            out.push({ score: sc, key: `idea-${style}-${d.pair}-${d.side}`, short: `${String(d.side).toUpperCase()} ${d.label}`, title: `${String(d.side).toUpperCase()} ${d.label} (${g}, score ${sc.toFixed(1)})`,
+            out.push({ unit: `fx:${style}`, crypto: false, side: d.side, score: sc, key: `idea-${style}-${d.pair}-${d.side}`, short: `${String(d.side).toUpperCase()} ${d.label}`, title: `${String(d.side).toUpperCase()} ${d.label} (${g}, score ${sc.toFixed(1)})`,
               body: d.headline || `Take profit ${d.take_profit}, safety exit ${d.safety_exit}.`,
               pick: [`#list button[data-list="${list}"]`, `#speed button[data-style="${style}"]`], tab: "ideas" }); });
         }
@@ -229,7 +229,7 @@
       for (const [k, c] of Object.entries(s.classes || {})) {
         if (unreliable((s.quality || {})[k])) continue;
         (c.setups || []).forEach((x) => { if (x.status !== "pending" || !gradeOk(x.grade) || (x.hard || []).length) return;
-          out.push({ score: +x.score, key: `idea-${x.id}`, title: `${String(x.side).toUpperCase()} ${x.label} (${x.grade}, score ${(+x.score).toFixed(1)})`,
+          out.push({ unit: `ict:${k}`, crypto: k === "crypto", side: x.side, score: +x.score, key: `idea-${x.id}`, title: `${String(x.side).toUpperCase()} ${x.label} (${x.grade}, score ${(+x.score).toFixed(1)})`,
             body: `ICT setup: entry ${x.entry}, take profit ${x.target}, safety exit ${x.stop}. ${x.evidence || ""}.`,
             pick: [`#market button[data-market="${k}"]`], tab: "setups" }); });
       }
@@ -239,10 +239,10 @@
       const out = [];
       const qOk = !unreliable(s.quality);
       (s.ideas || []).forEach((x) => { if (!qOk || x.level !== "good" || !gradeOk(x.grade)) return;
-        out.push({ score: +x.score, key: `idea-${x.id}`, title: `${x.side > 0 ? "BUY" : "SELL"} ${x.label} (${x.grade}, score ${(+x.score).toFixed(1)})`,
+        out.push({ unit: `lab:${x.strategy}`, crypto: /USDT$/.test(x.sym || ""), side: x.side, score: +x.score, key: `idea-${x.id}`, title: `${x.side > 0 ? "BUY" : "SELL"} ${x.label} (${x.grade}, score ${(+x.score).toFixed(1)})`,
           body: `${x.name}: chance it makes money ${Math.round(x.prob * 100)}%. ${x.exit_rule}`, tab: "" }); });
       (s.forming || []).forEach((f) => { if (!f.signal) return;
-        out.push({ key: `forming-${f.sym}-${new Date(f.asof).toISOString().slice(0, 10)}`, title: `Likely BUY ${f.label} at today's close`,
+        out.push({ unit: "lab:rsi2", crypto: false, side: "buy", key: `forming-${f.sym}-${new Date(f.asof).toISOString().slice(0, 10)}`, title: `Likely BUY ${f.label} at today's close`,
           body: `Connors RSI(2) (held up in tests): 2-day RSI ${Math.round(f.rsi2)} if it closed now. The order goes in during the last minutes before 4 pm New York.`, tab: "" }); });
       (s.exits || []).forEach((e) => { const st = (s.strategies || {})[e.strategy]; if (!st || !st.stats || st.stats.level !== "good") return;
         out.push({ kind: "exit", key: `exit-${e.strategy}-${e.sym}-${e.t_in}`, title: `${e.name}: sell ${e.label}`,
@@ -251,10 +251,15 @@
     } },
   };
   // new entry ideas for one page: up to ONE_BY_ONE alerts, or one summary that opens the best of them
-  function fireEntries(page, items) {
+  // only ideas the gate allows (site/gate.js, D115-D117): from a proven part of the product, and not a crypto buy
+  // while the market filter pauses them. No gate data, no entry alert (fails closed).
+  async function fireEntries(page, items) {
     if (!cfg.on || !cfg.pages[page]) return;
+    const G = root.OMEGA_GATE;
+    if (G) await G.ready;
+    const allowed = (it) => !!(G && G.loaded && G.allows(page, it.unit, it.side, it.crypto));
     const fresh = items.filter((it) => !seen(`${page}|${it.key}`, it.kind || "enter"));
-    const entries = fresh.filter((it) => !it.kind || it.kind === "enter").sort((a, b) => (b.score || 0) - (a.score || 0));
+    const entries = fresh.filter((it) => (!it.kind || it.kind === "enter") && allowed(it)).sort((a, b) => (b.score || 0) - (a.score || 0));
     const moves = fresh.filter((x) => x.kind === "whale").sort((a, b) => (b.score || 0) - (a.score || 0));
     for (const it of fresh.filter((x) => x.kind && x.kind !== "enter" && x.kind !== "whale")) fire({ page, focus: it.key, ...it });
     if (moves.length > ONE_BY_ONE + 1 && cfg.kinds.whale) {
@@ -274,7 +279,7 @@
     const out = [];
     const qOk = !unreliable(s.quality);
     (s.ideas || []).forEach((x) => { if (!qOk || x.level !== "good" || !gradeOk(x.grade)) return;
-      out.push({ score: +x.score, key: `idea-${x.id}`, short: `${x.side > 0 ? "BUY" : "SELL"} ${x.base}`, title: `${x.side > 0 ? "BUY" : "SELL"} ${x.base} on ${EXN[x.exchange]} (${x.grade}, score ${(+x.score).toFixed(1)})`,
+      out.push({ unit: `listings:${x.rule}`, crypto: true, side: x.side, score: +x.score, key: `idea-${x.id}`, short: `${x.side > 0 ? "BUY" : "SELL"} ${x.base}`, title: `${x.side > 0 ? "BUY" : "SELL"} ${x.base} on ${EXN[x.exchange]} (${x.grade}, score ${(+x.score).toFixed(1)})`,
         body: `${x.name}: worked ${Math.round(x.prob * 100)}% of the time in the test. ${x.side < 0 ? "If you hold it, selling is the low-risk version." : ""}`, tab: "" }); });
     (s.listings || []).forEach((r) => { if (!(r.age_d < 3 / 24)) return;
       out.push({ kind: "news", key: `listing-${r.exchange}-${r.symbol}`, title: `${r.base} just started trading on ${EXN[r.exchange]}`,
@@ -288,14 +293,14 @@
   // until then everything there is watch-only (97% of the first passed snipes rugged)
   WATCH.sniper = { file: "sniper/snapshot.json", ideas(s) {
     if (s.proven !== true || unreliable(s.quality)) return [];
-    return (s.ideas || []).filter((x) => x.evidence === "Held up in paper tests" && gradeOk(x.grade)).map((x) => ({ score: +x.score, key: `idea-${x.id}`,
+    return (s.ideas || []).filter((x) => x.evidence === "Held up in paper tests" && gradeOk(x.grade)).map((x) => ({ unit: "sniper", crypto: true, side: "buy", score: +x.score, key: `idea-${x.id}`,
       short: x.symbol, title: `${x.symbol} on ${x.chain} passed every scam check (${x.grade}, score ${(+x.score).toFixed(1)})`,
       body: `Paper snipe: opened ${Math.round(x.delay_min)} min ago, ${Math.round(x.prob * 100)}% of similar paper snipes made money. Check the address on DexScreener.`, tab: "" }));
   } };
   // whales: big new positions of the followed whales, only once the paper mirror has held up
   WATCH.whales = { file: "whales/snapshot.json", ideas(s) {
     if (!s.verdict || s.verdict.level !== "good") return [];
-    return (s.big_changes || []).map((x) => ({ score: x.notional / 1e6, key: `chg-${x.addr}-${x.coin}-${x.kind}`, short: `${x.coin} ${x.side}`,
+    return (s.big_changes || []).map((x) => ({ unit: "whales", crypto: true, side: x.side === "short" ? "sell" : "buy", score: x.notional / 1e6, key: `chg-${x.addr}-${x.coin}-${x.kind}`, short: `${x.coin} ${x.side}`,
       title: `A followed whale ${x.kind} ${x.side} ${x.coin} ($${(x.notional / 1e6).toFixed(1)}M)`,
       body: `The paper mirror of last month's best whales has held up. Price ${x.price}; their entry ${x.entry}.`, tab: "" }));
   }, moves(s) {
@@ -317,6 +322,7 @@
     const lead = store.get("omega.alerts.lead", null);
     if (lead && lead.id !== TAB_ID && Date.now() - lead.at < LEAD_MS) return;            // another tab is watching
     store.set("omega.alerts.lead", { id: TAB_ID, at: Date.now() });
+    if (root.OMEGA_GATE) await root.OMEGA_GATE.reload();
     for (const [page, w] of Object.entries(WATCH)) {
       if (!cfg.pages[page]) continue;
       try {

@@ -124,6 +124,7 @@
     tidyTabs();
     sectionBar();
     staleBanner();
+    proofBar();
   }
 
   // one small icon per page (D113): what kind of page it is at a glance
@@ -263,6 +264,64 @@
       const hero = document.querySelector(".page-hero");
       (hero || document.querySelector(".wrap") || document.body).insertAdjacentElement(hero ? "afterend" : "afterbegin", b);
     } catch { /* the banner is a courtesy: never break the page */ }
+  }
+
+  // ------------------------------------------------------------------ the answer first (D115-D118): proven or testing, the market, the best idea
+  const PROOF_PAGES = new Set(["main", "small", "dex", "stocks", "fx", "ict", "lab", "listings", "sniper", "predict", "whales"]);
+  const MARKET_PAGES = new Set(["main", "small", "dex", "listings", "sniper", "whales", "lab", "ict"]);
+  const pctS = (x) => (Number.isFinite(x) ? `${x >= 0 ? "+" : "−"}${Math.abs(x * 100).toFixed(2)}%` : "–");
+  function marketText(m) {
+    if (!m || !m.now) return null;
+    const fall = m.now.falling;
+    const since = m.now.since ? new Date(m.now.since) : null;
+    const when = since ? `since ${since.toLocaleString([], { weekday: "short", hour: "2-digit", minute: "2-digit" })}` : "";
+    const filt = m.active ? "crypto buy ideas are paused" : (m.test && m.test.enabled) ? "the filter is on" : "the filter was tested and is off";
+    return { cls: fall ? "warn" : "good", head: `Market ${fall ? "falling" : "rising"}`, text: `Bitcoin is ${fall ? "below" : "above"} its 7-day average ${when}; ${filt}.`,
+      title: (m.test && m.test.verdict) || "" };
+  }
+  async function proofBar() {
+    const G = root.OMEGA_GATE;
+    if (!G || !PROOF_PAGES.has(HERE)) return;
+    await G.ready;
+    const s = G.section(HERE);
+    if (!s) return;
+    const units = ((G.proof && G.proof.units) || []).filter((u) => u.section === HERE);
+    const why = units.length === 1 ? units[0].reason : "";
+    const head = { proven: "Proven", partly: "Partly proven", testing: "Testing only" }[s.status];
+    const text = s.status === "proven" ? "Passed our honest tests: made money after costs, beat random picks by more than luck, and still works recently."
+      : s.status === "partly" ? `Only <b>${esc(s.proven_units.join(", "))}</b> passed our honest tests. The other ideas here are greyed: testing only, not to act on.`
+      : `${why ? esc(why) + " " : ""}Its ideas are shown greyed, to learn from: not to act on.`;
+    const bar = document.createElement("section"); bar.className = "answer-bar"; bar.setAttribute("aria-label", "The answer first");
+    const mk = MARKET_PAGES.has(HERE) ? marketText(G.market) : null;
+    const b = G.best || {};
+    const bestTxt = b.idea ? `<b>${esc(b.idea.title)}</b> · ${esc((b.idea.record || {}).name || "")}`
+      : (b.waiting || []).length ? "A proven idea is waiting for the market to stop falling."
+      : `${b.considered != null ? `${b.considered} live ideas checked; ` : ""}none comes from a part that passed our tests.`;
+    bar.innerHTML = `<div class="ab-item ab-proof ${s.status}"><span class="ab-k">This section</span><span class="ab-v">${esc(head)}</span><span class="ab-t">${text} <a href="${BASE}results/#proof">How we test →</a></span></div>
+      ${mk ? `<div class="ab-item ${mk.cls}" title="${esc(mk.title)}"><span class="ab-k">Market</span><span class="ab-v">${esc(mk.head)}</span><span class="ab-t">${esc(mk.text)}</span></div>` : ""}
+      <a class="ab-item ab-best ${b.idea ? "good" : ""}" href="${BASE}#best"><span class="ab-k">Best idea right now</span><span class="ab-v">${b.idea ? "One idea" : "Sitting in cash"}</span><span class="ab-t">${bestTxt} →</span></a>`;
+    const after = document.querySelector(".page-hero + .banner.warn") || document.querySelector(".page-hero");
+    if (!after) return;
+    after.after(bar);
+    document.body.classList.add(`proof-${s.status}`);
+    markIdeas(G, s);
+    let queued = false;
+    new MutationObserver(() => { if (!queued) { queued = true; requestAnimationFrame(() => { queued = false; markIdeas(G, s); }); } })
+      .observe(document.body, { childList: true, subtree: true });
+  }
+  // grey every idea card that isn't from a proven unit (the visitor's own trades are never greyed)
+  function markIdeas(G, s) {
+    for (const c of document.querySelectorAll(".card:not(.trade)")) {
+      const h = c.querySelector(".idea-head");
+      if (!h || h.closest(".card") !== c || c.dataset.proofDone) continue;
+      c.dataset.proofDone = "1";
+      const ok = c.dataset.unit ? G.proven(HERE, c.dataset.unit) : s.status === "proven";
+      if (ok) continue;
+      c.classList.add("testing-idea");
+      const r = document.createElement("div"); r.className = "testing-ribbon";
+      r.innerHTML = "<b>Testing only</b> · this hasn't passed our honest tests: not a recommendation";
+      c.prepend(r);
+    }
   }
 
   // ------------------------------------------------------------------ coming back: where you were, what you're tracking
