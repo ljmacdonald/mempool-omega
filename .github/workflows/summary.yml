@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Fetch the pages' published data
         run: git fetch --depth 1 origin data || true
       - name: Summarise every section and check that nothing is stuck
@@ -35,7 +35,7 @@ jobs:
       - name: Are the share cards due?
         id: cards
         run: if python3 infra/cards.py --due; then echo "due=true" >> "$GITHUB_OUTPUT"; else echo "due=false" >> "$GITHUB_OUTPUT"; fi
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         if: steps.cards.outputs.due == 'true'
         with:
           python-version: "3.11"
