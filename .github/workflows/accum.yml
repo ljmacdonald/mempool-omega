@@ -1,0 +1,69 @@
+name: Accumulation lab (hourly) + weekly recovery backtest
+
+# PAPER ONLY (DECISIONS D119). Every hour: the wallets behind recent DEX swaps on Solana and Ethereum, buyers'
+# balances, Ethereum transfers (with the free Etherscan key), Binance taker buying once a day, the watchlist and its
+# states, forward results of past detections, the $100 USDC paper account, and the distressed-recovery screen once a
+# day. Weekly: the recovery backtest on every Binance coin's daily history, delisted coins included.
+# No wallet, no keys that can trade, no orders.
+run-name: "Accum: ${{ inputs.task || github.event.schedule || 'run' }}"
+on:
+  schedule:
+    - cron: "33 * * * *"   # hourly (backup for the Tick job)
+    - cron: "40 7 * * 0"   # weekly backtest (Sunday)
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "scan | backtest"
+        required: false
+        default: "scan"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: omega-accum-writer
+  cancel-in-progress: false
+
+jobs:
+  accum:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        run: pip install -e .
+      # Raw swaps of the last 3 days, poll times, candles and the backtest's price history live in GitHub's free
+      # build cache (not the repository); finished days are written once to state/accum/days/.
+      - name: Restore the working cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .cache/accum
+          key: accum-${{ github.run_id }}
+          restore-keys: accum-
+      - name: Weekly distressed-recovery backtest
+        if: github.event.schedule == '40 7 * * 0' || github.event.inputs.task == 'backtest'
+        continue-on-error: true
+        run: python -m accum.run --backtest
+      - name: Hourly accumulation scan
+        if: github.event.schedule != '40 7 * * 0' && github.event.inputs.task != 'backtest'
+        env:
+          ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
+        run: python -m accum.run
+      - name: Save the working cache
+        if: always()
+        uses: actions/cache/save@v5
+        with:
+          path: .cache/accum
+          key: accum-${{ github.run_id }}
+      - name: Publish the snapshot for the website (data branch)
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash infra/publish_data.sh .cache/accum_out/snapshot.json accum/snapshot.json
+      - name: Commit state
+        if: always()
+        run: bash infra/commit_state.sh "accum ${{ github.event.inputs.task || 'scheduled' }} $(date -u +%Y-%m-%dT%H%MZ)"
