@@ -43,7 +43,7 @@ SCANNER = [  # section key, page, name, history files, {style: label}
      {"stk_today": "Today", "stk_days": "Days"}),
     ("fx", "fx/", "Forex & gold", ["fx/history.csv"], {"fx_today": "Today", "fx_days": "Days"}),
 ]
-CRYPTO = {"main", "small", "dex", "sniper", "listings", "whales"}
+CRYPTO = {"main", "small", "dex", "sniper", "listings", "whales", "accum"}
 
 
 def tstat(xs: list[float]) -> float | None:
@@ -196,12 +196,26 @@ def other_units() -> list[dict]:
                 (v.get("text") or "Not enough days yet.") if days < 30 else "Copying the whales lost money or did no better than random picks.",
                 "n": days, "avg": lead, "edge": (lead - rnd) if lead is not None and rnd is not None else None, "t_edge": None,
                 "late": None, "unit": "%", "source": "forward record (days)"})
+    s = S.read_data("accum/snapshot.json") or {}                # Accumulation lab (D119): two separate parts
+    f30 = ((s.get("forward") or {}).get("summary") or {}).get("30") or {}
+    ok, why = judge(f30.get("n") or 0, f30.get("avg"), f30.get("edge"), f30.get("t_edge"), None)
+    out.append({"id": "accum:watchlist", "section": "accum", "path": "accum/", "name": "Accumulation lab · Watchlist",
+                "proven": ok, "reason": why.replace("trades", "detections judged 30 days later").replace("random picks", "the other tokens watched"),
+                "n": f30.get("n") or 0, "avg": f30.get("avg"), "hit": f30.get("hit"), "edge": f30.get("edge"), "t_edge": f30.get("t_edge"),
+                "late": None, "unit": "%", "source": "forward record (30 days after each detection)"})
+    b = ((s.get("backtest") or {}).get("results") or {}).get("90") or {}
+    a = b.get("all") or {}
+    out.append({"id": "accum:recovery", "section": "accum", "path": "accum/", "name": "Accumulation lab · Distressed recovery",
+                "proven": b.get("level") == "good", "reason": b.get("verdict") or "Backtest not run yet.", "n": a.get("n"),
+                "avg": a.get("avg"), "hit": a.get("hit"), "edge": a.get("edge"), "t_edge": a.get("t_edge"),
+                "late": {x: (b.get("late") or {}).get(x) for x in ("n", "avg", "edge", "t_edge")}, "unit": "%",
+                "source": "history test, 90 days after each signal (delisted coins included)"})
     return out
 
 
 SECTION_NAMES = {"main": "Exchange coins", "small": "Small coins", "dex": "DEX tokens", "stocks": "US stocks", "fx": "Forex & gold",
                  "ict": "ICT setups", "lab": "Strategy lab", "listings": "New listings", "sniper": "Sniper lab",
-                 "predict": "Prediction markets", "whales": "Whale tracker"}
+                 "predict": "Prediction markets", "whales": "Whale tracker", "accum": "Accumulation lab"}
 
 
 def build(now: datetime | None = None) -> dict:

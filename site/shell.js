@@ -14,6 +14,7 @@
     dex: { path: "dex/", name: "DEX tokens", group: "ideas", risk: "High risk", kind: "Live ideas", blurb: "Tokens on decentralised exchanges, scam-checked before they're ever suggested.", action: "Keep the safety level on Standard and copy the real token address from the card." },
     listings: { path: "listings/", name: "New listings", group: "lab", risk: "Very high risk", kind: "Tested rules", blurb: "Coins just listed on big exchanges, and what really happens after a listing.", action: "Only act on the tested ideas at the top; most new listings fall." },
     sniper: { path: "sniper/", name: "Sniper lab", group: "lab", risk: "Paper only", kind: "Research", blurb: "Brand-new DEX tokens, scam-checked and paper-sniped: does it pay after the bots?", action: "Watch only: no real-money sniping until the verdict says it holds up." },
+    accum: { path: "accum/", name: "Accumulation lab", group: "lab", risk: "Paper only", kind: "Research", blurb: "Who is quietly buying before the price moves, and old coins that may recover: the evidence, checked and tested.", action: "Watch only: a watchlist entry is research, not a trade. Read the evidence and the warnings." },
     mev: { path: "mev/", name: "Arbitrage lab", group: "lab", risk: "Paper only", kind: "Research", blurb: "Solana arbitrage against real bots, fees and Jito tips: does an opportunity survive long enough to take?", action: "Watch only: shadow mode, nothing is ever signed or sent." },
     stocks: { path: "stocks/", name: "US stocks", group: "ideas", risk: "Medium risk", kind: "Live ideas", blurb: "The most-traded US stocks and a high-volatility list, during market hours.", action: "Start with Large stocks; ideas appear 9:30–16:00 New York time." },
     fx: { path: "fx/", name: "Forex & gold", group: "ideas", risk: "Medium risk", kind: "Live ideas", blurb: "Currency pairs, gold and silver, buy or sell, checked for manipulation.", action: "Start with the major pairs and avoid the news windows." },
@@ -135,13 +136,13 @@
     small: '<circle cx="8" cy="15" r="5"/><circle cx="17" cy="8" r="4"/>', dex: '<path d="M7 7h11l-3-3M17 17H6l3 3"/>',
     stocks: '<path d="M3 17l6-6 4 4 8-8M15 7h6v6"/>', fx: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
     flask: '<path d="M9 3h6M10 3v6l-6 10a2 2 0 0 0 2 3h12a2 2 0 0 0 2-3l-6-10V3M7 15h10"/>', target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
-    spark: '<path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/>', dice: '<rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1"/><circle cx="15.5" cy="15.5" r="1"/><circle cx="12" cy="12" r="1"/>',
+    spark: '<path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/>', layers: '<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/>', dice: '<rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1"/><circle cx="15.5" cy="15.5" r="1"/><circle cx="12" cy="12" r="1"/>',
     wave: '<path d="M2 15c3 0 3-4 6-4s3 4 6 4 3-4 6-4M2 20c3 0 3-4 6-4s3 4 6 4 3-4 6-4"/>', bolt: '<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',
     doc: '<path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h8M9 17h8"/>', shield: '<path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/>',
   };
   const PAGE_ICON = { results: "chart", report: "cal", status: "pulse", challenge: "wallet", "challenge-small": "wallet", carry: "wallet", main: "coin",
     small: "small", dex: "dex", stocks: "stocks", fx: "fx", ict: "target", lab: "flask", listings: "spark", sniper: "target", predict: "dice",
-    whales: "wave", mev: "bolt", legal: "doc" };
+    whales: "wave", mev: "bolt", accum: "layers", legal: "doc" };
   const icon = (k, g) => `<span class="ni-ico" data-g="${g}" aria-hidden="true"><svg viewBox="0 0 24 24">${ICON[PAGE_ICON[k]] || ICON.shield}</svg></span>`;
 
   function buildMenus(nav) {
@@ -267,8 +268,8 @@
   }
 
   // ------------------------------------------------------------------ the answer first (D115-D118): proven or testing, the market, the best idea
-  const PROOF_PAGES = new Set(["main", "small", "dex", "stocks", "fx", "ict", "lab", "listings", "sniper", "predict", "whales"]);
-  const MARKET_PAGES = new Set(["main", "small", "dex", "listings", "sniper", "whales", "lab", "ict"]);
+  const PROOF_PAGES = new Set(["main", "small", "dex", "stocks", "fx", "ict", "lab", "listings", "sniper", "predict", "whales", "accum"]);
+  const MARKET_PAGES = new Set(["main", "small", "dex", "listings", "sniper", "whales", "lab", "ict", "accum"]);
   const pctS = (x) => (Number.isFinite(x) ? `${x >= 0 ? "+" : "−"}${Math.abs(x * 100).toFixed(2)}%` : "–");
   function marketText(m) {
     if (!m || !m.now) return null;

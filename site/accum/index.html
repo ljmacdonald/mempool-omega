@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mempool Omega · Accumulation lab</title>
+<meta name="description" content="Who is quietly buying before the price moves, and established coins that may recover: evidence-backed, checked against what really happened afterwards. Paper only.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../style.css">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#3b4ee8">
+<link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32.png">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<script src="../theme.js"></script>
+<script src="../gate.js"></script>
+<script src="../shell.js" defer></script>
+<style>
+  .wrap > .card, .wrap > .banner { margin-block: 14px; } .card > * { min-width: 0; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 12px; } .filters select, .filters input { min-height: 38px; }
+  tr.pick { cursor: pointer; } tr.pick:hover td { background: var(--sunken); } tr.sel td { background: var(--accent-soft); }
+  .kind { font-size: 0.78rem; font-weight: 650; padding: 2px 8px; border-radius: 999px; background: var(--sunken); color: var(--fg-2); white-space: nowrap; }
+  .addr { font-family: var(--f-num); font-size: 0.85rem; }
+  .bars { display: flex; gap: 3px; align-items: flex-end; height: 28px; } .bars span { width: 10px; background: var(--line-strong); border-radius: 2px; }
+  .bars span.pos { background: var(--good); } .bars span.neg { background: var(--bad); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Mempool Omega · Accumulation lab</h1>
+      <p class="muted small">Who is quietly buying before the price moves, and established coins that may recover · evidence first, checked against what happened afterwards · paper only</p>
+    </div>
+    <div class="top-right">
+      <nav class="sites" aria-label="Choose a page"><a href="../coins/" data-site="main">Exchange coins</a><a href="../small/" data-site="small">Small coins</a><a href="../dex/" data-site="dex">DEX tokens</a><a href="../stocks/" data-site="stocks">US stocks</a><a href="../fx/" data-site="fx">Forex</a><a href="../ict/" data-site="ict">ICT setups</a><a href="../lab/" data-site="lab">Strategy lab</a><a href="../whales/" data-site="whales">Whale tracker</a><a href="../listings/" data-site="listings">New listings</a><a href="../sniper/" data-site="sniper">Sniper lab</a><a href="../mev/" data-site="mev">Arbitrage lab</a><a href="./" data-site="accum" aria-current="page">Accumulation lab</a><a href="../predict/" data-site="predict">Prediction markets</a><a href="../challenge/" data-site="challenge">$100 challenge</a><a href="../challenge-small/" data-site="challenge-small">$100 Small-coin challenge</a><a href="../carry/" data-site="carry">$100 funding account</a><a href="../results/" data-site="results">Results</a><a href="../report/" data-site="report">Weekly report</a><a href="../status/" data-site="status">System status</a></nav>
+      <div class="theme-switch" data-theme-switch role="group" aria-label="Day or night colours"></div>
+      <span class="status" id="status">Loading…</span>
+    </div>
+  </header>
+
+  <div id="summary" class="banner calm">Loading the Accumulation lab…</div>
+
+  <article class="card" id="watchlist">
+    <h2>Accumulation watchlist</h2>
+    <p class="small muted">Tokens where buying looks material and persistent <b>before</b> any price breakout. A price rise is never required to be listed. Being on this list is research, not a reason to buy: most accumulation never turns into a rise.</p>
+    <div class="filters" role="group" aria-label="Filter the watchlist">
+      <select id="fState" aria-label="State"><option value="active">Active candidates</option><option value="all">Every state</option></select>
+      <select id="fChain" aria-label="Chain"><option value="">Every chain</option><option value="solana">Solana</option><option value="eth">Ethereum</option><option value="binance">Exchange (Binance)</option></select>
+      <select id="fConf" aria-label="Confidence"><option value="">Any confidence</option><option value="High">High</option><option value="Medium">Medium</option><option value="Low">Low</option></select>
+      <input id="fSearch" type="search" placeholder="Search a token" aria-label="Search a token">
+    </div>
+    <div id="wlTable"><p class="muted">Loading…</p></div>
+  </article>
+
+  <article class="card" id="evidence">
+    <h2>Token evidence</h2>
+    <div id="evidenceBody"><p class="muted">Pick a token in the watchlist to see every piece of evidence behind it, and the evidence against it.</p></div>
+  </article>
+
+  <article class="card" id="events">
+    <h2>Signals and changes</h2>
+    <p class="small muted">Every change of state, with what changed and why. Nothing is ever deleted; the first detection's time is frozen.</p>
+    <div id="eventsBody"><p class="muted">Loading…</p></div>
+  </article>
+
+  <article class="card" id="recovery">
+    <h2>Distressed recovery</h2>
+    <p class="small muted">Established coins 75% or more below their peak that may still have a working business. Kept completely separate from accumulation: its own screen, score and test. A deep fall is a reason to look, never a reason to buy.</p>
+    <div id="recoveryBody"><p class="muted">Loading…</p></div>
+  </article>
+
+  <article class="card" id="backtest">
+    <h2>Recovery backtest</h2>
+    <div id="backtestBody"><p class="muted">Loading…</p></div>
+  </article>
+
+  <article class="card" id="record">
+    <h2>Track record of the watchlist</h2>
+    <div id="recordBody"><p class="muted">Loading…</p></div>
+  </article>
+
+  <article class="card" id="paper">
+    <h2>The $100 USDC paper account</h2>
+    <div id="paperBody"><p class="muted">Loading…</p></div>
+  </article>
+
+  <article class="card" id="sources">
+    <h2>Data sources and health</h2>
+    <div id="sourcesBody"><p class="muted">Loading…</p></div>
+  </article>
+
+  <article class="card" id="how">
+    <h2>How it works, and what it can't see</h2>
+    <ul class="rules">
+      <li><b>Five kinds of evidence, never mixed.</b> <span class="kind">A</span> a DEX swap whose signing wallet bought or sold the token (verified on-chain). <span class="kind">B</span> a wallet's balance changed (not proof of a purchase). <span class="kind">C</span> exchange buying pressure (no buyer identities). <span class="kind">D</span> transfers, never counted as buying. <span class="kind">E</span> links between wallets: not inferred at all, so every number here counts <b>addresses, not people</b>.</li>
+      <li><b>Three ways onto the list</b>, each with its own rule: <b>A</b> verified net buying of 0.1%+ of the circulating supply in 7 days ($25k+, buying on 4+ days, swaps seen 80%+ of the time); <b>B</b> one address net buying 0.05%+ of supply in 14 days and at least doubling what it held (or a new holder); <b>C</b> 15+ addresses net buying against fewer sellers. Separately, <b>exchange flow</b>: Binance coins where market buyers took a larger share of volume for 14 days while the price stayed quiet.</li>
+      <li><b>Bots and round trips are removed</b>: a wallet trading a token 30+ times a day, or buying and selling nearly the same amount, isn't counted.</li>
+      <li><b>The score (0-100) is a research ranking, not a probability.</b> Each part shows its numbers; missing data earns nothing. Confidence is separate: High, Medium or Low with stated criteria.</li>
+      <li><b>What the free data can't see:</b> only swaps of $500+ are collected, and only the last 300 per pool, so very busy pools have gaps (shown); history starts the day this lab started; top-holder lists aren't available for free; Ethereum balances and transfers need the free Etherscan key; no free source gives token unlock dates or project catalysts, so those show as "not measured".</li>
+      <li><b>Honest testing.</b> Every detection is judged 7, 14, 30, 60 and 90 days later against the other tokens watched over the same days. The recovery strategy is backtested on every Binance coin, delisted ones included. Both stay <b>Testing only</b> (never in alerts or the home page's best idea) until they pass.</li>
+      <li><b>Paper only.</b> The $100 account never trades real money, no wallet or key that can trade exists, and a watchlist entry never opens a trade by itself.</li>
+    </ul>
+  </article>
+
+  <footer>Mempool Omega is research and education software. Everything here is paper trading: no real orders. Accumulation does not mean a price will rise. Past results do not predict future results. Not financial advice.</footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
