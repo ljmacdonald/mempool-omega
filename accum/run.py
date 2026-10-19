@@ -22,9 +22,11 @@ from pathlib import Path
 from accum import config as K
 from accum import evidence as E
 from accum import forward as F
+from accum import history as HI
 from accum import paper as P
 from accum import recovery as R
 from accum import sources as S
+from accum import stealth as ST
 from accum import watch as W
 from core.config import state_path
 
@@ -82,37 +84,51 @@ def fnum(x):
 
 
 # ---------------------------------------------------------------- universe
+def looks_stable(sym: str, price) -> bool:
+    sym = (sym or "").upper()
+    return sym in K.STABLE_OR_WRAPPED or "USD" in sym or "EUR" in sym or bool(price and 0.97 <= price <= 1.03)
+
+
 def build_universe(now: datetime) -> dict:
-    """Daily: the DEX tokens to watch, with an exclusion reason for every pool left out."""
-    toks, excluded = {}, []
-    for chain in K.CHAINS:
-        seen = set()
-        for p in S.gt_top_pools(chain):
-            t = p["token"]
-            sym = (p["symbol"] or "").upper()
-            why = None
-            if t in seen:
-                continue
-            if sym in K.STABLE_OR_WRAPPED:
-                why = "stablecoin, wrapped or staked copy"
-            elif "USD" in sym or "EUR" in sym or (p["price_usd"] and 0.97 <= p["price_usd"] <= 1.03):
-                why = "looks like a stablecoin (name or a steady $1 price)"
-            elif (p["reserve_usd"] or 0) < K.MIN_RESERVE_USD:
-                why = f"liquidity under ${K.MIN_RESERVE_USD:,}"
-            elif (p["reserve_usd"] or 0) > K.MAX_RESERVE_USD:
-                why = "too large and busy to see who is buying from the free swap feed"
-            elif not p["created"] or (now - E.parse(p["created"])).days < K.MIN_POOL_AGE_D:
-                why = f"pool younger than {K.MIN_POOL_AGE_D} days (the Sniper lab's territory)"
-            seen.add(t)
-            if why:
-                excluded.append({"chain": chain, "symbol": p["symbol"], "token": t, "why": why})
-                continue
-            if sum(1 for v in toks.values() if v["chain"] == chain) >= K.MAX_TOKENS:
-                excluded.append({"chain": chain, "symbol": p["symbol"], "token": t, "why": f"over the {K.MAX_TOKENS}-token limit for {chain}"})
-                continue
-            toks[key_of(chain, t)] = {"chain": chain, "token": t, "pool": p["pool"], "symbol": p["symbol"], "name": p["name"],
-                                      "dex": p["dex"], "reserve_usd": p["reserve_usd"], "created": p["created"]}
-    return {"generated_at": now.isoformat(), "tokens": toks, "excluded": excluded[:300]}
+    """Daily (D120): the 600 largest coins by market cap (CoinGecko), with their contracts. Ethereum coins go to the
+    history replay; Solana coins are followed swap by swap (their largest pool). Every coin left out has a reason."""
+    coins = S.cg_markets(pages=3)[:600]
+    plist = jload(CACHE / "cg_platforms.json", {})
+    if not plist or plist.get("_day", "") < (now - timedelta(days=7)).date().isoformat():
+        lst = S._cg.get(f"{K.COINGECKO}/coins/list", {"include_platform": "true"})
+        if isinstance(lst, list) and lst:
+            plist = {"_day": now.date().isoformat(), **{c["id"]: c.get("platforms") or {} for c in lst}}
+            jsave(CACHE / "cg_platforms.json", plist)
+    eth, sol, excluded = [], {}, []
+    for rank, c in enumerate(coins, 1):
+        plat = plist.get(c["id"]) or {}
+        if looks_stable(c.get("symbol"), c.get("current_price")) or (c.get("symbol") or "").lower() in R.WRAPPED:
+            excluded.append({"chain": "-", "symbol": c.get("symbol"), "token": c["id"], "why": "stablecoin, wrapped or staked copy"})
+            continue
+        base = {"symbol": (c.get("symbol") or "").upper(), "id": c["id"], "supply": c.get("circulating_supply"), "price": c.get("current_price"),
+                "mcap": c.get("market_cap"), "rank": rank}
+        if plat.get("ethereum"):
+            eth.append({**base, "address": plat["ethereum"].lower()})
+        if plat.get("solana"):
+            sol[plat["solana"]] = base
+        if not plat.get("ethereum") and not plat.get("solana"):
+            excluded.append({"chain": "-", "symbol": c.get("symbol"), "token": c["id"], "why": "no Ethereum or Solana contract (its own chain): not covered"})
+    old = jload(sp("universe.json"), {}).get("tokens", {})
+    toks = {}
+    for mint, b in sol.items():                            # each Solana coin's largest pool (kept from yesterday when known)
+        k = key_of("solana", mint)
+        pool = (old.get(k) or {}).get("pool")
+        reserve = (old.get(k) or {}).get("reserve_usd")
+        if not pool:
+            d = S._gt.get(f"{K.GT}/networks/solana/tokens/{mint}/pools", {"page": 1}, S.GT_HDR)
+            best = max(((p.get("attributes") or {}) for p in (d or {}).get("data", [])), key=lambda a: S.f(a.get("reserve_in_usd")) or 0, default={})
+            pool, reserve = best.get("address"), S.f(best.get("reserve_in_usd"))
+        if not pool:
+            excluded.append({"chain": "solana", "symbol": b["symbol"], "token": mint, "why": "no DEX pool found"})
+            continue
+        toks[k] = {"chain": "solana", "token": mint, "pool": pool, "symbol": b["symbol"], "name": b["id"], "reserve_usd": reserve,
+                   "rank": b["rank"], "supply": b["supply"]}
+    return {"generated_at": now.isoformat(), "tokens": toks, "eth": eth, "excluded": excluded[:300], "top": len(coins)}
 
 
 # ---------------------------------------------------------------- history (finished days + the cache's recent days)
@@ -171,7 +187,7 @@ def run(now: datetime | None = None) -> dict:
     today = now.date()
     CACHE.mkdir(parents=True, exist_ok=True)
     uni = jload(sp("universe.json"), {})
-    if not uni.get("tokens") or (now - E.parse(uni["generated_at"])).total_seconds() > 86400:
+    if not uni.get("tokens") or "eth" not in uni or (now - E.parse(uni["generated_at"])).total_seconds() > 86400:
         fresh = build_universe(now)
         if fresh["tokens"]:
             uni = fresh
@@ -187,7 +203,7 @@ def run(now: datetime | None = None) -> dict:
     polls = jload(CACHE / "polls.json", {})
     last_poll = jload(CACHE / "last_poll.json", {})
     cutoff = (today - timedelta(days=K.RAW_KEEP_D - 1)).isoformat()
-    gaps = {}
+    gaps, sol_new = {}, {}
     for k, info in tracked.items():
         tr = S.gt_trades(info["chain"], info["pool"])
         if tr is None:
@@ -196,8 +212,12 @@ def run(now: datetime | None = None) -> dict:
         a, b = E.poll_interval(now, prev, tr)
         polls.setdefault(k, []).append([a.isoformat(), b.isoformat()])
         last_poll[k] = now.isoformat()
+        seen = {E.trade_key(t) for t in raw.get(k, [])}
+        fresh_trades = [t for t in tr if E.trade_key(t) not in seen and not t.get("anomalous") and t.get("qty")]
         raw[k], _ = E.merge_trades(raw.get(k, []), tr)
         gaps[k] = len(tr) >= 300 and prev is not None and E.parse(tr[0]["ts"]) > prev
+        if info["chain"] == "solana" and fresh_trades:
+            sol_new.setdefault(k, []).extend(fresh_trades)
     for k in list(raw):
         raw[k] = [t for t in raw[k] if t["ts"][:10] >= cutoff]
     for k in list(polls):
@@ -324,6 +344,8 @@ def run(now: datetime | None = None) -> dict:
             e["state"], e["since"] = st, now.isoformat()
         e.update(flow=x, updated=now.isoformat(), confidence="Low", confidence_why="exchange data never says who bought",
                  flags=["Exchange trading activity only: buyers' identities are unknown"])
+    # 4b) stealth accumulation (D120): Solana live from the swaps above, Ethereum replayed from full history then live
+    stealth = stealth_step(now, uni, tracked, sol_new, cstore, toks, entries, events, detections)
     append_csv(sp("events.csv"), events, ["t", "key", "symbol", "from", "to", "reason", "score", "version"])
     wl["entries"], wl["updated"] = entries, now.isoformat()
     jsave(sp("watchlist.json"), wl)
@@ -350,6 +372,14 @@ def run(now: datetime | None = None) -> dict:
                  "repricing": (evid.get(k, {}).get("m", {}).get("price") or {}).get("repricing"),
                  "low14": min((c["l"] for c in (cstore.get(k) or [])[-14:] if c.get("l")), default=None),
                  "why": "; ".join(r["why"] for r in e.get("routes") or [])} for k, e in entries.items() if k in tracked}
+    for k, e in entries.items():                           # stealth signals: their own exits (+60% / -30%), set by the replay's rules
+        if k.startswith("stealth:") and e.get("state") in W.ACTIVE and e.get("price"):
+            px = e["price"]
+            prices[k], reserves[k] = px, e.get("reserve")
+            cands[k] = {"key": k, "chain": e["info"]["chain"], "symbol": e["info"]["symbol"], "state": e["state"], "price": px,
+                        "price_at": E.parse(e["price_at"]), "reserve": e.get("reserve"), "route": "S", "repricing": False,
+                        "stop": px * (1 - ST.TRADE["stop"]), "target": px * (1 + ST.TRADE["take_profit"]),
+                        "why": (e.get("detection") or {}).get("evidence", [""])[0]}
     closed = P.manage(acc, cands, prices, lows, reserves, now)
     plans = {}
     for k, c in sorted(cands.items(), key=lambda kv: -(entries[kv[0]].get("score") or 0)):
@@ -375,11 +405,70 @@ def run(now: datetime | None = None) -> dict:
     reg = S.registry(jload(sp("registry.json"), {}))
     jsave(sp("registry.json"), reg, indent=1)
     snap = snapshot(now, uni, entries, evid, events, detections, fwd_rows, acc, mk, closed, plans, rec, bt, reg, gaps, usdc_px)
+    snap["stealth"] = stealth
     OUT.mkdir(parents=True, exist_ok=True)
     jsave(OUT / "snapshot.json", snap)
     log.info("accum: %d tracked, %d on the watchlist, %d events, %d new forward results", len(tracked),
              sum(1 for e in entries.values() if e["state"] in W.ACTIVE), len(events), len(new_fwd))
     return snap
+
+
+def stealth_step(now, uni, tracked, sol_new, cstore, toks, entries, events, detections) -> dict:
+    """Solana: today's new swaps go through the same day-by-day rules (forward only: no free Solana history).
+    Ethereum: the replay engine (accum/history.py). Recent signals become watchlist entries (route S)."""
+    sol_states = jload(CACHE / "sol_stealth.json", {})
+    for k, trades in sol_new.items():
+        st = sol_states.get(k) or {"symbol": tracked[k].get("symbol"), "address": tracked[k]["token"], "signals": [], "watch": [], "lp": []}
+        tr = ST.Tracker(st.get("tracker"))
+        closes = {datetime.fromtimestamp(c["t"], tz=timezone.utc).date().isoformat(): c["c"] for c in cstore.get(k, []) if c.get("c")}
+        supply = E.circulating(toks.get(k, {}))[0] or tracked[k].get("supply")
+        for t in sorted(trades, key=lambda x: x["ts"]):
+            d = t["ts"][:10]
+            if tr.day and d != tr.day:
+                HI.finish_day(st, tr, closes, supply, {}, chain="solana")
+            tr.day = d
+            tr.add(d, {t["wallet"]: t["qty"]} if t["side"] == "buy" else {}, {t["wallet"]: t["qty"]} if t["side"] == "sell" else {})
+        st["tracker"], st["prices"], st["last_day"], st["supply"] = tr.to_state(), closes, tr.day, supply
+        sol_states[k] = st
+    jsave(CACHE / "sol_stealth.json", sol_states)
+    budget = int(K.ETH_CALLS_PER_RUN)
+    eth = HI.run(uni.get("eth", []), now, max_calls=budget, max_seconds=K.ETH_SECONDS_PER_RUN) if uni.get("eth") else {}
+    sol_res = HI.results([{**v, "start_day": v.get("start_day") or (v.get("last_day") or now.date().isoformat())} for v in sol_states.values()], now)
+    out = {"eth": eth, "solana": {k: sol_res[k] for k in ("progress", "signals", "n_signals", "all", "verdict", "level", "tokens")},
+           "rules": ST.RULES, "trade": ST.TRADE}
+    jsave(sp("stealth.json"), out)
+    # live signals (last 3 days) -> the watchlist; the accumulators selling a quarter -> distribution
+    for chain, res in (("eth", eth), ("solana", sol_res)):
+        for r in (res or {}).get("signals", []):
+            k = f"stealth:{chain}:{r['address']}"
+            e = entries.get(k)
+            t = r.get("trade") or {}
+            if not r.get("live") and not e:
+                continue
+            if e is None:
+                e = entries[k] = {"key": k, "info": {"chain": chain, "symbol": r["symbol"], "token": r["address"]}, "state": None,
+                                  "since": now.isoformat(), "history": []}
+            st_new = ("distribution_detected" if t.get("reason") == "the accumulators started selling" else
+                      "archived" if t.get("reason") and t["reason"] != "still open" else "accumulation_detected")
+            if st_new != e["state"]:
+                why = (f"{r['accumulators']} addresses ({r.get('groups') or r['accumulators']} probable owners) quietly bought "
+                       f"{r['share']:.2%} of the supply in small chunks since {r.get('since')}, price {W.pct(r['quiet_change'])} over 30 days"
+                       if st_new == "accumulation_detected" else t.get("reason") or "")
+                events.append({"t": now.isoformat(), "key": k, "symbol": r["symbol"], "from": e["state"] or "", "to": st_new, "reason": why,
+                               "score": None, "version": K.SCORE_VERSION})
+                if st_new == "accumulation_detected" and not e.get("detection"):
+                    e["detection"] = {"at": now.isoformat(), "route": "S", "price": r.get("price"), "evidence": [why], "signal_day": r["day"],
+                                      "version": K.SCORE_VERSION}
+                    detections.append({"key": k, "chain": chain, "symbol": r["symbol"], "at": now.isoformat(), "price": r.get("price"),
+                                       "route": "S", "score": "", "version": K.SCORE_VERSION})
+                    append_csv(sp("detections.csv"), [detections[-1]], ["key", "chain", "symbol", "at", "price", "route", "score", "version"])
+                e["state"], e["since"] = st_new, now.isoformat()
+            px = S.gt_tokens(chain, [r["address"]]).get(r["address"]) if e["state"] in W.ACTIVE else None
+            e.update(updated=now.isoformat(), confidence="Medium" if chain == "eth" else "Low",
+                     confidence_why="full transfer history (Ethereum)" if chain == "eth" else "swaps seen since the lab started (Solana)",
+                     flags=["Pump-and-dump risk: the accumulators decide when to sell", "Groups are probable links (same funder), not proven"],
+                     stealth=r, price=(px or {}).get("price_usd"), reserve=(px or {}).get("reserve_usd"), price_at=now.isoformat())
+    return out
 
 
 def exchange_flow(now: datetime) -> dict:
@@ -513,7 +602,8 @@ def snapshot(now, uni, entries, evid, events, detections, fwd_rows, acc, mk, clo
     rows.sort(key=lambda r: (r["state"] not in W.ACTIVE, -(r["score"] or 0)))
     recent_ev = (read_csv(sp("events.csv")) or [])[-80:]
     return {"generated_at": now.isoformat(), "version": K.SCORE_VERSION, "paper_only": True, "live_trading": False,
-            "universe": {"tokens": len(uni.get("tokens", {})), "by_chain": {c: sum(1 for v in uni.get("tokens", {}).values() if v["chain"] == c) for c in K.CHAINS},
+            "universe": {"tokens": len(uni.get("tokens", {})) + len(uni.get("eth", [])), "top": uni.get("top"),
+                         "by_chain": {"solana": len(uni.get("tokens", {})), "eth": len(uni.get("eth", []))},
                          "excluded": uni.get("excluded", [])[:60], "at": uni.get("generated_at")},
             "watchlist": rows, "events": recent_ev[::-1], "detections": len(detections),
             "forward": {"summary": {str(h): F.summary(fwd_rows, h) for h in K.HORIZONS}, "rows": fwd_rows[-60:][::-1]},

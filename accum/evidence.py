@@ -7,8 +7,9 @@ Categories are kept apart (spec part 4.3):
   D  transfers and operational movements: never counted as buying or selling;
   E  inferred relationships: not built (no defensible free heuristic); every address is counted as an address.
 
-Bots and round trips (a wallet trading a token BOT_TRADES_PER_DAY+ times in a day, or whose net that day is under
-ROUND_TRIP_SHARE of what it traded) are left out of every acquisition figure and reported separately.
+Round trips (a wallet whose net that day is under ROUND_TRIP_SHARE of what it traded: arbitrage and market-making bots)
+are left out of every acquisition figure and reported separately. A wallet buying many small chunks is KEPT: that is
+exactly what stealth accumulation looks like (D120); it is only labelled frequent.
 Missing values stay None. Nothing is ever divided by zero; nothing missing is shown as 0.
 """
 from __future__ import annotations
@@ -92,7 +93,7 @@ def daily(trades: list[dict]) -> tuple[dict[str, dict], list[dict]]:
     for (d, _), w in per.items():
         gross = w["buy_qty"] + w["sell_qty"]
         net = w["buy_qty"] - w["sell_qty"]
-        bot = w["n"] > K.BOT_TRADES_PER_DAY or (w["buy_qty"] > 0 and w["sell_qty"] > 0 and gross > 0 and abs(net) < K.ROUND_TRIP_SHARE * gross)
+        bot = w["buy_qty"] > 0 and w["sell_qty"] > 0 and gross > 0 and abs(net) < K.ROUND_TRIP_SHARE * gross
         dd = days.setdefault(d, {"date": d, "buy_qty": 0.0, "sell_qty": 0.0, "buy_usd": 0.0, "sell_usd": 0.0, "buyers": 0, "sellers": 0,
                                  "bot_usd": 0.0, "n": 0, "close": None, "close_ts": ""})
         dd["n"] += w["n"]

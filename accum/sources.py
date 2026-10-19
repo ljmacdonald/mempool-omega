@@ -7,6 +7,7 @@ Rules for every adapter: bounded retries with backoff, explicit checks of the fi
 from __future__ import annotations
 
 import os
+import threading
 import time
 from datetime import datetime, timezone
 
@@ -24,7 +25,7 @@ REGISTRY = {
                    "top-holder call is often refused", "category": "B: balances"},
     "etherscan": {"name": "Etherscan (free key)", "auth": "free API key (ETHERSCAN_API_KEY secret)", "covers": "Ethereum token "
                   "transfers and wallet balances (other chains need a paid plan; holder lists are paid)",
-                  "history": "full transfer history", "limit": "5 requests a second, 100,000 a day",
+                  "history": "full transfer history", "limit": "3 requests a second, 100,000 a day",
                   "category": "B: balances, D: transfers"},
     "binance": {"name": "Binance public market data", "auth": "public, no key", "covers": "exchange candles with taker buy "
                 "volume (who hit the ask, not who they are), delisted coins' history", "history": "years",
@@ -42,7 +43,15 @@ def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+_note_lock = threading.Lock()
+
+
 def note(src: str, ok: bool, err: str | None = None) -> None:
+    with _note_lock:
+        _note(src, ok, err)
+
+
+def _note(src: str, ok: bool, err: str | None = None) -> None:
     h = _health[src]
     h["calls"] += 1
     if ok:
@@ -70,12 +79,14 @@ class Http:
     def __init__(self, src: str, pace: float = 0.0, session: requests.Session | None = None):
         self.src, self.pace, self.last = src, pace, 0.0
         self.s = session or requests.Session()
+        self.lock = threading.Lock()              # several replay threads share one rate limit
 
     def _wait(self):
-        w = self.pace - (time.monotonic() - self.last)
-        if w > 0:
-            time.sleep(w)
-        self.last = time.monotonic()
+        with self.lock:
+            w = self.pace - (time.monotonic() - self.last)
+            if w > 0:
+                time.sleep(w)
+            self.last = time.monotonic()
 
     def get(self, url: str, params: dict | None = None, headers: dict | None = None, tries: int = 4, quiet: bool = False):
         return self._call("GET", url, params=params, headers=headers, tries=tries, quiet=quiet)
@@ -112,7 +123,7 @@ class Http:
 GT_HDR = {"Accept": "application/json;version=20230302"}
 _gt = Http("geckoterminal", K.GT_PACE_S)
 _sol = Http("solana_rpc", 0.4)
-_es = Http("etherscan", 0.25)
+_es = Http("etherscan", 0.36)                 # the free plan allows 3 requests a second
 _bn = Http("binance", 0.1)
 _cg = Http("coingecko", 6.5)
 _ll = Http("defillama", 0.5)
@@ -250,7 +261,12 @@ def es(params: dict):
     key = etherscan_key()
     if not key:
         return None
-    d = _es.get(K.ETHERSCAN, {"chainid": 1, **params, "apikey": key})
+    for i in range(4):
+        d = _es.get(K.ETHERSCAN, {"chainid": 1, **params, "apikey": key})
+        if d and "rate limit" in str(d.get("result", "")).lower():     # too fast: wait and try again, not an error
+            time.sleep(1 + i)
+            continue
+        break
     if not d:
         return None
     if str(d.get("status")) != "1" and d.get("message") != "No transactions found":

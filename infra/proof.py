@@ -203,6 +203,13 @@ def other_units() -> list[dict]:
                 "proven": ok, "reason": why.replace("trades", "detections judged 30 days later").replace("random picks", "the other tokens watched"),
                 "n": f30.get("n") or 0, "avg": f30.get("avg"), "hit": f30.get("hit"), "edge": f30.get("edge"), "t_edge": f30.get("t_edge"),
                 "late": None, "unit": "%", "source": "forward record (30 days after each detection)"})
+    se = (s.get("stealth") or {}).get("eth") or {}
+    a2 = se.get("all") or {}
+    out.append({"id": "accum:stealth", "section": "accum", "path": "accum/#stealth", "name": "Accumulation lab · Stealth accumulation",
+                "proven": se.get("level") == "good", "reason": se.get("verdict") or "Replay not started yet.", "n": a2.get("n"),
+                "avg": a2.get("avg"), "hit": a2.get("hit"), "edge": a2.get("edge"), "t_edge": a2.get("t_edge"),
+                "late": {x: (se.get("late") or {}).get(x) for x in ("n", "avg", "edge", "t_edge")}, "unit": "%",
+                "source": "2-year replay of Ethereum transfer history, then live"})
     b = ((s.get("backtest") or {}).get("results") or {}).get("90") or {}
     a = b.get("all") or {}
     out.append({"id": "accum:recovery", "section": "accum", "path": "accum/", "name": "Accumulation lab · Distressed recovery",

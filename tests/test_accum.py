@@ -76,12 +76,12 @@ def test_duplicate_swaps_are_counted_once():
     assert added == 1 and len(merged) == 2
 
 
-def test_bots_and_round_trips_are_left_out():
-    t = [swap(days_ago(1), "BOT", "buy", 10, h=1 + i % 20, tx=f"b{i}") for i in range(40)]
+def test_round_trips_are_left_out_but_frequent_small_buyers_are_kept():
+    t = [swap(days_ago(1), "CHUNKS", "buy", 10, h=1 + i % 20, tx=f"b{i}") for i in range(40)]      # 40 small buys: stealth
     t += [swap(days_ago(1), "RT", "buy", 100, tx="r1"), swap(days_ago(1), "RT", "sell", 95, tx="r2")]
     t += [swap(days_ago(1), "REAL", "buy", 50, tx="z")]
     ds, ws = E.daily(t)
-    assert ds[days_ago(1)]["buy_qty"] == 50 and ds[days_ago(1)]["bot_usd"] > 0
+    assert ds[days_ago(1)]["buy_qty"] == 450 and ds[days_ago(1)]["bot_usd"] > 0
 
 
 def test_same_ticker_on_two_chains_stays_two_tokens(tmp_path):

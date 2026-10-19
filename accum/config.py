@@ -17,10 +17,10 @@ STABLE_OR_WRAPPED = {"USDC", "USDT", "DAI", "USDE", "USDS", "PYUSD", "FDUSD", "T
                      "TBTC", "JITOSOL", "MSOL", "BSOL", "JUPSOL", "INF", "EURC", "PAXG", "XAUT", "SUSDE", "BUIDL"}
 
 # ---- evidence
-MIN_TRADE_USD = 500                    # only swaps of $500+ are collected (fewer, more meaningful trades per request)
-BOT_TRADES_PER_DAY = 30                # a wallet trading a token more often than this in a day is treated as a bot
+MIN_TRADE_USD = 0                      # every swap, any size: stealth buyers use small chunks (D120)
+BOT_TRADES_PER_DAY = 30                # a wallet trading a token more often than this in a day is labelled frequent (kept)
 ROUND_TRIP_SHARE = 0.2                 # a wallet whose daily net is under 20% of what it traded is round-tripping
-WALLET_KEEP_USD = 1_000                # per-wallet daily rows are kept when the wallet's net that day is at least this
+WALLET_KEEP_USD = 50                   # per-wallet daily rows are kept when the wallet's net that day is at least this
 RAW_KEEP_D = 3                         # raw swaps kept (evidence references, duplicate checks)
 DAILY_KEEP_D = 100
 WINDOWS = (7, 14, 30, 60, 90)
@@ -40,6 +40,10 @@ MIN_LIQUIDITY_KEEP = 100_000           # below this a candidate is disqualified 
 # ---- score v1 (points) - provisional, see docs/ACCUMULATION.md
 WEIGHTS = {"verified": 25, "buyer_relative": 20, "persistence": 15, "supply_share": 10, "liquidity": 10,
            "participation": 10, "price": 5, "quality": 5}
+
+# ---- stealth accumulation (D120): Ethereum replay allowance per hourly run (the free key: 100,000 a day, 3 a second)
+ETH_CALLS_PER_RUN = 3000
+ETH_SECONDS_PER_RUN = 1080
 
 # ---- forward evaluation and the paper account
 HORIZONS = (7, 14, 30, 60, 90)

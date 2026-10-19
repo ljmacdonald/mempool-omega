@@ -106,7 +106,7 @@
       ${Object.entries(sc.parts || {}).map(([k, p]) => `<tr><td>${esc(k.replace("_", " "))}</td><td class="num">${p.points} / ${p.max}</td><td class="small">${esc(p.why)}</td></tr>`).join("")}</tbody></table></div>
       <h4>Verified swaps by window <span class="kind">A</span></h4>
       <div class="table-wrap"><table><thead><tr><th>Window</th><th class="num">Days observed</th><th class="num">Swap coverage</th><th class="num">Net tokens</th><th class="num">Net $</th><th class="num">Share of supply</th><th class="num">Days with net buying</th><th class="num">Addresses buying / selling</th></tr></thead><tbody>${winRows}</tbody></table></div>
-      <p class="small muted">Circulating supply: ${fin(e.circ) ? qty(e.circ) : "unknown"} (${esc(e.circ_src || "")}). Pool liquidity ${big(e.reserve)}. Price over 14 days ${pct((e.price || {}).change)}${(e.price || {}).repricing ? " (already repricing)" : ""}. Only swaps of $500+ are collected; bots and round trips are left out.</p>
+      <p class="small muted">Circulating supply: ${fin(e.circ) ? qty(e.circ) : "unknown"} (${esc(e.circ_src || "")}). Pool liquidity ${big(e.reserve)}. Price over 14 days ${pct((e.price || {}).change)}${(e.price || {}).repricing ? " (already repricing)" : ""}. Round trips (arbitrage bots) are left out; frequent small buyers are kept.</p>
       <h4>Biggest net buyers in 14 days <span class="kind">A</span> <span class="kind">B</span></h4>
       ${(e.buyers || []).length ? `<div class="table-wrap"><table><thead><tr><th>Address</th><th class="num">Net bought</th><th class="num">Net $</th><th class="num">Share of supply</th><th>Against what it held before</th></tr></thead><tbody>
         ${e.buyers.map((b) => `<tr><td class="addr"><a href="${explorer(r.chain, b.wallet)}" target="_blank" rel="noopener">${esc(short(b.wallet))}</a>${b.exchange ? ` <span class="pill warn">${esc(b.exchange)} custody</span>` : ""}</td><td class="num">${qty(b.net_qty)}</td><td class="num">${usd(b.net_usd)}</td><td class="num">${share(b.share)}</td>
@@ -119,6 +119,31 @@
         <li>Accumulation is not a forecast: many accumulated tokens never rise. Unlock schedules and project news aren't measured here.</li></ul>
       <h4>Status history</h4>
       ${evs.length ? `<div class="table-wrap"><table><thead><tr><th>When</th><th>Change</th><th>Why</th></tr></thead><tbody>${evs.map((x) => `<tr><td class="small">${esc(when(x.t))}</td><td>${esc(LABEL[x.from] || x.from || "new")} → <b>${esc(LABEL[x.to] || x.to)}</b></td><td class="small">${esc(x.reason)}</td></tr>`).join("")}</tbody></table></div>` : '<p class="small muted">No changes in the recent log.</p>'}`;
+  }
+
+  // ------------------------------------------------------------------ stealth accumulation (D120)
+  function stealth() {
+    const X = S.stealth || {}, E = X.eth || {}, So = X.solana || {};
+    if (E.unavailable) { $("stealthBody").innerHTML = `<p class="banner warn">${esc(E.unavailable)}</p>`; return; }
+    const P = E.progress || {}, A = E.all || {};
+    const tone = { good: "good", warn: "warn", bad: "bad" };
+    const reasons = Object.entries(A.reasons || {}).map(([k, v]) => `${v} ${esc(k)}`).join(" · ");
+    const sigRow = (r) => { const t = r.trade || {}; return `<tr><td><b>${esc(r.symbol)}</b>${r.live ? ' <span class="pill good">new</span>' : ""}<div class="small muted addr">${esc(short(r.address))}</div></td><td class="small">${esc(r.day)}<div class="muted">buying since ${esc(r.since || "")}</div></td>
+      <td class="num">${share(r.share)}</td><td class="num">${r.accumulators}${r.groups && r.groups !== r.accumulators ? ` <span class="small muted">(${r.groups} probable owners)</span>` : ""}</td><td class="num">${pct(r.quiet_change)}</td>
+      <td class="small">${(r.lp_by_accumulators || []).length ? `liquidity ${esc(r.lp_by_accumulators[0].kind === "add" ? "added" : "removed")} ${esc(r.lp_by_accumulators[0].day)}` : "–"}</td>
+      <td class="num ${fin(t.ret) ? (t.ret >= 0 ? "up" : "down") : ""}">${fin(t.ret) ? pct(t.ret) : t.reason === "still open" ? "open" : "–"}</td><td class="small">${esc(t.reason || "no price after the signal")}${fin(t.best) ? ` · best ${pct(t.best)}, worst ${pct(t.worst)}` : ""}</td><td class="num">${pct(r.random)}</td></tr>`; };
+    const closest = (E.tokens || []).filter((x) => x.closest > 0).sort((a, b) => b.closest - a.closest).slice(0, 12);
+    $("stealthBody").innerHTML = `<div class="stats">
+        <div class="stat"><div class="k">Ethereum coins replayed</div><div class="v">${P.caught_up ?? 0} / ${P.tokens ?? 0}</div><div class="small muted">fully up to date; the rest are still being read (${(P.transfers || 0).toLocaleString()} transfers so far)</div></div>
+        <div class="stat"><div class="k">Signals found</div><div class="v">${E.n_signals ?? 0}</div><div class="small muted">over ${(P.days_replayed || 0).toLocaleString()} coin-days of history</div></div>
+        <div class="stat"><div class="k">Would it have paid?</div><div class="v ${fin(A.avg) ? (A.avg >= 0 ? "up" : "down") : ""}">${A.n ? pct(A.avg) : "–"}</div><div class="small muted">${A.n ? `average per trade after costs, ${A.n} finished; random coins ${pct(A.random)}` : "no finished trades yet"}</div></div>
+        <div class="stat"><div class="k">Pump came</div><div class="v">${fin(A.pumped) ? `${Math.round(A.pumped * 100)}%` : "–"}</div><div class="small muted">of signals reached +60%${fin(A.hit) ? `; ${Math.round(A.hit * 100)}% of trades made money` : ""}</div></div></div>
+      <p><span class="pill ${tone[E.level] || "calm"}">${esc(E.verdict || "Not judged yet")}</span>${A.n ? ` <span class="small muted">Edge over random coins ${pct(A.edge)} a trade, luck test t = ${fin(A.t_edge) ? A.t_edge.toFixed(1) : "–"}. Exits: ${reasons}.</span>` : ""}</p>
+      ${(E.signals || []).length ? `<h4>Signals, newest first</h4><div class="table-wrap"><table><thead><tr><th>Coin</th><th>Signal day</th><th class="num">Quietly bought (share of supply)</th><th class="num">Addresses</th><th class="num">Price, 30 days before</th><th>Liquidity by them</th><th class="num">Paper trade</th><th>How it ended</th><th class="num">Same trade on random coins</th></tr></thead><tbody>${E.signals.slice(0, 60).map(sigRow).join("")}</tbody></table></div>` : `<p>${P.caught_up ? "No coin has shown this pattern in the history replayed so far." : "The replay has just started: the first results appear as each coin's two years are read (a few days with the free key)."}</p>`}
+      ${closest.length ? `<details><summary>Closest to a signal so far (quiet buying found, but not yet 0.5% of the supply)</summary><ul class="small">${closest.map((x) => `<li><b>${esc(x.symbol)}</b>: ${share(x.closest)} on ${esc(x.closest_day || "")}</li>`).join("")}</ul></details>` : ""}
+      <details><summary>Solana (watched from the day the lab started: ${So.n_signals ?? 0} signals)</summary><p class="small">${esc(So.verdict || "")} Solana has no free transfer history, so its coins are followed swap by swap from now on.</p>
+        ${(So.signals || []).length ? `<div class="table-wrap"><table><tbody>${So.signals.slice(0, 20).map(sigRow).join("")}</tbody></table></div>` : ""}</details>
+      <p class="small muted">Rules fixed before any result: ${esc(JSON.stringify(X.rules || {}))}. Trade: +${Math.round(((X.trade || {}).take_profit || 0) * 100)}% / −${Math.round(((X.trade || {}).stop || 0) * 100)}% / accumulators sell ${Math.round(((X.trade || {}).dump || 0) * 100)}% / ${(X.trade || {}).max_days} days, ${pct((X.trade || {}).cost)} costs. Circulating supply is today's (CoinGecko): a stated simplification. Pump-and-dumps are run by the people accumulating; they choose when to sell, usually onto late buyers.</p>`;
   }
 
   // ------------------------------------------------------------------ events, recovery, backtest, record, paper, sources
@@ -182,7 +207,7 @@
       ${Object.values(R).map((x) => `<tr><td><b>${esc(x.name)}</b><div class="small muted">${esc(x.auth)}</div></td><td class="small">${esc(x.category)}</td><td class="small">${esc(x.covers)}</td><td class="small">${esc(x.history)}</td><td class="small">${esc(x.limit)}</td>
         <td class="small">${!x.connected ? '<span class="pill warn">Not connected</span> add the free key to switch it on' : x.last_ok ? `<span class="pill good">Working</span> ${esc(ago(x.last_ok))}` : '<span class="pill calm">Not used yet</span>'}
         ${x.last_error ? `<div class="muted">Last error ${esc(ago(x.last_error_at))}: ${esc(x.last_error)}</div>` : ""}</td></tr>`).join("")}</tbody></table></div>
-      ${(S.gaps_now || []).length ? `<p class="small">Gaps this hour (more $500+ swaps than the free feed returns): ${S.gaps_now.length} pool${S.gaps_now.length === 1 ? "" : "s"}. Their coverage is shown on each token.</p>` : ""}
+      ${(S.gaps_now || []).length ? `<p class="small">Gaps this hour (more swaps than the free feed returns): ${S.gaps_now.length} pool${S.gaps_now.length === 1 ? "" : "s"}. Their coverage is shown on each token.</p>` : ""}
       <details><summary>Tokens left out of the universe (${(S.universe.excluded || []).length} shown)</summary><ul class="small">${(S.universe.excluded || []).map((x) => `<li>${esc(x.symbol)} (${esc(CHAIN[x.chain] || x.chain)}): ${esc(x.why)}</li>`).join("")}</ul></details>`;
   }
 
@@ -191,7 +216,7 @@
       const r = await fetch(`${DATA}snapshot.json?t=${Date.now()}`, { cache: "no-store" });
       if (!r.ok) throw new Error(r.status);
       S = await r.json();
-      summary(); table(); events(); recovery(); backtest(); record(); paper(); sources();
+      summary(); stealth(); table(); events(); recovery(); backtest(); record(); paper(); sources();
       if (selected) detail();
     } catch {
       $("summary").className = "banner warn";
