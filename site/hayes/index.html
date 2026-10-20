@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mempool Omega · Recovery engine A</title>
+<meta name="description" content="Engine A (Hayes Recovery): established coins 75-90% below their peak, bought only when the dollar-liquidity regime allows. Tested on every coin since 2019, delisted ones included. Paper only.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../style.css">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#3b4ee8">
+<link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32.png">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<script src="../theme.js"></script>
+<script src="../gate.js"></script>
+<script src="../shell.js" defer></script>
+<style>
+  .wrap > .card, .wrap > .banner { margin-block: 14px; } .card > * { min-width: 0; }
+  tr.sel td { background: var(--sunken); }
+</style>
+</head>
+<body data-engine="hayes">
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Mempool Omega · Recovery engine A</h1>
+      <p class="muted small">Coins 75–90% below their 365-day high, bought only when dollar liquidity allows · tested on history first · paper only</p>
+    </div>
+    <div class="top-right">
+      <nav class="sites" aria-label="Choose a page"><a href="../coins/" data-site="main">Exchange coins</a><a href="../small/" data-site="small">Small coins</a><a href="../dex/" data-site="dex">DEX tokens</a><a href="../stocks/" data-site="stocks">US stocks</a><a href="../fx/" data-site="fx">Forex</a><a href="../ict/" data-site="ict">ICT setups</a><a href="../lab/" data-site="lab">Strategy lab</a><a href="../whales/" data-site="whales">Whale tracker</a><a href="../listings/" data-site="listings">New listings</a><a href="../sniper/" data-site="sniper">Sniper lab</a><a href="../mev/" data-site="mev">Arbitrage lab</a><a href="../accum/" data-site="accum">Accumulation lab</a><a href="./" data-site="hayes" aria-current="page">Recovery engine A</a><a href="../deep/" data-site="deep">Deep distress engine B</a><a href="../predict/" data-site="predict">Prediction markets</a><a href="../challenge/" data-site="challenge">$100 challenge</a><a href="../challenge-small/" data-site="challenge-small">$100 Small-coin challenge</a><a href="../carry/" data-site="carry">$100 funding account</a><a href="../results/" data-site="results">Results</a><a href="../report/" data-site="report">Weekly report</a><a href="../status/" data-site="status">System status</a></nav>
+      <div class="theme-switch" data-theme-switch role="group" aria-label="Day or night colours"></div>
+      <span class="status" id="status">Loading…</span>
+    </div>
+  </header>
+
+  <div id="summary" class="banner calm">Loading the report…</div>
+
+  <article class="card" id="tests"><h2>Did it pass its tests?</h2><p class="small muted">The specification's own pass/fail tests, applied automatically. Failing any one halts the engine.</p><div id="testsBody"><p class="muted">Loading…</p></div></article>
+  <article class="card" id="regime"><h2>The liquidity regime today</h2><p class="small muted">Engine A's master switch: three measured signals, never forecasts, each used only from the day it was published.</p><div id="regimeBody"><p class="muted">Loading…</p></div></article>
+  <article class="card" id="study"><h2>History test: every crash since 2019</h2><p class="small muted">Every time a coin's trough sat 75–90% below its 365-day high (still within 60% of the trough, with 18+ months of history and $5M+ daily volume), and what happened next, split by the regime that day.</p><div id="studyBody"><p class="muted">Loading…</p></div></article>
+
+  <article class="card" id="how">
+    <h2>How it works, and what it can't see</h2>
+    <ul class="rules">
+      <li><b>The idea</b> (from Arthur Hayes' writing on liquidity): coins crushed 75–90% can recover when dollar liquidity is rising. Two ways in: an <b>asymmetric</b> sleeve (tiny positions, early, hoping for 3x+) and a <b>confirmed</b> sleeve (after a higher low and a structure break).</li>
+      <li><b>Rules fixed first.</b> Every threshold is the specification's default (hayes/profile.yaml); none is tuned on these results.</li>
+      <li><b>No hindsight.</b> Each day uses only prices up to that day and liquidity data from its publication date.</li>
+      <li><b>What history can't include:</b> past token unlock schedules, fees and developer activity aren't available for free day by day, so those filters (which would remove weak coins) are not in the history test. Perpetual-futures data isn't in it either, so the entry thresholds are 5 points higher, as the specification says.</li>
+      <li><b>All free, nothing manual:</b> Binance and Coinbase public price data (delisted coins included), the Federal Reserve's FRED data, DefiLlama stablecoin totals.</li>
+      <li><b>Paper only.</b> No real orders, no wallet, no key that can trade. A halted engine opens nothing, not even on paper.</li>
+    </ul>
+  </article>
+
+  <footer>Mempool Omega is research and education software. Everything here is paper trading: no real orders. A deep fall is not a reason to buy. Past results do not predict future results. Not financial advice.</footer>
+</div>
+<script src="../engines.js"></script>
+</body>
+</html>

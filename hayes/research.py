@@ -140,28 +140,35 @@ def summarise(rows: list[dict]) -> dict:
     return out
 
 
-def event_study(series: dict[str, list[dict]], trading: set[str], btc: list[dict], fred_series: dict, stables: list,
-                profile: dict | None = None) -> dict:
-    """series: symbol -> candles (Binance USDT, daily); trading: symbols still trading today. profile: Engine A's by default."""
+def regime_fn(fred_series: dict, stables: list, btc_close: dict, profile: dict | None = None, full: bool = False):
+    """day -> the regime that day (cached), from the inputs as published by then; full=True returns the whole record."""
     Pf = profile or load()
     P = Pf["regime"]["publication_lag_days"]
     w = RG.Series(fred_series["WALCL"], P["WALCL"], RG.UNIT_TO_MILLIONS["WALCL"])
     r = RG.Series(fred_series["RRPONTSYD"], P["RRPONTSYD"], RG.UNIT_TO_MILLIONS["RRPONTSYD"])
     t = RG.Series(fred_series["WTREGEN"], P["WTREGEN"], RG.UNIT_TO_MILLIONS["WTREGEN"])
     s = RG.Series(stables, P["stablecoins"])
-    btc_close = {x["d"]: x["c"] for x in btc}
-    cache: dict[str, str] = {}
+    cache: dict[str, dict] = {}
 
-    def regime_of(day: str) -> str:
+    def regime_of(day: str):
         if day not in cache:
-            cache[day] = RG.classify(date.fromisoformat(day), w, r, t, s, btc_close, Pf)["state"]
-        return cache[day]
+            cache[day] = RG.classify(date.fromisoformat(day), w, r, t, s, btc_close, Pf)
+        return cache[day] if full else cache[day]["state"]
+    return regime_of
 
+
+def event_study(series: dict[str, list[dict]], trading: set[str], btc: list[dict], fred_series: dict, stables: list,
+                profile: dict | None = None) -> dict:
+    """series: symbol -> candles (Binance USDT, daily); trading: symbols still trading today. profile: Engine A's by default."""
+    Pf = profile or load()
+    btc_close = {x["d"]: x["c"] for x in btc}
+    regime_of = regime_fn(fred_series, stables, btc_close, Pf)
     events = []
     for sym, c in series.items():
         events += events_for(sym, c, btc_close, sym in trading, regime_of, Pf)
     out = {"engine": Pf["engine"], "profile_version": Pf["profile_version"], "coins": len(series),
            "delisted_coins": sum(1 for x in series if x not in trading), "events": len(events),
+           "events_by_coin": {sym: n for sym in series if (n := sum(1 for e in events if e["symbol"] == sym))},
            "regime_inputs_ok": bool(fred_series["WALCL"] and fred_series["RRPONTSYD"] and fred_series["WTREGEN"] and stables)}
     for way in ("touch", *entry_rules(Pf)):
         rows = [{"fwd": e["touch_fwd"], "btc": e["btc_touch"], "regime": e["regime_touch"]} for e in events] if way == "touch" else \

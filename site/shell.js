@@ -15,6 +15,8 @@
     listings: { path: "listings/", name: "New listings", group: "lab", risk: "Very high risk", kind: "Tested rules", blurb: "Coins just listed on big exchanges, and what really happens after a listing.", action: "Only act on the tested ideas at the top; most new listings fall." },
     sniper: { path: "sniper/", name: "Sniper lab", group: "lab", risk: "Paper only", kind: "Research", blurb: "Brand-new DEX tokens, scam-checked and paper-sniped: does it pay after the bots?", action: "Watch only: no real-money sniping until the verdict says it holds up." },
     accum: { path: "accum/", name: "Accumulation lab", group: "lab", risk: "Paper only", kind: "Research", blurb: "Who is quietly buying before the price moves, and old coins that may recover: the evidence, checked and tested.", action: "Watch only: a watchlist entry is research, not a trade. Read the evidence and the warnings." },
+    hayes: { path: "hayes/", name: "Recovery engine A", group: "lab", risk: "Paper only", kind: "Research", blurb: "Coins 75–90% down, bought only when dollar liquidity is rising: tested on every coin since 2019 first.", action: "Watch only: it trades nothing, not even on paper, unless it passes its history tests." },
+    deep: { path: "deep/", name: "Deep distress engine B", group: "lab", risk: "Paper only", kind: "Research", blurb: "Coins 92–98% down with a measured catalyst: data coverage checked, then tested on history.", action: "Watch only: it trades nothing, not even on paper, unless it passes its history tests." },
     mev: { path: "mev/", name: "Arbitrage lab", group: "lab", risk: "Paper only", kind: "Research", blurb: "Solana arbitrage against real bots, fees and Jito tips: does an opportunity survive long enough to take?", action: "Watch only: shadow mode, nothing is ever signed or sent." },
     stocks: { path: "stocks/", name: "US stocks", group: "ideas", risk: "Medium risk", kind: "Live ideas", blurb: "The most-traded US stocks and a high-volatility list, during market hours.", action: "Start with Large stocks; ideas appear 9:30–16:00 New York time." },
     fx: { path: "fx/", name: "Forex & gold", group: "ideas", risk: "Medium risk", kind: "Live ideas", blurb: "Currency pairs, gold and silver, buy or sell, checked for manipulation.", action: "Start with the major pairs and avoid the news windows." },
@@ -142,7 +144,7 @@
   };
   const PAGE_ICON = { results: "chart", report: "cal", status: "pulse", challenge: "wallet", "challenge-small": "wallet", carry: "wallet", main: "coin",
     small: "small", dex: "dex", stocks: "stocks", fx: "fx", ict: "target", lab: "flask", listings: "spark", sniper: "target", predict: "dice",
-    whales: "wave", mev: "bolt", accum: "layers", legal: "doc" };
+    whales: "wave", mev: "bolt", accum: "layers", hayes: "chart", deep: "chart", legal: "doc" };
   const icon = (k, g) => `<span class="ni-ico" data-g="${g}" aria-hidden="true"><svg viewBox="0 0 24 24">${ICON[PAGE_ICON[k]] || ICON.shield}</svg></span>`;
 
   function buildMenus(nav) {
@@ -268,7 +270,7 @@
   }
 
   // ------------------------------------------------------------------ the answer first (D115-D118): proven or testing, the market, the best idea
-  const PROOF_PAGES = new Set(["main", "small", "dex", "stocks", "fx", "ict", "lab", "listings", "sniper", "predict", "whales", "accum"]);
+  const PROOF_PAGES = new Set(["main", "small", "dex", "stocks", "fx", "ict", "lab", "listings", "sniper", "predict", "whales", "accum", "hayes", "deep"]);
   const MARKET_PAGES = new Set(["main", "small", "dex", "listings", "sniper", "whales", "lab", "ict", "accum"]);
   const pctS = (x) => (Number.isFinite(x) ? `${x >= 0 ? "+" : "−"}${Math.abs(x * 100).toFixed(2)}%` : "–");
   function marketText(m) {

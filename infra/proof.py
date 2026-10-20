@@ -43,7 +43,7 @@ SCANNER = [  # section key, page, name, history files, {style: label}
      {"stk_today": "Today", "stk_days": "Days"}),
     ("fx", "fx/", "Forex & gold", ["fx/history.csv"], {"fx_today": "Today", "fx_days": "Days"}),
 ]
-CRYPTO = {"main", "small", "dex", "sniper", "listings", "whales", "accum"}
+CRYPTO = {"main", "small", "dex", "sniper", "listings", "whales", "accum", "hayes", "deep"}
 
 
 def tstat(xs: list[float]) -> float | None:
@@ -217,12 +217,22 @@ def other_units() -> list[dict]:
                 "avg": a.get("avg"), "hit": a.get("hit"), "edge": a.get("edge"), "t_edge": a.get("t_edge"),
                 "late": {x: (b.get("late") or {}).get(x) for x in ("n", "avg", "edge", "t_edge")}, "unit": "%",
                 "source": "history test, 90 days after each signal (delisted coins included)"})
+    for key, name in (("hayes", "Recovery engine A"), ("deep", "Deep distress engine B")):   # D121, D122: halted unless every test passes
+        s = S.read_data(f"{key}/research.json") or {}
+        k = s.get("kill") or {}
+        fails = [n for n, v in list(k.items()) + list((k.get("backtest") or {}).items()) if isinstance(v, dict) and v.get("pass") is False]
+        out.append({"id": key, "section": key, "path": f"{key}/", "name": name, "proven": s.get("status") == "paper",
+                    "reason": "Passed every one of its history tests." if s.get("status") == "paper" else
+                    f"Halted: failed {len(fails)} of its own history tests." if s else "Not tested yet.",
+                    "n": ((s.get("event_study") or {}).get("events")), "avg": None, "hit": None, "edge": None, "t_edge": None,
+                    "late": None, "unit": "%", "source": "history test on every coin since 2019 (delisted coins included)"})
     return out
 
 
 SECTION_NAMES = {"main": "Exchange coins", "small": "Small coins", "dex": "DEX tokens", "stocks": "US stocks", "fx": "Forex & gold",
                  "ict": "ICT setups", "lab": "Strategy lab", "listings": "New listings", "sniper": "Sniper lab",
-                 "predict": "Prediction markets", "whales": "Whale tracker", "accum": "Accumulation lab"}
+                 "predict": "Prediction markets", "whales": "Whale tracker", "accum": "Accumulation lab",
+                 "hayes": "Recovery engine A", "deep": "Deep distress engine B"}
 
 
 def build(now: datetime | None = None) -> dict:

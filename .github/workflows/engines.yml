@@ -1,0 +1,51 @@
+name: Recovery engines A and B (weekly validation)
+
+# PAPER ONLY (DECISIONS D121, D122). Every week: re-runs Engine A's and Engine B's own pass/fail tests on the latest
+# free data (Binance and Coinbase public prices with delisted coins, FRED, DefiLlama) and publishes the reports the
+# two pages show. A halted engine opens nothing, not even on paper. No wallet, no keys that can trade, no orders.
+run-name: "Engines: ${{ github.event.schedule || 'run' }}"
+on:
+  schedule:
+    - cron: "50 8 * * 0"   # Sunday
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: omega-engines
+  cancel-in-progress: false
+
+jobs:
+  engines:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        run: pip install -e .
+      # Daily candles of every coin live in GitHub's free build cache, topped up each week.
+      - name: Restore the price cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .cache/engines
+          key: engines-${{ github.run_id }}
+          restore-keys: engines-
+      - name: Run both engines' tests
+        run: python -m deep.run
+      - name: Save the price cache
+        if: always()
+        uses: actions/cache/save@v5
+        with:
+          path: .cache/engines
+          key: engines-${{ github.run_id }}
+      - name: Publish the reports for the website (data branch)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bash infra/publish_data.sh .cache/engines_out/hayes.json hayes/research.json
+          bash infra/publish_data.sh .cache/engines_out/deep.json deep/research.json
