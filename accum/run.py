@@ -16,6 +16,7 @@ import hashlib
 import json
 import logging
 import sys
+import time
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
@@ -180,6 +181,10 @@ def evidence_for(k: str, info: dict, tok: dict, days: dict, wallets: list, cov: 
     w = {n: E.window_metrics(days, wallets, cov, today, n, circ, reserve) for n in K.WINDOWS}
     return {"key": k, "circ": circ, "circ_src": circ_src, "reserve": reserve, "w": w, "weekly": E.weekly_nets(days, today),
             "price": E.price_context(candles, today, 14), "buyers": []}
+
+
+RUN_STARTED = time.monotonic()
+RUN_LIMIT_S = 48 * 60                                     # the job may run 60 minutes; leave room to save and publish
 
 
 def run(now: datetime | None = None) -> dict:
@@ -432,7 +437,9 @@ def stealth_step(now, uni, tracked, sol_new, cstore, toks, entries, events, dete
         sol_states[k] = st
     jsave(CACHE / "sol_stealth.json", sol_states)
     budget = int(K.ETH_CALLS_PER_RUN)
-    eth = HI.run(uni.get("eth", []), now, max_calls=budget, max_seconds=K.ETH_SECONDS_PER_RUN) if uni.get("eth") else {}
+    left = RUN_LIMIT_S - (time.monotonic() - RUN_STARTED) - 6 * 60   # recovery and the paper account still to come
+    seconds = int(max(60, min(K.ETH_SECONDS_PER_RUN, left)))
+    eth = HI.run(uni.get("eth", []), now, max_calls=budget, max_seconds=seconds) if uni.get("eth") else {}
     sol_res = HI.results([{**v, "start_day": v.get("start_day") or (v.get("last_day") or now.date().isoformat())} for v in sol_states.values()], now)
     out = {"eth": eth, "solana": {k: sol_res[k] for k in ("progress", "signals", "n_signals", "all", "verdict", "level", "tokens")},
            "rules": ST.RULES, "trade": ST.TRADE}

@@ -1,0 +1,88 @@
+# Engine A (Hayes Recovery) thresholds. Every rule reads from here; nothing is hard-coded in the engine.
+# Values are the specification's defaults (ENGINE_A_SPEC.md). Changing any value requires a new profile_version.
+engine: A_HAYES
+profile_version: 1
+starting_equity_usdc: 10000
+exchange: coinbase            # US-accessible; USD and USDC books are one market there
+
+distress:
+  lookback_days: 365
+  band: [-0.90, -0.75]
+  recovery_cap: 0.60
+  trough_age_days: [14, 180]
+  max_gap_days: 3             # daily candles must cover the reference high to today (at most this many days missing in a row)
+
+universe:
+  min_history_months: 18
+  cooloff_days: 14
+  liquidity: {min_adv_usd: 5000000, max_spread_bps: 30, min_depth_2pct_usd: 50000}
+  dilution: {min_circulating_to_max: 0.35, max_fdv_to_mcap: 2.5}
+
+supply:
+  sell_shares: {investors: 0.50, team: 0.40, community: 0.60, treasury: 0.20, other: 0.50}
+  penalty_days: 1.0
+  hard_block_days: 3.0
+  max_release_pct_float: 0.05
+  unknown_schedule: {asymmetric: block, confirmed_min_circulating_to_max: 0.80}
+
+quality:
+  min_annual_fees_usd: 1000000
+  max_missing_pct: 0.30
+  weights: {resilience: 30, valuation: 20, value_accrual: 25, development: 15, runway: 10}
+  min_score: 40
+
+confirmation:
+  rs_lookback_days: 30
+  no_perps_threshold_add: 5
+  swing_n: 3                  # a swing low/high is the lowest/highest point with this many days either side
+  higher_low_min_days: 5
+  volume_ratio: 1.3
+  weights: {higher_low: 20, structure_break: 20, relative_strength: 20, volume_expansion: 15, derivatives_reset: 15, spot_led: 10}
+
+regime:
+  nl_change_days: 91          # 13 weeks
+  stablecoin_change_days: 30
+  btc_sma_days: 200
+  publication_lag_days: {WALCL: 1, WTREGEN: 1, RRPONTSYD: 1, stablecoins: 1}
+  max_age_days: {WALCL: 14, WTREGEN: 14, RRPONTSYD: 7, stablecoins: 3, btc: 3}
+
+portfolio:
+  min_usdc_core_pct: 0.80
+  max_capital_at_risk_pct: 0.08
+  max_positions: 10
+  max_per_sector: 2
+  adv_cap_pct: 0.02
+  max_stressed_slippage_bps: 200
+  trail_pct_risk_off: 0.20
+  fee_per_side: 0.001
+  base_slippage_bps: 10
+
+sleeves:
+  asymmetric:
+    allowed_regimes: [risk_on]
+    min_confirmation: 45
+    required_components: [higher_low]
+    require_value_accrual: true
+    sizing: {mode: full_loss, size_pct: 0.01}
+    max_positions: 6
+    ladder: [[2.0, 0.50], [3.0, 0.15], [5.0, 0.15]]
+    trail_pct: 0.30
+    disaster_below_trough_pct: 0.15
+    time_stop: {days: 180, min_gain: 0.50}
+  confirmed:
+    allowed_regimes: [risk_on, neutral]
+    neutral_size_multiplier: 0.5
+    min_confirmation: 65
+    required_components: [higher_low, structure_break]
+    sizing: {mode: stop_risk, risk_pct: 0.0075, gap_multiplier: 1.5, max_position_pct: 0.05}
+    stop: below_last_higher_low
+    max_positions: 4
+    ladder: [[1.5, 0.334], [2.0, 0.333]]
+    move_stop_to_entry_after_first_target: true
+    trail_pct: 0.25
+    time_stop: {days: 90, min_gain: 0.25}
+
+kill:
+  event_study_min_3x_share: 0.10       # asymmetric setups reaching 3x (within 365 days)
+  backtest_min_positive_windows: 2     # of 3 out-of-sample windows with positive expectancy after costs
+  max_profit_share_one_token: 0.50
