@@ -16,6 +16,7 @@ import csv
 import io
 import json
 import logging
+import subprocess
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -49,12 +50,23 @@ def get(url: str, params: dict | None = None, tries: int = 4, timeout: int = 60,
     return None
 
 
-def fred(series: str) -> list[tuple[str, float]]:
-    r = get("https://fred.stlouisfed.org/graph/fredgraph.csv", {"id": series})
-    if r is None:
-        return []
+def fred(series: str, tries: int = 4) -> list[tuple[str, float]]:
+    """FRED's public CSV. FRED's firewall stalls Python's HTTP client but serves the same file to curl (on every
+    GitHub runner), so the download runs through curl itself."""
+    text = ""
+    for i in range(tries):
+        try:
+            p = subprocess.run(["curl", "-sSf", "--max-time", "90", f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series}"],
+                               capture_output=True, text=True, timeout=120)
+            if p.returncode == 0 and p.stdout.startswith("observation_date"):
+                text = p.stdout
+                break
+            log.warning("FRED %s: curl exit %s %s", series, p.returncode, p.stderr.strip()[:200])
+        except (OSError, subprocess.SubprocessError) as e:
+            log.warning("FRED %s: %s", series, e)
+        time.sleep(min(30, 2 ** (i + 1)))
     out = []
-    for row in csv.reader(io.StringIO(r.text)):
+    for row in csv.reader(io.StringIO(text)):
         if len(row) == 2 and row[0][:2] in ("19", "20"):
             try:
                 out.append((row[0], float(row[1])))
