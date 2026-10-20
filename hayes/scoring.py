@@ -16,10 +16,10 @@ def _days(a: str, b: str) -> int:
 
 
 # ---------------------------------------------------------------- 1. trough-based distress
-def distress(candles: list[dict]) -> dict:
+def distress(candles: list[dict], profile: dict | None = None) -> dict:
     """H = highest high over 365 days, L = lowest low after H, trough_dd = L/H - 1, recovery = P/L - 1.
     The band applies to the trough, so a confirmed rebound doesn't push a token out of its own band."""
-    P = load()["distress"]
+    P = (profile or load())["distress"]
     out = {"version": VERSION, "pass": False, "codes": []}
     if not candles:
         return {**out, "codes": ["NO_DATA"]}
@@ -62,11 +62,12 @@ def swings(candles: list[dict], n: int) -> tuple[list[int], list[int]]:
     return lows, highs
 
 
-def confirmation(candles: list[dict], btc: dict[str, float], trough_day: str, trough: float, perps: dict | None = None) -> dict:
+def confirmation(candles: list[dict], btc: dict[str, float], trough_day: str, trough: float, perps: dict | None = None,
+                 profile: dict | None = None) -> dict:
     """0-100 with components. perps (optional): {oi_off_peak: fraction below the decline peak, funding: rate,
     spot_share_rising: bool, oi_flat_or_falling: bool}. Without perps the last two components are dropped and the
     weights rescale; the sleeves' thresholds then rise by no_perps_threshold_add (applied by the caller)."""
-    P = load()["confirmation"]
+    P = (profile or load())["confirmation"]
     W = P["weights"]
     comp, avail = {}, dict(W)
     iT = next((i for i, c in enumerate(candles) if c["d"] == trough_day), None)
@@ -103,11 +104,11 @@ def confirmation(candles: list[dict], btc: dict[str, float], trough_day: str, tr
 
 # ---------------------------------------------------------------- 3. supply pressure
 def supply_pressure(unlocks: list[dict] | None, price: float | None, adv30: float | None, circulating: float | None,
-                    today: str) -> dict:
+                    today: str, profile: dict | None = None) -> dict:
     """A30 = sum over unlocks in the next 30 days of qty x price x assumed sell share, divided by 30-day average daily
     volume (days of normal volume needed to absorb it); days 31-90 count at half weight. unlocks: [{day, qty, recipient}]
     (linear vesting already turned into daily amounts by the caller). None = schedule unknown."""
-    P = load()["supply"]
+    P = (profile or load())["supply"]
     if unlocks is None:
         return {"version": VERSION, "known": False, "codes": ["SCHEDULE_UNKNOWN"]}
     if not price or not adv30:
@@ -126,7 +127,7 @@ def supply_pressure(unlocks: list[dict] | None, price: float | None, adv30: floa
     codes = []
     if a30 > P["hard_block_days"] or (pct_float is not None and pct_float >= P["max_release_pct_float"]):
         codes.append("U10_SUPPLY_HARD_BLOCK")
-    elif a30 > P["penalty_days"]:
+    elif P.get("penalty_days") is not None and a30 > P["penalty_days"]:
         codes.append("SUPPLY_PENALTY")
     return {"version": VERSION, "known": True, "a30": a30, "release_30d_pct_float": pct_float, "codes": codes}
 
@@ -134,11 +135,11 @@ def supply_pressure(unlocks: list[dict] | None, price: float | None, adv30: floa
 # ---------------------------------------------------------------- 4. quality
 def quality(fees_90d_peak_drop: float | None, price_peak_drop: float | None, mcap_to_fees_pctile: float | None,
             holders_revenue_30d: float | None, commits_ratio: float | None, runway_months: float | None,
-            annual_fees: float | None) -> dict:
+            annual_fees: float | None, profile: dict | None = None) -> dict:
     """resilience = 1 - fee decline / price decline (did usage hold while price collapsed?). Missing components are
     dropped and weights rescaled; over max_missing_pct missing -> deferred. Value accrual is measured (holders revenue:
     buybacks, burns, staker share), never inferred."""
-    P = load()["quality"]
+    P = (profile or load())["quality"]
     W = P["weights"]
     parts = {}
     if fees_90d_peak_drop is not None and price_peak_drop:
@@ -167,10 +168,10 @@ def quality(fees_90d_peak_drop: float | None, price_peak_drop: float | None, mca
 
 
 # ---------------------------------------------------------------- 2. hard gates
-def gates(f: dict) -> list[str]:
+def gates(f: dict, profile: dict | None = None) -> list[str]:
     """Every failing gate code (any one makes the token ineligible, whatever its scores). f: the facts, with None for
     unknown; an unknown critical fact fails its gate (data never defaults)."""
-    U = load()["universe"]
+    U = (profile or load())["universe"]
     fails = []
     if not f.get("usdc_market"):
         fails.append("U1_MARKET")

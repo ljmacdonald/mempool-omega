@@ -16,7 +16,7 @@ import pandas as pd
 
 from hayes import regime as RG
 from hayes import scoring as SC
-from hayes.profile import fingerprint, load
+from hayes.profile import load
 
 STABLES = {"USDC", "FDUSD", "TUSD", "BUSD", "USDP", "DAI", "USDE", "PYUSD", "EUR", "EURI", "AEUR", "USD1", "XUSD", "BFUSD", "UST", "USDS", "PAX", "SUSD"}
 WRAPPED = {"WBTC", "WBETH", "BETH", "STETH", "WSTETH", "BNSOL", "PAXG", "XAUT"}
@@ -44,42 +44,60 @@ def forward(c: list[dict], i: int, last_trading: bool) -> dict:
             out["ret"][h] = None                               # the horizon hasn't come yet
     seg = c[i + 1:i + 366]
     out["max_mult"] = max((x["h"] for x in seg), default=p0) / p0
-    out["fell_50"] = min((x["l"] for x in c[i + 1:i + 181]), default=p0) / p0 <= 0.5
+    low180 = min((x["l"] for x in c[i + 1:i + 181]), default=p0) / p0
+    out["fell_50"], out["fell_80"] = low180 <= 0.5, low180 <= 0.2
     out["complete_365"] = len(seg) >= 365 or not last_trading
     return out
 
 
-def events_for(sym: str, c: list[dict], btc_close: dict, trading: bool, regime_of) -> list[dict]:
-    P = load()
-    if len(c) < 548:
+def entry_rules(P: dict) -> dict:
+    """The ways of entering an event, from the profile: Engine A's two sleeves, or Engine B's single entry rule. No
+    perpetuals in this history: the confirmation's price-and-volume part, with the profile's higher no-perps threshold."""
+    if "sleeves" in P:
+        add = P["confirmation"]["no_perps_threshold_add"]
+        return {k: {"min": P["sleeves"][k]["min_confirmation"] + add, "req": P["sleeves"][k]["required_components"], "base_days": 0}
+                for k in ("asymmetric", "confirmed")}
+    C = P["confirmation"]
+    return {"entry": {"min": C["no_perps_min_confirmation"], "req": C["required_components"], "base_days": C["min_base_days"]}}
+
+
+def events_for(sym: str, c: list[dict], btc_close: dict, trading: bool, regime_of, P: dict | None = None) -> list[dict]:
+    P = P or load()
+    hist_d = int(P["universe"]["min_history_months"] * 30.4)
+    if len(c) < hist_d:
         return []
     df = pd.DataFrame(c)
     roll = df["h"].rolling(P["distress"]["lookback_days"], min_periods=1).max()
     adv = df["v"].rolling(30).mean()
-    cand = [i for i in range(548, len(c)) if df["c"].iat[i] <= 0.40 * roll.iat[i] and (adv.iat[i] or 0) >= P["universe"]["liquidity"]["min_adv_usd"]]
+    ceiling = (1 + P["distress"]["band"][1]) * (1 + P["distress"]["recovery_cap"])     # the highest price a passing day can have
+    cand = [i for i in range(hist_d, len(c)) if df["c"].iat[i] <= ceiling * roll.iat[i] and (adv.iat[i] or 0) >= P["universe"]["liquidity"]["min_adv_usd"]]
     out, seen = [], set()
-    add = P["confirmation"]["no_perps_threshold_add"]
-    th = {k: P["sleeves"][k]["min_confirmation"] + add for k in ("asymmetric", "confirmed")}
+    rules = entry_rules(P)
+    span = P["distress"]["trough_age_days"][1]
     for i in cand:
         if c[i]["d"] < "2019-01-01":
             continue
-        d = SC.distress(c[max(0, i - 400):i + 1])
+        d = SC.distress(c[max(0, i - 400):i + 1], P)
         if not d["pass"] or d["H_day"] in seen:
             continue
         seen.add(d["H_day"])
         ev = {"symbol": sym, "touch": c[i]["d"], "H_day": d["H_day"], "trough_dd": d["trough_dd"], "regime_touch": regime_of(c[i]["d"]),
               "touch_fwd": forward(c, i, trading), "btc_touch": btc_fwd(btc_close, c[i]["d"])}
-        for sleeve in ("asymmetric", "confirmed"):            # first day each sleeve's confirmation passed, within the episode
-            for j in range(i, min(len(c), i + 181)):
-                dj = SC.distress(c[max(0, j - 400):j + 1])
-                if dj.get("H_day") != d["H_day"] or not dj.get("L"):
-                    break
-                cf = SC.confirmation(c[max(0, j - 400):j + 1], btc_close, dj["L_day"], dj["L"])
-                req = P["sleeves"][sleeve]["required_components"]
-                if cf["score"] >= th[sleeve] and all(cf["components"].get(r) for r in req):
-                    ev[sleeve] = {"day": c[j]["d"], "score": cf["score"], "regime": regime_of(c[j]["d"]), "fwd": forward(c, j, trading),
-                                  "btc": btc_fwd(btc_close, c[j]["d"])}
-                    break
+        pending = dict(rules)
+        for j in range(i, min(len(c), i + span + 1)):           # the first day each entry rule passed, within the episode
+            if not pending:
+                break
+            dj = SC.distress(c[max(0, j - 400):j + 1], P)
+            if dj.get("H_day") != d["H_day"] or not dj.get("L"):
+                break
+            if not dj["pass"]:
+                continue
+            cf = SC.confirmation(c[max(0, j - 400):j + 1], btc_close, dj["L_day"], dj["L"], None, P)
+            for name, r in list(pending.items()):
+                if cf["score"] >= r["min"] and all(cf["components"].get(x) for x in r["req"]) and dj["trough_age"] >= r["base_days"]:
+                    ev[name] = {"day": c[j]["d"], "score": cf["score"], "regime": regime_of(c[j]["d"]), "fwd": forward(c, j, trading),
+                                "btc": btc_fwd(btc_close, c[j]["d"])}
+                    pending.pop(name)
         out.append(ev)
     return out
 
@@ -113,16 +131,20 @@ def summarise(rows: list[dict]) -> dict:
                        "btc_median": statistics.median(b) if b else None,
                        "delisted": sum(1 for x in rows if x["fwd"]["delisted"].get(h)) / len(r) if r else None}
     full = [x for x in rows if x["fwd"]["complete_365"]]
-    for m in (2, 3, 5):
+    for m in (2, 3, 5, 10):
         out[f"reached_{m}x"] = sum(1 for x in full if x["fwd"]["max_mult"] >= m) / len(full) if full else None
     out["fell_another_50"] = sum(1 for x in rows if x["fwd"]["fell_50"]) / len(rows) if rows else None
+    out["fell_another_80"] = sum(1 for x in rows if x["fwd"]["fell_80"]) / len(rows) if rows else None
+    out["delisted_or_fell_80"] = sum(1 for x in rows if x["fwd"]["fell_80"] or any(x["fwd"]["delisted"].values())) / len(rows) if rows else None
     out["n_full_year"] = len(full)
     return out
 
 
-def event_study(series: dict[str, list[dict]], trading: set[str], btc: list[dict], fred_series: dict, stables: list) -> dict:
-    """series: symbol -> candles (Binance USDT, daily); trading: symbols still trading today."""
-    P = load()["regime"]["publication_lag_days"]
+def event_study(series: dict[str, list[dict]], trading: set[str], btc: list[dict], fred_series: dict, stables: list,
+                profile: dict | None = None) -> dict:
+    """series: symbol -> candles (Binance USDT, daily); trading: symbols still trading today. profile: Engine A's by default."""
+    Pf = profile or load()
+    P = Pf["regime"]["publication_lag_days"]
     w = RG.Series(fred_series["WALCL"], P["WALCL"], RG.UNIT_TO_MILLIONS["WALCL"])
     r = RG.Series(fred_series["RRPONTSYD"], P["RRPONTSYD"], RG.UNIT_TO_MILLIONS["RRPONTSYD"])
     t = RG.Series(fred_series["WTREGEN"], P["WTREGEN"], RG.UNIT_TO_MILLIONS["WTREGEN"])
@@ -132,27 +154,33 @@ def event_study(series: dict[str, list[dict]], trading: set[str], btc: list[dict
 
     def regime_of(day: str) -> str:
         if day not in cache:
-            cache[day] = RG.classify(date.fromisoformat(day), w, r, t, s, btc_close)["state"]
+            cache[day] = RG.classify(date.fromisoformat(day), w, r, t, s, btc_close, Pf)["state"]
         return cache[day]
 
     events = []
     for sym, c in series.items():
-        events += events_for(sym, c, btc_close, sym in trading, regime_of)
-    out = {"profile": fingerprint(), "coins": len(series), "delisted_coins": sum(1 for x in series if x not in trading), "events": len(events)}
-    for way in ("touch", "asymmetric", "confirmed"):
+        events += events_for(sym, c, btc_close, sym in trading, regime_of, Pf)
+    out = {"engine": Pf["engine"], "profile_version": Pf["profile_version"], "coins": len(series),
+           "delisted_coins": sum(1 for x in series if x not in trading), "events": len(events),
+           "regime_inputs_ok": bool(fred_series["WALCL"] and fred_series["RRPONTSYD"] and fred_series["WTREGEN"] and stables)}
+    for way in ("touch", *entry_rules(Pf)):
         rows = [{"fwd": e["touch_fwd"], "btc": e["btc_touch"], "regime": e["regime_touch"]} for e in events] if way == "touch" else \
                [{"fwd": e[way]["fwd"], "btc": e[way]["btc"], "regime": e[way]["regime"]} for e in events if e.get(way)]
         out[way] = {"all": summarise(rows), **{st: summarise([x for x in rows if x["regime"] == st]) for st in ("risk_on", "neutral", "risk_off")}}
-    K = load()["kill"]
-    conf = out["confirmed"]["risk_on"]["180"]
-    k1 = conf["median"] is not None and conf["btc_median"] is not None and conf["median"] > conf["btc_median"]
-    asym = out["asymmetric"]["all"].get("reached_3x")
-    k2 = asym is not None and asym >= K["event_study_min_3x_share"]
-    out["kill"] = {"confirmed_beats_btc_risk_on_180d": {"pass": k1, "median": conf["median"], "btc_median": conf["btc_median"], "n": conf["n"]},
-                   "asymmetric_3x_share": {"pass": k2, "share": asym, "min": K["event_study_min_3x_share"], "n": out["asymmetric"]["all"]["n_full_year"]}}
-    out["status"] = "paper" if k1 and k2 else "halted"
     out["samples"] = [{"symbol": e["symbol"], "touch": e["touch"], "trough_dd": e["trough_dd"], "regime": e["regime_touch"],
                        "ret_180": e["touch_fwd"]["ret"].get(180), "max_mult": e["touch_fwd"]["max_mult"],
-                       "confirmed": (e.get("confirmed") or {}).get("day"), "conf_ret_180": ((e.get("confirmed") or {}).get("fwd") or {}).get("ret", {}).get(180)}
+                       **{f"{k}_day": (e.get(k) or {}).get("day") for k in entry_rules(Pf)}}
                       for e in sorted(events, key=lambda e: e["touch"])[-200:]]
     return out
+
+
+def kill_a(es: dict, P: dict | None = None) -> dict:
+    """Engine A's event-study kill criteria (applied automatically)."""
+    K = (P or load())["kill"]
+    conf = es["confirmed"]["risk_on"]["180"]
+    k1 = conf["median"] is not None and conf["btc_median"] is not None and conf["median"] > conf["btc_median"]
+    asym = es["asymmetric"]["all"].get("reached_3x")
+    k2 = asym is not None and asym >= K["event_study_min_3x_share"]
+    return {"confirmed_beats_btc_risk_on_180d": {"pass": k1, "median": conf["median"], "btc_median": conf["btc_median"], "n": conf["n"]},
+            "asymmetric_3x_share": {"pass": k2, "share": asym, "min": K["event_study_min_3x_share"], "n": es["asymmetric"]["all"]["n_full_year"]},
+            "status": "paper" if k1 and k2 and es["regime_inputs_ok"] else "halted"}

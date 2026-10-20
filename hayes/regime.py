@@ -40,9 +40,9 @@ def net_liquidity(walcl: Series, rrp: Series, tga: Series, day: date) -> tuple[f
     return vals["WALCL"][0] - vals["RRPONTSYD"][0] - vals["WTREGEN"][0], vals
 
 
-def classify(day: date, walcl: Series, rrp: Series, tga: Series, stables: Series, btc: dict[str, float]) -> dict:
+def classify(day: date, walcl: Series, rrp: Series, tga: Series, stables: Series, btc: dict[str, float], profile: dict | None = None) -> dict:
     """The regime on `day` with every input and its date (pure: same inputs, same answer)."""
-    P = load()["regime"]
+    P = (profile or load())["regime"]
     nl, vals = net_liquidity(walcl, rrp, tga, day)
     nl_then, _ = net_liquidity(walcl, rrp, tga, day - timedelta(days=P["nl_change_days"]))
     st_now, st_obs = stables.as_of(day)
@@ -52,7 +52,7 @@ def classify(day: date, walcl: Series, rrp: Series, tga: Series, stables: Series
     btc_day = max((d for d in btc if d <= day.isoformat()), default=None)
     sma = sum(closes) / len(closes) if len(closes) == P["btc_sma_days"] else None
     stale = []
-    for k, (v, obs) in vals.items():
+    for k, (_v, obs) in vals.items():
         if obs is None or (day - obs).days > P["max_age_days"][k]:
             stale.append(k)
     if st_obs is None or (day - st_obs).days > P["max_age_days"]["stablecoins"]:

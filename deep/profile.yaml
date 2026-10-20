@@ -1,0 +1,91 @@
+# Engine B (Deep Distress) thresholds: the specification's defaults (ENGINE_B_SPEC.md), stricter than Engine A's.
+engine: B_DEEP
+profile_version: 1
+starting_equity_usdc: 10000
+exchange: coinbase
+
+distress:
+  lookback_days: 365
+  band: [-0.98, -0.92]
+  recovery_cap: 1.00
+  trough_age_days: [30, 365]
+  max_gap_days: 3
+
+universe:
+  min_history_months: 24
+  min_major_listings: 2
+  cooloff_days: 14
+  liquidity: {min_adv_usd: 1000000, max_spread_bps: 50, min_depth_2pct_usd: 20000}
+  dilution: {min_circulating_to_max: 0.60, max_fdv_to_mcap: 1.7}
+
+supply:
+  sell_shares: {investors: 0.50, team: 0.40, community: 0.60, treasury: 0.20, other: 0.50}
+  penalty_days: null
+  hard_block_days: 0.5
+  max_release_pct_float: 0.03
+  unknown_schedule: block
+
+quality:
+  min_annual_fees_usd: 500000
+  max_missing_pct: 0.20
+  min_score: 0
+  require_fees_bottomed: true
+  require_value_accrual: true
+  require_commits_last_90d: true
+  weights: {resilience: 30, valuation: 20, value_accrual: 25, development: 15, runway: 10}
+
+confirmation:
+  rs_lookback_days: 60
+  min_confirmation: 55
+  no_perps_min_confirmation: 60
+  required_components: [higher_low]
+  min_base_days: 30
+  swing_n: 3
+  higher_low_min_days: 5
+  volume_ratio: 1.3
+  weights: {higher_low: 20, structure_break: 20, relative_strength: 20, volume_expansion: 15, derivatives_reset: 15, spot_led: 10}
+
+catalyst:
+  required: true
+  # detected automatically from measured data, never typed in (owner's requirement, D122)
+  types: [buyback_or_burn, fee_switch_to_holders, emissions_cut, overhang_resolved]
+  expiry_days: 180
+  emissions_cut_ratio: 0.5     # daily unlock rate fell to half or less of its rate 90 days earlier
+  overhang_days: 30            # the largest scheduled unlock passed within this many days
+
+coverage:
+  min_ratio: 0.80
+  since: 2019-01-01
+
+regime:
+  nl_change_days: 91
+  stablecoin_change_days: 30
+  btc_sma_days: 200
+  publication_lag_days: {WALCL: 1, WTREGEN: 1, RRPONTSYD: 1, stablecoins: 1}
+  max_age_days: {WALCL: 14, WTREGEN: 14, RRPONTSYD: 7, stablecoins: 3, btc: 3}
+
+portfolio:
+  allowed_regimes: [risk_on]
+  min_usdc_core_pct: 0.95
+  max_capital_at_risk_pct: 0.04
+  max_positions: 8
+  max_per_sector: 2
+  adv_cap_pct: 0.02
+  max_stressed_slippage_bps: 200
+  thin_volume_slippage_multiplier: 2.0
+  fee_per_side: 0.001
+  base_slippage_bps: 10
+  sizing: {mode: full_loss, size_pct: 0.005}
+
+exits:
+  ladder: [[2.0, 0.50], [4.0, 0.15], [8.0, 0.15]]
+  trail_pct: 0.40
+  trail_pct_risk_off: 0.25
+  disaster_below_trough_pct: 0.25
+  time_stop: {days: 270, min_gain: 0.50}
+
+kill:
+  max_delisted_or_fell_80: 0.40
+  min_3x_share: 0.15
+  backtest_min_positive_windows: 2
+  max_profit_share_one_token: 0.50

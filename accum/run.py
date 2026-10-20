@@ -115,15 +115,20 @@ def build_universe(now: datetime) -> dict:
         if not plat.get("ethereum") and not plat.get("solana"):
             excluded.append({"chain": "-", "symbol": c.get("symbol"), "token": c["id"], "why": "no Ethereum or Solana contract (its own chain): not covered"})
     old = jload(sp("universe.json"), {}).get("tokens", {})
-    toks = {}
-    for mint, b in sol.items():                            # each Solana coin's largest pool (kept from yesterday when known)
+    toks, mints = {}, list(sol)
+    top: dict[str, tuple] = {}
+    for i in range(0, len(mints), 30):                     # each coin's largest pool, 30 coins a request
+        d = S._gt.get(f"{K.GT}/networks/solana/tokens/multi/{','.join(mints[i:i + 30])}", {"include": "top_pools"}, S.GT_HDR)
+        res = {p["id"]: S.f((p.get("attributes") or {}).get("reserve_in_usd")) for p in (d or {}).get("included", [])}
+        for t in (d or {}).get("data", []):
+            a = t.get("attributes") or {}
+            pools = (((t.get("relationships") or {}).get("top_pools") or {}).get("data")) or []
+            best = max(pools, key=lambda p: res.get(p["id"]) or 0, default=None)
+            if a.get("address") and best:
+                top[a["address"]] = (best["id"].split("_", 1)[-1], res.get(best["id"]))
+    for mint, b in sol.items():
         k = key_of("solana", mint)
-        pool = (old.get(k) or {}).get("pool")
-        reserve = (old.get(k) or {}).get("reserve_usd")
-        if not pool:
-            d = S._gt.get(f"{K.GT}/networks/solana/tokens/{mint}/pools", {"page": 1}, S.GT_HDR)
-            best = max(((p.get("attributes") or {}) for p in (d or {}).get("data", [])), key=lambda a: S.f(a.get("reserve_in_usd")) or 0, default={})
-            pool, reserve = best.get("address"), S.f(best.get("reserve_in_usd"))
+        pool, reserve = top.get(mint) or ((old.get(k) or {}).get("pool"), (old.get(k) or {}).get("reserve_usd"))
         if not pool:
             excluded.append({"chain": "solana", "symbol": b["symbol"], "token": mint, "why": "no DEX pool found"})
             continue
