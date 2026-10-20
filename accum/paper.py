@@ -58,13 +58,13 @@ def plan(c: dict, acc: dict, prices: dict, usdc_ok: bool, now: datetime) -> dict
         why = "price missing or stale"
     elif any(p["key"] == c["key"] for p in acc["positions"]):
         why = "already holding it"
-    elif not c.get("low14"):
+    elif not c.get("low14") and not c.get("stop"):
         why = "no 14-day low: no defensible invalidation level"
     if why:
         return {"eligible": False, "why": why}
-    stop = c["low14"] * 0.98
+    stop = c.get("stop") or c["low14"] * 0.98             # stealth signals bring their own tested exits (-30% / +60%)
     dist = (px - stop) / px
-    if not (K.STOP_RANGE[0] <= dist <= K.STOP_RANGE[1]):
+    if not c.get("stop") and not (K.STOP_RANGE[0] <= dist <= K.STOP_RANGE[1]):
         return {"eligible": False, "why": f"invalidation {dist:.0%} below the price: outside {K.STOP_RANGE[0]:.0%}-{K.STOP_RANGE[1]:.0%}, no defensible stop"}
     eq = equity(acc, prices)
     qty = K.RISK_PER_TRADE * eq / (px - stop)
@@ -78,7 +78,7 @@ def plan(c: dict, acc: dict, prices: dict, usdc_ok: bool, now: datetime) -> dict
     imp = impact(notional, c.get("reserve"))
     if imp is None:
         return {"eligible": False, "why": "liquidity unknown: price impact can't be estimated"}
-    target = px + K.MIN_RR * (px - stop)
+    target = c.get("target") or px + K.MIN_RR * (px - stop)
     costs = notional * 2 * (K.DEX_FEE + imp) + 2 * K.NETWORK_FEE_USD.get(c.get("chain"), 0.3)
     gain = qty * (target - px)
     if costs > 0.25 * gain:

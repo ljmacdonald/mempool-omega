@@ -62,8 +62,8 @@ every hour. Missing values are never shown as zero.
 
 ## 4. Metrics (spec 5.4)
 
-Only swaps of **$500+** are collected. Bots (30+ trades a day in one token) and round trips (daily net under 20% of
-what was traded) are excluded from every acquisition figure and reported separately.
+Every swap is collected, any size (D120). Round trips (daily net under 20% of what was traded: arbitrage bots) are
+excluded from every acquisition figure and reported separately. Frequent small buyers are kept.
 
 | # | Metric | Formula | When unavailable |
 |---|---|---|---|
@@ -222,3 +222,61 @@ Statuses:
 | 16 | Test suite (32 cases) | Done; 24 tests cover them | `tests/test_accum.py` |
 | 17 | Documentation | Done, consolidated here | This file, plus DECISIONS D119 |
 | 18 | Final report | Done | Given to the owner in the build conversation |
+
+## 12. Stealth accumulation: the top 600 coins (D120)
+
+**The owner's pattern.**
+1. A coin goes quiet.
+2. Someone buys it in small chunks over many days, with a few cover sales, until they hold a meaningful share.
+3. Liquidity is added, and the price is pumped.
+4. They sell into the pump.
+
+**The aim.** Detect the quiet buying, buy on paper before the pump, and exit before the dump.
+
+**Universe.** Every day, the 600 largest coins by market cap (CoinGecko), with their contracts from CoinGecko's coin
+list. Stablecoins and wrapped copies are excluded with reasons.
+- **Ethereum coins** (about 300): replayed from their full transfer history (Etherscan, free key) over the **last 2 years**,
+  then followed live. Coins over $2B are replayed over the last 90 days only, because quietly collecting 0.5% of them isn't
+  realistic.
+- **Solana coins** (about 140): every swap from today (GeckoTerminal), because there is no free Solana history.
+
+**Reading swaps from transfers** (`accum/stealth.py: classify`). Inside one transaction:
+- If a known pool paid tokens out, the addresses whose balance rose bought.
+- If a pool took tokens in, the addresses whose balance fell sold.
+- Routers and aggregators net to zero and drop out.
+- Uniswap v4's and Balancer's shared contracts count as pools.
+- A transaction with no pool involved is a plain transfer.
+- **Adding or removing liquidity** (from the called function's name) is recorded separately and is never counted as buying or
+  selling. Liquidity added by the accumulators is shown as "liquidity by them", the "merge into pools" step.
+- Limit: calls through a multi-purpose router can't be told apart and are read as swaps.
+
+**Signal** (rules fixed before any result, `stealth.RULES`), evaluated once per finished day with only data up to that day:
+- **An accumulator** is an address that, over the last 60 days:
+  - bought on 5+ separate days;
+  - in small chunks: median buy $5,000 or less (or 0.005% of the supply when the price is unknown);
+  - sold at most 30% of what it bought;
+  - and kept 0.05%+ of the circulating supply.
+- **Signal:** the accumulators together hold 0.5%+ of the supply, the price moved less than ±30% over 30 days, and there was
+  no signal for this coin in the previous 60 days.
+- **Probable owners:** addresses first funded by the same wallet are grouped as one probable owner. Exchanges and wallets
+  that funded 20+ accumulators are not counted as links. This is labelled "probably linked, not proven".
+
+**The paper trade** (`stealth.TRADE`):
+- **Entry:** buy at the next day's close.
+- **Exits:** +60% (the pump), −30% (the safety exit), the accumulators selling 25% of what they had bought (the dump is
+  starting), or 90 days.
+- **Costs:** 1% for the round trip.
+- **Live signals:** these become watchlist entries (route S), and the $100 account trades them with these same exits, sized at
+  1% of the account at risk.
+
+**Judging.**
+- **Baseline:** each signal's trade is compared with the same trade (price exits only) on 30 random other coins on the same day.
+- **Held up:** 30+ finished signals, a profit after costs, beats the random coins with t ≥ 2, and still did so in the most
+  recent third.
+- **Gate:** unit `accum:stealth` stays Testing only until it holds up.
+
+**Limits.**
+- **Circulating supply:** today's figure is used for past days (no free history).
+- **Pools:** come from GeckoTerminal's list; very old or obscure pools may be missing.
+- **Free key:** about 3 requests a second and 1,000 transfers a request, so the first full replay takes a few days.
+- **Cache:** per-coin state lives in the job cache; losing it only means replaying again.
