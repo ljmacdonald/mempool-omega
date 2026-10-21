@@ -192,6 +192,17 @@ RUN_STARTED = time.monotonic()
 RUN_LIMIT_S = 48 * 60                                     # the job may run 60 minutes; leave room to save and publish
 
 
+def tracked_tokens(uni: dict, wl: dict) -> dict:
+    """The DEX pools to poll: the universe plus every non-archived DEX candidate. Exchange-flow (cex:) and stealth
+    entries are followed by their own steps, and a token without a known pool can't be polled."""
+    tracked = {k: v for k, v in uni.get("tokens", {}).items() if v.get("pool")}
+    for k, e in wl["entries"].items():
+        info = e.get("info") or {}
+        if e.get("state") != "archived" and ":" in k and not k.startswith(("cex:", "stealth:")) and k not in tracked and info.get("pool"):
+            tracked[k] = info
+    return tracked
+
+
 def run(now: datetime | None = None) -> dict:
     now = now or datetime.now(timezone.utc)
     today = now.date()
@@ -203,10 +214,7 @@ def run(now: datetime | None = None) -> dict:
             uni = fresh
             jsave(sp("universe.json"), uni, indent=1)
     wl = jload(sp("watchlist.json"), {"entries": {}})
-    tracked = dict(uni.get("tokens", {}))
-    for k, e in wl["entries"].items():                     # keep watching every non-archived candidate
-        if e.get("state") != "archived" and ":" in k and not k.startswith("cex:") and k not in tracked:
-            tracked[k] = e["info"]
+    tracked = tracked_tokens(uni, wl)
 
     # 1) swaps (A), recent-day aggregation from the cache
     raw = jload(CACHE / "raw.json", {})

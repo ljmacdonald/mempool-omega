@@ -192,7 +192,7 @@
         <div class="row"><label class="inline">I put in $<input class="amt" type="number" min="1" step="any" value="${state.amount}"></label>
         <label class="inline">and sell at $<input class="tgt" type="number" min="0" step="any" placeholder="${a.take_profit.toFixed(2)}"></label></div>
         <div class="table-wrap"><table><tbody class="calc-out"></tbody></table></div></div>
-      <div class="actions">${!market().open ? `<span class="pill warn">The market is closed: these ideas can only be bought once it opens, and will be re-ranked then.</span>` : state.trades.some((t) => t.symbol === d.symbol) ? `<span class="pill calm">You're watching this trade</span>` : `<button class="btn primary" type="button" data-take="${esc(d.symbol)}">I bought this: watch it for me</button>`}</div>
+      <div class="actions">${!market().open ? `<span class="pill long warn">The market is closed: these ideas can only be bought once it opens, and will be re-ranked then.</span>` : state.trades.some((t) => t.symbol === d.symbol) ? `<span class="pill calm">You're watching this trade</span>` : `<button class="btn primary" type="button" data-take="${esc(d.symbol)}">I bought this: watch it for me</button>`}</div>
     </article>`;
   }
   function render() {

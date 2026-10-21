@@ -143,7 +143,7 @@ section.panel > * { min-width: 0; }       /* wide tables scroll inside .table-wr
 .banner.calm { background: var(--calm-bg); color: var(--calm); border-color: color-mix(in srgb, var(--calm) 16%, transparent); }
 
 /* ------------------------------------------------------------------ cards */
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; display: grid; gap: 14px; min-width: 0; box-shadow: var(--shadow-1); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; min-width: 0; box-shadow: var(--shadow-1); }
 .card > h2:first-child { font-size: 1.12rem; }
 .idea-head { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between; }
 .idea-head h2, .idea-head h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; }
@@ -152,7 +152,7 @@ section.panel > * { min-width: 0; }       /* wide tables scroll inside .table-wr
 .score b { font-family: var(--f-display); font-size: 2rem; line-height: 1; letter-spacing: -0.02em; }
 .pill { display: inline-flex; align-items: center; font-size: 0.8rem; font-weight: 650; letter-spacing: 0.02em; border-radius: 999px; padding: 3px 10px; white-space: nowrap; }
 .pill.good { background: var(--good-bg); color: var(--good); } .pill.warn { background: var(--warn-bg); color: var(--warn); }
-.pill.bad { background: var(--bad-bg); color: var(--bad); } .pill.calm { background: var(--calm-bg); color: var(--calm); }
+.pill.long { white-space: normal; border-radius: 12px; } .pill.bad { background: var(--bad-bg); color: var(--bad); } .pill.calm { background: var(--calm-bg); color: var(--calm); }
 .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 12px 18px; }
 .fact .k { font-size: 0.8rem; font-weight: 650; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
 .fact .v { font-family: var(--f-num); font-variant-numeric: tabular-nums; font-size: 1.08rem; font-weight: 600; margin-top: 2px; }

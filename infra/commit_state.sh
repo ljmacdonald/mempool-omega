@@ -13,10 +13,12 @@ if git diff --cached --quiet; then
   echo "no state changes"; exit 0
 fi
 git commit -q -m "$MSG [skip ci]"
-for i in 1 2 3 4; do
+# Many jobs push to main every few minutes, so collisions happen: retry with a random wait so two jobs don't keep
+# colliding in step.
+for i in 1 2 3 4 5 6 7 8; do
   if git push origin "HEAD:${BRANCH}"; then exit 0; fi
   echo "push failed (attempt $i); rebasing on remote and retrying"
-  sleep $((2 ** i))
+  sleep $(( (i < 5 ? 2 ** i : 16) + RANDOM % 7 ))
   git pull --rebase -X theirs origin "${BRANCH}" || true
 done
 echo "could not push state after retries" >&2
