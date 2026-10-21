@@ -280,3 +280,14 @@ def test_live_trading_does_not_exist():
 def test_empty_state_first_run_window(tmp_path):
     m = E.window_metrics({}, [], {}, date(2026, 10, 19), 7, None, None)
     assert m["net_qty"] is None and m["covered_days"] == 0 and m["coverage"] == 0
+
+
+def test_stealth_and_poolless_entries_are_not_polled_as_dex_pools():
+    """A live stealth signal adds a watchlist entry with no pool; the hourly pool poll must skip it (it crashed once)."""
+    from accum.run import tracked_tokens
+    uni = {"tokens": {"solana:A": {"chain": "solana", "token": "A", "pool": "P1"}, "solana:B": {"chain": "solana", "token": "B", "pool": None}}}
+    wl = {"entries": {"stealth:eth:0xabc": {"state": "accumulation_detected", "info": {"chain": "eth", "symbol": "X", "token": "0xabc"}},
+                      "cex:FOO": {"state": "accumulation_detected", "info": {}},
+                      "eth:0xdef": {"state": "investigating", "info": {"chain": "eth", "token": "0xdef", "pool": "P2"}},
+                      "eth:0x123": {"state": "archived", "info": {"chain": "eth", "token": "0x123", "pool": "P3"}}}}
+    assert set(tracked_tokens(uni, wl)) == {"solana:A", "eth:0xdef"}
