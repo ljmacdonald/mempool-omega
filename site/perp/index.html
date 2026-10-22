@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mempool Omega · Perp DEX lab</title>
+<meta name="description" content="GMX v2 perpetual strategies tested on paper: pool liquidity, hedged funding carry, cross-venue spread and directional, every cost counted, with go/no-go gates. Paper only.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../style.css">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#3b4ee8">
+<link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32.png">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<script src="../theme.js"></script>
+<script src="../gate.js"></script>
+<script src="../shell.js" defer></script>
+<style>
+  .wrap > .card, .wrap > .banner { margin-block: 14px; } .card > * { min-width: 0; }
+  tr.sel td { background: var(--sunken); } h4 { margin: 14px 0 6px; }
+</style>
+</head>
+<body data-page="overview">
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Mempool Omega · Perp DEX lab</h1>
+      <p class="muted small">GMX v2 perpetuals (Arbitrum), hedged on Hyperliquid · every cost counted · history tests and live paper · paper only</p>
+      <nav class="tabs" aria-label="Perp DEX lab pages" style="display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 2px"><a class="btn primary" href="./">Overview</a><a class="btn" href="lp.html">1 · Pool liquidity</a><a class="btn" href="carry.html">2 · Funding carry</a><a class="btn" href="spread.html">3 · Spread</a><a class="btn" href="directional.html">4 · Directional</a></nav>
+    </div>
+    <div class="top-right">
+      <nav class="sites" aria-label="Choose a page"><a href="../coins/" data-site="main">Exchange coins</a><a href="../small/" data-site="small">Small coins</a><a href="../dex/" data-site="dex">DEX tokens</a><a href="../stocks/" data-site="stocks">US stocks</a><a href="../fx/" data-site="fx">Forex</a><a href="../ict/" data-site="ict">ICT setups</a><a href="../lab/" data-site="lab">Strategy lab</a><a href="../whales/" data-site="whales">Whale tracker</a><a href="../listings/" data-site="listings">New listings</a><a href="../sniper/" data-site="sniper">Sniper lab</a><a href="../mev/" data-site="mev">Arbitrage lab</a><a href="../accum/" data-site="accum">Accumulation lab</a><a href="../hayes/" data-site="hayes">Recovery engine A</a><a href="../deep/" data-site="deep">Deep distress engine B</a><a href="./" data-site="perp" aria-current="page">Perp DEX lab</a><a href="../predict/" data-site="predict">Prediction markets</a><a href="../challenge/" data-site="challenge">$100 challenge</a><a href="../challenge-small/" data-site="challenge-small">$100 Small-coin challenge</a><a href="../carry/" data-site="carry">$100 funding account</a><a href="../results/" data-site="results">Results</a><a href="../report/" data-site="report">Weekly report</a><a href="../status/" data-site="status">System status</a></nav>
+      <div class="theme-switch" data-theme-switch role="group" aria-label="Day or night colours"></div>
+      <span class="status" id="status">Loading…</span>
+    </div>
+  </header>
+
+  <div id="summary" class="banner calm">Loading the Perp DEX lab…</div>
+  <div id="main"></div>
+
+  <article class="card" id="how">
+    <h2>How it works, and what it can't do</h2>
+    <ul class="rules">
+      <li><b>Four strategies, one core.</b> Every trade goes through the same cost model: GMX's own published fees (0.04% or 0.06%), its price-impact formula and settings, the real funding and borrowing rates, the execution fee paid by recent real orders (measured), Arbitrum gas, and for hedges Hyperliquid's documented fees, order-book slippage and funding. Net = gross − every cost, computed in one place, in exact decimal money.</li>
+      <li><b>Rules fixed first.</b> Thresholds are the two specifications' defaults (perp/config.yaml); nothing is tuned on results, so every history period is out of sample. Results are split by period, market and side.</li>
+      <li><b>Two accounts.</b> The $100 account (an equal share per strategy) is judged; a $10,000 reference account runs the same rules to show whether an edge exists once fixed costs matter less.</li>
+      <li><b>Six go/no-go gates</b> (data integrity 99.5%+, 500+ trades, a positive 95% lower bound for net profit, drawdown ≤ 10%, still profitable with costs doubled, 30 days of live paper). Passing all six only allows a review.</li>
+      <li><b>Risk rules a strategy can't change:</b> 0.5% risk per position including costs, 2% daily loss and 10% drawdown limits (pause and flatten), margin ≤ 20%, leverage ≤ 2x, at most 1% of a market's liquidity, one position per side in the correlated group. Kill switches: a stale oracle (over 5 minutes) or a USDC depeg (over 1%) flattens; GMX and Hyperliquid prices more than 2% apart stop trading.</li>
+      <li><b>What the free data can't do:</b> act every 10 seconds (the free scheduler runs hourly, so fills use the next hour's prices); historical open-interest balance and pool utilisation (those filters run going forward only); 6-hourly pool re-ranking (daily history).</li>
+      <li><b>Paper only, for good.</b> No wallet, no key, no signing or sending code exists. As far as we know GMX's app, Hyperliquid and dYdX bar US users, and this project is paper only. Prices and research only: not financial advice.</li>
+    </ul>
+  </article>
+
+  <footer>Mempool Omega is research and education software. Everything here is paper trading: no real orders. Perpetual futures can lose more than expected; pools can lose to traders and to contract failures. Past results do not predict future results. Not financial advice.</footer>
+</div>
+<script src="perp.js"></script>
+</body>
+</html>

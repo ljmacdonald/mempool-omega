@@ -1,0 +1,66 @@
+name: Perp DEX lab (hourly paper) + daily history tests
+
+# PAPER ONLY (DECISIONS D123). Hourly: GMX v2 and Hyperliquid public data -> data checks -> kill switches -> the
+# four strategies' paper steps on a $100 account and a $10,000 reference account, every decision logged.
+# Daily: every history test, benchmark, the execution-gap study on real GMX orders, and the go/no-go gates.
+# No wallet, no key that can trade, no orders: the code has no signing or sending path at all.
+run-name: "Perp: ${{ inputs.task || github.event.schedule || 'run' }}"
+on:
+  schedule:
+    - cron: "19 * * * *"    # hourly (backup for the Tick job)
+    - cron: "40 2 * * *"    # daily history tests
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "scan | research"
+        required: false
+        default: "scan"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: omega-perp-writer
+  cancel-in-progress: false
+
+jobs:
+  perp:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        run: pip install -e .
+      # History (pool prices, rates, candles, recent orders) lives in GitHub's free build cache, topped up each run.
+      - name: Restore the history cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .cache/perp
+          key: perp-${{ github.run_id }}
+          restore-keys: perp-
+      - name: Daily history tests
+        if: github.event.schedule == '40 2 * * *' || github.event.inputs.task == 'research'
+        run: python -m perp.run --research
+      - name: Hourly paper step
+        if: github.event.schedule != '40 2 * * *' && github.event.inputs.task != 'research'
+        run: python -m perp.run
+      - name: Save the history cache
+        if: always()
+        uses: actions/cache/save@v5
+        with:
+          path: .cache/perp
+          key: perp-${{ github.run_id }}
+      - name: Publish for the website (data branch)
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bash infra/publish_data.sh .cache/perp_out/snapshot.json perp/snapshot.json
+          bash infra/publish_data.sh .cache/perp_out/research.json perp/research.json
+      - name: Commit state
+        if: always()
+        run: bash infra/commit_state.sh "perp ${{ github.event.inputs.task || 'scheduled' }} $(date -u +%Y-%m-%dT%H%MZ)"
