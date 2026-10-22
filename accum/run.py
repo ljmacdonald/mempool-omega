@@ -442,6 +442,7 @@ def stealth_step(now, uni, tracked, sol_new, cstore, toks, entries, events, dete
         supply = E.circulating(toks.get(k, {}))[0] or tracked[k].get("supply")
         for t in sorted(trades, key=lambda x: x["ts"]):
             d = t["ts"][:10]
+            st.setdefault("start_day", d)                  # the first day this coin's swaps were followed
             if tr.day and d != tr.day:
                 HI.finish_day(st, tr, closes, supply, {}, chain="solana")
             tr.day = d
