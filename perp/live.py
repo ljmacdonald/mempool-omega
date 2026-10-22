@@ -90,9 +90,11 @@ def snapshot(now: float | None = None) -> dict:
                "pool_value": Decimal(raw["poolValue"]) / E30 if raw.get("poolValue") else None,
                "gm_price": (Decimal(raw["poolValue"]) / E30) / (Decimal(raw["marketTokenSupply"]) / Decimal(10) ** 18)
                if raw.get("poolValue") and raw.get("marketTokenSupply") else None}
-        for k in ("settings", "oi_long", "funding_ps_long", "borrow_ps_long", "execution_fee_usd"):
-            if not ctx.get(k):
-                why.append(f"missing {k.replace('_', ' ')}")
+        if not ctx["settings"]:
+            why.append("missing market settings")
+        for k in ("oi_long", "oi_short", "funding_ps_long", "funding_ps_short", "borrow_ps_long", "borrow_ps_short", "execution_fee_usd"):
+            if ctx.get(k) is None:                       # a zero rate is a real value; only None is missing
+                why.append(f"missing {k.replace('_ps', '').replace('_', ' ')}")
         if not ctx["hl"] or ctx["hl"]["mid"] is None:
             why.append("no Hyperliquid price (hedge strategies can't trade this market)")
         elif oracle is not None and not integrity_ok(oracle, ctx["hl"]["mid"]):
