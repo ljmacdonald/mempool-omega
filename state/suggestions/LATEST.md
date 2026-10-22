@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-22 12:22 UTC
+# Trade ideas: 2026-10-22 13:29 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (1% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (0% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **MASK** | 2.4/10 | Avoid - watch only | Very high | $0.453 | $0.4983 (+10.0%) | $0.43035 (-5.0%) | 13:20 22-Oct |
-| 2 | **PHA** | 2.2/10 | Avoid - watch only | Very high | $0.0587 | $0.0625718 (+6.6%) | $0.0567641 (-3.3%) | 13:20 22-Oct |
-| 3 | **MITO** | 2.1/10 | Avoid - watch only | Very high | $0.01009 | $0.0110394 (+9.4%) | $0.0096153 (-4.7%) | 13:20 22-Oct |
-| 4 | **BMT** | 2.0/10 | Avoid - watch only | Very high | $0.02341 | $0.0250617 (+7.1%) | $0.0225841 (-3.5%) | 13:20 22-Oct |
-| 5 | **LUMIA** | 1.6/10 | Avoid - watch only | Very high | $0.0735 | $0.08085 (+10.0%) | $0.069825 (-5.0%) | 13:20 22-Oct |
+| 1 | **FIL** | 2.5/10 | Avoid - watch only | High | $0.9771 | $1.03 (+4.9%) | $0.953035 (-2.5%) | 14:25 22-Oct |
+| 2 | **MITO** | 2.4/10 | Avoid - watch only | Very high | $0.01002 | $0.0108917 (+8.7%) | $0.00958416 (-4.3%) | 14:25 22-Oct |
+| 3 | **MASK** | 2.0/10 | Avoid - watch only | Very high | $0.462 | $0.50382 (+9.1%) | $0.44109 (-4.5%) | 14:25 22-Oct |
+| 4 | **ARKM** | 1.8/10 | Avoid - watch only | High | $0.1317 | $0.139406 (+5.9%) | $0.127847 (-2.9%) | 14:25 22-Oct |
+| 5 | **ALT** | 1.2/10 | Avoid - watch only | High | $0.00855 | $0.00910067 (+6.4%) | $0.00827466 (-3.2%) | 14:25 22-Oct |
 
-- **MASK:** Buyers have been more eager than sellers over the last 30 minutes (56% of trades were buys). Trading activity is 3.7x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **PHA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **MITO:** Trading activity is 3.5x higher than usual, so people are paying attention to it. It did 1.6% better than Bitcoin over the last 2 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **FIL:** Trading activity is 1.9x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MITO:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MASK:** Buyers have been more eager than sellers over the last 30 minutes (61% of trades were buys). Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Trading activity is 1.6x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
 
-Market mood: **Mixed** (41% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (32% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **BNB** | 4.3/10 | Avoid - watch only | Low | $733.41 | $748.08 (+2.0%) | $726.08 (-1.0%) | 16:15 22-Oct |
-| 2 | **LTC** | 4.3/10 | Avoid - watch only | Low | $59.33 | $60.52 (+2.0%) | $58.74 (-1.0%) | 16:15 22-Oct |
-| 3 | **HYPE** | 4.2/10 | Avoid - watch only | Low | $78.18 | $79.84 (+2.1%) | $77.31 (-1.1%) | 16:15 22-Oct |
-| 4 | **LINK** | 4.2/10 | Avoid - watch only | Low | $12.05 | $12.31 (+2.1%) | $11.92 (-1.1%) | 16:15 22-Oct |
-| 5 | **SOL** | 4.1/10 | Avoid - watch only | Low | $104.31 | $106.40 (+2.0%) | $103.27 (-1.0%) | 16:15 22-Oct |
+| 1 | **WLFI** | 3.5/10 | Avoid - watch only | Low | $0.0554 | $0.0568478 (+2.6%) | $0.0546761 (-1.3%) | 17:15 22-Oct |
+| 2 | **PHA** | 3.1/10 | Avoid - watch only | Very high | $0.0598 | $0.0687028 (+14.9%) | $0.0553486 (-7.4%) | 17:15 22-Oct |
+| 3 | **ATOM** | 3.1/10 | Avoid - watch only | Low | $1.72 | $1.77 (+2.9%) | $1.69 (-1.8%) | 17:15 22-Oct |
+| 4 | **SOL** | 3.0/10 | Avoid - watch only | Low | $104.20 | $106.28 (+2.0%) | $103.16 (-1.0%) | 17:15 22-Oct |
+| 5 | **BNB** | 3.0/10 | Avoid - watch only | Low | $732.15 | $746.79 (+2.0%) | $724.83 (-1.0%) | 17:15 22-Oct |
 
-- **BNB:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **LTC:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **HYPE:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **WLFI:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **PHA:** Trading activity is 1.7x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ATOM:** Trading activity is 2.8x higher than usual, so people are paying attention to it. It is bouncing up from near its lowest price of the last 42 hours. It did 1.9% better than Bitcoin over the last 6 hours. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (21% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (25% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **BMT** | 8.5/10 | Strong | Very high | $0.02259 | $0.0280116 (+24.0%) | $0.0198792 (-12.0%) | 12:00 23-Oct |
-| 2 | **IOTX** | 8.2/10 | Strong | Very high | $0.004056 | $0.00502944 (+24.0%) | $0.00356928 (-12.0%) | 12:00 23-Oct |
-| 3 | **PHA** | 7.3/10 | Strong | Very high | $0.0587 | $0.072788 (+24.0%) | $0.051656 (-12.0%) | 12:00 23-Oct |
-| 4 | **DYM** | 7.1/10 | Strong | Very high | $0.01892 | $0.0226466 (+19.7%) | $0.0170567 (-9.8%) | 12:00 23-Oct |
-| 5 | **SC** | 7.0/10 | Strong | Very high | $0.000911 | $0.00108468 (+19.1%) | $0.000824162 (-9.5%) | 12:00 23-Oct |
+| 1 | **IOTX** | 7.9/10 | Strong | Very high | $0.004095 | $0.0050778 (+24.0%) | $0.0036036 (-12.0%) | 13:00 23-Oct |
+| 2 | **HUMA** | 7.2/10 | Strong | Very high | $0.02769 | $0.0325629 (+17.6%) | $0.0252536 (-8.8%) | 13:00 23-Oct |
+| 3 | **PHA** | 7.0/10 | Strong | Very high | $0.0599 | $0.074276 (+24.0%) | $0.052712 (-12.0%) | 13:00 23-Oct |
+| 4 | **SC** | 6.9/10 | Strong | Very high | $0.000903 | $0.00107263 (+18.8%) | $0.000818187 (-9.4%) | 13:00 23-Oct |
+| 5 | **DYM** | 6.6/10 | Strong | Very high | $0.01866 | $0.0223002 (+19.5%) | $0.0168399 (-9.8%) | 13:00 23-Oct |
 
-- **BMT:** Trading activity is 3.0x higher than usual, so people are paying attention to it. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Momentum is healthy: not overheated, not collapsing.
-- **IOTX:** Trading activity is 2.5x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **PHA:** Trading activity is 2.0x higher than usual, so people are paying attention to it.
+- **IOTX:** Trading activity is 2.5x higher than usual, so people are paying attention to it. It did 1.9% better than Bitcoin over the last 24 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **HUMA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **PHA:** It did 4.8% better than Bitcoin over the last 24 hours. Trading activity is 1.9x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 2030 | 42% | -0.21% | -0.24% |
-| Short: exit within 4 hours | 2095 | 41% | -0.29% | -0.31% |
-| Day: exit within 24 hours | 1915 | 40% | -0.23% | -0.19% |
+| Quick: exit within 1 hour | 2035 | 43% | -0.21% | -0.24% |
+| Short: exit within 4 hours | 2100 | 41% | -0.30% | -0.31% |
+| Day: exit within 24 hours | 1918 | 39% | -0.23% | -0.19% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
