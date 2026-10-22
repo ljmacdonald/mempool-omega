@@ -240,3 +240,10 @@ def test_pool_entry_costs_are_counted_once():
     assert PA.equity(acc, snap) == D(25) - sum(costs.values())
     tr = PA.close(acc, pos, snap, 3600, "test")
     assert D(acc["cash"]) == D(25) + M.d(tr["net"])
+
+
+def test_rates_carry_forward_only_from_the_past():
+    from perp.history import ffill_hourly
+    r = ffill_hourly({0: {"fund_long": D(1), "borrow_long": D(2)}, 7200: {"fund_long": D(3)}})
+    assert r[3600] == {"fund_long": D(1), "borrow_long": D(2)}     # borrowing unchanged: carried forward
+    assert r[7200] == {"fund_long": D(3), "borrow_long": D(2)}     # never taken from a later snapshot

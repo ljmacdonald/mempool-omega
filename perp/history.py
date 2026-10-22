@@ -107,6 +107,25 @@ def gmx_rates(market: str) -> dict[int, dict]:
     return out
 
 
+def ffill_hourly(rates: dict[int, dict], max_age: int = 7 * 86400) -> dict[int, dict]:
+    """Every hour from the first snapshot to the last, each rate carried forward from its own last published value
+    (GMX records a rate when it changes, not every hour; never filled from a later value, never older than 7 days)."""
+    if not rates:
+        return {}
+    keys = sorted(rates)
+    last: dict = {}
+    seen: dict = {}
+    out = {}
+    i = 0
+    for h in range(keys[0], keys[-1] + 1, 3600):
+        while i < len(keys) and keys[i] <= h:
+            for k, v in rates[keys[i]].items():
+                last[k], seen[k] = v, keys[i]
+            i += 1
+        out[h] = {k: v for k, v in last.items() if h - seen[k] <= max_age}
+    return out
+
+
 # ------------------------------------------------------------------ Hyperliquid
 def hl_funding(coin: str, start_ms: int = 1_672_531_200_000) -> dict[int, Decimal]:
     rows = _load(f"hlfund_{coin}", [])

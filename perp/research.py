@@ -52,7 +52,7 @@ def market_inputs(markets, exec_fee) -> list[dict]:
               if raw.get("useOpenInterestInTokensForBalance") and px else
               (Decimal(raw["longOpenInterestUsd"]) / E30, Decimal(raw["shortOpenInterestUsd"]) / E30))
         hcoin = LP.hl_coin(m["index"])
-        rates = HI.gmx_rates(m["address"])
+        rates = HI.ffill_hourly(HI.gmx_rates(m["address"]))
         gmx1h = HI.gmx_candles(m["index"], "1h")
         out.append({"name": m["name"], "coin": coin, "hl_coin": hcoin, "settings": CO.gmx_settings(raw), "oi": oi,
                     "exec_fee": exec_fee, "rates": rates, "hl": HI.hl_funding(hcoin),
@@ -60,13 +60,22 @@ def market_inputs(markets, exec_fee) -> list[dict]:
     return out
 
 
-def _rate_at(rates: dict):
-    keys = sorted(rates)
+def _rate_at(rates: dict, max_age: int = 7 * 86400):
+    """ts -> each rate's last published value at or before ts. GMX's history records a rate when it changes, not
+    every hour, so each field carries forward from its own last snapshot (never from a later one), for up to 7 days."""
     import bisect
+    series = {}
+    for k in ("fund_long", "fund_short", "borrow_long", "borrow_short"):
+        pts = sorted((h, v[k]) for h, v in rates.items() if v.get(k) is not None)
+        series[k] = ([h for h, _ in pts], [v for _, v in pts])
 
     def f(ts: int) -> dict:
-        i = bisect.bisect_right(keys, ts) - 1
-        return rates[keys[i]] if i >= 0 and ts - keys[i] <= 7200 else {}
+        out = {}
+        for k, (hs, vs) in series.items():
+            i = bisect.bisect_right(hs, ts) - 1
+            if i >= 0 and ts - hs[i] <= max_age:
+                out[k] = vs[i]
+        return out
     return f
 
 
@@ -210,7 +219,7 @@ def run(now: float | None = None) -> dict:
             s["rejected_why"] = {w: sum(1 for x in rej if x["why"] == w) for w in {x["why"] for x in rej}}
             missing = sum(1 for x in rej if x["why"].startswith("missing") or x["why"].startswith("not tradeable"))
             s["gates"] = _gate(s, 1 - missing / (len(trades) + missing) if trades or missing else 1.0)
-            if not trades and rej and all("risk budget" in x["why"] for x in rej):
+            if not trades and any("risk budget" in x["why"] for x in rej):
                 s["gates"]["status"] = "ineligible"
                 s["ineligible"] = "Every signal's fixed costs alone exceed the 0.5% risk budget at this account size: it can never trade here."
             s.pop("nets")
