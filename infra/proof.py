@@ -43,7 +43,7 @@ SCANNER = [  # section key, page, name, history files, {style: label}
      {"stk_today": "Today", "stk_days": "Days"}),
     ("fx", "fx/", "Forex & gold", ["fx/history.csv"], {"fx_today": "Today", "fx_days": "Days"}),
 ]
-CRYPTO = {"main", "small", "dex", "sniper", "listings", "whales", "accum", "hayes", "deep"}
+CRYPTO = {"main", "small", "dex", "sniper", "listings", "whales", "accum", "hayes", "deep", "perp"}
 
 
 def tstat(xs: list[float]) -> float | None:
@@ -226,13 +226,26 @@ def other_units() -> list[dict]:
                     f"Halted: failed {len(fails)} of its own history tests." if s else "Not tested yet.",
                     "n": ((s.get("event_study") or {}).get("events")), "avg": None, "hit": None, "edge": None, "t_edge": None,
                     "late": None, "unit": "%", "source": "history test on every coin since 2019 (delisted coins included)"})
+    r = S.read_data("perp/research.json") or {}                 # Perp DEX lab (D123): each strategy's gates
+    names = {"lp": "Pool liquidity", "lp_hedged": "Pool liquidity, hedged", "carry": "Funding carry", "spread": "Cross-venue spread",
+             "trend": "Directional trend", "reversion": "Mean reversion"}
+    for k, nm in names.items():
+        a = ((r.get("strategies") or {}).get(k) or {}).get("account") or {}
+        g = a.get("gates") or {}
+        st = g.get("status")
+        out.append({"id": f"perp:{k}", "section": "perp", "path": "perp/", "name": f"Perp DEX lab · {nm}",
+                    "proven": bool(st and st.startswith("passed")),
+                    "reason": {"failed": "Failed at least one of its go/no-go gates.", None: "Not tested yet."}.get(st, "Still collecting evidence for its gates.")
+                    if not (st and st.startswith("passed")) else "Passed every gate (paper only; review only).",
+                    "n": a.get("n") or a.get("trades"), "avg": g.get("mean"), "hit": a.get("hit_rate"), "edge": None, "t_edge": None,
+                    "late": None, "unit": "%", "source": "history test with every cost ($100 account)"})
     return out
 
 
 SECTION_NAMES = {"main": "Exchange coins", "small": "Small coins", "dex": "DEX tokens", "stocks": "US stocks", "fx": "Forex & gold",
                  "ict": "ICT setups", "lab": "Strategy lab", "listings": "New listings", "sniper": "Sniper lab",
                  "predict": "Prediction markets", "whales": "Whale tracker", "accum": "Accumulation lab",
-                 "hayes": "Recovery engine A", "deep": "Deep distress engine B"}
+                 "hayes": "Recovery engine A", "deep": "Deep distress engine B", "perp": "Perp DEX lab"}
 
 
 def build(now: datetime | None = None) -> dict:

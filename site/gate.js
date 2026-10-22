@@ -9,7 +9,7 @@
 (function (root) {
   "use strict";
   const REPO = root.OMEGA_REPO || "https://raw.githubusercontent.com/ljmacdonald/mempool-omega/main/state/";
-  const CRYPTO = new Set(["main", "small", "dex", "sniper", "listings", "whales", "accum", "hayes", "deep"]);
+  const CRYPTO = new Set(["main", "small", "dex", "sniper", "listings", "whales", "accum", "hayes", "deep", "perp"]);
   const g = { proof: null, market: null, best: null, loaded: false };
   async function get(name) {
     try {
