@@ -205,7 +205,8 @@ def run(now: float | None = None) -> dict:
                     b15 = _bars(HI.binance(sym, "15m", 1_704_067_200_000))     # from January 2024
                     sig = DI.signals_reversion(b15, b1, P)
                     bars = b15
-                first = min(m["rates"]) if m["rates"] else None
+                full = [h for h, v in m["rates"].items() if len(v) == 4]     # every rate published (funding history starts first)
+                first = min(full) if full else None
                 sig = [x for x in sig if first is not None and bars[x[0]][0] // 1000 >= first]   # from the market's GMX listing
                 for mult, acc in ((Decimal(1), trades), (Decimal(2), trades2), (Decimal(0), trades0)):
                     t_, r_ = DI.run_trades(bars, sig, mkt, sl, key, book, mult)
