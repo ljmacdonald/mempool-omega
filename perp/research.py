@@ -128,7 +128,8 @@ def run(now: float | None = None) -> dict:
             s["gates"] = _gate(s, complete, "days")
             s.pop("nets")
             res[book] = s
-        big = [p["name"] for p in pools if p["name"] in ("ETH/USD [ETH-USDC]", "BTC/USD [BTC-USDC]")]
+        mains = LV.main_markets(markets)
+        big = [mains[c]["name"] for c in ("ETH", "BTC") if c in mains]
         res["benchmark_hold"] = {"pools": big, **LP.passive(pools, big, 10000)}
         out["strategies"][key] = res
     log.info("pools done (%.0fs)", time.monotonic() - t0)
@@ -155,6 +156,12 @@ def run(now: float | None = None) -> dict:
             s["cost_blind"] = {k: v for k, v in RP.summarize(r0["trades"], sl).items() if k in ("n", "mean", "total_return")}
             s["gates"] = _gate(s, hedge_complete)
             s.pop("nets")
+            fixed = 2 * exec_fee + Decimal("0.04")
+            cap = sl * Decimal(str(load()["risk"]["max_margin_share"])) * Decimal(str(load()["risk"]["max_leverage"])) / max(1, len(mk))
+            if not r["trades"] and cap and fixed / cap > Decimal("0.05"):
+                s["gates"]["status"] = "ineligible"
+                s["ineligible"] = (f"Each position can be at most ${float(cap):,.2f} per market here, and the fixed GMX execution fees alone are "
+                                   f"${float(fixed):.2f} a round trip ({float(fixed / cap):.0%}): no carry or gap can pay that.")
             if key == "spread":
                 s["opportunities"] = {"seen": len(r["seen"]), "taken": sum(1 for x in r["seen"] if x["taken"])}
             res[book] = s
@@ -189,6 +196,8 @@ def run(now: float | None = None) -> dict:
                     b15 = _bars(HI.binance(sym, "15m", 1_704_067_200_000))     # from January 2024
                     sig = DI.signals_reversion(b15, b1, P)
                     bars = b15
+                first = min(m["rates"]) if m["rates"] else None
+                sig = [x for x in sig if first is not None and bars[x[0]][0] // 1000 >= first]   # from the market's GMX listing
                 for mult, acc in ((Decimal(1), trades), (Decimal(2), trades2), (Decimal(0), trades0)):
                     t_, r_ = DI.run_trades(bars, sig, mkt, sl, key, book, mult)
                     acc += t_
@@ -200,7 +209,10 @@ def run(now: float | None = None) -> dict:
             s["rejected"] = len(rej)
             s["rejected_why"] = {w: sum(1 for x in rej if x["why"] == w) for w in {x["why"] for x in rej}}
             missing = sum(1 for x in rej if x["why"].startswith("missing") or x["why"].startswith("not tradeable"))
-            s["gates"] = _gate(s, 1 - missing / (len(trades) + missing) if trades or missing else 0.0)
+            s["gates"] = _gate(s, 1 - missing / (len(trades) + missing) if trades or missing else 1.0)
+            if not trades and rej and all("risk budget" in x["why"] for x in rej):
+                s["gates"]["status"] = "ineligible"
+                s["ineligible"] = "Every signal's fixed costs alone exceed the 0.5% risk budget at this account size: it can never trade here."
             s.pop("nets")
             res[book] = s
         out["strategies"][key] = res

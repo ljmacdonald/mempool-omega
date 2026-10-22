@@ -13,10 +13,13 @@ def summarize(trades: list[Trade], start_usd, stressed: list[Trade] | None = Non
     start = d(start_usd)
     ts = sorted(trades, key=lambda t: (t.closed or "", t.opened))
     nets = [float(t.net / start) for t in ts]
-    eq, e = [], start
-    for t in ts:
-        e += t.net
-        eq.append(float(e))
+    # each trade is sized as a share of the starting capital; run on the CURRENT balance (as a real account would),
+    # results compound, so an account can approach zero but never go below it
+    eq, e = [], 1.0
+    for x in nets:
+        e *= max(0.0, 1 + x)
+        eq.append(e * float(start))
+    e = d(str(eq[-1])) if eq else start
     wins = [t for t in ts if t.net > 0]
     losses = [t for t in ts if t.net <= 0]
     gross_win, gross_loss = sum((t.net for t in wins), ZERO), -sum((t.net for t in losses), ZERO)
@@ -26,7 +29,7 @@ def summarize(trades: list[Trade], start_usd, stressed: list[Trade] | None = Non
            "avg_win": float(gross_win / len(wins) / start) if wins else None,
            "avg_loss": float(-gross_loss / len(losses) / start) if losses else None,
            "profit_factor": float(gross_win / gross_loss) if gross_loss > 0 else None,
-           "max_drawdown": GT.max_drawdown([float(start)] + eq),
+           "max_drawdown": GT.max_drawdown([float(start)] + eq), "compounded": True,
            "gross": str(sum((t.gross for t in ts), ZERO)), "costs": str(sum((sum(t.costs.values(), ZERO) for t in ts), ZERO)),
            "waterfall": waterfall(ts), "cost_drift": cost_drift(ts),
            "without_top5": statistics.fmean(top[5:]) if len(top) > 5 else None,

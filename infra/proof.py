@@ -235,7 +235,8 @@ def other_units() -> list[dict]:
         st = g.get("status")
         out.append({"id": f"perp:{k}", "section": "perp", "path": "perp/", "name": f"Perp DEX lab · {nm}",
                     "proven": bool(st and st.startswith("passed")),
-                    "reason": {"failed": "Failed at least one of its go/no-go gates.", None: "Not tested yet."}.get(st, "Still collecting evidence for its gates.")
+                    "reason": {"failed": "Failed at least one of its go/no-go gates.", None: "Not tested yet.",
+                               "ineligible": "Can't trade on a $100 account: fixed costs exceed its risk budget."}.get(st, "Still collecting evidence for its gates.")
                     if not (st and st.startswith("passed")) else "Passed every gate (paper only; review only).",
                     "n": a.get("n") or a.get("trades"), "avg": g.get("mean"), "hit": a.get("hit_rate"), "edge": None, "t_edge": None,
                     "late": None, "unit": "%", "source": "history test with every cost ($100 account)"})

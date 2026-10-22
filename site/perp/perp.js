@@ -24,7 +24,7 @@
   let R = null, S = null;
 
   const pill = (st) => { const [t, c] = STATUS[st] || [st, "calm"]; return `<span class="pill ${c}">${esc(t)}</span>`; };
-  const statusPill = (st) => `<span class="pill ${st === "failed" ? "bad" : st && st.startsWith("passed") ? "good" : "calm"}">${esc(st === "failed" ? "Failed" : st && st.startsWith("passed") ? "Passed (review only)" : "Testing")}</span>`;
+  const statusPill = (st) => `<span class="pill ${st === "failed" ? "bad" : st === "ineligible" ? "warn" : st && st.startsWith("passed") ? "good" : "calm"}">${esc(st === "failed" ? "Failed" : st === "ineligible" ? "Can't trade at this size" : st && st.startsWith("passed") ? "Passed (review only)" : "Testing")}</span>`;
 
   function spark(curve) {
     const ys = (curve || []).map((p) => num(p[1])).filter(Number.isFinite);
@@ -85,6 +85,7 @@
         <div class="stat"><div class="k">With no costs</div><div class="v ${tone((x.cost_blind || {}).total_return)}">${pct((x.cost_blind || {}).total_return)}</div><div class="small muted">diagnostic only</div></div></div>
         ${per.length ? `<details><summary>By ${x.by_year ? "year" : "month"}</summary><div class="table-wrap"><table><tbody>${per.map(([p, v]) => `<tr><td>${esc(p)}</td><td class="num ${tone(typeof v === "object" ? v.total : v)}">${typeof v === "object" ? `${pct(v.total)} (${v.n} trades)` : pct(v)}</td></tr>`).join("")}</tbody></table></div></details>` : ""}
         ${Object.keys(x.by_market || {}).length ? `<details><summary>By market</summary><div class="table-wrap"><table><tbody>${Object.entries(x.by_market).sort((a, b) => b[1].total - a[1].total).slice(0, 30).map(([m, v]) => `<tr><td>${esc(m)}</td><td class="num">${v.n}</td><td class="num ${tone(v.total)}">${pct(v.total)}</td></tr>`).join("")}</tbody></table></div></details>` : ""}
+        ${x.ineligible ? `<p class="small"><b>${esc(x.ineligible)}</b></p>` : ""}
         ${x.rejected ? `<p class="small muted">${x.rejected} signals not taken: ${Object.entries(x.rejected_why || {}).map(([w, n]) => `${esc(w)} (${n})`).join("; ")}.</p>` : ""}
         <details><summary>Cost waterfall</summary>${waterfall(x.waterfall)}</details>`;
     };

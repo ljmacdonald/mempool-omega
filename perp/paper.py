@@ -132,8 +132,8 @@ def open_pos(acc: dict, book: str, strat: str, market: str, side: int, n: Decima
            "entry": str(entry), "est": {k: str(v) for k, v in est.items()}, "costs": {k: str(v) for k, v in first_costs.items()},
            "accrued_at": now, **(extra or {})}
     acc["open"].append(pos)
-    if strat == "lp":
-        acc["cash"] = str(d(acc["cash"]) - n - sum(first_costs.values(), ZERO))
+    if strat == "lp":                                   # the pool tokens leave cash; their costs stay on the position's cost
+        acc["cash"] = str(d(acc["cash"]) - n)           # stack, so equity and the closing net count them exactly once
     return pos
 
 

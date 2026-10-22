@@ -230,3 +230,13 @@ def test_no_live_trading_path_exists():
         assert word not in src
     import perp
     assert perp.PAPER_ONLY is True
+
+
+def test_pool_entry_costs_are_counted_once():
+    acc = {"cash": "25", "open": [], "closed": [], "paused": None, "day_start": "25"}
+    snap = {"contexts": {}, "kill": [], "exec_fee_usd": D("0.31")}
+    costs = {"deposit_fee": D("0.0056"), "execution_fee": D("0.31"), "gas": D("0.02")}
+    pos = PA.open_pos(acc, "account", "lp", "POOL", 0, D(8), D("1.25"), 0, {}, costs, {"gm_now": "1.25", "swap_fee": "0.0007"})
+    assert PA.equity(acc, snap) == D(25) - sum(costs.values())
+    tr = PA.close(acc, pos, snap, 3600, "test")
+    assert D(acc["cash"]) == D(25) + M.d(tr["net"])
