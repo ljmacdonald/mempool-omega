@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 import time
 
 from core.log import get_logger
@@ -105,18 +106,24 @@ def capture_okx(symbol: str, seconds: float = 45.0) -> dict:
     return out
 
 
+def venue_order() -> tuple[str, ...]:
+    """GitHub's runners are in the US, where Binance refuses connections (HTTP 451), so there OKX goes first and
+    Binance is only a fallback. Elsewhere Binance goes first."""
+    return ("okx", "binance") if os.environ.get("GITHUB_ACTIONS") == "true" else ("binance", "okx")
+
+
 def capture_any(symbol: str, seconds: float = 45.0) -> dict:
-    """Try Binance, then OKX. Returns dict with 'books', 'trades', 'venue'."""
+    """Try each venue in venue_order(). Returns dict with 'books', 'trades', 'venue'."""
     try:
         import websockets  # noqa: F401
     except ImportError:
         log.info("websockets not installed; skipping stream capture")
         return {"books": [], "trades": [], "venue": None}
-    try:
-        b = capture_binance(symbol, seconds)
-        if b["books"]:
-            return {**b, "venue": "binance"}
-    except Exception as e:  # noqa: BLE001
-        log.warning("binance capture error: %s", e)
-    o = capture_okx(symbol, seconds)
-    return {**o, "venue": "okx" if o["books"] else None}
+    for venue in venue_order():
+        try:
+            c = (capture_okx if venue == "okx" else capture_binance)(symbol, seconds)
+            if c["books"]:
+                return {**c, "venue": venue}
+        except Exception as e:  # noqa: BLE001
+            log.warning("%s capture error: %s", venue, e)
+    return {"books": [], "trades": [], "venue": None}
