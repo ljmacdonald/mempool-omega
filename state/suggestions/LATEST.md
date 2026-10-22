@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-22 01:27 UTC
+# Trade ideas: 2026-10-22 02:26 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (0% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (1% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **IOST** | 4.6/10 | Avoid - watch only | Very high | $0.000981 | $0.0010791 (+10.0%) | $0.00093195 (-5.0%) | 02:25 22-Oct |
-| 2 | **ALT** | 3.2/10 | Avoid - watch only | Very high | $0.01276 | $0.0137019 (+7.4%) | $0.012289 (-3.7%) | 02:25 22-Oct |
-| 3 | **ORCA** | 2.2/10 | Avoid - watch only | High | $1.99 | $2.08 (+4.5%) | $1.95 (-2.2%) | 02:25 22-Oct |
-| 4 | **DYM** | 2.2/10 | Avoid - watch only | High | $0.01935 | $0.0203088 (+5.0%) | $0.0188706 (-2.5%) | 02:25 22-Oct |
-| 5 | **EPIC** | 2.1/10 | Avoid - watch only | Very high | $0.138 | $0.150512 (+9.1%) | $0.131744 (-4.5%) | 02:25 22-Oct |
+| 1 | **ORCA** | 5.8/10 | Moderate | Very high | $1.87 | $2.06 (+10.0%) | $1.78 (-5.0%) | 03:20 22-Oct |
+| 2 | **EPIC** | 3.7/10 | Avoid - watch only | Very high | $0.1359 | $0.147575 (+8.6%) | $0.130063 (-4.3%) | 03:20 22-Oct |
+| 3 | **IOST** | 2.9/10 | Avoid - watch only | Very high | $0.000981 | $0.0010791 (+10.0%) | $0.00093195 (-5.0%) | 03:20 22-Oct |
+| 4 | **PUMP** | 2.9/10 | Avoid - watch only | Medium | $0.004987 | $0.00518387 (+3.9%) | $0.00488857 (-2.0%) | 03:20 22-Oct |
+| 5 | **SC** | 2.1/10 | Avoid - watch only | Very high | $0.000911 | $0.000979576 (+7.5%) | $0.000876712 (-3.8%) | 03:20 22-Oct |
 
+- **ORCA:** Trading activity is 2.4x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **EPIC:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 - **IOST:** The model sees a slightly better-than-usual pattern, with no single strong reason.
-- **ALT:** The model sees a slightly better-than-usual pattern, with no single strong reason.
-- **ORCA:** It did 4.3% better than Bitcoin over the last 2 hours. Trading activity is 5.4x higher than usual, so people are paying attention to it. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (3% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (6% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **EPIC** | 5.5/10 | Weak | Very high | $0.1416 | $0.161591 (+14.1%) | $0.131604 (-7.1%) | 05:15 22-Oct |
-| 2 | **IOST** | 5.2/10 | Weak | Very high | $0.00099 | $0.0011484 (+16.0%) | $0.0009108 (-8.0%) | 05:15 22-Oct |
-| 3 | **STRK** | 4.5/10 | Avoid - watch only | High | $0.05778 | $0.0628552 (+8.8%) | $0.0552424 (-4.4%) | 05:15 22-Oct |
-| 4 | **ALT** | 4.2/10 | Avoid - watch only | Very high | $0.01275 | $0.01479 (+16.0%) | $0.01173 (-8.0%) | 05:15 22-Oct |
-| 5 | **DYM** | 3.7/10 | Avoid - watch only | High | $0.01931 | $0.0212402 (+10.0%) | $0.0183449 (-5.0%) | 05:15 22-Oct |
+| 1 | **EPIC** | 4.5/10 | Avoid - watch only | Very high | $0.1369 | $0.155982 (+13.9%) | $0.127359 (-7.0%) | 06:15 22-Oct |
+| 2 | **ALT** | 4.3/10 | Avoid - watch only | Very high | $0.01248 | $0.0144768 (+16.0%) | $0.0114816 (-8.0%) | 06:15 22-Oct |
+| 3 | **STRK** | 4.3/10 | Avoid - watch only | High | $0.05685 | $0.0617489 (+8.6%) | $0.0544005 (-4.3%) | 06:15 22-Oct |
+| 4 | **QNT** | 4.1/10 | Avoid - watch only | Medium | $205.42 | $219.25 (+6.7%) | $198.50 (-3.4%) | 06:15 22-Oct |
+| 5 | **CHIP** | 4.1/10 | Avoid - watch only | High | $0.04804 | $0.0522889 (+8.8%) | $0.0459156 (-4.4%) | 06:15 22-Oct |
 
 - **EPIC:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **IOST:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **ALT:** The model sees a slightly better-than-usual pattern, with no single strong reason.
 - **STRK:** The model sees a slightly better-than-usual pattern, with no single strong reason.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (33% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (23% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **EPIC** | 5.4/10 | Weak | Very high | $0.137 | $0.16988 (+24.0%) | $0.12056 (-12.0%) | 01:00 23-Oct |
-| 2 | **MOVR** | 5.2/10 | Weak | High | $1.22 | $1.37 (+12.4%) | $1.15 (-6.2%) | 01:00 23-Oct |
-| 3 | **DOGE** | 4.7/10 | Avoid - watch only | Low | $0.08191 | $0.0858996 (+4.9%) | $0.07976 (-2.6%) | 01:00 23-Oct |
-| 4 | **AT** | 4.6/10 | Avoid - watch only | Very high | $0.1378 | $0.165656 (+20.2%) | $0.123872 (-10.1%) | 01:00 23-Oct |
-| 5 | **GTC** | 4.4/10 | Avoid - watch only | Very high | $0.25436 | $0.315406 (+24.0%) | $0.223837 (-12.0%) | 01:00 23-Oct |
+| 1 | **MOVR** | 5.3/10 | Weak | High | $1.20 | $1.35 (+12.4%) | $1.13 (-6.2%) | 02:00 23-Oct |
+| 2 | **EPIC** | 5.1/10 | Weak | Very high | $0.1369 | $0.169756 (+24.0%) | $0.120472 (-12.0%) | 02:00 23-Oct |
+| 3 | **DOGE** | 5.0/10 | Weak | Low | $0.08116 | $0.0853082 (+5.1%) | $0.0790859 (-2.6%) | 02:00 23-Oct |
+| 4 | **SC** | 4.7/10 | Avoid - watch only | Very high | $0.000922 | $0.00110556 (+19.9%) | $0.000830221 (-10.0%) | 02:00 23-Oct |
+| 5 | **XLM** | 4.7/10 | Avoid - watch only | Low | $0.182 | $0.19132 (+5.1%) | $0.17734 (-2.6%) | 02:00 23-Oct |
 
-- **EPIC:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 - **MOVR:** Trading activity is 1.8x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **DOGE:** Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **EPIC:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **DOGE:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 1970 | 43% | -0.20% | -0.24% |
-| Short: exit within 4 hours | 2041 | 41% | -0.24% | -0.27% |
-| Day: exit within 24 hours | 1862 | 40% | -0.14% | -0.15% |
+| Quick: exit within 1 hour | 1972 | 43% | -0.20% | -0.24% |
+| Short: exit within 4 hours | 2045 | 41% | -0.25% | -0.27% |
+| Day: exit within 24 hours | 1868 | 40% | -0.15% | -0.15% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
