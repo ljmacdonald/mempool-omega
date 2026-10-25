@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-25 09:10 UTC
+# Trade ideas: 2026-10-25 10:08 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,19 +6,19 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (1% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (0% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **POLYX** | 2.2/10 | Avoid - watch only | Very high | $0.0378 | $0.0409392 (+8.3%) | $0.0362304 (-4.2%) | 10:05 25-Oct |
-| 2 | **XEC** | 2.1/10 | Avoid - watch only | Very high | $7.24e-06 | $7.964e-06 (+10.0%) | $6.86244e-06 (-5.2%) | 10:05 25-Oct |
-| 3 | **WLD** | 2.1/10 | Avoid - watch only | High | $0.4412 | $0.462897 (+4.9%) | $0.42818 (-3.0%) | 10:05 25-Oct |
-| 4 | **EPIC** | 2.0/10 | Avoid - watch only | Very high | $0.1206 | $0.13266 (+10.0%) | $0.11457 (-5.0%) | 10:05 25-Oct |
-| 5 | **SOPH** | 1.6/10 | Avoid - watch only | High | $0.00144 | $0.00153171 (+6.4%) | $0.00139414 (-3.2%) | 10:05 25-Oct |
+| 1 | **EPIC** | 2.6/10 | Avoid - watch only | Very high | $0.1236 | $0.135648 (+9.7%) | $0.117576 (-4.9%) | 11:05 25-Oct |
+| 2 | **XEC** | 2.0/10 | Avoid - watch only | Very high | $7.26e-06 | $7.9464e-06 (+9.5%) | $6.86244e-06 (-5.5%) | 11:05 25-Oct |
+| 3 | **ERA** | 2.0/10 | Avoid - watch only | High | $0.0762 | $0.0794686 (+4.3%) | $0.0745657 (-2.1%) | 11:05 25-Oct |
+| 4 | **STEEM** | 2.0/10 | Avoid - watch only | High | $0.05305 | $0.0563676 (+6.3%) | $0.0513912 (-3.1%) | 11:05 25-Oct |
+| 5 | **SOPH** | 1.7/10 | Avoid - watch only | High | $0.00149 | $0.00157539 (+5.7%) | $0.00144731 (-2.9%) | 11:05 25-Oct |
 
-- **POLYX:** Trading activity is 3.2x higher than usual, so people are paying attention to it. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. It did 2.6% better than Bitcoin over the last 2 hours. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **XEC:** It did 3.6% better than Bitcoin over the last 2 hours. Trading activity is 2.8x higher than usual, so people are paying attention to it. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **WLD:** Trading activity is 2.6x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **EPIC:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **XEC:** Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. It did 1.2% better than Bitcoin over the last 2 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ERA:** It did 3.6% better than Bitcoin over the last 2 hours. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Buyers have been more eager than sellers over the last 30 minutes (53% of trades were buys). ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
 
@@ -26,30 +26,30 @@ Market mood: **Unfavourable** (2% of 150 coins look positive). If it says *Unfav
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ERA** | 3.5/10 | Avoid - watch only | High | $0.0731 | $0.0802892 (+9.8%) | $0.0695054 (-4.9%) | 13:00 25-Oct |
-| 2 | **XEC** | 3.0/10 | Avoid - watch only | Very high | $7.23e-06 | $8.38043e-06 (+15.9%) | $6.65479e-06 (-8.0%) | 13:00 25-Oct |
-| 3 | **SOPH** | 3.0/10 | Avoid - watch only | Very high | $0.00145 | $0.00160908 (+11.0%) | $0.00137046 (-5.5%) | 13:00 25-Oct |
-| 4 | **GTC** | 2.9/10 | Avoid - watch only | Very high | $0.2517 | $0.289995 (+15.2%) | $0.232552 (-7.6%) | 13:00 25-Oct |
-| 5 | **WLD** | 2.9/10 | Avoid - watch only | Medium | $0.4423 | $0.469923 (+6.2%) | $0.428488 (-3.1%) | 13:00 25-Oct |
+| 1 | **MTL** | 3.1/10 | Avoid - watch only | Very high | $0.2839 | $0.327699 (+15.4%) | $0.262 (-7.7%) | 14:00 25-Oct |
+| 2 | **STEEM** | 3.1/10 | Avoid - watch only | Very high | $0.05308 | $0.0615728 (+16.0%) | $0.0488336 (-8.0%) | 14:00 25-Oct |
+| 3 | **MITO** | 2.8/10 | Avoid - watch only | High | $0.00852 | $0.00931262 (+9.3%) | $0.00812369 (-4.7%) | 14:00 25-Oct |
+| 4 | **XEC** | 2.7/10 | Avoid - watch only | Very high | $7.27e-06 | $8.35104e-06 (+14.9%) | $6.72948e-06 (-7.4%) | 14:00 25-Oct |
+| 5 | **EPIC** | 2.6/10 | Avoid - watch only | Very high | $0.1228 | $0.142448 (+16.0%) | $0.112976 (-8.0%) | 14:00 25-Oct |
 
-- **ERA:** It did 1.9% better than Bitcoin over the last 6 hours. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **XEC:** It did 10.6% better than Bitcoin over the last 6 hours. Trading activity is 4.1x higher than usual, so people are paying attention to it. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **SOPH:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MTL:** It did 9.5% better than Bitcoin over the last 6 hours. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **STEEM:** Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MITO:** Buyers have been more eager than sellers over the last 1.5 hours (55% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
-Market mood: **Mixed** (39% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Mixed** (40% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **KERNEL** | 7.9/10 | Strong | Very high | $0.048 | $0.058329 (+21.5%) | $0.0428355 (-10.8%) | 09:00 26-Oct |
-| 2 | **ZKC** | 6.3/10 | Moderate | High | $0.0333 | $0.0378922 (+13.8%) | $0.0310039 (-6.9%) | 09:00 26-Oct |
-| 3 | **RWUSD** | 6.1/10 | Moderate | Low | $0.9999 | $1.03 (+3.0%) | $0.984901 (-1.5%) | 09:00 26-Oct |
-| 4 | **ARK** | 6.0/10 | Moderate | Very high | $0.1693 | $0.209932 (+24.0%) | $0.148984 (-12.0%) | 09:00 26-Oct |
-| 5 | **MTL** | 5.8/10 | Moderate | Very high | $0.2809 | $0.346499 (+23.4%) | $0.248101 (-11.7%) | 09:00 26-Oct |
+| 1 | **KERNEL** | 7.8/10 | Strong | Very high | $0.0484 | $0.0586477 (+21.2%) | $0.0432761 (-10.6%) | 10:00 26-Oct |
+| 2 | **LA** | 7.4/10 | Strong | Very high | $0.0577 | $0.071548 (+24.0%) | $0.050776 (-12.0%) | 10:00 26-Oct |
+| 3 | **RWUSD** | 6.1/10 | Moderate | Low | $0.9999 | $1.03 (+3.0%) | $0.984901 (-1.5%) | 10:00 26-Oct |
+| 4 | **MTL** | 5.8/10 | Moderate | Very high | $0.2839 | $0.349038 (+22.9%) | $0.251331 (-11.5%) | 10:00 26-Oct |
+| 5 | **STEEM** | 5.8/10 | Moderate | Very high | $0.05308 | $0.0658192 (+24.0%) | $0.0467104 (-12.0%) | 10:00 26-Oct |
 
-- **KERNEL:** Trading activity is 2.1x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **ZKC:** Trading activity is 2.3x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **KERNEL:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **LA:** Trading activity is 2.7x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 - **RWUSD:** It is close to its highest price of the last 7 days. A breakout is possible. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ---
@@ -57,8 +57,8 @@ Market mood: **Mixed** (39% of 150 coins look positive). If it says *Unfavourabl
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 2392 | 42% | -0.24% | -0.24% |
+| Quick: exit within 1 hour | 2400 | 42% | -0.24% | -0.24% |
 | Short: exit within 4 hours | 2464 | 41% | -0.31% | -0.32% |
-| Day: exit within 24 hours | 2251 | 38% | -0.52% | -0.38% |
+| Day: exit within 24 hours | 2256 | 38% | -0.53% | -0.38% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
