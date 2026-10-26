@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-26 19:09 UTC
+# Trade ideas: 2026-10-26 19:23 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -10,31 +10,31 @@ Market mood: **Unfavourable** (0% of 139 coins look positive). If it says *Unfav
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **HUMA** | 4.2/10 | Avoid - watch only | Very high | $0.02496 | $0.0274335 (+9.9%) | $0.0236351 (-5.3%) | 20:05 26-Oct |
-| 2 | **REZ** | 3.2/10 | Avoid - watch only | High | $0.004696 | $0.00490843 (+4.5%) | $0.00458979 (-2.3%) | 20:05 26-Oct |
-| 3 | **AVA** | 3.2/10 | Avoid - watch only | High | $0.3261 | $0.342657 (+5.1%) | $0.317821 (-2.5%) | 20:05 26-Oct |
-| 4 | **ERA** | 3.0/10 | Avoid - watch only | Medium | $0.0852 | $0.0887657 (+4.2%) | $0.0834171 (-2.1%) | 20:05 26-Oct |
-| 5 | **CHIP** | 2.6/10 | Avoid - watch only | High | $0.0548 | $0.058057 (+5.9%) | $0.0527644 (-3.7%) | 20:05 26-Oct |
+| 1 | **HUMA** | 3.9/10 | Avoid - watch only | Very high | $0.02467 | $0.0269956 (+9.4%) | $0.0235072 (-4.7%) | 20:20 26-Oct |
+| 2 | **CHIP** | 3.6/10 | Avoid - watch only | High | $0.05481 | $0.0579633 (+5.8%) | $0.0532333 (-2.9%) | 20:20 26-Oct |
+| 3 | **AVA** | 3.2/10 | Avoid - watch only | High | $0.3247 | $0.340842 (+5.0%) | $0.316629 (-2.5%) | 20:20 26-Oct |
+| 4 | **REZ** | 3.1/10 | Avoid - watch only | High | $0.004698 | $0.0049082 (+4.5%) | $0.0045929 (-2.2%) | 20:20 26-Oct |
+| 5 | **ERA** | 2.9/10 | Avoid - watch only | Medium | $0.0849 | $0.0882636 (+4.0%) | $0.0832182 (-2.0%) | 20:20 26-Oct |
 
-- **HUMA:** It did 4.1% better than Bitcoin over the last 2 hours. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing.
-- **REZ:** It did 1.6% better than Bitcoin over the last 2 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **HUMA:** Momentum is healthy: not overheated, not collapsing.
+- **CHIP:** Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. It did 2.0% better than Bitcoin over the last 2 hours. Trading activity is 1.6x higher than usual, so people are paying attention to it.
 - **AVA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (1% of 139 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (3% of 139 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **KAT** | 4.2/10 | Avoid - watch only | Very high | $0.0043 | $0.00483614 (+12.5%) | $0.00403193 (-6.2%) | 23:00 26-Oct |
-| 2 | **BANK** | 3.9/10 | Avoid - watch only | High | $0.0257 | $0.0283415 (+10.3%) | $0.0243793 (-5.1%) | 23:00 26-Oct |
-| 3 | **NIL** | 3.7/10 | Avoid - watch only | High | $0.08849 | $0.0962298 (+8.7%) | $0.0846201 (-4.4%) | 23:00 26-Oct |
-| 4 | **BMT** | 3.6/10 | Avoid - watch only | Very high | $0.02768 | $0.0308035 (+11.3%) | $0.0261183 (-5.6%) | 23:00 26-Oct |
-| 5 | **ERA** | 3.6/10 | Avoid - watch only | Very high | $0.0853 | $0.0959231 (+12.5%) | $0.07976 (-6.5%) | 23:00 26-Oct |
+| 1 | **KAT** | 4.3/10 | Avoid - watch only | Very high | $0.0043 | $0.00482511 (+12.2%) | $0.00403745 (-6.1%) | 23:15 26-Oct |
+| 2 | **ERA** | 3.9/10 | Avoid - watch only | Very high | $0.0848 | $0.0951666 (+12.2%) | $0.0796167 (-6.1%) | 23:15 26-Oct |
+| 3 | **AVA** | 3.9/10 | Avoid - watch only | High | $0.3278 | $0.358381 (+9.3%) | $0.31251 (-4.7%) | 23:15 26-Oct |
+| 4 | **NIL** | 3.7/10 | Avoid - watch only | High | $0.08935 | $0.0971556 (+8.7%) | $0.0854472 (-4.4%) | 23:15 26-Oct |
+| 5 | **BAT** | 3.4/10 | Avoid - watch only | Very high | $0.1486 | $0.164871 (+10.9%) | $0.140465 (-5.5%) | 23:15 26-Oct |
 
 - **KAT:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **BANK:** Trading activity is 3.7x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **NIL:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **ERA:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **AVA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Day: exit within 24 hours
 
@@ -44,7 +44,7 @@ Market mood: **Unfavourable** (34% of 139 coins look positive). If it says *Unfa
 |---|---|---|---|---|---|---|---|---|
 | 1 | **TRX** | 7.6/10 | Strong | Low | $0.3304 | $0.340312 (+3.0%) | $0.325444 (-1.5%) | 19:00 27-Oct |
 | 2 | **FOGO** | 6.5/10 | Strong | Very high | $0.00328 | $0.00392721 (+19.7%) | $0.0029564 (-9.9%) | 19:00 27-Oct |
-| 3 | **USUAL** | 6.0/10 | Moderate | High | $0.0107 | $0.0119348 (+11.5%) | $0.0100826 (-5.8%) | 19:00 27-Oct |
+| 3 | **USUAL** | 6.1/10 | Moderate | High | $0.0107 | $0.0119348 (+11.5%) | $0.0100826 (-5.8%) | 19:00 27-Oct |
 | 4 | **RE** | 5.6/10 | Moderate | High | $0.3724 | $0.421311 (+13.1%) | $0.347945 (-6.6%) | 19:00 27-Oct |
 | 5 | **RWUSD** | 5.5/10 | Weak | Low | $1.00 | $1.03 (+3.0%) | $0.985098 (-1.5%) | 19:00 27-Oct |
 
