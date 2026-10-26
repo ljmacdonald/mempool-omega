@@ -1,20 +1,20 @@
 {
  "start": 100.0,
- "cash": 93.16094823819328,
+ "cash": 93.11280120161624,
  "positions": [
   {
-   "key": "solana:5Y8NV33Vv7WbnLfq3zBcKSdYPrk7g2KoiQoe7M2tcxp5",
-   "symbol": "ONYC",
+   "key": "solana:HNg5PYJmtqcmzXrv6S9zP1CDKk5BgDuyFBxbvNApump",
+   "symbol": "ALCH",
    "chain": "solana",
-   "opened": "2026-10-25T18:17:20.146116+00:00",
-   "entry": 1.156549395873553,
-   "qty": 4.2456830214344885,
-   "stop": 1.1209285237227602,
-   "target": 1.2277667085544797,
-   "cost": 4.935073159911191,
-   "fees": 0.02473102640053198,
-   "route": "B",
-   "why": "one address net bought 0.600% of supply ($773,301) in 14 days: newly observed holder"
+   "opened": "2026-10-26T14:02:35.173411+00:00",
+   "entry": 0.03759832618475121,
+   "qty": 130.3774544393185,
+   "stop": 0.033544814935398855,
+   "target": 0.04570465938920228,
+   "cost": 4.926679981324478,
+   "fees": 0.02470592217744111,
+   "route": "A,B",
+   "why": "0.116% of supply ($42,949) net bought in swaps over 7 days, buying on 4 days; one address net bought 0.167% of supply ($61,470) in 14 days: newly observed holder"
   }
  ],
  "trades": [
@@ -323,6 +323,23 @@
    "fees": 0.049575233708141306,
    "pnl": 0.00034060024359305885,
    "ret": 6.91026037609177e-05
+  },
+  {
+   "key": "solana:5Y8NV33Vv7WbnLfq3zBcKSdYPrk7g2KoiQoe7M2tcxp5",
+   "symbol": "ONYC",
+   "chain": "solana",
+   "opened": "2026-10-25T18:17:20.146116+00:00",
+   "entry": 1.156549395873553,
+   "qty": 4.2456830214344885,
+   "stop": 1.1209285237227602,
+   "target": 1.2277667085544797,
+   "route": "B",
+   "closed": "2026-10-26T14:02:35.173411+00:00",
+   "exit": 1.1548772682964394,
+   "reason": "state changed: accumulation weakening",
+   "fees": 0.049440891499928,
+   "pnl": -0.05654021516375174,
+   "ret": -0.011456813978573122
   }
  ],
  "decisions": [
@@ -945,6 +962,39 @@
    "symbol": "HUMA",
    "action": "close",
    "reason": "state changed: accumulation weakening"
+  },
+  {
+   "t": "2026-10-26T14:02:35.173411+00:00",
+   "key": "solana:5Y8NV33Vv7WbnLfq3zBcKSdYPrk7g2KoiQoe7M2tcxp5",
+   "symbol": "ONYC",
+   "action": "close",
+   "reason": "state changed: accumulation weakening"
+  },
+  {
+   "t": "2026-10-26T14:02:35.173411+00:00",
+   "key": "solana:HNg5PYJmtqcmzXrv6S9zP1CDKk5BgDuyFBxbvNApump",
+   "symbol": "ALCH",
+   "action": "open",
+   "plan": {
+    "eligible": true,
+    "entry": 0.03759809642,
+    "stop": 0.033544814935398855,
+    "target": 0.04570465938920228,
+    "qty": 130.37825118559653,
+    "notional": 4.901974059147037,
+    "risk": 0.5284597515252554,
+    "impact": 6.111074045954289e-06,
+    "costs_est": 0.04947175700777581,
+    "rr": 2.0
+   },
+   "rules": {
+    "risk_per_trade": 0.01,
+    "max_open_risk": 0.04,
+    "max_position": 0.05,
+    "min_rr": 2.0,
+    "dex_fee": 0.003,
+    "max_hold_d": 30
+   }
   }
  ],
  "live_trading": false,
