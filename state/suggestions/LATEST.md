@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-26 23:27 UTC
+# Trade ideas: 2026-10-27 00:00 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,39 +6,39 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (0% of 141 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (0% of 140 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **HAEDAL** | 2.8/10 | Avoid - watch only | High | $0.02177 | $0.0227478 (+4.5%) | $0.0212811 (-2.2%) | 00:25 27-Oct |
-| 2 | **INIT** | 2.5/10 | Avoid - watch only | Medium | $0.15667 | $0.16227 (+3.6%) | $0.15387 (-1.8%) | 00:25 27-Oct |
-| 3 | **BAT** | 2.4/10 | Avoid - watch only | High | $0.1459 | $0.15237 (+4.4%) | $0.142665 (-2.2%) | 00:25 27-Oct |
-| 4 | **HUMA** | 1.9/10 | Avoid - watch only | Medium | $0.02462 | $0.0256332 (+4.1%) | $0.0241134 (-2.1%) | 00:25 27-Oct |
-| 5 | **DODO** | 1.9/10 | Avoid - watch only | Medium | $0.02459 | $0.0254134 (+3.3%) | $0.0241783 (-1.7%) | 00:25 27-Oct |
+| 1 | **ERA** | 2.1/10 | Avoid - watch only | Medium | $0.085 | $0.0878363 (+3.3%) | $0.0835819 (-1.7%) | 00:55 27-Oct |
+| 2 | **MITO** | 1.9/10 | Avoid - watch only | Medium | $0.00852 | $0.00885283 (+3.9%) | $0.00835358 (-2.0%) | 00:55 27-Oct |
+| 3 | **CHIP** | 1.9/10 | Avoid - watch only | Medium | $0.05095 | $0.05264 (+3.3%) | $0.050105 (-1.7%) | 00:55 27-Oct |
+| 4 | **BAT** | 1.9/10 | Avoid - watch only | High | $0.1512 | $0.159123 (+5.2%) | $0.147238 (-2.6%) | 00:55 27-Oct |
+| 5 | **OSMO** | 1.8/10 | Avoid - watch only | Medium | $0.0493 | $0.05109 (+3.6%) | $0.048405 (-1.8%) | 00:55 27-Oct |
 
-- **HAEDAL:** Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Buyers have been more eager than sellers over the last 30 minutes (53% of trades were buys). Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **INIT:** Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **BAT:** It did 2.8% better than Bitcoin over the last 2 hours. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **ERA:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **MITO:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **CHIP:** The model sees a slightly better-than-usual pattern, with no single strong reason.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (1% of 141 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (3% of 140 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **HUMA** | 4.2/10 | Avoid - watch only | Very high | $0.02468 | $0.0286288 (+16.0%) | $0.0227056 (-8.0%) | 03:15 27-Oct |
-| 2 | **DODO** | 3.8/10 | Avoid - watch only | High | $0.02439 | $0.0264815 (+8.6%) | $0.0233443 (-4.3%) | 03:15 27-Oct |
-| 3 | **KAT** | 3.7/10 | Avoid - watch only | High | $0.00435 | $0.00476467 (+9.5%) | $0.00414267 (-4.8%) | 03:15 27-Oct |
-| 4 | **INIT** | 3.6/10 | Avoid - watch only | High | $0.15577 | $0.170094 (+9.2%) | $0.148608 (-4.6%) | 03:15 27-Oct |
-| 5 | **ERA** | 3.5/10 | Avoid - watch only | High | $0.0854 | $0.0938331 (+9.9%) | $0.0811835 (-4.9%) | 03:15 27-Oct |
+| 1 | **HUMA** | 4.9/10 | Avoid - watch only | Very high | $0.02444 | $0.0283504 (+16.0%) | $0.0224848 (-8.0%) | 03:45 27-Oct |
+| 2 | **BAT** | 4.6/10 | Avoid - watch only | Very high | $0.1531 | $0.17059 (+11.4%) | $0.144355 (-5.7%) | 03:45 27-Oct |
+| 3 | **BNB** | 3.6/10 | Avoid - watch only | Low | $742.36 | $757.21 (+2.0%) | $734.94 (-1.0%) | 03:45 27-Oct |
+| 4 | **DODO** | 3.5/10 | Avoid - watch only | High | $0.02458 | $0.0266177 (+8.3%) | $0.0235611 (-4.1%) | 03:45 27-Oct |
+| 5 | **BANK** | 3.4/10 | Avoid - watch only | High | $0.0258 | $0.027838 (+7.9%) | $0.024781 (-3.9%) | 03:45 27-Oct |
 
-- **HUMA:** It did 2.9% better than Bitcoin over the last 6 hours. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing.
-- **DODO:** It did 4.2% better than Bitcoin over the last 6 hours. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **KAT:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **HUMA:** Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing.
+- **BAT:** It did 7.9% better than Bitcoin over the last 6 hours. Trading activity is 2.8x higher than usual, so people are paying attention to it. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **BNB:** It is close to its highest price of the last 42 hours. A breakout is possible. Momentum is healthy: not overheated, not collapsing.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (32% of 141 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (32% of 140 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
@@ -46,7 +46,7 @@ Market mood: **Unfavourable** (32% of 141 coins look positive). If it says *Unfa
 | 2 | **RUNE** | 5.9/10 | Moderate | Low | $0.625 | $0.660346 (+5.7%) | $0.607327 (-2.8%) | 23:00 27-Oct |
 | 3 | **OSMO** | 5.6/10 | Moderate | Very high | $0.0497 | $0.0594814 (+19.7%) | $0.0448093 (-9.8%) | 23:00 27-Oct |
 | 4 | **RWUSD** | 5.5/10 | Weak | Low | $1.00 | $1.03 (+3.0%) | $0.985 (-1.5%) | 23:00 27-Oct |
-| 5 | **SYN** | 5.3/10 | Weak | Very high | $0.176 | $0.2067 (+17.4%) | $0.16065 (-8.7%) | 23:00 27-Oct |
+| 5 | **FOGO** | 5.4/10 | Weak | Very high | $0.00328 | $0.00388627 (+18.5%) | $0.00297687 (-9.2%) | 23:00 27-Oct |
 
 - **TRX:** It is close to its highest price of the last 7 days. A breakout is possible. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 - **RUNE:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
@@ -57,8 +57,8 @@ Market mood: **Unfavourable** (32% of 141 coins look positive). If it says *Unfa
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 2600 | 42% | -0.25% | -0.24% |
-| Short: exit within 4 hours | 2668 | 40% | -0.34% | -0.31% |
+| Quick: exit within 1 hour | 2601 | 42% | -0.24% | -0.24% |
+| Short: exit within 4 hours | 2669 | 40% | -0.33% | -0.31% |
 | Day: exit within 24 hours | 2454 | 37% | -0.58% | -0.34% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
