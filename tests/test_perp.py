@@ -247,3 +247,14 @@ def test_rates_carry_forward_only_from_the_past():
     r = ffill_hourly({0: {"fund_long": D(1), "borrow_long": D(2)}, 7200: {"fund_long": D(3)}})
     assert r[3600] == {"fund_long": D(1), "borrow_long": D(2)}     # borrowing unchanged: carried forward
     assert r[7200] == {"fund_long": D(3), "borrow_long": D(2)}     # never taken from a later snapshot
+
+
+def test_pool_deposits_too_small_for_the_fixed_fees_are_skipped():
+    days = [f"2025-01-{i:02d}" for i in range(1, 32)] + [f"2025-02-{i:02d}" for i in range(1, 29)]
+    pool = {"name": "P", "address": "0x1", "gm": {k: D("1") + D(i) / 1000 for i, k in enumerate(days)},
+            "apr": {k: {"fee_apr": 0.2, "pnl_apr": 0.01} for k in days}, "tok": {}, "hl_funding": None,
+            "swap_fee": D("0.0007"), "exec_fee": D("0.31")}
+    small = LP.backtest([pool], D(25))                   # $8 deposits: about $0.70 of fixed fees is ~9%
+    assert not small["trades"] and small["too_small"]
+    big = LP.backtest([pool], D(2500))
+    assert big["trades"] and not big["too_small"]

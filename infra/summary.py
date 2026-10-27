@@ -12,8 +12,9 @@ This is a plain summary of each page's own numbers, not a test of skill: a secti
 pages themselves carry the stricter checks (probation, the grade check, walk-forward tests).
 
 Watchdog: a section is out of date when its data is older than it should be (stocks and forex only while their
-markets are open), and a job is failing when its last two runs failed. Problems open (or update) one GitHub issue,
-which emails the owner; the issue closes itself when everything is fine again.
+markets have been open long enough for a first scan), and a job is failing when its last two runs failed. Problems
+seen on two checks in a row open (or update) one GitHub issue, which emails the owner; the issue closes itself when
+everything is fine again (D124).
 """
 from __future__ import annotations
 
@@ -23,7 +24,7 @@ import subprocess
 import sys
 import types
 import urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -138,7 +139,9 @@ def sections(now: datetime) -> list[dict]:
     def add(key, name, path, rec, updated, max_age_min, unit="%", window=None, note=""):
         t = parse_t(updated)
         age = round((now - t).total_seconds() / 60) if t else None
-        watched = window is None or market_open(window, now)
+        # stocks and forex: only once their market has been open longer than the allowed age (the first scan after the
+        # open needs time to run), so the opening bell never looks like stuck data
+        watched = window is None or (market_open(window, now) and market_open(window, now - timedelta(minutes=max_age_min + 15)))
         stale = bool(watched and (age is None or age > max_age_min))
         out.append({"key": key, "name": name, "path": path, "n": rec.get("n", 0), "avg": rec.get("avg"),
                     "random": rec.get("random"), "win": rec.get("win"), "unit": unit,
@@ -199,6 +202,24 @@ def sections(now: datetime) -> list[dict]:
         out[-1]["equity"] = eq
         out[-1]["paused"] = bool(a.get("paused"))
         out[-1]["open"] = len(a.get("positions") or [])
+    return out
+
+
+# Pages with no paper record to summarise here, watched for freshness only (status page, page banners, the issue).
+FRESHNESS = (("accum", "Accumulation lab", "accum/", "accum/snapshot.json", 150),
+             ("perp", "Perp DEX lab", "perp/", "perp/snapshot.json", 150),
+             ("perp-research", "Perp DEX lab history tests", "perp/", "perp/research.json", 36 * 60),
+             ("hayes", "Engine A (macro)", "hayes/", "hayes/research.json", 8 * 1440),
+             ("deep", "Engine B (deep history)", "deep/", "deep/research.json", 8 * 1440))
+
+
+def freshness(now: datetime) -> list[dict]:
+    out = []
+    for key, name, path, rel, max_age in FRESHNESS:
+        t = parse_t((read_data(rel) or {}).get("generated_at"))
+        age = round((now - t).total_seconds() / 60) if t else None
+        out.append({"key": key, "name": name, "path": path, "updated": str(t) if t else None, "age_min": age,
+                    "max_age_min": max_age, "market_closed": False, "stale": age is None or age > max_age})
     return out
 
 
@@ -264,10 +285,16 @@ def main() -> int:
     token = os.environ.get("GITHUB_TOKEN") if os.environ.get("GITHUB_ACTIONS") == "true" else None
     repo = os.environ.get("GITHUB_REPOSITORY", "ljmacdonald/mempool-omega")
     secs = sections(now)
+    fresh = freshness(now)
     jobs = failing_jobs(token, repo)
-    problems = [f"{s['name']} data is {s['age_min']} minutes old (should be under {s['max_age_min']})" if s["age_min"] is not None
-                else f"{s['name']} has no data" for s in secs if s["stale"]]
-    problems += [f"The '{j['workflow']}' job failed its last two runs (since {j['since']}): {j['url']}" for j in jobs]
+    found = [(f"stale:{s['key']}", f"{s['name']} data is {s['age_min']} minutes old (should be under {s['max_age_min']})"
+              if s["age_min"] is not None else f"{s['name']} has no data") for s in secs + fresh if s["stale"]]
+    found += [(f"job:{j['path']}", f"The '{j['workflow']}' job failed its last two runs (since {j['since']}): {j['url']}") for j in jobs]
+    problems = [p for _, p in found]
+    # the owner is emailed only about a problem seen on two checks in a row (15 minutes apart): one late run that
+    # catches up by itself is shown on the status page but sends no email
+    before = set((read_state("summary.json") or {}).get("problem_keys") or [])
+    confirmed = [p for k, p in found if k in before]
     me = types.SimpleNamespace(**globals())                    # this run's state folder and readers, for the modules below
     try:                                                       # Proven / Testing only (D115); never stops the summary
         sys.path.insert(0, str(ROOT / "infra"))
@@ -291,10 +318,10 @@ def main() -> int:
         best.build(now)
     except Exception as e:  # noqa: BLE001
         print("best:", e)
-    summary = {"generated_at": str(now), "min_n": MIN_N, "sections": secs, "failing_jobs": jobs, "problems": problems,
-               "ok": not problems}
+    summary = {"generated_at": str(now), "min_n": MIN_N, "sections": secs, "freshness": fresh, "failing_jobs": jobs,
+               "problems": problems, "problem_keys": [k for k, _ in found], "ok": not problems}
     (STATE / "summary.json").write_text(json.dumps(summary, indent=1, default=str))
-    sync_issue(token, repo, problems)
+    sync_issue(token, repo, confirmed)
     print(f"summary: {len(secs)} sections, {len(problems)} problem(s)")
     return 0
 

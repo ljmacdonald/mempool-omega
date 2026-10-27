@@ -260,8 +260,8 @@
       const r = await fetch(`${SUMMARY}?t=${Math.floor(Date.now() / 300000)}`);
       if (!r.ok) return;
       const S = await r.json();
-      const s = (S.sections || []).find((x) => x.key === HERE);
-      if (!s || !s.stale) return;
+      const s = (S.sections || []).concat(S.freshness || []).find((x) => x.key === HERE && x.stale);
+      if (!s) return;
       const h = s.age_min == null ? "a long time" : s.age_min < 120 ? `${s.age_min} minutes` : `${Math.round(s.age_min / 60)} hours`;
       const b = document.createElement("div"); b.className = "banner warn"; b.setAttribute("role", "status");
       b.innerHTML = `<b>This page's data hasn't updated for ${esc(h)}.</b> The watchdog has flagged it and the owner has been notified; what you see may be out of date. <a href="${BASE}status/">System status</a>`;

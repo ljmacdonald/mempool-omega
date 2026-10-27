@@ -100,6 +100,7 @@ def backtest(pools: list[dict], start_usd, hedge: bool = False, book: str = "acc
     idx = {k: i for i, k in enumerate(days)}
     cash, held = d(start_usd), {}                      # held: name -> {value, hedge, trade}
     trades, equity, daily = [], [], []
+    too_small = 0                                      # deposits skipped: fixed fees above the allowed share (D124)
     byname = {p["name"]: p for p in pools}
 
     def close(name, t, why):
@@ -134,7 +135,8 @@ def backtest(pools: list[dict], start_usd, hedge: bool = False, book: str = "acc
             p = byname[n]
             alloc = min(total * d(P["max_pool_share_of_sleeve"]), total / P["top_n"], cash)
             fixed = p["exec_fee"] * cost_mult + gas
-            if alloc <= fixed * 2:
+            if alloc <= fixed * 2 or 2 * fixed > alloc * d(P["max_fixed_cost_share"]):
+                too_small += 1
                 continue
             fee = (alloc - fixed) * p["swap_fee"] * cost_mult
             value = alloc - fixed - fee
@@ -186,7 +188,7 @@ def backtest(pools: list[dict], start_usd, hedge: bool = False, book: str = "acc
         equity.append((nxt, eq))
     for n in list(held):
         close(n, days[-1], "end of the test")
-    return {"trades": trades, "equity": [(t, str(e)) for t, e in equity], "daily": daily}
+    return {"trades": trades, "equity": [(t, str(e)) for t, e in equity], "daily": daily, "too_small": too_small}
 
 
 def passive(pools: list[dict], names: list[str], start_usd) -> dict:
