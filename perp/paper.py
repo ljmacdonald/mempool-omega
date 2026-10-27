@@ -466,8 +466,8 @@ def _lp(st, snap, now, inp) -> list[dict]:
             if snap["exec_fee_usd"] is None:
                 log.append(_row(now, book, "lp", n_, "REJECT", "execution fee unknown"))
                 continue
-            if alloc <= 2 * (xf + gas):
-                log.append(_row(now, book, "lp", n_, "REJECT", "allocation too small for the fixed deposit costs"))
+            if alloc <= 2 * (xf + gas) or 2 * (xf + gas) > alloc * d(P["max_fixed_cost_share"]):
+                log.append(_row(now, book, "lp", n_, "REJECT", "fixed fees above 1% of the deposit at this size"))
                 continue
             blk = risk_block(acc, snap, now, ZERO, start)
             if blk:

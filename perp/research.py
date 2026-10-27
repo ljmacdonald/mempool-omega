@@ -135,6 +135,11 @@ def run(now: float | None = None) -> dict:
             s["stressed_mean"] = statistics.fmean(r2["daily"]) if r2["daily"] else None
             s["cost_blind"] = LP.summary(r0, sl)
             s["gates"] = _gate(s, complete, "days")
+            if not r["trades"] and r["too_small"]:
+                s["gates"]["status"] = "ineligible"
+                s["ineligible"] = (f"A ${float(sl):,.0f} sleeve splits into deposits too small for GMX's fixed fees (about "
+                                   f"${float(2 * exec_fee + Decimal('0.04')):.2f} in and out): they would be over "
+                                   f"{load()['lp']['max_fixed_cost_share']:.0%} of each deposit.")
             s.pop("nets")
             res[book] = s
         mains = LV.main_markets(markets)

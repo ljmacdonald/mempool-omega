@@ -73,3 +73,32 @@ def test_picks_against_the_market(n, avg, rnd, unit, verdict, hedged):
     assert v["verdict"] == verdict and v["edge"] == pytest.approx(avg - rnd)
     assert (v["hedged"] is None) if hedged is None else v["hedged"] == pytest.approx(hedged)
     assert S.vs_market(100, None, 0.0) is None
+
+
+def test_market_open_gets_time_for_its_first_scan(tmp_path, monkeypatch):
+    monkeypatch.setattr(S, "STATE", tmp_path)
+    mon = datetime(2026, 10, 26, 13, 2, tzinfo=timezone.utc)                    # two minutes after the stocks window opens
+    monkeypatch.setattr(S, "read_data", lambda rel: {"generated_at": str(mon - timedelta(days=3))})
+    secs = {s["key"]: s for s in S.sections(mon)}
+    assert not secs["stocks"]["stale"] and secs["stocks"]["market_closed"]
+    later = mon + timedelta(hours=2)
+    secs = {s["key"]: s for s in S.sections(later)}
+    assert secs["stocks"]["stale"]                                               # still nothing two hours in: a real problem
+    sun = datetime(2026, 10, 25, 21, 1, tzinfo=timezone.utc)                     # forex reopens on Sunday evening
+    assert not {s["key"]: s for s in S.sections(sun)}["fx"]["stale"]
+
+
+def test_email_only_for_a_problem_seen_twice(tmp_path, monkeypatch):
+    monkeypatch.setattr(S, "STATE", tmp_path)
+    monkeypatch.setenv("GITHUB_ACTIONS", "true")
+    monkeypatch.setenv("GITHUB_TOKEN", "x")
+    monkeypatch.setattr(S, "read_data", lambda rel: None)
+    monkeypatch.setattr(S, "failing_jobs", lambda *a: [])
+    sent = []
+    monkeypatch.setattr(S, "sync_issue", lambda token, repo, problems: sent.append(list(problems)))
+    S.main()
+    first = json.loads((tmp_path / "summary.json").read_text())
+    assert first["problems"] and sent[-1] == []                                 # shown on the status page, no email yet
+    S.main()
+    assert sent[-1] and set(sent[-1]) <= set(first["problems"]) | set(json.loads((tmp_path / "summary.json").read_text())["problems"])
+    assert any(f["key"] == "perp" for f in first["freshness"])
