@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-28 20:09 UTC
+# Trade ideas: 2026-10-28 21:04 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,50 +6,50 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (1% of 132 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (0% of 136 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ADX** | 3.9/10 | Avoid - watch only | Very high | $0.0582 | $0.0627008 (+7.7%) | $0.0559496 (-3.9%) | 21:05 28-Oct |
-| 2 | **BLUR** | 3.1/10 | Avoid - watch only | Very high | $0.00868 | $0.00937927 (+8.1%) | $0.00833037 (-4.0%) | 21:05 28-Oct |
-| 3 | **RVN** | 3.0/10 | Avoid - watch only | Very high | $0.001537 | $0.00163692 (+6.5%) | $0.00147806 (-3.8%) | 21:05 28-Oct |
-| 4 | **INIT** | 2.6/10 | Avoid - watch only | Very high | $0.21172 | $0.23236 (+9.7%) | $0.2014 (-4.9%) | 21:05 28-Oct |
-| 5 | **HAEDAL** | 2.5/10 | Avoid - watch only | High | $0.02771 | $0.0292504 (+5.6%) | $0.0269398 (-2.8%) | 21:05 28-Oct |
+| 1 | **INIT** | 4.2/10 | Avoid - watch only | Very high | $0.21538 | $0.232909 (+8.1%) | $0.206616 (-4.1%) | 22:00 28-Oct |
+| 2 | **PEPE** | 3.2/10 | Avoid - watch only | High | $5.03e-06 | $5.27248e-06 (+4.8%) | $4.90876e-06 (-2.4%) | 22:00 28-Oct |
+| 3 | **RVN** | 3.0/10 | Avoid - watch only | High | $0.0015 | $0.00158906 (+5.9%) | $0.00145547 (-3.0%) | 22:00 28-Oct |
+| 4 | **BLUR** | 2.9/10 | Avoid - watch only | Very high | $0.00879 | $0.00947511 (+7.8%) | $0.00844744 (-3.9%) | 22:00 28-Oct |
+| 5 | **PUMP** | 2.7/10 | Avoid - watch only | Medium | $0.004539 | $0.00473156 (+4.2%) | $0.00444272 (-2.1%) | 22:00 28-Oct |
 
-- **ADX:** Trading activity is 3.2x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **BLUR:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **RVN:** Trading activity is 4.9x higher than usual, so people are paying attention to it. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. It did 1.4% better than Bitcoin over the last 2 hours. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **INIT:** Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. It did 2.2% better than Bitcoin over the last 2 hours. Buyers have been more eager than sellers over the last 30 minutes (52% of trades were buys).
+- **PEPE:** It did 3.1% better than Bitcoin over the last 2 hours. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Trading activity is 2.1x higher than usual, so people are paying attention to it.
+- **RVN:** Trading activity is 2.3x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (13% of 132 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (22% of 136 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **HAEDAL** | 4.8/10 | Avoid - watch only | Very high | $0.02764 | $0.0320624 (+16.0%) | $0.0254288 (-8.0%) | 00:00 29-Oct |
-| 2 | **ADX** | 4.3/10 | Avoid - watch only | Very high | $0.0588 | $0.0669737 (+13.9%) | $0.0547131 (-7.0%) | 00:00 29-Oct |
-| 3 | **OSMO** | 3.8/10 | Avoid - watch only | High | $0.0527 | $0.0575089 (+9.1%) | $0.0502956 (-4.6%) | 00:00 29-Oct |
-| 4 | **RVN** | 3.3/10 | Avoid - watch only | Very high | $0.001542 | $0.00170919 (+10.8%) | $0.00145316 (-5.8%) | 00:00 29-Oct |
-| 5 | **CHIP** | 2.6/10 | Avoid - watch only | High | $0.0498 | $0.0540661 (+8.6%) | $0.0476669 (-4.3%) | 00:00 29-Oct |
+| 1 | **HAEDAL** | 5.0/10 | Weak | Very high | $0.02797 | $0.0323857 (+15.8%) | $0.0257621 (-7.9%) | 01:00 29-Oct |
+| 2 | **EDEN** | 4.5/10 | Avoid - watch only | Medium | $0.05581 | $0.0594855 (+6.6%) | $0.0539723 (-3.3%) | 01:00 29-Oct |
+| 3 | **OSMO** | 4.4/10 | Avoid - watch only | High | $0.0523 | $0.056737 (+8.5%) | $0.04985 (-4.7%) | 01:00 29-Oct |
+| 4 | **ADX** | 4.1/10 | Avoid - watch only | Very high | $0.0582 | $0.0658086 (+13.1%) | $0.0543957 (-6.5%) | 01:00 29-Oct |
+| 5 | **BMT** | 3.8/10 | Avoid - watch only | High | $0.02811 | $0.0308669 (+9.8%) | $0.0267316 (-4.9%) | 01:00 29-Oct |
 
 - **HAEDAL:** Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **ADX:** It did 3.4% better than Bitcoin over the last 6 hours. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Trading activity is 2.4x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **EDEN:** It did 4.4% better than Bitcoin over the last 6 hours. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 - **OSMO:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (25% of 132 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (25% of 136 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **TUT** | 7.1/10 | Strong | High | $0.01964 | $0.0224784 (+14.5%) | $0.0182208 (-7.2%) | 20:00 29-Oct |
-| 2 | **ALT** | 6.4/10 | Moderate | Medium | $0.00674 | $0.00742293 (+10.1%) | $0.00639853 (-5.1%) | 20:00 29-Oct |
-| 3 | **BANK** | 6.3/10 | Moderate | Very high | $0.0277 | $0.0329124 (+18.8%) | $0.0250938 (-9.4%) | 20:00 29-Oct |
-| 4 | **OSMO** | 5.7/10 | Moderate | Very high | $0.0527 | $0.065348 (+24.0%) | $0.046376 (-12.0%) | 20:00 29-Oct |
-| 5 | **HAEDAL** | 5.7/10 | Moderate | Very high | $0.02764 | $0.0342736 (+24.0%) | $0.0243232 (-12.0%) | 20:00 29-Oct |
+| 1 | **TUT** | 7.0/10 | Strong | High | $0.01969 | $0.0224772 (+14.2%) | $0.0182964 (-7.1%) | 21:00 29-Oct |
+| 2 | **ALT** | 6.4/10 | Moderate | Medium | $0.00675 | $0.00741988 (+9.9%) | $0.00641506 (-5.0%) | 21:00 29-Oct |
+| 3 | **BANK** | 6.1/10 | Moderate | Very high | $0.0277 | $0.0328051 (+18.4%) | $0.0251475 (-9.2%) | 21:00 29-Oct |
+| 4 | **OSMO** | 5.5/10 | Weak | Very high | $0.0523 | $0.064852 (+24.0%) | $0.046024 (-12.0%) | 21:00 29-Oct |
+| 5 | **HAEDAL** | 5.3/10 | Weak | Very high | $0.02797 | $0.0346828 (+24.0%) | $0.0246136 (-12.0%) | 21:00 29-Oct |
 
-- **TUT:** Trading activity is 2.9x higher than usual, so people are paying attention to it. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **ALT:** It did 3.0% better than Bitcoin over the last 24 hours. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **TUT:** Trading activity is 2.7x higher than usual, so people are paying attention to it. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ALT:** It did 3.5% better than Bitcoin over the last 24 hours. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 - **BANK:** Trading activity is 1.7x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ---
@@ -57,8 +57,8 @@ Market mood: **Unfavourable** (25% of 132 coins look positive). If it says *Unfa
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 2835 | 42% | -0.23% | -0.23% |
-| Short: exit within 4 hours | 2903 | 40% | -0.31% | -0.29% |
-| Day: exit within 24 hours | 2665 | 38% | -0.37% | -0.18% |
+| Quick: exit within 1 hour | 2836 | 42% | -0.23% | -0.23% |
+| Short: exit within 4 hours | 2908 | 40% | -0.31% | -0.29% |
+| Day: exit within 24 hours | 2670 | 38% | -0.37% | -0.18% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
