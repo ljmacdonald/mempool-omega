@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-29 21:24 UTC
+# Trade ideas: 2026-10-29 22:23 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -10,55 +10,55 @@ Market mood: **Unfavourable** (1% of 150 coins look positive). If it says *Unfav
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **PEPE** | 4.6/10 | Avoid - watch only | Very high | $5e-06 | $5.36963e-06 (+7.4%) | $4.81518e-06 (-3.7%) | 22:20 29-Oct |
-| 2 | **ENA** | 3.7/10 | Avoid - watch only | Very high | $0.1922 | $0.207804 (+8.1%) | $0.183065 (-4.8%) | 22:20 29-Oct |
-| 3 | **RAD** | 3.7/10 | Avoid - watch only | Very high | $0.268 | $0.29021 (+8.3%) | $0.254976 (-4.9%) | 22:20 29-Oct |
-| 4 | **ZRO** | 3.5/10 | Avoid - watch only | Very high | $1.65 | $1.78 (+8.1%) | $1.58 (-4.0%) | 22:20 29-Oct |
-| 5 | **LSK** | 3.4/10 | Avoid - watch only | Very high | $0.1968 | $0.210305 (+6.9%) | $0.190047 (-3.4%) | 22:20 29-Oct |
+| 1 | **PEPE** | 5.0/10 | Weak | Very high | $4.57e-06 | $5.00844e-06 (+9.6%) | $4.35078e-06 (-4.8%) | 23:20 29-Oct |
+| 2 | **ZEC** | 3.9/10 | Avoid - watch only | High | $1,254.82 | $1,328.64 (+5.9%) | $1,217.91 (-2.9%) | 23:20 29-Oct |
+| 3 | **PUMP** | 3.7/10 | Avoid - watch only | High | $0.004083 | $0.00433738 (+6.2%) | $0.0039342 (-3.6%) | 23:20 29-Oct |
+| 4 | **RAD** | 3.6/10 | Avoid - watch only | Very high | $0.255 | $0.272645 (+6.9%) | $0.246178 (-3.5%) | 23:20 29-Oct |
+| 5 | **ZRO** | 3.2/10 | Avoid - watch only | Very high | $1.58 | $1.69 (+7.0%) | $1.52 (-3.5%) | 23:20 29-Oct |
 
-- **PEPE:** The model sees a slightly better-than-usual pattern, with no single strong reason.
-- **ENA:** Trading activity is 3.0x higher than usual, so people are paying attention to it.
-- **RAD:** It did 3.5% better than Bitcoin over the last 2 hours. Trading activity is 6.3x higher than usual, so people are paying attention to it. Buyers have been more eager than sellers over the last 30 minutes (55% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **PEPE:** Trading activity is 1.6x higher than usual, so people are paying attention to it.
+- **ZEC:** Trading activity is 2.2x higher than usual, so people are paying attention to it.
+- **PUMP:** Trading activity is 2.3x higher than usual, so people are paying attention to it.
 
 ## Short: exit within 4 hours
 
-Market mood: **Favourable** (75% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Favourable** (67% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ENA** | 6.3/10 | Moderate | Very high | $0.1867 | $0.211207 (+13.1%) | $0.174447 (-6.6%) | 01:15 30-Oct |
-| 2 | **BNB** | 5.7/10 | Moderate | High | $711.26 | $777.99 (+9.4%) | $677.90 (-4.7%) | 01:15 30-Oct |
-| 3 | **ZEN** | 5.4/10 | Weak | High | $5.50 | $6.07 (+10.4%) | $5.21 (-5.2%) | 01:15 30-Oct |
-| 4 | **TRUMP** | 5.4/10 | Weak | High | $1.58 | $1.72 (+8.7%) | $1.51 (-4.3%) | 01:15 30-Oct |
-| 5 | **UNI** | 5.2/10 | Weak | Very high | $6.71 | $7.41 (+10.5%) | $6.35 (-5.2%) | 01:15 30-Oct |
+| 1 | **BNB** | 5.5/10 | Weak | High | $704.18 | $766.50 (+8.9%) | $673.02 (-4.4%) | 02:15 30-Oct |
+| 2 | **ENA** | 4.8/10 | Avoid - watch only | Very high | $0.1816 | $0.204735 (+12.7%) | $0.170032 (-6.4%) | 02:15 30-Oct |
+| 3 | **RAD** | 4.7/10 | Avoid - watch only | Very high | $0.256 | $0.287332 (+12.2%) | $0.240334 (-6.1%) | 02:15 30-Oct |
+| 4 | **ARB** | 4.7/10 | Avoid - watch only | Very high | $0.1544 | $0.170604 (+10.5%) | $0.146298 (-5.2%) | 02:15 30-Oct |
+| 5 | **UNI** | 4.6/10 | Avoid - watch only | Very high | $6.43 | $7.20 (+11.9%) | $6.05 (-6.0%) | 02:15 30-Oct |
 
-- **ENA:** Trading activity is 2.8x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **BNB:** Trading activity is 2.4x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **ZEN:** Trading activity is 4.0x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **BNB:** Trading activity is 2.6x higher than usual, so people are paying attention to it. ⚠️ Bitcoin fell more than 3% in the last 6 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ENA:** Trading activity is 2.9x higher than usual, so people are paying attention to it. ⚠️ Bitcoin fell more than 3% in the last 6 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **RAD:** Trading activity is 5.6x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 6 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
-Market mood: **Favourable** (74% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Favourable** (70% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **FIL** | 8.4/10 | Strong | Very high | $0.8247 | $0.972043 (+17.9%) | $0.74775 (-9.3%) | 21:00 30-Oct |
-| 2 | **PENGU** | 8.3/10 | Strong | Very high | $0.007131 | $0.00850747 (+19.3%) | $0.00644277 (-9.7%) | 21:00 30-Oct |
-| 3 | **GALA** | 8.1/10 | Strong | Very high | $0.001624 | $0.00190989 (+17.6%) | $0.00148105 (-8.8%) | 21:00 30-Oct |
-| 4 | **ZRO** | 7.5/10 | Strong | Very high | $1.58 | $1.95 (+23.5%) | $1.39 (-11.7%) | 21:00 30-Oct |
-| 5 | **FET** | 7.5/10 | Strong | Very high | $0.1654 | $0.193473 (+17.0%) | $0.151363 (-8.5%) | 21:00 30-Oct |
+| 1 | **APT** | 8.3/10 | Strong | Very high | $0.6232 | $0.740937 (+18.9%) | $0.564332 (-9.4%) | 22:00 30-Oct |
+| 2 | **BB** | 8.1/10 | Strong | Very high | $0.00709 | $0.00845976 (+19.3%) | $0.00640512 (-9.7%) | 22:00 30-Oct |
+| 3 | **UNI** | 7.8/10 | Strong | Very high | $6.37 | $7.58 (+19.0%) | $5.76 (-9.5%) | 22:00 30-Oct |
+| 4 | **OP** | 7.7/10 | Strong | Very high | $0.1021 | $0.121212 (+18.7%) | $0.0925442 (-9.4%) | 22:00 30-Oct |
+| 5 | **PYTH** | 7.6/10 | Strong | Very high | $0.06406 | $0.0753434 (+17.6%) | $0.0584183 (-8.8%) | 22:00 30-Oct |
 
-- **FIL:** Trading activity is 1.5x higher than usual, so people are paying attention to it. ⚠️ Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **PENGU:** Trading activity is 1.8x higher than usual, so people are paying attention to it. ⚠️ Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **GALA:** Trading activity is 1.5x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **APT:** Trading activity is 1.9x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **BB:** Trading activity is 1.7x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **UNI:** Trading activity is 2.0x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 2960 | 42% | -0.23% | -0.24% |
-| Short: exit within 4 hours | 3042 | 40% | -0.34% | -0.30% |
-| Day: exit within 24 hours | 2830 | 36% | -0.55% | -0.27% |
+| Quick: exit within 1 hour | 2965 | 42% | -0.24% | -0.24% |
+| Short: exit within 4 hours | 3043 | 40% | -0.34% | -0.30% |
+| Day: exit within 24 hours | 2832 | 36% | -0.55% | -0.27% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
