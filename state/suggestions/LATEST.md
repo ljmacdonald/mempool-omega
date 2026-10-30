@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-30 02:09 UTC
+# Trade ideas: 2026-10-30 03:09 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (1% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (7% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ZAMA** | 5.4/10 | Weak | Very high | $0.06357 | $0.0684358 (+7.7%) | $0.0611371 (-3.8%) | 03:05 30-Oct |
-| 2 | **ENA** | 4.1/10 | Avoid - watch only | Very high | $0.1761 | $0.187869 (+6.7%) | $0.170215 (-3.3%) | 03:05 30-Oct |
-| 3 | **UNI** | 3.9/10 | Avoid - watch only | High | $6.49 | $6.86 (+5.7%) | $6.30 (-2.9%) | 03:05 30-Oct |
-| 4 | **ZRO** | 3.7/10 | Avoid - watch only | Very high | $1.46 | $1.56 (+6.6%) | $1.41 (-3.3%) | 03:05 30-Oct |
-| 5 | **CELO** | 3.7/10 | Avoid - watch only | Medium | $0.07023 | $0.0728355 (+3.7%) | $0.0689273 (-1.9%) | 03:05 30-Oct |
+| 1 | **CRV** | 3.4/10 | Avoid - watch only | Very high | $0.275 | $0.302436 (+10.0%) | $0.261282 (-5.0%) | 04:05 30-Oct |
+| 2 | **ZRO** | 3.2/10 | Avoid - watch only | High | $1.49 | $1.57 (+5.9%) | $1.44 (-2.9%) | 04:05 30-Oct |
+| 3 | **ERA** | 3.0/10 | Avoid - watch only | Very high | $0.0672 | $0.0721575 (+7.4%) | $0.0647212 (-3.7%) | 04:05 30-Oct |
+| 4 | **ZAMA** | 2.9/10 | Avoid - watch only | Very high | $0.06379 | $0.0681598 (+6.9%) | $0.0616051 (-3.4%) | 04:05 30-Oct |
+| 5 | **PARTI** | 2.7/10 | Avoid - watch only | Very high | $0.0569 | $0.0616844 (+8.4%) | $0.0543816 (-4.4%) | 04:05 30-Oct |
 
-- **ZAMA:** Trading activity is 2.0x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing.
-- **ENA:** It did 3.6% better than Bitcoin over the last 2 hours. Trading activity is 1.8x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing.
-- **UNI:** It did 2.5% better than Bitcoin over the last 2 hours. Momentum is healthy: not overheated, not collapsing.
+- **CRV:** Trading activity is 3.0x higher than usual, so people are paying attention to it. Buyers have been more eager than sellers over the last 30 minutes (53% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ZRO:** Buyers have been more eager than sellers over the last 30 minutes (55% of trades were buys). Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ERA:** Buyers have been more eager than sellers over the last 30 minutes (56% of trades were buys). It did 3.0% better than Bitcoin over the last 2 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
 
-Market mood: **Mixed** (53% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (11% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ZAMA** | 4.9/10 | Avoid - watch only | Very high | $0.06368 | $0.0737746 (+15.9%) | $0.0586327 (-7.9%) | 06:00 30-Oct |
-| 2 | **EIGEN** | 4.8/10 | Avoid - watch only | Very high | $0.1614 | $0.181194 (+12.3%) | $0.151503 (-6.1%) | 06:00 30-Oct |
-| 3 | **UNI** | 4.3/10 | Avoid - watch only | Very high | $6.56 | $7.27 (+10.9%) | $6.20 (-5.4%) | 06:00 30-Oct |
-| 4 | **RSR** | 4.3/10 | Avoid - watch only | Very high | $0.001233 | $0.00138695 (+12.5%) | $0.00115602 (-6.2%) | 06:00 30-Oct |
-| 5 | **XRP** | 4.2/10 | Avoid - watch only | Medium | $1.21 | $1.27 (+5.0%) | $1.18 (-2.5%) | 06:00 30-Oct |
+| 1 | **JST** | 5.6/10 | Moderate | Medium | $0.1366 | $0.143896 (+5.3%) | $0.132952 (-2.7%) | 07:00 30-Oct |
+| 2 | **GRAM** | 5.1/10 | Weak | Medium | $1.17 | $1.24 (+6.4%) | $1.13 (-3.2%) | 07:00 30-Oct |
+| 3 | **XRP** | 4.1/10 | Avoid - watch only | Medium | $1.22 | $1.28 (+4.9%) | $1.19 (-2.4%) | 07:00 30-Oct |
+| 4 | **ASTER** | 3.8/10 | Avoid - watch only | Medium | $0.6837 | $0.725303 (+6.1%) | $0.662899 (-3.0%) | 07:00 30-Oct |
+| 5 | **PEPE** | 3.7/10 | Avoid - watch only | Very high | $4.75e-06 | $5.37811e-06 (+13.2%) | $4.43595e-06 (-6.6%) | 07:00 30-Oct |
 
-- **ZAMA:** Trading activity is 2.8x higher than usual, so people are paying attention to it. ⚠️ Bitcoin fell more than 3% in the last 6 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **EIGEN:** Trading activity is 3.2x higher than usual, so people are paying attention to it. Buyers have been more eager than sellers over the last 1.5 hours (53% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 6 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **UNI:** Trading activity is 4.0x higher than usual, so people are paying attention to it. ⚠️ Bitcoin fell more than 3% in the last 6 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **JST:** Trading activity is 2.1x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **GRAM:** Trading activity is 2.6x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **XRP:** Buyers have been more eager than sellers over the last 1.5 hours (55% of trades were buys). Trading activity is 2.4x higher than usual, so people are paying attention to it. It is bouncing up from near its lowest price of the last 42 hours. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
-Market mood: **Favourable** (71% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Favourable** (73% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **BABY** | 7.8/10 | Strong | High | $0.01188 | $0.013531 (+13.9%) | $0.0110545 (-6.9%) | 02:00 31-Oct |
-| 2 | **APT** | 7.7/10 | Strong | Very high | $0.6026 | $0.709841 (+17.8%) | $0.54835 (-9.0%) | 02:00 31-Oct |
-| 3 | **ZAMA** | 7.7/10 | Strong | Very high | $0.06368 | $0.0782488 (+22.9%) | $0.0563956 (-11.4%) | 02:00 31-Oct |
-| 4 | **TIA** | 7.4/10 | Strong | Very high | $0.4601 | $0.544597 (+18.4%) | $0.417851 (-9.2%) | 02:00 31-Oct |
-| 5 | **BOME** | 7.3/10 | Strong | Very high | $0.0005804 | $0.00069721 (+20.1%) | $0.000521995 (-10.1%) | 02:00 31-Oct |
+| 1 | **PYTH** | 8.7/10 | Strong | Very high | $0.0597 | $0.0703568 (+17.9%) | $0.0543716 (-8.9%) | 03:00 31-Oct |
+| 2 | **ZAMA** | 8.5/10 | Strong | Very high | $0.06355 | $0.0777968 (+22.4%) | $0.0564266 (-11.2%) | 03:00 31-Oct |
+| 3 | **TIA** | 8.3/10 | Strong | Very high | $0.4595 | $0.542236 (+18.0%) | $0.418132 (-9.0%) | 03:00 31-Oct |
+| 4 | **LDO** | 8.1/10 | Strong | Very high | $0.3151 | $0.371396 (+17.9%) | $0.286952 (-8.9%) | 03:00 31-Oct |
+| 5 | **ZK** | 7.8/10 | Strong | High | $0.01002 | $0.0114661 (+14.4%) | $0.00929693 (-7.2%) | 03:00 31-Oct |
 
-- **BABY:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **APT:** Trading activity is 2.1x higher than usual, so people are paying attention to it. ⚠️ Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **PYTH:** Trading activity is 2.7x higher than usual, so people are paying attention to it. ⚠️ Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 - **ZAMA:** Trading activity is 1.9x higher than usual, so people are paying attention to it. ⚠️ Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **TIA:** Trading activity is 1.6x higher than usual, so people are paying attention to it. ⚠️ Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 2985 | 42% | -0.24% | -0.24% |
-| Short: exit within 4 hours | 3053 | 40% | -0.35% | -0.31% |
+| Quick: exit within 1 hour | 2990 | 42% | -0.24% | -0.24% |
+| Short: exit within 4 hours | 3057 | 40% | -0.35% | -0.31% |
 | Day: exit within 24 hours | 2882 | 36% | -0.70% | -0.34% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
