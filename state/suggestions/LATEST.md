@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-30 07:12 UTC
+# Trade ideas: 2026-10-30 07:18 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,19 +6,19 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (2% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (1% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **RAD** | 3.1/10 | Avoid - watch only | Very high | $0.216 | $0.2376 (+10.0%) | $0.2052 (-5.0%) | 08:10 30-Oct |
-| 2 | **HAEDAL** | 2.4/10 | Avoid - watch only | Medium | $0.02285 | $0.0237936 (+4.1%) | $0.0222603 (-2.6%) | 08:10 30-Oct |
-| 3 | **BICO** | 2.0/10 | Avoid - watch only | Medium | $0.01609 | $0.016535 (+2.8%) | $0.0158675 (-1.4%) | 08:10 30-Oct |
-| 4 | **ERA** | 2.0/10 | Avoid - watch only | Medium | $0.0701 | $0.0729531 (+4.1%) | $0.0686734 (-2.0%) | 08:10 30-Oct |
-| 5 | **PARTI** | 1.9/10 | Avoid - watch only | Very high | $0.0523 | $0.0558811 (+6.8%) | $0.0505095 (-3.4%) | 08:10 30-Oct |
+| 1 | **RAD** | 2.8/10 | Avoid - watch only | Very high | $0.218 | $0.2398 (+10.0%) | $0.2071 (-5.0%) | 08:15 30-Oct |
+| 2 | **LSK** | 2.3/10 | Avoid - watch only | Very high | $0.1825 | $0.197046 (+8.0%) | $0.175227 (-4.0%) | 08:15 30-Oct |
+| 3 | **SOPH** | 2.1/10 | Avoid - watch only | Very high | $0.00163 | $0.001793 (+10.0%) | $0.0015485 (-5.0%) | 08:15 30-Oct |
+| 4 | **ERA** | 2.1/10 | Avoid - watch only | Medium | $0.0702 | $0.0730002 (+4.0%) | $0.0687999 (-2.0%) | 08:15 30-Oct |
+| 5 | **BICO** | 2.0/10 | Avoid - watch only | Medium | $0.01599 | $0.0164445 (+2.8%) | $0.0157627 (-1.4%) | 08:15 30-Oct |
 
 - **RAD:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **HAEDAL:** Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **BICO:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **LSK:** Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **SOPH:** Buyers have been more eager than sellers over the last 30 minutes (57% of trades were buys). Trading activity is 3.3x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
 
@@ -26,14 +26,14 @@ Market mood: **Unfavourable** (5% of 150 coins look positive). If it says *Unfav
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **RAD** | 5.4/10 | Weak | Very high | $0.224 | $0.25984 (+16.0%) | $0.20608 (-8.0%) | 11:00 30-Oct |
-| 2 | **CRV** | 4.6/10 | Avoid - watch only | Very high | $0.2765 | $0.309937 (+12.1%) | $0.259781 (-6.0%) | 11:00 30-Oct |
-| 3 | **PARTI** | 4.2/10 | Avoid - watch only | Very high | $0.053 | $0.06148 (+16.0%) | $0.04876 (-8.0%) | 11:00 30-Oct |
-| 4 | **IMX** | 4.0/10 | Avoid - watch only | Very high | $0.1172 | $0.133025 (+13.5%) | $0.109288 (-6.8%) | 11:00 30-Oct |
-| 5 | **RED** | 3.0/10 | Avoid - watch only | Very high | $0.123 | $0.141634 (+15.1%) | $0.113683 (-7.6%) | 11:00 30-Oct |
+| 1 | **RAD** | 5.4/10 | Weak | Very high | $0.218 | $0.25288 (+16.0%) | $0.20056 (-8.0%) | 11:15 30-Oct |
+| 2 | **CRV** | 4.8/10 | Avoid - watch only | Very high | $0.2759 | $0.308577 (+11.8%) | $0.259562 (-5.9%) | 11:15 30-Oct |
+| 3 | **PARTI** | 4.6/10 | Avoid - watch only | Very high | $0.052 | $0.06032 (+16.0%) | $0.04784 (-8.0%) | 11:15 30-Oct |
+| 4 | **IMX** | 4.0/10 | Avoid - watch only | Very high | $0.1173 | $0.132821 (+13.2%) | $0.10954 (-6.6%) | 11:15 30-Oct |
+| 5 | **RWUSD** | 3.1/10 | Avoid - watch only | Low | $0.9997 | $1.02 (+2.0%) | $0.989703 (-1.0%) | 11:15 30-Oct |
 
-- **RAD:** Buyers have been more eager than sellers over the last 1.5 hours (55% of trades were buys). Trading activity is 3.0x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **CRV:** Buyers have been more eager than sellers over the last 1.5 hours (74% of trades were buys). Trading activity is 3.1x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **RAD:** Trading activity is 3.1x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **CRV:** Buyers have been more eager than sellers over the last 1.5 hours (71% of trades were buys). Trading activity is 3.1x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 - **PARTI:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
