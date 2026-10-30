@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-30 14:08 UTC
+# Trade ideas: 2026-10-30 14:16 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -10,14 +10,14 @@ Market mood: **Unfavourable** (0% of 150 coins look positive). If it says *Unfav
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **LSK** | 2.3/10 | Avoid - watch only | Very high | $0.212 | $0.232379 (+9.6%) | $0.20181 (-4.8%) | 15:05 30-Oct |
-| 2 | **BEAMX** | 2.2/10 | Avoid - watch only | Very high | $0.005263 | $0.00573638 (+9.0%) | $0.00502631 (-4.5%) | 15:05 30-Oct |
-| 3 | **PARTI** | 2.0/10 | Avoid - watch only | Very high | $0.0521 | $0.0562377 (+7.9%) | $0.04985 (-4.3%) | 15:05 30-Oct |
-| 4 | **ENA** | 1.8/10 | Avoid - watch only | Medium | $0.1866 | $0.193654 (+3.8%) | $0.183073 (-1.9%) | 15:05 30-Oct |
-| 5 | **PEPE** | 1.6/10 | Avoid - watch only | Very high | $5.18e-06 | $5.52433e-06 (+6.6%) | $4.985e-06 (-3.8%) | 15:05 30-Oct |
+| 1 | **LSK** | 2.4/10 | Avoid - watch only | Very high | $0.2103 | $0.23027 (+9.5%) | $0.1994 (-5.2%) | 15:10 30-Oct |
+| 2 | **BEAMX** | 2.3/10 | Avoid - watch only | Very high | $0.005189 | $0.005665 (+9.2%) | $0.004951 (-4.6%) | 15:10 30-Oct |
+| 3 | **PARTI** | 2.0/10 | Avoid - watch only | Very high | $0.0522 | $0.0562637 (+7.8%) | $0.0501682 (-3.9%) | 15:10 30-Oct |
+| 4 | **AVAX** | 1.6/10 | Avoid - watch only | Medium | $8.25 | $8.47 (+2.7%) | $8.12 (-1.6%) | 15:10 30-Oct |
+| 5 | **PEPE** | 1.6/10 | Avoid - watch only | Very high | $5.18e-06 | $5.51723e-06 (+6.5%) | $5.01139e-06 (-3.3%) | 15:10 30-Oct |
 
-- **LSK:** It did 3.0% better than Bitcoin over the last 2 hours. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Buyers have been more eager than sellers over the last 30 minutes (53% of trades were buys). ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **BEAMX:** It did 12.3% better than Bitcoin over the last 2 hours. Buyers have been more eager than sellers over the last 30 minutes (59% of trades were buys). Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **LSK:** It did 2.3% better than Bitcoin over the last 2 hours. Buyers have been more eager than sellers over the last 30 minutes (53% of trades were buys). Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **BEAMX:** It did 10.2% better than Bitcoin over the last 2 hours. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Trading activity is 2.1x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 - **PARTI:** Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
@@ -30,7 +30,7 @@ Market mood: **Unfavourable** (15% of 150 coins look positive). If it says *Unfa
 | 2 | **AVAX** | 6.0/10 | Moderate | Medium | $8.26 | $8.71 (+5.5%) | $8.03 (-2.8%) | 18:00 30-Oct |
 | 3 | **BNB** | 6.0/10 | Moderate | Low | $699.04 | $723.67 (+3.5%) | $686.72 (-1.8%) | 18:00 30-Oct |
 | 4 | **RAD** | 5.3/10 | Weak | Very high | $0.222 | $0.252184 (+13.6%) | $0.206908 (-6.8%) | 18:00 30-Oct |
-| 5 | **RED** | 4.9/10 | Avoid - watch only | High | $0.1218 | $0.132965 (+9.2%) | $0.116217 (-4.6%) | 18:00 30-Oct |
+| 5 | **CVX** | 5.0/10 | Weak | Medium | $1.96 | $2.09 (+6.8%) | $1.88 (-3.9%) | 18:00 30-Oct |
 
 - **MARSCOIN:** The model sees a slightly better-than-usual pattern, with no single strong reason.
 - **AVAX:** Buyers have been more eager than sellers over the last 1.5 hours (59% of trades were buys).
@@ -57,7 +57,7 @@ Market mood: **Favourable** (63% of 150 coins look positive). If it says *Unfavo
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 3042 | 42% | -0.23% | -0.23% |
+| Quick: exit within 1 hour | 3045 | 42% | -0.23% | -0.23% |
 | Short: exit within 4 hours | 3113 | 41% | -0.30% | -0.29% |
 | Day: exit within 24 hours | 2902 | 36% | -0.71% | -0.36% |
 
