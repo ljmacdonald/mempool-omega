@@ -1,4 +1,4 @@
-# Trade ideas: 2026-10-31 05:41 UTC
+# Trade ideas: 2026-10-31 06:36 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (3% of 134 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (5% of 133 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **PROM** | 6.0/10 | Moderate | Very high | $5.01 | $5.51 (+10.0%) | $4.76 (-5.0%) | 06:35 31-Oct |
-| 2 | **SOPH** | 4.5/10 | Avoid - watch only | Very high | $0.00166 | $0.001826 (+10.0%) | $0.001577 (-5.0%) | 06:35 31-Oct |
-| 3 | **BEAMX** | 3.0/10 | Avoid - watch only | Very high | $0.00479 | $0.005269 (+10.0%) | $0.0045505 (-5.0%) | 06:35 31-Oct |
-| 4 | **ZAMA** | 3.0/10 | Avoid - watch only | Very high | $0.06385 | $0.068082 (+6.6%) | $0.061734 (-3.3%) | 06:35 31-Oct |
-| 5 | **PEPE** | 2.5/10 | Avoid - watch only | Medium | $4.85e-06 | $4.99e-06 (+2.9%) | $4.77561e-06 (-1.5%) | 06:35 31-Oct |
+| 1 | **PROM** | 5.6/10 | Moderate | Very high | $5.10 | $5.61 (+10.0%) | $4.84 (-5.0%) | 07:30 31-Oct |
+| 2 | **PHA** | 5.3/10 | Weak | Very high | $0.0388 | $0.0417667 (+7.6%) | $0.0373167 (-3.8%) | 07:30 31-Oct |
+| 3 | **ZAMA** | 5.0/10 | Weak | High | $0.06501 | $0.0686991 (+5.7%) | $0.0631654 (-2.8%) | 07:30 31-Oct |
+| 4 | **SOPH** | 4.2/10 | Avoid - watch only | Very high | $0.00157 | $0.001727 (+10.0%) | $0.0014915 (-5.0%) | 07:30 31-Oct |
+| 5 | **SPK** | 2.5/10 | Avoid - watch only | Very high | $0.019572 | $0.0212663 (+8.7%) | $0.0187249 (-4.3%) | 07:30 31-Oct |
 
-- **PROM:** Trading activity is 5.6x higher than usual, so people are paying attention to it. Buyers have been more eager than sellers over the last 30 minutes (53% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **SOPH:** Trading activity is 1.8x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **BEAMX:** Trading activity is 1.9x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **PROM:** Trading activity is 5.6x higher than usual, so people are paying attention to it. Buyers have been more eager than sellers over the last 30 minutes (55% of trades were buys). Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **PHA:** Buyers have been more eager than sellers over the last 30 minutes (65% of trades were buys). Trading activity is 3.8x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ZAMA:** Buyers have been more eager than sellers over the last 30 minutes (80% of trades were buys). Trading activity is 4.2x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (8% of 134 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (5% of 133 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **PROM** | 5.2/10 | Weak | Very high | $5.03 | $5.84 (+16.0%) | $4.63 (-8.0%) | 09:30 31-Oct |
-| 2 | **INIT** | 5.1/10 | Weak | Very high | $0.18364 | $0.203605 (+10.9%) | $0.173657 (-5.4%) | 09:30 31-Oct |
-| 3 | **LSK** | 4.9/10 | Avoid - watch only | Very high | $0.22 | $0.2552 (+16.0%) | $0.2024 (-8.0%) | 09:30 31-Oct |
-| 4 | **SOPH** | 4.8/10 | Avoid - watch only | Very high | $0.00164 | $0.0019024 (+16.0%) | $0.00150396 (-8.3%) | 09:30 31-Oct |
-| 5 | **ZAMA** | 4.5/10 | Avoid - watch only | Very high | $0.06413 | $0.0723174 (+12.8%) | $0.05982 (-6.7%) | 09:30 31-Oct |
+| 1 | **PROM** | 6.3/10 | Moderate | Very high | $5.10 | $5.91 (+16.0%) | $4.69 (-8.0%) | 10:30 31-Oct |
+| 2 | **SOPH** | 4.7/10 | Avoid - watch only | Very high | $0.00157 | $0.0018212 (+16.0%) | $0.0014444 (-8.0%) | 10:30 31-Oct |
+| 3 | **ZAMA** | 4.5/10 | Avoid - watch only | Very high | $0.06501 | $0.0727711 (+11.9%) | $0.0608656 (-6.4%) | 10:30 31-Oct |
+| 4 | **INIT** | 4.4/10 | Avoid - watch only | High | $0.17954 | $0.198092 (+10.3%) | $0.170264 (-5.2%) | 10:30 31-Oct |
+| 5 | **TURTLE** | 4.4/10 | Avoid - watch only | Very high | $0.0343 | $0.039788 (+16.0%) | $0.031556 (-8.0%) | 10:30 31-Oct |
 
-- **PROM:** Buyers have been more eager than sellers over the last 1.5 hours (55% of trades were buys). Trading activity is 3.7x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **INIT:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **LSK:** It did 5.8% better than Bitcoin over the last 6 hours. Momentum is healthy: not overheated, not collapsing.
+- **PROM:** Trading activity is 4.1x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **SOPH:** Trading activity is 1.7x higher than usual, so people are paying attention to it.
+- **ZAMA:** Buyers have been more eager than sellers over the last 1.5 hours (70% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (19% of 134 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (22% of 133 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **PROM** | 7.0/10 | Strong | Very high | $5.04 | $6.25 (+24.0%) | $4.44 (-12.0%) | 05:00 01-Nov |
-| 2 | **INIT** | 6.2/10 | Moderate | Very high | $0.18346 | $0.22749 (+24.0%) | $0.161445 (-12.0%) | 05:00 01-Nov |
-| 3 | **PARTI** | 5.6/10 | Moderate | Very high | $0.049 | $0.06076 (+24.0%) | $0.04312 (-12.0%) | 05:00 01-Nov |
-| 4 | **SOLV** | 5.5/10 | Weak | Very high | $0.005137 | $0.0062881 (+22.4%) | $0.00456145 (-11.2%) | 05:00 01-Nov |
-| 5 | **HAEDAL** | 5.4/10 | Weak | Very high | $0.02359 | $0.0291783 (+23.7%) | $0.0207958 (-11.8%) | 05:00 01-Nov |
+| 1 | **PROM** | 7.3/10 | Strong | Very high | $4.88 | $6.05 (+24.0%) | $4.30 (-12.0%) | 06:00 01-Nov |
+| 2 | **INIT** | 6.1/10 | Moderate | Very high | $0.17924 | $0.222258 (+24.0%) | $0.157731 (-12.0%) | 06:00 01-Nov |
+| 3 | **PHA** | 6.1/10 | Moderate | Very high | $0.0378 | $0.0463582 (+22.6%) | $0.0335209 (-11.3%) | 06:00 01-Nov |
+| 4 | **SOPH** | 6.0/10 | Moderate | Very high | $0.00173 | $0.0021452 (+24.0%) | $0.0015224 (-12.0%) | 06:00 01-Nov |
+| 5 | **PARTI** | 5.9/10 | Moderate | Very high | $0.0489 | $0.060636 (+24.0%) | $0.043032 (-12.0%) | 06:00 01-Nov |
 
-- **PROM:** Buyers have been more eager than sellers over the last 6 hours (56% of trades were buys). Trading activity is 2.4x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **PROM:** Trading activity is 2.7x higher than usual, so people are paying attention to it. Buyers have been more eager than sellers over the last 6 hours (54% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 - **INIT:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **PARTI:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **PHA:** Buyers have been more eager than sellers over the last 6 hours (54% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 3127 | 42% | -0.24% | -0.23% |
-| Short: exit within 4 hours | 3196 | 41% | -0.28% | -0.29% |
-| Day: exit within 24 hours | 2942 | 37% | -0.63% | -0.34% |
+| Quick: exit within 1 hour | 3133 | 42% | -0.24% | -0.23% |
+| Short: exit within 4 hours | 3201 | 41% | -0.29% | -0.29% |
+| Day: exit within 24 hours | 2947 | 37% | -0.62% | -0.33% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
