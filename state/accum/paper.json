@@ -1,6 +1,6 @@
 {
  "start": 100.0,
- "cash": 75.57199767047183,
+ "cash": 75.41872706915699,
  "positions": [
   {
    "key": "solana:HNg5PYJmtqcmzXrv6S9zP1CDKk5BgDuyFBxbvNApump",
@@ -45,20 +45,6 @@
    "why": "4 addresses (4 probable owners) quietly bought 0.51% of the supply in small chunks since 2026-10-20, price -6.3% over 30 days"
   },
   {
-   "key": "solana:ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82",
-   "symbol": "BOME",
-   "chain": "solana",
-   "opened": "2026-10-30T07:48:49.881549+00:00",
-   "entry": 0.0006272627570221141,
-   "qty": 7707.589301764208,
-   "stop": 0.0005462771390315474,
-   "target": 0.000789231190336905,
-   "cost": 4.859187766565025,
-   "fees": 0.024504051146256305,
-   "route": "B",
-   "why": "0.135% of supply ($64,251) net bought in swaps over 7 days, buying on 5 days; one address net bought 0.643% of supply ($285,304) in 14 days: newly observed holder"
-  },
-  {
    "key": "solana:XsDoVfqeBukxuZHWhdvWHBhgEHjGNst4MLodqsJHzoB",
    "symbol": "TSLAX",
    "chain": "solana",
@@ -71,6 +57,20 @@
    "fees": 0.024393135852513452,
    "route": "A,B",
    "why": "0.213% of supply ($153,943) net bought in swaps over 7 days, buying on 4 days; one address net bought 0.627% of supply ($448,669) in 14 days: newly observed holder"
+  },
+  {
+   "key": "solana:6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN",
+   "symbol": "TRUMP",
+   "chain": "solana",
+   "opened": "2026-10-31T08:17:16.266762+00:00",
+   "entry": 1.574328575132756,
+   "qty": 3.0556728698051137,
+   "stop": 1.437340602108236,
+   "target": 1.8482990022835277,
+   "cost": 4.835065014537681,
+   "fees": 0.02443189934557631,
+   "route": "B",
+   "why": "one address net bought 0.119% of supply ($521,688) in 14 days: newly observed holder"
   }
  ],
  "trades": [
@@ -600,6 +600,23 @@
    "fees": 0.048867162771831237,
    "pnl": -0.04975666079372054,
    "ret": -0.010288886671327324
+  },
+  {
+   "key": "solana:ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82",
+   "symbol": "BOME",
+   "chain": "solana",
+   "opened": "2026-10-30T07:48:49.881549+00:00",
+   "entry": 0.0006272627570221141,
+   "qty": 7707.589301764208,
+   "stop": 0.0005462771390315474,
+   "target": 0.000789231190336905,
+   "route": "B",
+   "closed": "2026-10-31T08:17:16.266762+00:00",
+   "exit": 0.0006105556467016401,
+   "reason": "state changed: accumulation weakening",
+   "fees": 0.04862180857270981,
+   "pnl": -0.17739335334218964,
+   "ret": -0.036506791230170865
   }
  ],
  "decisions": [
@@ -1745,6 +1762,39 @@
     "risk": 0.7088050990124241,
     "impact": 4.997398337185308e-06,
     "costs_est": 0.04883422386047773,
+    "rr": 2.0
+   },
+   "rules": {
+    "risk_per_trade": 0.01,
+    "max_open_risk": 0.04,
+    "max_position": 0.05,
+    "min_rr": 2.0,
+    "dex_fee": 0.003,
+    "max_hold_d": 30
+   }
+  },
+  {
+   "t": "2026-10-31T08:17:16.266762+00:00",
+   "key": "solana:ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82",
+   "symbol": "BOME",
+   "action": "close",
+   "reason": "state changed: accumulation weakening"
+  },
+  {
+   "t": "2026-10-31T08:17:16.266762+00:00",
+   "key": "solana:6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN",
+   "symbol": "TRUMP",
+   "action": "open",
+   "plan": {
+    "eligible": true,
+    "entry": 1.5743267355,
+    "stop": 1.437340602108236,
+    "target": 1.8482990022835277,
+    "qty": 3.0556764404209056,
+    "notional": 4.810633115192104,
+    "risk": 0.4185853004695685,
+    "impact": 1.168520304402098e-06,
+    "costs_est": 0.04887504133609689,
     "rr": 2.0
    },
    "rules": {
