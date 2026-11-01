@@ -1,4 +1,4 @@
-# Trade ideas: 2026-11-01 07:36 UTC
+# Trade ideas: 2026-11-01 08:38 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,35 +6,35 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (3% of 109 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (2% of 109 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **XPL** | 6.4/10 | Moderate | Very high | $0.07441 | $0.081851 (+10.0%) | $0.0706895 (-5.0%) | 08:30 01-Nov |
-| 2 | **HOT** | 4.6/10 | Avoid - watch only | Very high | $0.000364 | $0.0004004 (+10.0%) | $0.0003458 (-5.0%) | 08:30 01-Nov |
-| 3 | **LSK** | 4.4/10 | Avoid - watch only | High | $0.2319 | $0.244883 (+5.6%) | $0.225409 (-2.8%) | 08:30 01-Nov |
-| 4 | **POWR** | 3.7/10 | Avoid - watch only | Very high | $0.0627 | $0.067124 (+7.1%) | $0.060488 (-3.5%) | 08:30 01-Nov |
-| 5 | **ADX** | 3.0/10 | Avoid - watch only | High | $0.058 | $0.0616218 (+6.2%) | $0.0561891 (-3.1%) | 08:30 01-Nov |
+| 1 | **XPL** | 6.5/10 | Strong | Very high | $0.07344 | $0.0803063 (+9.3%) | $0.06979 (-5.0%) | 09:35 01-Nov |
+| 2 | **HOT** | 4.0/10 | Avoid - watch only | Very high | $0.000368 | $0.0004048 (+10.0%) | $0.00034895 (-5.2%) | 09:35 01-Nov |
+| 3 | **LSK** | 4.0/10 | Avoid - watch only | High | $0.2265 | $0.23856 (+5.3%) | $0.218962 (-3.3%) | 09:35 01-Nov |
+| 4 | **BEAMX** | 3.8/10 | Avoid - watch only | Very high | $0.005613 | $0.0061743 (+10.0%) | $0.00533235 (-5.0%) | 09:35 01-Nov |
+| 5 | **AMP** | 2.5/10 | Avoid - watch only | Medium | $0.000703 | $0.000732667 (+4.2%) | $0.000688167 (-2.1%) | 09:35 01-Nov |
 
-- **XPL:** Buyers have been more eager than sellers over the last 30 minutes (55% of trades were buys). It did 1.6% better than Bitcoin over the last 2 hours. Momentum is healthy: not overheated, not collapsing.
-- **HOT:** Trading activity is 4.9x higher than usual, so people are paying attention to it. It did 2.2% better than Bitcoin over the last 2 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **LSK:** It is bouncing up from near its lowest price of the last 14 hours.
+- **XPL:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **HOT:** Trading activity is 5.2x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **LSK:** Buyers have been more eager than sellers over the last 30 minutes (55% of trades were buys).
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (9% of 109 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (10% of 109 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **XPL** | 8.0/10 | Strong | Very high | $0.07441 | $0.0863156 (+16.0%) | $0.0684572 (-8.0%) | 11:30 01-Nov |
-| 2 | **HOT** | 5.5/10 | Weak | Very high | $0.000364 | $0.00042224 (+16.0%) | $0.00033488 (-8.0%) | 11:30 01-Nov |
-| 3 | **LSK** | 4.5/10 | Avoid - watch only | Very high | $0.2319 | $0.266134 (+14.8%) | $0.214783 (-7.4%) | 11:30 01-Nov |
-| 4 | **ADX** | 4.1/10 | Avoid - watch only | Very high | $0.058 | $0.0667047 (+15.0%) | $0.0536476 (-7.5%) | 11:30 01-Nov |
-| 5 | **COW** | 3.7/10 | Avoid - watch only | High | $0.117 | $0.127227 (+8.7%) | $0.111886 (-4.4%) | 11:30 01-Nov |
+| 1 | **XPL** | 7.9/10 | Strong | Very high | $0.07357 | $0.0853412 (+16.0%) | $0.0676844 (-8.0%) | 12:30 01-Nov |
+| 2 | **HOT** | 5.9/10 | Moderate | Very high | $0.000367 | $0.00042572 (+16.0%) | $0.00033764 (-8.0%) | 12:30 01-Nov |
+| 3 | **ADX** | 4.1/10 | Avoid - watch only | Very high | $0.0573 | $0.0654336 (+14.2%) | $0.0532332 (-7.1%) | 12:30 01-Nov |
+| 4 | **LSK** | 3.9/10 | Avoid - watch only | Very high | $0.2273 | $0.260755 (+14.7%) | $0.210573 (-7.4%) | 12:30 01-Nov |
+| 5 | **AMP** | 3.3/10 | Avoid - watch only | Very high | $0.0007 | $0.000783221 (+11.9%) | $0.000658389 (-5.9%) | 12:30 01-Nov |
 
-- **XPL:** Trading activity is 3.0x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **HOT:** Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. It did 1.1% better than Bitcoin over the last 6 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **LSK:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **XPL:** Trading activity is 3.1x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **HOT:** It did 3.6% better than Bitcoin over the last 6 hours. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Trading activity is 1.6x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ADX:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
@@ -42,23 +42,23 @@ Market mood: **Mixed** (47% of 109 coins look positive). If it says *Unfavourabl
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **COW** | 8.5/10 | Strong | Very high | $0.1175 | $0.1457 (+24.0%) | $0.1034 (-12.0%) | 07:00 02-Nov |
-| 2 | **AMP** | 8.3/10 | Strong | Very high | $0.000698 | $0.00086552 (+24.0%) | $0.00061424 (-12.0%) | 07:00 02-Nov |
-| 3 | **STX** | 8.2/10 | Strong | Very high | $0.3251 | $0.403124 (+24.0%) | $0.286088 (-12.0%) | 07:00 02-Nov |
-| 4 | **PARTI** | 8.1/10 | Strong | Very high | $0.0476 | $0.059024 (+24.0%) | $0.041888 (-12.0%) | 07:00 02-Nov |
-| 5 | **XPL** | 7.5/10 | Strong | Very high | $0.07365 | $0.091326 (+24.0%) | $0.064812 (-12.0%) | 07:00 02-Nov |
+| 1 | **PARTI** | 8.3/10 | Strong | Very high | $0.0474 | $0.058776 (+24.0%) | $0.041712 (-12.0%) | 08:00 02-Nov |
+| 2 | **AMP** | 8.1/10 | Strong | Very high | $0.000702 | $0.00087048 (+24.0%) | $0.00061776 (-12.0%) | 08:00 02-Nov |
+| 3 | **XPL** | 7.8/10 | Strong | Very high | $0.07453 | $0.0924172 (+24.0%) | $0.0655864 (-12.0%) | 08:00 02-Nov |
+| 4 | **STX** | 7.8/10 | Strong | Very high | $0.3277 | $0.406348 (+24.0%) | $0.288376 (-12.0%) | 08:00 02-Nov |
+| 5 | **ADX** | 7.7/10 | Strong | Very high | $0.0583 | $0.072292 (+24.0%) | $0.051304 (-12.0%) | 08:00 02-Nov |
 
-- **COW:** Trading activity is 5.8x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **AMP:** It did 4.4% better than Bitcoin over the last 24 hours. Trading activity is 3.4x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **STX:** It did 6.2% better than Bitcoin over the last 24 hours. Trading activity is 3.5x higher than usual, so people are paying attention to it. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **PARTI:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **AMP:** It did 5.0% better than Bitcoin over the last 24 hours. Trading activity is 3.4x higher than usual, so people are paying attention to it. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **XPL:** Buyers have been more eager than sellers over the last 6 hours (54% of trades were buys). Trading activity is 2.1x higher than usual, so people are paying attention to it.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 3265 | 42% | -0.23% | -0.23% |
-| Short: exit within 4 hours | 3334 | 41% | -0.29% | -0.28% |
-| Day: exit within 24 hours | 3077 | 38% | -0.38% | -0.21% |
+| Quick: exit within 1 hour | 3275 | 42% | -0.23% | -0.23% |
+| Short: exit within 4 hours | 3339 | 41% | -0.29% | -0.28% |
+| Day: exit within 24 hours | 3081 | 38% | -0.37% | -0.20% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
