@@ -1,4 +1,4 @@
-# Trade ideas: 2026-11-02 16:52 UTC
+# Trade ideas: 2026-11-02 17:54 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (1% of 104 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (0% of 106 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **1000CAT** | 3.6/10 | Avoid - watch only | High | $0.00173 | $0.00184012 (+6.4%) | $0.00167494 (-3.2%) | 17:45 02-Nov |
-| 2 | **PEPE** | 3.3/10 | Avoid - watch only | Medium | $4.67e-06 | $4.80533e-06 (+2.9%) | $4.60233e-06 (-1.4%) | 17:45 02-Nov |
-| 3 | **HUMA** | 3.2/10 | Avoid - watch only | Very high | $0.023 | $0.0248577 (+8.1%) | $0.0220711 (-4.0%) | 17:45 02-Nov |
-| 4 | **ENA** | 2.9/10 | Avoid - watch only | Medium | $0.1726 | $0.177546 (+2.9%) | $0.170127 (-1.4%) | 17:45 02-Nov |
-| 5 | **NEAR** | 2.7/10 | Avoid - watch only | Low | $3.99 | $4.09 (+2.4%) | $3.94 (-1.2%) | 17:45 02-Nov |
+| 1 | **1000CAT** | 2.8/10 | Avoid - watch only | Very high | $0.001686 | $0.00179748 (+6.6%) | $0.00163026 (-3.3%) | 18:50 02-Nov |
+| 2 | **HUMA** | 2.4/10 | Avoid - watch only | Very high | $0.0224 | $0.0238982 (+6.7%) | $0.0216509 (-3.3%) | 18:50 02-Nov |
+| 3 | **PEPE** | 2.4/10 | Avoid - watch only | Low | $4.63e-06 | $4.74348e-06 (+2.5%) | $4.57326e-06 (-1.2%) | 18:50 02-Nov |
+| 4 | **SOPH** | 2.3/10 | Avoid - watch only | High | $0.00153 | $0.00161741 (+5.7%) | $0.0014863 (-2.9%) | 18:50 02-Nov |
+| 5 | **INIT** | 2.1/10 | Avoid - watch only | High | $0.14129 | $0.148626 (+5.2%) | $0.137622 (-2.6%) | 18:50 02-Nov |
 
-- **1000CAT:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **PEPE:** Trading activity is 1.5x higher than usual, so people are paying attention to it.
-- **HUMA:** Buyers have been more eager than sellers over the last 30 minutes (54% of trades were buys). Trading activity is 1.7x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **1000CAT:** Buyers have been more eager than sellers over the last 30 minutes (58% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **HUMA:** Buyers have been more eager than sellers over the last 30 minutes (57% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **PEPE:** It is bouncing up from near its lowest price of the last 14 hours. Trading activity is 1.7x higher than usual, so people are paying attention to it.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (4% of 104 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Mixed** (42% of 106 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **INIT** | 4.6/10 | Avoid - watch only | Very high | $0.1391 | $0.153681 (+10.5%) | $0.131809 (-5.2%) | 20:45 02-Nov |
-| 2 | **SOPH** | 4.5/10 | Avoid - watch only | Very high | $0.00152 | $0.00175094 (+15.2%) | $0.00140453 (-7.6%) | 20:45 02-Nov |
-| 3 | **BEAMX** | 4.4/10 | Avoid - watch only | High | $0.00478 | $0.00521247 (+9.0%) | $0.00456377 (-4.5%) | 20:45 02-Nov |
-| 4 | **ETH** | 4.2/10 | Avoid - watch only | Low | $2,272.36 | $2,318.53 (+2.0%) | $2,249.27 (-1.0%) | 20:45 02-Nov |
-| 5 | **MEGA** | 4.0/10 | Avoid - watch only | Very high | $0.04523 | $0.050964 (+12.7%) | $0.042363 (-6.3%) | 20:45 02-Nov |
+| 1 | **DOGE** | 6.3/10 | Moderate | Low | $0.07387 | $0.0757002 (+2.5%) | $0.0729549 (-1.2%) | 21:45 02-Nov |
+| 2 | **SOL** | 5.9/10 | Moderate | Low | $92.57 | $94.78 (+2.4%) | $91.47 (-1.2%) | 21:45 02-Nov |
+| 3 | **HYPE** | 5.5/10 | Weak | Low | $84.12 | $86.76 (+3.1%) | $82.80 (-1.6%) | 21:45 02-Nov |
+| 4 | **AAVE** | 5.4/10 | Weak | Low | $127.58 | $132.60 (+3.9%) | $125.07 (-2.0%) | 21:45 02-Nov |
+| 5 | **LINK** | 5.4/10 | Weak | Low | $11.07 | $11.39 (+2.9%) | $10.91 (-1.4%) | 21:45 02-Nov |
 
-- **INIT:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **SOPH:** Buyers have been more eager than sellers over the last 1.5 hours (54% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **BEAMX:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **DOGE:** Buyers have been more eager than sellers over the last 1.5 hours (56% of trades were buys). Trading activity is 2.4x higher than usual, so people are paying attention to it.
+- **SOL:** Buyers have been more eager than sellers over the last 1.5 hours (56% of trades were buys). Trading activity is 2.0x higher than usual, so people are paying attention to it.
+- **HYPE:** Buyers have been more eager than sellers over the last 1.5 hours (65% of trades were buys). Trading activity is 2.0x higher than usual, so people are paying attention to it.
 
 ## Day: exit within 24 hours
 
-Market mood: **Mixed** (45% of 104 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Mixed** (54% of 106 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **PARTI** | 7.4/10 | Strong | Very high | $0.0444 | $0.0539218 (+21.4%) | $0.0396391 (-10.7%) | 16:00 03-Nov |
-| 2 | **HUMA** | 7.1/10 | Strong | Very high | $0.02279 | $0.0275078 (+20.7%) | $0.0204311 (-10.4%) | 16:00 03-Nov |
-| 3 | **1000CAT** | 6.3/10 | Moderate | Very high | $0.001712 | $0.00212288 (+24.0%) | $0.00150656 (-12.0%) | 16:00 03-Nov |
-| 4 | **ETH** | 6.2/10 | Moderate | Low | $2,273.41 | $2,355.46 (+3.6%) | $2,232.39 (-1.8%) | 16:00 03-Nov |
-| 5 | **AVAX** | 6.2/10 | Moderate | Low | $8.51 | $8.98 (+5.6%) | $8.27 (-2.8%) | 16:00 03-Nov |
+| 1 | **HUMA** | 8.3/10 | Strong | Very high | $0.02293 | $0.0276146 (+20.4%) | $0.0205877 (-10.2%) | 17:00 03-Nov |
+| 2 | **PARTI** | 7.7/10 | Strong | Very high | $0.0445 | $0.0538522 (+21.0%) | $0.0398239 (-10.5%) | 17:00 03-Nov |
+| 3 | **STX** | 6.3/10 | Moderate | Very high | $0.3292 | $0.403131 (+22.5%) | $0.292234 (-11.2%) | 17:00 03-Nov |
+| 4 | **1000CAT** | 6.2/10 | Moderate | Very high | $0.001714 | $0.00212536 (+24.0%) | $0.00150832 (-12.0%) | 17:00 03-Nov |
+| 5 | **ETH** | 6.1/10 | Moderate | Low | $2,269.14 | $2,349.76 (+3.6%) | $2,228.83 (-1.8%) | 17:00 03-Nov |
 
-- **PARTI:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 - **HUMA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **1000CAT:** It did 6.9% better than Bitcoin over the last 24 hours. Trading activity is 6.4x higher than usual, so people are paying attention to it. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **PARTI:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **STX:** Buyers have been more eager than sellers over the last 6 hours (61% of trades were buys). It did 3.3% better than Bitcoin over the last 24 hours. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 3439 | 41% | -0.24% | -0.23% |
-| Short: exit within 4 hours | 3508 | 41% | -0.31% | -0.30% |
-| Day: exit within 24 hours | 3256 | 38% | -0.46% | -0.24% |
+| Quick: exit within 1 hour | 3445 | 41% | -0.24% | -0.24% |
+| Short: exit within 4 hours | 3512 | 41% | -0.31% | -0.30% |
+| Day: exit within 24 hours | 3261 | 38% | -0.47% | -0.24% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
