@@ -46,16 +46,23 @@ GRADES_OK = ("Strong", "Moderate")
 PENDING_MAX_H = 4            # a buy whose hour never shows up in the price data is cancelled
 LOG_KEEP = 1500
 DIR = "dex/challenge"
+# The owner's rules above (D95), and the aggressive account's (D125): the same ideas, costs, fills and exits, but the
+# whole account goes into the single best-ranked idea, whatever its grade or expected result, with no daily loss
+# limit, no pause below the peak and no grade check or probation. It can lose everything; that is its point.
+RULES = {"dir": DIR, "max_pos_frac": MAX_POS_FRAC, "risk_frac": RISK_FRAC, "max_open": MAX_OPEN, "new_per_run": NEW_PER_RUN,
+         "day_loss": DAY_LOSS, "max_drawdown": MAX_DRAWDOWN, "grades": GRADES_OK, "gates": True, "need_positive": True}
+AGGRESSIVE = {**RULES, "dir": "dex/aggressive", "max_pos_frac": 1.0, "risk_frac": None, "max_open": 1, "day_loss": None,
+              "max_drawdown": None, "grades": None, "gates": False, "need_positive": False}
 
 
-def _path(name: str):
-    p = state_path(DIR, name)
+def _path(name: str, folder: str = DIR):
+    p = state_path(folder, name)
     p.parent.mkdir(parents=True, exist_ok=True)
     return p
 
 
-def load_account() -> dict:
-    p = _path("account.json")
+def load_account(folder: str = DIR) -> dict:
+    p = _path("account.json", folder)
     if p.exists():
         return json.loads(p.read_text())
     return {"start": START, "cash": START, "peak": START, "equity": START, "started_at": None, "day": None,
@@ -88,13 +95,17 @@ def sell_value(coins: float, px: float, liq: float, pool_fee: float, sell_tax: f
                                                          "mev": z * (1 - simp) * ms, "gas": min(gas, z)}}
 
 
-def size_trade(equity: float, cash: float, stop_dist: float, cost_at) -> tuple[float, float]:
-    """(amount, round-trip cost) so that hitting the safety exit loses at most RISK_FRAC of the account, capped at
-    MAX_POS_FRAC and the cash. The cost depends on the amount (gas is fixed), so it is solved in a few steps."""
-    amount = min(MAX_POS_FRAC * equity, cash)
+def size_trade(equity: float, cash: float, stop_dist: float, cost_at, max_frac: float = MAX_POS_FRAC,
+               risk_frac: float | None = RISK_FRAC) -> tuple[float, float]:
+    """(amount, round-trip cost) so that hitting the safety exit loses at most risk_frac of the account, capped at
+    max_frac and the cash (no risk_frac: simply max_frac of the account). The cost depends on the amount (gas is fixed),
+    so it is solved in a few steps."""
+    amount = min(max_frac * equity, cash)
     cost = cost_at(amount) if amount > 0 else 1.0
+    if risk_frac is None:
+        return amount, cost
     for _ in range(6):
-        amount = min(RISK_FRAC * equity / max(stop_dist + cost, 1e-9), MAX_POS_FRAC * equity, cash)
+        amount = min(risk_frac * equity / max(stop_dist + cost, 1e-9), max_frac * equity, cash)
         cost = cost_at(amount) if amount > 0 else 1.0
     return amount, cost
 
@@ -110,10 +121,11 @@ def _liq_now(pos: dict, cands_by_token: dict, pools: dict) -> float:
 
 
 def run(ideas: dict, cands: list[dict], candles: dict, chains: dict, adaptive: dict, now: pd.Timestamp | None = None,
-        fetch_candles=None, fetch_pools=None, quality_check: dict | None = None) -> dict:
+        fetch_candles=None, fetch_pools=None, quality_check: dict | None = None, rules: dict | None = None) -> dict:
     """One hourly step: fill pending buys, manage open trades, value the account, maybe place one new buy."""
     now = now or pd.Timestamp.now(tz="UTC")
-    acc = load_account()
+    R = {**RULES, **(rules or {})}
+    acc = load_account(R["dir"])
     acc["started_at"] = acc.get("started_at") or str(now)
     steps: list[dict] = []
 
@@ -218,7 +230,7 @@ def run(ideas: dict, cands: list[dict], candles: dict, chains: dict, adaptive: d
     if acc.get("day") != day:
         acc["day"], acc["day_start"] = day, equity
     acc["peak"] = max(float(acc.get("peak", START)), equity)
-    if not acc.get("paused") and equity < (1 - MAX_DRAWDOWN) * acc["peak"]:
+    if R["max_drawdown"] is not None and not acc.get("paused") and equity < (1 - R["max_drawdown"]) * acc["peak"]:
         acc["paused"], acc["pause_reason"] = True, (f"The account fell {pct(equity / acc['peak'] - 1)} below its peak of "
                                                     f"{money(acc['peak'])}. Trading is paused until the owner restarts it.")
         say("pause", acc["pause_reason"])
@@ -227,23 +239,25 @@ def run(ideas: dict, cands: list[dict], candles: dict, chains: dict, adaptive: d
     blockers = []
     if acc.get("paused"):
         blockers.append("trading is paused (" + acc.get("pause_reason", "") + ")")
-    if equity < (1 - DAY_LOSS) * acc["day_start"]:
+    if R["day_loss"] is not None and equity < (1 - R["day_loss"]) * acc["day_start"]:
         blockers.append(f"today's loss limit is hit ({pct(equity / acc['day_start'] - 1)} since the start of the day)")
-    if len(keep) >= MAX_OPEN:
-        blockers.append(f"{MAX_OPEN} trades are already open")
-    reliable = (quality_check or {}).get("reliable")
+    if len(keep) >= R["max_open"]:
+        blockers.append(f"{R['max_open']} trade{'s are' if R['max_open'] > 1 else ' is'} already open")
+    if R["risk_frac"] is None and acc["cash"] < MIN_TRADE:
+        blockers.append(f"only {money(acc['cash'])} of cash is left, below the smallest worthwhile trade")
+    reliable = (quality_check or {}).get("reliable") if R["gates"] else None
     seen, best, why_not = 0, [], {}
     held = {(p["chain"], p["token"]) for p in keep}
     for style, lst in (ideas or {}).items():
         st = DEX_STYLES.get(style)
-        prob = ((adaptive or {}).get("probation") or {}).get(style) or {}
+        prob = (((adaptive or {}).get("probation") or {}).get(style) or {}) if R["gates"] else {}
         for d in lst:
             seen += 1
             c = by_token.get((d["chain"], d["symbol"].split(":", 1)[1]))
             s = (c or {}).get("styles", {}).get(style)
             if not c or not s or st is None:
                 continue
-            if d["grade"] not in GRADES_OK:
+            if R["grades"] and d["grade"] not in R["grades"]:
                 why_not[d["coin"]] = f"graded {d['grade']}"
                 continue
             if reliable is False:
@@ -263,13 +277,13 @@ def run(ideas: dict, cands: list[dict], candles: dict, chains: dict, adaptive: d
                 return dex_cost(a, c["close"], c["liq_real"], c["pool_fee"], bt, stx, gas, mev, sniper)["round_trip"]
 
             stop_dist = -float(d["safety_exit_pct"])
-            amount, cost = size_trade(equity, acc["cash"], stop_dist, cost_at)
+            amount, cost = size_trade(equity, acc["cash"], stop_dist, cost_at, R["max_pos_frac"], R["risk_frac"])
             # the page's expected result, with its $100 cost swapped for the cost at this trade's real size
             r_real = float(d["expected_r"]) + (float(d["cost_rt"]) - cost) / (SL * float(d["risk_unit"]))
             if amount < MIN_TRADE:
                 why_not[d["coin"]] = f"the safe size would be only {money(amount)}, too small to cover the fees"
                 continue
-            if not (r_real > 0) or not math.isfinite(r_real):
+            if not math.isfinite(r_real) or (R["need_positive"] and not r_real > 0):
                 why_not[d["coin"]] = f"after every cost at {money(amount)} the expected result is negative"
                 continue
             best.append((r_real, d, c, style, amount, cost))
@@ -282,7 +296,7 @@ def run(ideas: dict, cands: list[dict], candles: dict, chains: dict, adaptive: d
         say("check", f"Looked at {seen} ideas on the DEX list. Nothing worth the risk, so I stayed in cash. "
             + (f"Best ones: {detail}." if detail else "The list was empty."))
     else:
-        for r_real, d, c, style, amount, cost in best[:NEW_PER_RUN]:
+        for r_real, d, c, style, amount, cost in best[:R["new_per_run"]]:
             bar = now.floor("h")
             acc["cash"] -= amount
             pos = {"id": f"{d['symbol']}|{now.isoformat()}", "coin": d["coin"], "chain": d["chain"], "pool": d["pool"],
@@ -293,6 +307,14 @@ def run(ideas: dict, cands: list[dict], candles: dict, chains: dict, adaptive: d
                    "reserve0": float(c.get("reserve_usd") or 0.0), "fee": float(c["pool_fee"]),
                    "buy_tax": float(c["facts"].get("buy_tax") or 0.0), "sell_tax": float(c["facts"].get("sell_tax") or 0.0)}
             keep.append(pos)
+            if R["risk_frac"] is None:
+                say("order", f"Aggressive: buying {d['coin']} ({(chains.get(d['chain']) or {}).get('name', d['chain'])}), the "
+                    f"best-ranked idea (grade {d['grade']}, score {d['score']:.1f}, expected result after costs "
+                    f"{r_real:+.2f} R). Putting in {money(amount)}: {share(amount / equity, 0)} of the account. Hitting the "
+                    f"safety exit ({pct(d['safety_exit_pct'])}) would lose about {money(amount * (stop_dist_of(d) + cost))}; "
+                    f"the round trip costs about {share(cost)}. Bought at the end of this hour, front-running cost on top.",
+                    coin=d["coin"])
+                continue
             say("order", f"Decided to buy {d['coin']} ({(chains.get(d['chain']) or {}).get('name', d['chain'])}): grade "
                 f"{d['grade']}, score {d['score']:.1f}, {round(d['chance_beats_market'] * 100)}% chance of beating the "
                 f"market, and still positive after every cost at this size (about {share(cost)} for the round trip). "
@@ -303,7 +325,7 @@ def run(ideas: dict, cands: list[dict], candles: dict, chains: dict, adaptive: d
     acc["positions"] = keep
     acc["equity"] = acc["cash"] + sum(p.get("value", 0.0) if p["status"] == "open" else p["amount"] for p in keep)
     acc["updated"] = str(now)
-    _save(acc, steps, closed_rows, now)
+    _save(acc, steps, closed_rows, now, R["dir"])
     return acc
 
 
@@ -311,16 +333,16 @@ def stop_dist_of(d: dict) -> float:
     return -float(d["safety_exit_pct"])
 
 
-def _save(acc: dict, steps: list[dict], closed_rows: list[dict], now: pd.Timestamp) -> None:
-    _path("account.json").write_text(json.dumps(acc, indent=1, default=str))
-    lp = _path("log.json")
+def _save(acc: dict, steps: list[dict], closed_rows: list[dict], now: pd.Timestamp, folder: str = DIR) -> None:
+    _path("account.json", folder).write_text(json.dumps(acc, indent=1, default=str))
+    lp = _path("log.json", folder)
     old = json.loads(lp.read_text()) if lp.exists() else []
     lp.write_text(json.dumps((steps[::-1] + old)[:LOG_KEEP], indent=0, default=str))
     if closed_rows:
-        tp = _path("trades.csv")
+        tp = _path("trades.csv", folder)
         new = pd.DataFrame(closed_rows)
         (pd.concat([pd.read_csv(tp), new], ignore_index=True) if tp.exists() else new).to_csv(tp, index=False)
-    ep = _path("equity.csv")
+    ep = _path("equity.csv", folder)
     row = pd.DataFrame([{"t": str(now), "equity": round(acc["equity"], 4), "cash": round(acc["cash"], 4),
                          "open": sum(1 for p in acc["positions"] if p["status"] == "open")}])
     (pd.concat([pd.read_csv(ep), row], ignore_index=True) if ep.exists() else row).to_csv(ep, index=False)

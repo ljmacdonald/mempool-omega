@@ -258,3 +258,20 @@ def test_pool_deposits_too_small_for_the_fixed_fees_are_skipped():
     assert not small["trades"] and small["too_small"]
     big = LP.backtest([pool], D(2500))
     assert big["trades"] and not big["too_small"]
+
+
+def test_aggressive_book_has_its_own_limits_and_only_directional_sleeves(tmp_path, monkeypatch):
+    monkeypatch.setattr(PA, "STATE", tmp_path)
+    st = PA.new_state(0)
+    assert set(st["books"]["aggressive"]) == {"trend", "reversion"}
+    assert sum(D(a["start"]) for a in st["books"]["aggressive"].values()) == 100
+    R, base = PA.risk_of("aggressive"), PA.risk_of("account")
+    assert R["max_leverage"] == 5 and base["max_leverage"] == 2 and R["max_drawdown"] == 1
+    assert PA.liquidation_ok(D(5), "aggressive") and not PA.liquidation_ok(D(5), "account")
+    acc = {"cash": "50", "open": [], "paused": None, "day_start": "100"}
+    snap = {"kill": [], "contexts": {}}
+    assert PA.risk_block(acc, snap, 0, D(40), D(50), "aggressive") is None          # 80% of the sleeve as margin is allowed
+    assert PA.risk_block(acc, snap, 0, D(40), D(50)) is not None                    # not on the owner's account
+    del st["books"]["aggressive"]
+    PA.save_state(st)
+    assert "aggressive" in PA.load_state(0)["books"]                                 # added to a running lab

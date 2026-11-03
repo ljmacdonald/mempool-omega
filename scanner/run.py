@@ -148,6 +148,10 @@ def small_coins(top_n: int = 5) -> dict:
                               fetch_candles=fetch_candles)
             except Exception as e:  # noqa: BLE001
                 log.warning("small challenge: %s", e)
+            try:                                       # the aggressive $100 Small-coin account (paper, D125)
+                challenge.run(res.payload["ideas"], res.candles, fetch_candles=fetch_candles, rules=challenge.AGGRESSIVE)
+            except Exception as e:  # noqa: BLE001
+                log.warning("aggressive small challenge: %s", e)
             try:                                       # the same trades hedged with a Bitcoin short (D111)
                 from scanner import hedged
 

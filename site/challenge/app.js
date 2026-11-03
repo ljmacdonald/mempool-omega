@@ -131,8 +131,32 @@
     } catch { box.innerHTML = `<p class="muted">The hedged account starts with the next hourly check.</p>`; }
   }
 
+  // The aggressive $100 account (D125): the same ideas, all of the account in the best-ranked one, no loss limits
+  async function aggressiveBlock() {
+    const box = $("aggressive");
+    if (!box) return;
+    const A = DATA + ((window.OMEGA_CHALLENGE || {}).aggressiveDir || "dex/aggressive/");
+    const g = async (f, json = true) => { const r = await fetch(`${A}${f}?t=${Date.now()}`, { cache: "no-store" }); if (!r.ok) throw new Error(r.status); return json ? r.json() : r.text(); };
+    try {
+      const a = await g("account.json");
+      const trT = await g("trades.csv", false).catch(() => "");
+      const tr = trT ? csv(trT).reverse() : [];
+      const start = a.start || 100, open = a.positions || [];
+      const wins = tr.filter((t) => t.ret > 0).length;
+      box.innerHTML = `<div class="stats">
+          <div class="stat"><div class="k">Aggressive account</div><div class="v ${cls(a.equity - start)}">${usd(a.equity)}</div><div class="small muted">${pct(a.equity / start - 1)} from ${usd(start)}</div></div>
+          <div class="stat"><div class="k">Peak</div><div class="v">${usd(a.peak)}</div><div class="small muted">${pct(a.equity / a.peak - 1)} from it</div></div>
+          <div class="stat"><div class="k">Finished trades</div><div class="v">${tr.length}</div><div class="small muted">${wins} made money</div></div>
+          <div class="stat"><div class="k">Now</div><div class="v">${open.length ? esc(open[0].coin) : "Cash"}</div><div class="small muted">${open.length ? `${usd(open[0].amount)} in, ${esc(open[0].status)}` : `cash ${usd(a.cash)}`}</div></div></div>
+        <p>At the owner's request: the same list, prices and costs as the account above, but <b>the whole account goes into the single best-ranked idea</b>, whatever its grade or expected result. There is no daily loss limit, no pause below the peak and no grade check. One trade at a time, the same exits. It can lose everything; when less than $5 is left it stops. Paper only.</p>
+        ${tr.length ? `<div class="table-wrap"><table><thead><tr><th>Coin</th><th>Held</th><th class="num">Put in</th><th class="num">Result</th><th>Why it closed</th></tr></thead><tbody>
+          ${tr.slice(0, 30).map((t) => `<tr><td><b>${esc(t.coin)}</b></td><td class="small">${esc(when(t.opened))} → ${esc(when(t.closed))}</td><td class="num">${usd(t.amount)}</td><td class="num ${cls(t.net)}">${usd(t.net)} (${pct(t.ret)})</td><td class="small">${esc(t.why)}</td></tr>`).join("")}</tbody></table></div>` : ""}`;
+    } catch { box.innerHTML = `<p class="muted">The aggressive account starts with the next hourly check.</p>`; }
+  }
+
   async function load() {
     hedgedBlock();
+    aggressiveBlock();
     try {
       const a = await get("account.json");
       const [log, eqT, trT] = await Promise.all([get("log.json").catch(() => []), get("equity.csv", false).catch(() => ""), get("trades.csv", false).catch(() => "")]);
