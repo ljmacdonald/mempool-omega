@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mempool Omega · $100 funding account</title>
+<meta name="description" content="A $100 paper account that holds major coins with an equal futures short and collects the funding payments: price moves cancel out, every payment and fee is shown.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../style.css">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#3b4ee8">
+<link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32.png">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<script src="../theme.js"></script>
+<script src="../gate.js"></script>
+<script src="../shell.js" defer></script>
+<style>.wrap > .card, .wrap > .banner { margin-block: 14px; } .card > * { min-width: 0; }</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Mempool Omega · $100 funding account</h1>
+      <p class="muted small">Hold a coin, sell the same amount of its future, collect the funding payments · paper only, not financial advice</p>
+    </div>
+    <div class="top-right">
+      <nav class="sites" aria-label="Choose a page"><a href="../coins/" data-site="main">Exchange coins</a><a href="../small/" data-site="small">Small coins</a><a href="../dex/" data-site="dex">DEX tokens</a><a href="../stocks/" data-site="stocks">US stocks</a><a href="../fx/" data-site="fx">Forex</a><a href="../ict/" data-site="ict">ICT setups</a><a href="../lab/" data-site="lab">Strategy lab</a><a href="../whales/" data-site="whales">Whale tracker</a><a href="../listings/" data-site="listings">New listings</a><a href="../sniper/" data-site="sniper">Sniper lab</a><a href="../mev/" data-site="mev">Arbitrage lab</a><a href="../accum/" data-site="accum">Accumulation lab</a><a href="../hayes/" data-site="hayes">Recovery engine A</a><a href="../deep/" data-site="deep">Deep distress engine B</a><a href="../perp/" data-site="perp">Perp DEX lab</a><a href="../predict/" data-site="predict">Prediction markets</a><a href="../challenge/" data-site="challenge">$100 challenge</a><a href="../challenge-small/" data-site="challenge-small">$100 Small-coin challenge</a><a href="./" data-site="carry" aria-current="page">$100 funding account</a><a href="../results/" data-site="results">Results</a><a href="../report/" data-site="report">Weekly report</a><a href="../status/" data-site="status">System status</a></nav>
+      <div class="theme-switch" data-theme-switch role="group" aria-label="Day or night colours"></div>
+      <span class="status" id="status">Loading…</span>
+    </div>
+  </header>
+
+  <div id="summary" class="banner calm">Loading the funding account…</div>
+
+  <article class="card">
+    <h2>The account</h2>
+    <div id="account"><p class="muted">Loading…</p></div>
+  </article>
+
+  <article class="card">
+    <h2>How it earns, in plain words</h2>
+    <p>Futures exchanges keep their "perpetual" futures close to the coin's real price with a <b>funding payment</b>: every few hours (usually 8), one side pays the other a small percentage. When more traders bet on prices rising, which is most of the time, the buyers of the future pay the sellers.</p>
+    <p>This account takes the seller's side without betting on the price: for each coin it <b>buys the coin</b> and <b>sells the same amount of its future</b>. If the price rises, the coin gains what the future loses; if it falls, the reverse. The price moves cancel out, and what is left is the funding payment.</p>
+    <p>Example: $10 of Bitcoin held and $10 of the Bitcoin future sold. At a typical funding rate of +0.01% every 8 hours, the account receives $0.001 three times a day: about 11% a year on the $10, but the account also keeps $10 as the future's margin, so about 5% a year on the $20 it ties up, before fees.</p>
+  </article>
+
+  <article class="card">
+    <h2>The basket right now</h2>
+    <div id="coins"><p class="muted">Loading…</p></div>
+  </article>
+
+  <article class="card">
+    <h2>Funding collected, day by day</h2>
+    <div id="byday"><p class="muted">Loading…</p></div>
+  </article>
+
+  <article class="card">
+    <h2>Every trade</h2>
+    <div id="trades"><p class="muted">Loading…</p></div>
+  </article>
+
+  <article class="card">
+    <h2>The rules and the research behind them</h2>
+    <div id="rules"><p class="muted">Loading…</p></div>
+    <p>Checked on 3 months of OKX history (13 July to 14 October 2026), after fees:</p>
+    <ul class="rules">
+      <li>Holding the pair through earned <b>about 3% to 7% a year in funding on major coins</b> (Bitcoin about 5%), and funding was positive 70% to 90% of the time.</li>
+      <li>Switching between coins to chase the highest rate <b>lost money</b>: every switch pays fees on both sides. So the rules hold steadily and only leave a coin when its funding turns negative.</li>
+      <li>One coin's funding (WAL) went sharply negative, about −24% a year, which is why the basket is only large, heavily traded coins.</li>
+    </ul>
+  </article>
+
+  <article class="card">
+    <h2>Risks, honestly</h2>
+    <ul class="rules">
+      <li><b>Funding can turn negative</b>, and then the seller pays. The account leaves a coin once its last 7 days add up to a negative number, but it pays the fees to do so.</li>
+      <li><b>A sharp price rise</b> makes the futures side lose before the coin side is sold. With the margin equal to the position (no leverage), the price would have to rise about 70% before the risk rule closes the pair; on a real exchange the margin rules may be stricter.</li>
+      <li><b>The two prices aren't identical</b>: the future can trade a little above or below the coin, so opening and closing cost a small gap, shown in every trade.</li>
+      <li><b>The exchange itself</b> holds both sides: if it failed, both could be lost. Spreading across exchanges reduces this but adds cost.</li>
+      <li><b>Where you live matters.</b> OKX, used for the prices here, does not serve US residents. In the US, perpetual-style futures are offered by regulated venues such as Coinbase Financial Markets, with their own fees and funding. Check with a licensed adviser before copying anything with real money, and remember that funding income is taxable.</li>
+      <li>This is income of a few percent a year, not a way to multiply money. It is shown because it is one of the few edges that doesn't depend on predicting prices.</li>
+    </ul>
+  </article>
+
+  <footer>Mempool Omega is research and education software. The funding account is paper only: no exchange account, no keys, no orders. Past results do not predict future results. Not financial advice.</footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
