@@ -1,6 +1,6 @@
 {
  "start": 100.0,
- "cash": 75.20654270285708,
+ "cash": 75.23430115197017,
  "positions": [
   {
    "key": "stealth:solana:Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ",
@@ -31,20 +31,6 @@
    "why": "4 addresses (4 probable owners) quietly bought 0.51% of the supply in small chunks since 2026-10-20, price -6.3% over 30 days"
   },
   {
-   "key": "solana:XsDoVfqeBukxuZHWhdvWHBhgEHjGNst4MLodqsJHzoB",
-   "symbol": "TSLAX",
-   "chain": "solana",
-   "opened": "2026-10-30T19:17:21.582430+00:00",
-   "entry": 397.70705472494166,
-   "qty": 0.012063431849746705,
-   "stop": 338.94885543014533,
-   "target": 515.2174908426093,
-   "cost": 4.82210508669033,
-   "fees": 0.024393135852513452,
-   "route": "A,B",
-   "why": "0.213% of supply ($153,943) net bought in swaps over 7 days, buying on 4 days; one address net bought 0.627% of supply ($448,669) in 14 days: newly observed holder"
-  },
-  {
    "key": "solana:6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN",
    "symbol": "TRUMP",
    "chain": "solana",
@@ -71,6 +57,20 @@
    "fees": 0.024483853824492183,
    "route": "A,B",
    "why": "0.123% of supply ($155,609) net bought in swaps over 7 days, buying on 4 days; one address net bought 0.306% of supply ($403,749) in 14 days: newly observed holder"
+  },
+  {
+   "key": "solana:2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump",
+   "symbol": "PNUT",
+   "chain": "solana",
+   "opened": "2026-11-03T00:02:13.117322+00:00",
+   "entry": 0.0382067428414836,
+   "qty": 125.21782015343437,
+   "stop": 0.03559386970731752,
+   "target": 0.043432003705364965,
+   "cost": 4.80851754893473,
+   "fees": 0.02435249516132023,
+   "route": "A,B",
+   "why": "one address net bought 0.084% of supply ($33,574) in 14 days: newly observed holder"
   }
  ],
  "trades": [
@@ -685,6 +685,23 @@
    "fees": 0.049071438305746395,
    "pnl": -0.16256981350007127,
    "ret": -0.032997843195889165
+  },
+  {
+   "key": "solana:XsDoVfqeBukxuZHWhdvWHBhgEHjGNst4MLodqsJHzoB",
+   "symbol": "TSLAX",
+   "chain": "solana",
+   "opened": "2026-10-30T19:17:21.582430+00:00",
+   "entry": 397.70705472494166,
+   "qty": 0.012063431849746705,
+   "stop": 338.94885543014533,
+   "target": 515.2174908426093,
+   "route": "A,B",
+   "closed": "2026-11-03T00:02:13.117322+00:00",
+   "exit": 402.9416099363355,
+   "reason": "state changed: accumulation weakening",
+   "fees": 0.04897578869888944,
+   "pnl": 0.01417091135749704,
+   "ret": 0.002938739638132404
   }
  ],
  "decisions": [
@@ -1995,6 +2012,39 @@
     "risk": 0.7381740722490804,
     "impact": 1.5300404105019697e-06,
     "costs_est": 0.04898248157008521,
+    "rr": 2.0
+   },
+   "rules": {
+    "risk_per_trade": 0.01,
+    "max_open_risk": 0.04,
+    "max_position": 0.05,
+    "min_rr": 2.0,
+    "dex_fee": 0.003,
+    "max_hold_d": 30
+   }
+  },
+  {
+   "t": "2026-11-03T00:02:13.117322+00:00",
+   "key": "solana:XsDoVfqeBukxuZHWhdvWHBhgEHjGNst4MLodqsJHzoB",
+   "symbol": "TSLAX",
+   "action": "close",
+   "reason": "state changed: accumulation weakening"
+  },
+  {
+   "t": "2026-11-03T00:02:13.117322+00:00",
+   "key": "solana:2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump",
+   "symbol": "PNUT",
+   "action": "open",
+   "plan": {
+    "eligible": true,
+    "entry": 0.03820658104,
+    "stop": 0.03559386970731752,
+    "target": 0.043432003705364965,
+    "qty": 125.21835043980187,
+    "notional": 4.7841650537734095,
+    "risk": 0.3271594032538768,
+    "impact": 4.234911347541281e-06,
+    "costs_est": 0.04874551135238993,
     "rr": 2.0
    },
    "rules": {
