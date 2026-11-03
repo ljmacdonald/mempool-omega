@@ -192,7 +192,10 @@ def sections(now: datetime) -> list[dict]:
                                  ("challenge-arb", "$100 arbitrage account", "mev/", "mev/account"),
                                  ("challenge-carry", "$100 funding account", "carry/", "carry"),
                                  ("challenge-hedged", "$100 hedged Small-coin account", "challenge-small/#hedged-card",
-                                  "suggestions/challenge_small_hedged")):
+                                  "suggestions/challenge_small_hedged"),
+                                 ("challenge-aggressive-dex", "Aggressive $100 DEX account", "challenge/#aggressive-card", "dex/aggressive"),
+                                 ("challenge-aggressive-small", "Aggressive $100 Small-coin account", "challenge-small/#aggressive-card",
+                                  "suggestions/aggressive_small")):
         a = read_state(f"{rel}/account.json") or {}
         eq, start = a.get("equity"), a.get("start") or 100.0
         add(key, name, path, {"n": a.get("trades") or 0, "avg": (eq / start - 1) if eq else None, "random": 0.0,
@@ -200,6 +203,8 @@ def sections(now: datetime) -> list[dict]:
                               "equity": eq}, a.get("updated"), 150,
             note=f"Account value ${eq:,.2f} from $100." if eq else "Starts with the next hourly check.")
         out[-1]["equity"] = eq
+        if not a and key.startswith("challenge-aggressive"):     # not started yet (D125): starts with the next hourly scan
+            out[-1]["stale"] = False
         out[-1]["paused"] = bool(a.get("paused"))
         out[-1]["open"] = len(a.get("positions") or [])
     return out

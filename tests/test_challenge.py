@@ -121,3 +121,10 @@ def test_never_more_than_two_open_and_one_new_per_hour(state):
     step(T0, ideas)
     acc = step(T0 + pd.Timedelta(minutes=30), ideas)         # already held: not bought twice
     assert len(acc["positions"]) == 1
+
+
+def test_aggressive_dex_account_goes_all_in_on_the_top_idea_regardless_of_grade(state):
+    acc = C.run({"dex_short": [idea("Weak", exp_r=-0.2)]}, [cand()], {}, CHAINS,
+                {"probation": {"dex_short": {"active": True}}}, now=T0, quality_check={"reliable": False}, rules=C.AGGRESSIVE)
+    assert len(acc["positions"]) == 1 and acc["positions"][0]["amount"] == pytest.approx(100)
+    assert (state / "dex/aggressive/account.json").exists() and not (state / "dex/challenge/account.json").exists()

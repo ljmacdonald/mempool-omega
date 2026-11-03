@@ -6,6 +6,17 @@ account:
   reference_usd: 10000      # the same strategies on a $10,000 account, shown beside it to separate edge from small-account costs
   sleeves: {lp: 0.25, carry: 0.25, spread: 0.25, directional: 0.25}
 
+aggressive:                 # D125: at the owner's request, a third book that trades aggressively and may lose everything
+  start_usd: 100            # all of it in the directional strategies (trend and reversion, half each)
+  sleeves: {trend: 0.5, reversion: 0.5}
+  risk:                     # replaces the matching limits below for this book only
+    max_loss_per_position: 0.25   # a stop-out may cost a quarter of the sleeve
+    max_daily_loss: 1.0           # no daily limit
+    max_drawdown: 1.0             # never paused
+    max_margin_share: 1.0         # the whole sleeve as margin
+    max_leverage: 5.0
+    min_liquidation_distance: 0.1 # 5x liquidates about 19% away
+
 risk:                       # ANEE section 10 (stricter of the two specifications where they differ)
   max_loss_per_position: 0.005
   max_daily_loss: 0.02

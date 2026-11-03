@@ -1,6 +1,7 @@
 """The live paper engine (D123): every hour, each strategy acts on the live snapshot through the same cost model,
-the independent risk gate and the kill switches, on two books: the $100 account and a $10,000 reference account
-(the same rules at a size where fixed costs matter less, to separate edge from small-account friction).
+the independent risk gate and the kill switches, on three books: the $100 account, a $10,000 reference account
+(the same rules at a size where fixed costs matter less, to separate edge from small-account friction) and an
+aggressive $100 account (D125: only the directional strategies, 5x leverage, no daily or drawdown limit).
 
 Every candidate is logged with its decision (ACCEPT / REJECT / NO_SIGNAL), the reasons, the cost estimates and the
 data it was decided on (state/perp/decisions/DAY.jsonl), accepted or not. Fills are at the live oracle price (GMX)
@@ -29,6 +30,24 @@ H = Decimal(3600)
 
 
 # ------------------------------------------------------------------ state
+def risk_of(book: str) -> dict:
+    """The risk limits for a book: the shared ones, with the aggressive book's own replacing them there (D125)."""
+    R = dict(load()["risk"])
+    if book == "aggressive":
+        R.update(load()["aggressive"]["risk"])
+    return R
+
+
+def aggressive_book() -> dict:
+    A = load()["aggressive"]
+    out = {}
+    for s, share in A["sleeves"].items():
+        start = d(A["start_usd"]) * Decimal(str(share))
+        out[s] = {"start": str(start), "cash": str(start), "open": [], "closed": [], "equity": [], "peak": str(start),
+                  "day": None, "day_start": str(start), "paused": None}
+    return out
+
+
 def new_state(now: float) -> dict:
     A = load()["account"]
     books = {}
@@ -39,15 +58,20 @@ def new_state(now: float) -> dict:
             start = d(size) * share
             books[book][s] = {"start": str(start), "cash": str(start), "open": [], "closed": [], "equity": [],
                               "peak": str(start), "day": None, "day_start": str(start), "paused": None}
+    books["aggressive"] = aggressive_book()
     return {"version": 1, "started": iso(now), "config": fingerprint(), "books": books, "carry_hist": {}, "acted": {},
             "lp_day": None, "kills": []}
 
 
 def load_state(now: float) -> dict:
     try:
-        return json.loads((STATE / "paper.json").read_text())
+        st = json.loads((STATE / "paper.json").read_text())
     except (OSError, ValueError):
         return new_state(now)
+    if "aggressive" not in st["books"]:                 # added after the lab started (D125)
+        st["books"]["aggressive"] = aggressive_book()
+        st["aggressive_started"] = iso(now)
+    return st
 
 
 def save_state(st: dict) -> None:
@@ -155,19 +179,19 @@ def accrue(pos: dict, snap: dict, now: float) -> None:
 
 
 # ------------------------------------------------------------------ the independent risk gate
-def risk_block(acc: dict, snap: dict, now: float, margin_new: Decimal, sleeve_start: Decimal) -> str | None:
+def risk_block(acc: dict, snap: dict, now: float, margin_new: Decimal, sleeve_start: Decimal, book: str = "account") -> str | None:
     """Reasons a NEW position may not open. Strategies can't change these limits."""
-    R = load()["risk"]
+    R = risk_of(book)
     if snap["kill"]:
         return "kill switch: " + "; ".join(snap["kill"])
     if acc.get("paused"):
         return f"paused: {acc['paused']}"
     eq = equity(acc, snap)
     if acc["day_start"] and eq < d(acc["day_start"]) * (1 - d(R["max_daily_loss"])):
-        return "daily loss limit (2%) reached: no new positions until tomorrow"
+        return f"daily loss limit ({float(R['max_daily_loss']):.0%}) reached: no new positions until tomorrow"
     used = sum((d(p["n"]) / d(R["max_leverage"]) for p in acc["open"] if p["strategy"] != "lp"), ZERO)
     if used + margin_new > sleeve_start * d(R["max_margin_share"]):
-        return "margin limit (20% of the sleeve) reached"
+        return f"margin limit ({float(R['max_margin_share']):.0%} of the sleeve) reached"
     return None
 
 
@@ -181,18 +205,18 @@ def group_ok(acc: dict, side: int) -> bool:
     return not any(p["side"] == side for p in acc["open"])
 
 
-def liquidation_ok(lev: Decimal) -> bool:
+def liquidation_ok(lev: Decimal, book: str = "account") -> bool:
     """With 2x leverage the price must move about 50% to liquidate: above the 25% minimum distance."""
-    return (1 / lev) - Decimal("0.01") >= d(load()["risk"]["min_liquidation_distance"])
+    return (1 / lev) - Decimal("0.01") >= d(risk_of(book)["min_liquidation_distance"])
 
 
 # ------------------------------------------------------------------ strategies (live)
 def step(st: dict, snap: dict, now: float, lp_inputs: dict | None, bars: dict) -> list[dict]:
     """One hourly pass over every strategy and book. Returns the decision log rows."""
-    R = load()["risk"]
     log = []
     day = iso(now)[:10]
     for book, accs in st["books"].items():
+        R = risk_of(book)
         for strat, acc in accs.items():
             if acc["day"] != day:                       # new day: reset the daily-loss reference
                 acc["day"], acc["day_start"] = day, str(equity(acc, snap))
@@ -201,7 +225,7 @@ def step(st: dict, snap: dict, now: float, lp_inputs: dict | None, bars: dict) -
             eq = equity(acc, snap)
             acc["peak"] = str(max(d(acc["peak"]), eq))
             if eq < d(acc["peak"]) * (1 - d(R["max_drawdown"])) and not acc["paused"]:
-                acc["paused"] = f"drawdown beyond 10% on {day}"
+                acc["paused"] = f"drawdown beyond {float(R['max_drawdown']):.0%} on {day}"
                 for pos in list(acc["open"]):
                     log.append({"t": iso(now), "book": book, "strategy": strat, "decision": "FLATTEN", "why": acc["paused"],
                                 "trade": close(acc, pos, snap, now, "drawdown limit: flattened")})
@@ -243,7 +267,9 @@ def _carry(st, snap, now) -> list[dict]:
         h.append([now, {s: str(hourly_carry(gmx, c["hl"]["funding_hourly"], s)) for s in (1, -1)}])
         st["carry_hist"][coin] = h = [x for x in h if now - x[0] <= 4 * 3600][-6:]
         for book, accs in st["books"].items():
-            acc = accs["carry"]
+            acc = accs.get("carry")
+            if acc is None:
+                continue
             mine = [p for p in acc["open"] if p["market"] == coin]
             for pos in mine:
                 cs = hourly_carry(gmx, c["hl"]["funding_hourly"], pos["side"])
@@ -307,7 +333,9 @@ def _spread(st, snap, now, bars) -> list[dict]:
         s = float(c["oracle"] / c["hl"]["mid"] - 1)
         z = (s - mu) / sd if sd > 0 else 0.0
         for book, accs in st["books"].items():
-            acc = accs["spread"]
+            acc = accs.get("spread")
+            if acc is None:
+                continue
             start = d(acc["start"])
             n = start * d(load()["risk"]["max_margin_share"]) * d(load()["risk"]["max_leverage"]) / len(snap["contexts"])
             for pos in [p for p in acc["open"] if p["market"] == coin]:
@@ -343,7 +371,7 @@ def _spread(st, snap, now, bars) -> list[dict]:
 
 
 def _directional(st, snap, now, bars) -> list[dict]:
-    P, R, log = load()["directional"], load()["risk"], []
+    P, log = load()["directional"], []
     for coin, c in snap["contexts"].items():
         if not snap["quality"][coin]["tradeable"]:
             continue
@@ -359,7 +387,7 @@ def _directional(st, snap, now, bars) -> list[dict]:
             fresh = last is not None and last[0] == len(b) - 1
             a = DI.atr([x[2] for x in b], [x[3] for x in b], [x[4] for x in b], P["atr"])[-1] if b else None
             for book, accs in st["books"].items():
-                acc = accs[label]
+                acc, R = accs[label], risk_of(book)
                 for pos in [p for p in acc["open"] if p["market"] == coin]:
                     since = [x for x in b if x[0] / 1000 > pos.get("checked", pos["t_open"])]
                     stop, tp = d(pos["stop"]), d(pos["target"])
@@ -406,7 +434,7 @@ def _directional(st, snap, now, bars) -> list[dict]:
                 budget = start * d(R["max_loss_per_position"])
                 n = min((budget - fixed) / loss_share if budget > fixed else ZERO, start * d(R["max_margin_share"]) * d(R["max_leverage"]))
                 if n < 10:
-                    log.append(_row(now, book, label, coin, "REJECT", "costs alone exceed the 0.5% risk budget at this account size",
+                    log.append(_row(now, book, label, coin, "REJECT", f"costs alone exceed the {float(R['max_loss_per_position']):.1%} risk budget at this account size",
                                     side=side, budget=str(budget), fixed_costs=str(fixed)))
                     continue
                 if not capacity_ok(n, c["liquidity_long" if side > 0 else "liquidity_short"]):
@@ -415,8 +443,8 @@ def _directional(st, snap, now, bars) -> list[dict]:
                 if not group_ok(acc, side):
                     log.append(_row(now, book, label, coin, "REJECT", "already one position this side in the correlated group (AT-09)", side=side))
                     continue
-                blk = risk_block(acc, snap, now, n / d(R["max_leverage"]), start)
-                if blk or not liquidation_ok(d(R["max_leverage"])):
+                blk = risk_block(acc, snap, now, n / d(R["max_leverage"]), start, book)
+                if blk or not liquidation_ok(d(R["max_leverage"]), book):
                     log.append(_row(now, book, label, coin, "REJECT", blk or "liquidation too close", side=side))
                     continue
                 items = CO.gmx_round_trip(c, side, n, 24)
@@ -437,8 +465,8 @@ def _lp(st, snap, now, inp) -> list[dict]:
     i = len(days) - 1
     gm_now = inp.get("gm_now", {})
     for accs in st["books"].values():
-        acc = accs["lp"]
-        for pos in acc["open"]:
+        acc = accs.get("lp")
+        for pos in acc["open"] if acc else []:
             if gm_now.get(pos["market"]):
                 pos["gm_now"] = str(gm_now[pos["market"]])
     if st["lp_day"] == days[-1]:
@@ -448,7 +476,9 @@ def _lp(st, snap, now, inp) -> list[dict]:
     top, keep = [n for _, n in ranked[:P["top_n"]]], {n for _, n in ranked[:P["top_n"] * 2]}
     byname = {p["name"]: p for p in pools}
     for book, accs in st["books"].items():
-        acc = accs["lp"]
+        acc = accs.get("lp")
+        if acc is None:
+            continue
         for pos in list(acc["open"]):
             why = LP.blocked(byname[pos["market"]], days, i) if pos["market"] in byname else "no longer listed"
             if why or pos["market"] not in keep:

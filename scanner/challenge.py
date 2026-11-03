@@ -24,14 +24,10 @@ import pandas as pd
 
 from core.config import state_path
 from core.log import get_logger
+from dex import challenge as dex_challenge
 from dex.challenge import (
-    DAY_LOSS,
-    GRADES_OK,
     LOG_KEEP,
-    MAX_DRAWDOWN,
-    MAX_OPEN,
     MIN_TRADE,
-    NEW_PER_RUN,
     PENDING_MAX_H,
     RISK_FRAC,
     START,
@@ -49,16 +45,18 @@ STYLE = "day"
 FEE = 0.001                  # Binance spot, each way
 SLIP = 0.0005                # slippage allowance on market and stop orders, each way
 DEFAULT_SPREAD = 0.002       # if the order book can't be read
+RULES = {**dex_challenge.RULES, "dir": DIR}
+AGGRESSIVE = {**dex_challenge.AGGRESSIVE, "dir": "suggestions/aggressive_small"}    # the whole account in the top idea (D125)
 
 
-def _path(name: str):
-    p = state_path(DIR, name)
+def _path(name: str, folder: str = DIR):
+    p = state_path(folder, name)
     p.parent.mkdir(parents=True, exist_ok=True)
     return p
 
 
-def load_account() -> dict:
-    p = _path("account.json")
+def load_account(folder: str = DIR) -> dict:
+    p = _path("account.json", folder)
     if p.exists():
         return json.loads(p.read_text())
     return {"start": START, "cash": START, "peak": START, "equity": START, "started_at": None, "day": None,
@@ -88,10 +86,13 @@ def hhmm(t: pd.Timestamp) -> str:
 
 
 def run(ideas: list[dict], candles: dict, probation: dict | None = None, quality_check: dict | None = None,
-        now: pd.Timestamp | None = None, fetch_candles=None, get_spread=None) -> dict:
+        now: pd.Timestamp | None = None, fetch_candles=None, get_spread=None, rules: dict | None = None) -> dict:
     """One hourly step: fill the pending buy, manage open trades, value the account, maybe place one new buy."""
     now = now or pd.Timestamp.now(tz="UTC")
-    acc = load_account()
+    R = {**RULES, **(rules or {})}
+    if not R["gates"]:
+        probation = quality_check = None
+    acc = load_account(R["dir"])
     acc["started_at"] = acc.get("started_at") or str(now)
     steps: list[dict] = []
     get_spread = get_spread or spread_of
@@ -176,7 +177,7 @@ def run(ideas: list[dict], candles: dict, probation: dict | None = None, quality
     if acc.get("day") != day:
         acc["day"], acc["day_start"] = day, equity
     acc["peak"] = max(float(acc.get("peak", START)), equity)
-    if not acc.get("paused") and equity < (1 - MAX_DRAWDOWN) * acc["peak"]:
+    if R["max_drawdown"] is not None and not acc.get("paused") and equity < (1 - R["max_drawdown"]) * acc["peak"]:
         acc["paused"], acc["pause_reason"] = True, (f"The account fell {pct(equity / acc['peak'] - 1)} below its peak of "
                                                     f"{money(acc['peak'])}. Trading is paused until the owner restarts it.")
         say("pause", acc["pause_reason"])
@@ -184,10 +185,12 @@ def run(ideas: list[dict], candles: dict, probation: dict | None = None, quality
     blockers = []
     if acc.get("paused"):
         blockers.append("trading is paused (" + acc.get("pause_reason", "") + ")")
-    if equity < (1 - DAY_LOSS) * acc["day_start"]:
+    if R["day_loss"] is not None and equity < (1 - R["day_loss"]) * acc["day_start"]:
         blockers.append(f"today's loss limit is hit ({pct(equity / acc['day_start'] - 1)} since the start of the day)")
-    if len(keep) >= MAX_OPEN:
-        blockers.append(f"{MAX_OPEN} trades are already open")
+    if len(keep) >= R["max_open"]:
+        blockers.append(f"{R['max_open']} trade{'s are' if R['max_open'] > 1 else ' is'} already open")
+    if R["risk_frac"] is None and acc["cash"] < MIN_TRADE:
+        blockers.append(f"only {money(acc['cash'])} of cash is left, below Binance's minimum order")
     prob = (probation or {}).get(STYLE) or {}
     if prob.get("active"):
         blockers.append(f"the Day speed is on probation: its last {prob.get('n', 50)} ideas did "
@@ -198,7 +201,7 @@ def run(ideas: list[dict], candles: dict, probation: dict | None = None, quality
     held = {p["symbol"] for p in keep}
     best, why_not = [], {}
     for d in ideas or []:
-        if d["grade"] not in GRADES_OK:
+        if R["grades"] and d["grade"] not in R["grades"]:
             why_not[d["coin"]] = f"graded {d['grade']}"
             continue
         if d["symbol"] in held:
@@ -209,13 +212,13 @@ def run(ideas: list[dict], candles: dict, probation: dict | None = None, quality
         spread = get_spread(d["symbol"])
         cost = round_trip(spread)
         stop_dist = -float(d["safety_exit_pct"])
-        amount, _ = size_trade(equity, acc["cash"], stop_dist, lambda a, cost=cost: cost)
+        amount, _ = size_trade(equity, acc["cash"], stop_dist, lambda a, cost=cost: cost, R["max_pos_frac"], R["risk_frac"])
         # the page already counts the 0.2% fees; take off the spread and slippage as well
         r_real = float(d["expected_r"]) - (cost - 2 * FEE) / (SL * float(d["risk_unit"]))
         if amount < MIN_TRADE:
             why_not[d["coin"]] = f"the safe size would be only {money(amount)}, below Binance's minimum order"
             continue
-        if not (r_real > 0) or not math.isfinite(r_real):
+        if not math.isfinite(r_real) or (R["need_positive"] and not r_real > 0):
             why_not[d["coin"]] = f"after every cost (about {share(cost, 2)} for the round trip) the expected result is negative"
             continue
         best.append((r_real, d, amount, cost, spread, stop_dist))
@@ -229,7 +232,7 @@ def run(ideas: list[dict], candles: dict, probation: dict | None = None, quality
         say("check", f"Looked at {seen} Small-coin Day ideas. Nothing worth the risk, so I stayed in cash. "
             + (f"Best ones: {detail}." if detail else "The list was empty."))
     else:
-        for r_real, d, amount, cost, spread, stop_dist in best[:NEW_PER_RUN]:
+        for r_real, d, amount, cost, spread, stop_dist in best[:R["new_per_run"]]:
             acc["cash"] -= amount
             pos = {"id": f"{d['symbol']}|{now.isoformat()}", "coin": d["coin"], "symbol": d["symbol"], "chain": "binance",
                    "status": "pending", "signal_t": str(now), "fill_bar": str(now.floor("h")), "amount": amount,
@@ -237,6 +240,13 @@ def run(ideas: list[dict], candles: dict, probation: dict | None = None, quality
                    "hold_bars": int(STYLES[STYLE].horizon_bars), "score": d["score"], "grade": d["grade"],
                    "chance": d["chance_beats_market"], "exp_r": round(r_real, 3), "spread": spread}
             keep.append(pos)
+            if R["risk_frac"] is None:
+                say("order", f"Aggressive: buying {d['coin']} on Binance, the best-ranked Day idea (grade {d['grade']}, "
+                    f"score {d['score']:.1f}, expected result after costs {r_real:+.2f} R). Putting in {money(amount)}: "
+                    f"{share(amount / equity, 0)} of the account. Hitting the safety exit ({pct(d['safety_exit_pct'])}) would "
+                    f"lose about {money(amount * (stop_dist + cost))}; the round trip costs about {share(cost, 2)}.",
+                    coin=d["coin"])
+                continue
             say("order", f"Decided to buy {d['coin']} on Binance: grade {d['grade']}, score {d['score']:.1f}, "
                 f"{round(d['chance_beats_market'] * 100)}% chance of beating the market, and still positive after every "
                 f"cost (about {share(cost, 2)} for the round trip: 0.1% fee each way, the {share(spread, 2)} buy-sell gap "
@@ -248,20 +258,20 @@ def run(ideas: list[dict], candles: dict, probation: dict | None = None, quality
     acc["positions"] = keep
     acc["equity"] = acc["cash"] + sum(p.get("value", 0.0) if p["status"] == "open" else p["amount"] for p in keep)
     acc["updated"] = str(now)
-    _save(acc, steps, closed_rows, now)
+    _save(acc, steps, closed_rows, now, R["dir"])
     return acc
 
 
-def _save(acc: dict, steps: list[dict], closed_rows: list[dict], now: pd.Timestamp) -> None:
-    _path("account.json").write_text(json.dumps(acc, indent=1, default=str))
-    lp = _path("log.json")
+def _save(acc: dict, steps: list[dict], closed_rows: list[dict], now: pd.Timestamp, folder: str = DIR) -> None:
+    _path("account.json", folder).write_text(json.dumps(acc, indent=1, default=str))
+    lp = _path("log.json", folder)
     old = json.loads(lp.read_text()) if lp.exists() else []
     lp.write_text(json.dumps((steps[::-1] + old)[:LOG_KEEP], indent=0, default=str))
     if closed_rows:
-        tp = _path("trades.csv")
+        tp = _path("trades.csv", folder)
         new = pd.DataFrame(closed_rows)
         (pd.concat([pd.read_csv(tp), new], ignore_index=True) if tp.exists() else new).to_csv(tp, index=False)
-    ep = _path("equity.csv")
+    ep = _path("equity.csv", folder)
     row = pd.DataFrame([{"t": str(now), "equity": round(acc["equity"], 4), "cash": round(acc["cash"], 4),
                          "open": sum(1 for p in acc["positions"] if p["status"] == "open")}])
     (pd.concat([pd.read_csv(ep), row], ignore_index=True) if ep.exists() else row).to_csv(ep, index=False)

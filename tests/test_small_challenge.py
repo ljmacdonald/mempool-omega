@@ -91,3 +91,25 @@ def test_stays_in_cash_when_the_rules_say_no(state, kw, grade, needle):
 def test_spread_and_slippage_can_turn_a_thin_edge_negative(state):
     acc = C.run([idea(exp_r=0.01)], {}, now=T0, get_spread=lambda s: 0.02)
     assert not acc["positions"]
+
+
+def test_aggressive_account_puts_everything_in_the_top_idea_and_ignores_the_owners_limits(state):
+    ideas = [idea("Weak", exp_r=-0.2), {**idea("Strong", exp_r=0.1), "symbol": "XYZUSDT", "coin": "XYZ"}]
+    acc = C.run(ideas, {}, probation={"day": {"active": True, "n": 50, "avg_vs_random": -0.01}},
+                quality_check={"reliable": False}, now=T0, get_spread=lambda s: 0.002, rules=C.AGGRESSIVE)
+    assert len(acc["positions"]) == 1 and acc["positions"][0]["coin"] == "XYZ"      # the best-ranked idea
+    assert acc["positions"][0]["amount"] == pytest.approx(100) and acc["cash"] == pytest.approx(0)
+    assert (state / "suggestions/aggressive_small/account.json").exists()
+    assert not (state / "suggestions/challenge_small/account.json").exists()        # the owner's account is untouched
+    acc = C.run([idea("Weak", exp_r=-0.2)], {}, now=T0, get_spread=lambda s: 0.002, rules=C.AGGRESSIVE)
+    assert len(acc["positions"]) == 1                                               # one trade at a time
+
+
+def test_aggressive_account_takes_a_negative_idea_and_never_pauses(state):
+    acc = C.run([idea("Weak", exp_r=-0.3)], {}, now=T0, get_spread=lambda s: 0.002, rules=C.AGGRESSIVE)
+    assert acc["positions"] and acc["positions"][0]["amount"] == pytest.approx(100)
+    acc = C.run([], {"ABCUSDT": bars([(1, 1, 1, 1.0), (0.5, 0.5, 0.4, 0.45)])}, now=T0 + pd.Timedelta(hours=3),
+                get_spread=lambda s: 0.002, rules=C.AGGRESSIVE)
+    assert acc["equity"] < 60 and not acc.get("paused")                             # a 50% loss, and it keeps going
+    acc = C.run([idea("Weak", exp_r=-0.3)], {}, now=T0 + pd.Timedelta(hours=4), get_spread=lambda s: 0.002, rules=C.AGGRESSIVE)
+    assert acc["positions"] and acc["positions"][0]["amount"] == pytest.approx(acc["equity"])

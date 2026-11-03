@@ -105,7 +105,7 @@
       const a = ((S.books || {})[book] || {})[k];
       if (!a) return "";
       const open = a.open || [];
-      return `<h4>${esc(NAMES[k])} · ${book === "account" ? "$100 account" : "$10,000 reference"}</h4>
+      return `<h4>${esc(NAMES[k])} · ${book === "account" ? "$100 account" : book === "aggressive" ? "aggressive $100 account (5x, no loss limits)" : "$10,000 reference"}</h4>
         <div class="stats"><div class="stat"><div class="k">Value</div><div class="v ${tone(a.net)}">${usd(a.equity)}</div><div class="small muted">from ${usd(a.start)} · ${pct(num(a.net) / num(a.start))}</div></div>
         <div class="stat"><div class="k">Status</div><div class="v">${a.paused ? "Paused" : "Running"}</div><div class="small muted">${esc(a.paused || "paper mode")}</div></div>
         <div class="stat"><div class="k">Open</div><div class="v">${open.length}</div></div><div class="stat"><div class="k">Closed trades</div><div class="v">${a.n_closed}</div></div></div>
@@ -117,7 +117,7 @@
           <h4>Cost waterfall (live)</h4>${waterfall(a.waterfall)}</details>` : ""}`;
     };
     return `<article class="card" id="live"><h2>Live paper accounts</h2><p class="small muted">Started ${esc((S.started || "").slice(0, 10))}. Every hour each strategy acts on live GMX and Hyperliquid data through the same cost model and risk rules. Prices are GMX's oracle and Hyperliquid's mid; impact, fees and execution fees are charged as costs. Nothing is ever signed or sent. Pause and flatten happen automatically (risk limits and kill switches): a public static page has no private controls.</p>
-      ${keys.map((k) => one(k, "account") + one(k, "reference")).join("")}</article>`;
+      ${keys.map((k) => one(k, "account") + one(k, "reference") + one(k, "aggressive")).join("")}</article>`;
   }
 
   function marketsCard() {

@@ -52,7 +52,7 @@ def hourly(now: float | None = None) -> dict:
     lp_in = None
     probe = HI.gm_prices(snap["contexts"]["ETH"]["address"]) if "ETH" in snap["contexts"] else {}
     latest = max(probe) if probe else None
-    held = any(p for b in st["books"].values() for p in b["lp"]["open"])
+    held = any(p for b in st["books"].values() for p in b.get("lp", {}).get("open", []))
     if latest and (st.get("lp_day") != latest or held):
         lp_in = PA.lp_live_inputs(snap) if st.get("lp_day") != latest else _held_prices(st)
     rows = PA.step(st, snap, now, lp_in, bars)
@@ -67,7 +67,7 @@ def hourly(now: float | None = None) -> dict:
 def _held_prices(st: dict) -> dict:
     """Live pool prices for the pools held (between daily re-rankings)."""
     gm_now = {}
-    names = {p["market"] for b in st["books"].values() for p in b["lp"]["open"]}
+    names = {p["market"] for b in st["books"].values() for p in b.get("lp", {}).get("open", [])}
     for m in HI.markets():
         if m["name"] in names:
             raw = SRC.gmx_market_settings(m["address"]) or {}

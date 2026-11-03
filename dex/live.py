@@ -484,6 +484,11 @@ def hourly() -> dict:
                       quality_check=(load_quality("dex/scoreboard.json") or {}).get("check"))
     except Exception as e:  # noqa: BLE001
         log.warning("challenge: %s", e)
+    try:                                               # the aggressive $100 DEX account (paper, D125)
+        challenge.run(ideas, cands, candles, chains, adaptive, fetch_candles=cache.candles, fetch_pools=gt_multi,
+                      rules=challenge.AGGRESSIVE)
+    except Exception as e:  # noqa: BLE001
+        log.warning("aggressive challenge: %s", e)
 
     def by_chain(sym: str) -> str:                     # grade tables per network
         return CHAINS.get(sym.split(":")[0], {}).get("name", sym.split(":")[0])
