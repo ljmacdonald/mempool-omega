@@ -1,6 +1,6 @@
 {
  "start": 100.0,
- "cash": 76.26874013574381,
+ "cash": 76.15532802120195,
  "positions": [
   {
    "key": "stealth:solana:Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ",
@@ -45,20 +45,6 @@
    "why": "one address net bought 0.084% of supply ($33,574) in 14 days: newly observed holder"
   },
   {
-   "key": "solana:HNg5PYJmtqcmzXrv6S9zP1CDKk5BgDuyFBxbvNApump",
-   "symbol": "ALCH",
-   "chain": "solana",
-   "opened": "2026-11-04T01:17:31.385524+00:00",
-   "entry": 0.03771381044974615,
-   "qty": 126.2190408113717,
-   "stop": 0.033544814935398855,
-   "target": 0.046051103529202296,
-   "cost": 4.7844815832497725,
-   "fees": 0.024280602940926536,
-   "route": "A,B",
-   "why": "one address net bought 0.178% of supply ($66,135) in 14 days: newly observed holder"
-  },
-  {
    "key": "stealth:solana:XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W",
    "symbol": "SPYX",
    "chain": "solana",
@@ -71,6 +57,20 @@
    "fees": 0.019517970963840815,
    "route": "S",
    "why": "2 addresses (2 probable owners) quietly bought 0.51% of the supply in small chunks since 2026-10-20, price +0.1% over 30 days"
+  },
+  {
+   "key": "solana:ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82",
+   "symbol": "BOME",
+   "chain": "solana",
+   "opened": "2026-11-04T03:02:11.563629+00:00",
+   "entry": 0.0006032866883230908,
+   "qty": 7870.993966064675,
+   "stop": 0.0005462771390315474,
+   "target": 0.0007173029944369051,
+   "cost": 4.7727112812489825,
+   "fees": 0.024245397650794566,
+   "route": "B",
+   "why": "one address net bought 0.625% of supply ($277,501) in 14 days: newly observed holder"
   }
  ],
  "trades": [
@@ -906,6 +906,23 @@
    "fees": 0.04822162980236738,
    "pnl": -0.29692126152621157,
    "ret": -0.06119015579884712
+  },
+  {
+   "key": "solana:HNg5PYJmtqcmzXrv6S9zP1CDKk5BgDuyFBxbvNApump",
+   "symbol": "ALCH",
+   "chain": "solana",
+   "opened": "2026-11-04T01:17:31.385524+00:00",
+   "entry": 0.03771381044974615,
+   "qty": 126.2190408113717,
+   "stop": 0.033544814935398855,
+   "target": 0.046051103529202296,
+   "route": "A,B",
+   "closed": "2026-11-04T03:02:11.563629+00:00",
+   "exit": 0.037104934968470615,
+   "reason": "state changed: accumulation weakening",
+   "fees": 0.04833073732248533,
+   "pnl": -0.12518241654264628,
+   "ret": -0.026164259254524813
   }
  ],
  "decisions": [
@@ -2645,6 +2662,39 @@
     "risk": 0.9517970963840818,
     "impact": 2.0976947191044483e-06,
     "costs_est": 0.039049252459299924,
+    "rr": 2.0
+   },
+   "rules": {
+    "risk_per_trade": 0.01,
+    "max_open_risk": 0.04,
+    "max_position": 0.05,
+    "min_rr": 2.0,
+    "dex_fee": 0.003,
+    "max_hold_d": 30
+   }
+  },
+  {
+   "t": "2026-11-04T03:02:11.563629+00:00",
+   "key": "solana:HNg5PYJmtqcmzXrv6S9zP1CDKk5BgDuyFBxbvNApump",
+   "symbol": "ALCH",
+   "action": "close",
+   "reason": "state changed: accumulation weakening"
+  },
+  {
+   "t": "2026-11-04T03:02:11.563629+00:00",
+   "key": "solana:ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82",
+   "symbol": "BOME",
+   "action": "open",
+   "plan": {
+    "eligible": true,
+    "entry": 0.0006032857575,
+    "stop": 0.0005462771390315474,
+    "target": 0.0007173029944369051,
+    "qty": 7871.00611039734,
+    "notional": 4.748465883598188,
+    "risk": 0.44871518431050067,
+    "impact": 1.5429223700634056e-06,
+    "costs_est": 0.0485054483300597,
     "rr": 2.0
    },
    "rules": {
