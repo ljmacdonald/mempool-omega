@@ -1,4 +1,4 @@
-# Trade ideas: 2026-11-05 19:43 UTC
+# Trade ideas: 2026-11-05 20:37 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (2% of 128 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (0% of 128 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **MITO** | 2.7/10 | Avoid - watch only | Very high | $0.00665 | $0.00710321 (+6.8%) | $0.0064234 (-3.4%) | 20:40 05-Nov |
-| 2 | **FOGO** | 1.8/10 | Avoid - watch only | Very high | $0.00229 | $0.00246861 (+7.8%) | $0.00220069 (-3.9%) | 20:40 05-Nov |
-| 3 | **MARSCOIN** | 1.8/10 | Avoid - watch only | High | $0.0446 | $0.0465842 (+4.4%) | $0.0436079 (-2.2%) | 20:40 05-Nov |
-| 4 | **1000CAT** | 1.6/10 | Avoid - watch only | Very high | $0.001725 | $0.00185446 (+7.5%) | $0.00166027 (-3.8%) | 20:40 05-Nov |
-| 5 | **ERA** | 1.6/10 | Avoid - watch only | Very high | $0.0693 | $0.0756016 (+9.1%) | $0.0661492 (-4.5%) | 20:40 05-Nov |
+| 1 | **MITO** | 1.9/10 | Avoid - watch only | Very high | $0.00663 | $0.00708742 (+6.9%) | $0.0063744 (-3.9%) | 21:35 05-Nov |
+| 2 | **PARTI** | 1.8/10 | Avoid - watch only | High | $0.0477 | $0.0503365 (+5.5%) | $0.0463817 (-2.8%) | 21:35 05-Nov |
+| 3 | **QNT** | 1.7/10 | Avoid - watch only | Medium | $190.11 | $195.53 (+2.9%) | $187.40 (-1.4%) | 21:35 05-Nov |
+| 4 | **FOGO** | 1.7/10 | Avoid - watch only | Very high | $0.00232 | $0.00248116 (+6.9%) | $0.00223942 (-3.5%) | 21:35 05-Nov |
+| 5 | **XTZ** | 1.7/10 | Avoid - watch only | Medium | $0.2527 | $0.262104 (+3.7%) | $0.247998 (-1.9%) | 21:35 05-Nov |
 
-- **MITO:** Buyers have been more eager than sellers over the last 30 minutes (60% of trades were buys). Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **FOGO:** Buyers have been more eager than sellers over the last 30 minutes (67% of trades were buys). It is bouncing up from near its lowest price of the last 14 hours. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **MARSCOIN:** It did 2.8% better than Bitcoin over the last 2 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MITO:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **PARTI:** Buyers have been more eager than sellers over the last 30 minutes (59% of trades were buys). Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **QNT:** Buyers have been more eager than sellers over the last 30 minutes (72% of trades were buys). ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (24% of 128 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (20% of 128 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **BCH** | 3.9/10 | Avoid - watch only | Medium | $274.30 | $285.99 (+4.3%) | $268.45 (-2.1%) | 23:30 05-Nov |
-| 2 | **SOLV** | 3.8/10 | Avoid - watch only | Medium | $0.00439 | $0.00468723 (+6.8%) | $0.00424139 (-3.4%) | 23:30 05-Nov |
-| 3 | **TAO** | 3.6/10 | Avoid - watch only | Medium | $219.60 | $229.81 (+4.6%) | $213.24 (-2.9%) | 23:30 05-Nov |
-| 4 | **BEAMX** | 3.5/10 | Avoid - watch only | Medium | $0.004224 | $0.00450731 (+6.7%) | $0.00408235 (-3.4%) | 23:30 05-Nov |
-| 5 | **SOL** | 3.5/10 | Avoid - watch only | Medium | $89.36 | $93.12 (+4.2%) | $87.48 (-2.1%) | 23:30 05-Nov |
+| 1 | **SUI** | 3.9/10 | Avoid - watch only | Medium | $0.8611 | $0.904387 (+5.0%) | $0.837038 (-2.8%) | 00:30 06-Nov |
+| 2 | **LINK** | 3.9/10 | Avoid - watch only | Medium | $10.83 | $11.33 (+4.6%) | $10.55 (-2.6%) | 00:30 06-Nov |
+| 3 | **SOL** | 3.6/10 | Avoid - watch only | Medium | $90.00 | $93.73 (+4.1%) | $88.14 (-2.1%) | 00:30 06-Nov |
+| 4 | **ADA** | 3.6/10 | Avoid - watch only | Medium | $0.1851 | $0.194115 (+4.9%) | $0.179479 (-3.0%) | 00:30 06-Nov |
+| 5 | **XLM** | 3.6/10 | Avoid - watch only | Medium | $0.1554 | $0.162755 (+4.7%) | $0.150894 (-2.9%) | 00:30 06-Nov |
 
-- **BCH:** Trading activity is 2.3x higher than usual, so people are paying attention to it. Buyers have been more eager than sellers over the last 1.5 hours (53% of trades were buys). ⚠️ Bitcoin fell more than 3% in the last 6 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **SOLV:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 6 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **TAO:** Trading activity is 2.2x higher than usual, so people are paying attention to it. It is bouncing up from near its lowest price of the last 42 hours. ⚠️ Bitcoin fell more than 3% in the last 6 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **SUI:** Trading activity is 2.2x higher than usual, so people are paying attention to it. It is bouncing up from near its lowest price of the last 42 hours. ⚠️ Bitcoin fell more than 3% in the last 6 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **LINK:** Trading activity is 1.9x higher than usual, so people are paying attention to it. It is bouncing up from near its lowest price of the last 42 hours. ⚠️ Bitcoin fell more than 3% in the last 6 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **SOL:** Buyers have been more eager than sellers over the last 1.5 hours (55% of trades were buys). Trading activity is 1.9x higher than usual, so people are paying attention to it. It is bouncing up from near its lowest price of the last 42 hours. ⚠️ Bitcoin fell more than 3% in the last 6 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
-Market mood: **Mixed** (49% of 128 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Mixed** (37% of 128 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **UNI** | 7.7/10 | Strong | High | $6.81 | $7.80 (+14.4%) | $6.32 (-7.2%) | 19:00 06-Nov |
-| 2 | **FOGO** | 7.2/10 | Strong | Very high | $0.00232 | $0.0028768 (+24.0%) | $0.0020416 (-12.0%) | 19:00 06-Nov |
-| 3 | **MITO** | 7.2/10 | Strong | Very high | $0.00669 | $0.00808142 (+20.8%) | $0.005982 (-10.6%) | 19:00 06-Nov |
-| 4 | **WLD** | 7.2/10 | Strong | High | $0.3436 | $0.39182 (+14.0%) | $0.31949 (-7.0%) | 19:00 06-Nov |
-| 5 | **CHIP** | 7.1/10 | Strong | Very high | $0.03824 | $0.0454777 (+18.9%) | $0.0346212 (-9.5%) | 19:00 06-Nov |
+| 1 | **FOGO** | 6.9/10 | Strong | Very high | $0.00233 | $0.0028892 (+24.0%) | $0.0020504 (-12.0%) | 20:00 06-Nov |
+| 2 | **WLD** | 6.9/10 | Strong | High | $0.3446 | $0.392148 (+13.8%) | $0.320826 (-6.9%) | 20:00 06-Nov |
+| 3 | **AT** | 6.7/10 | Strong | Very high | $0.0981 | $0.116751 (+19.0%) | $0.0887744 (-9.5%) | 20:00 06-Nov |
+| 4 | **XTZ** | 6.6/10 | Strong | Very high | $0.2552 | $0.316283 (+23.9%) | $0.224659 (-12.0%) | 20:00 06-Nov |
+| 5 | **NEAR** | 6.6/10 | Strong | High | $3.71 | $4.19 (+12.8%) | $3.47 (-6.4%) | 20:00 06-Nov |
 
-- **UNI:** Trading activity is 1.5x higher than usual, so people are paying attention to it. ⚠️ Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **FOGO:** It did 7.9% better than Bitcoin over the last 24 hours. Trading activity is 3.9x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **MITO:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **FOGO:** It did 9.0% better than Bitcoin over the last 24 hours. Trading activity is 4.0x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **WLD:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **AT:** Trading activity is 2.6x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 3825 | 41% | -0.26% | -0.24% |
-| Short: exit within 4 hours | 3894 | 40% | -0.35% | -0.30% |
-| Day: exit within 24 hours | 3660 | 37% | -0.61% | -0.35% |
+| Quick: exit within 1 hour | 3826 | 41% | -0.26% | -0.24% |
+| Short: exit within 4 hours | 3898 | 40% | -0.35% | -0.30% |
+| Day: exit within 24 hours | 3663 | 37% | -0.61% | -0.35% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
