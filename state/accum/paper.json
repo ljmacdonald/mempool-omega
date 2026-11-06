@@ -1,6 +1,6 @@
 {
  "start": 100.0,
- "cash": 76.14682391769814,
+ "cash": 76.27785641687335,
  "positions": [
   {
    "key": "stealth:solana:Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ",
@@ -45,20 +45,6 @@
    "why": "2 addresses (2 probable owners) quietly bought 0.51% of the supply in small chunks since 2026-10-20, price +0.1% over 30 days"
   },
   {
-   "key": "solana:ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82",
-   "symbol": "BOME",
-   "chain": "solana",
-   "opened": "2026-11-04T03:02:11.563629+00:00",
-   "entry": 0.0006032866883230908,
-   "qty": 7870.993966064675,
-   "stop": 0.0005462771390315474,
-   "target": 0.0007173029944369051,
-   "cost": 4.7727112812489825,
-   "fees": 0.024245397650794566,
-   "route": "B",
-   "why": "one address net bought 0.625% of supply ($277,501) in 14 days: newly observed holder"
-  },
-  {
    "key": "solana:XsCPL9dNWBMvFtTmwcCA5v3xWPSMEBCszbQdiLLq6aN",
    "symbol": "GOOGLX",
    "chain": "solana",
@@ -71,6 +57,20 @@
    "fees": 0.024306078399094305,
    "route": "B",
    "why": "one address net bought 0.159% of supply ($108,239) in 14 days: newly observed holder"
+  },
+  {
+   "key": "solana:FeR8VBqNRSUD5NtXAj2n3j1dAHkZHfyDktKuLXD4pump",
+   "symbol": "JELLYJELLY",
+   "chain": "solana",
+   "opened": "2026-11-06T01:17:18.376179+00:00",
+   "entry": 0.04086726299600246,
+   "qty": 116.2614756132237,
+   "stop": 0.03710991865253836,
+   "target": 0.04838145405492328,
+   "cost": 4.775542165089506,
+   "fees": 0.02425386490056682,
+   "route": "A,B",
+   "why": "0.213% of supply ($90,138) net bought in swaps over 7 days, buying on 5 days; one address net bought 0.156% of supply ($63,585) in 14 days: newly observed holder"
   }
  ],
  "trades": [
@@ -940,6 +940,23 @@
    "fees": 0.048779320372685314,
    "pnl": -0.024022774341350583,
    "ret": -0.004995879519390067
+  },
+  {
+   "key": "solana:ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82",
+   "symbol": "BOME",
+   "chain": "solana",
+   "opened": "2026-11-04T03:02:11.563629+00:00",
+   "entry": 0.0006032866883230908,
+   "qty": 7870.993966064675,
+   "stop": 0.0005462771390315474,
+   "target": 0.0007173029944369051,
+   "route": "B",
+   "closed": "2026-11-06T01:17:18.376179+00:00",
+   "exit": 0.0006265242757516465,
+   "reason": "state changed: accumulation weakening",
+   "fees": 0.04903952742033636,
+   "pnl": 0.13386338301572565,
+   "ret": 0.028047659941561554
   }
  ],
  "decisions": [
@@ -2745,6 +2762,39 @@
     "risk": 0.36658477827593944,
     "impact": 5.33686124674816e-06,
     "costs_est": 0.04866305650178932,
+    "rr": 2.0
+   },
+   "rules": {
+    "risk_per_trade": 0.01,
+    "max_open_risk": 0.04,
+    "max_position": 0.05,
+    "min_rr": 2.0,
+    "dex_fee": 0.003,
+    "max_hold_d": 30
+   }
+  },
+  {
+   "t": "2026-11-06T01:17:18.376179+00:00",
+   "key": "solana:ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82",
+   "symbol": "BOME",
+   "action": "close",
+   "reason": "state changed: accumulation weakening"
+  },
+  {
+   "t": "2026-11-06T01:17:18.376179+00:00",
+   "key": "solana:FeR8VBqNRSUD5NtXAj2n3j1dAHkZHfyDktKuLXD4pump",
+   "symbol": "JELLYJELLY",
+   "action": "open",
+   "plan": {
+    "eligible": true,
+    "entry": 0.04086709712,
+    "stop": 0.03710991865253836,
+    "target": 0.04838145405492328,
+    "qty": 116.26194750846886,
+    "notional": 4.751288300188939,
+    "risk": 0.43681688576397454,
+    "impact": 4.05891326146544e-06,
+    "costs_est": 0.04854629993531501,
     "rr": 2.0
    },
    "rules": {
