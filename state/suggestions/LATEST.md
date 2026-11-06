@@ -1,4 +1,4 @@
-# Trade ideas: 2026-11-06 06:40 UTC
+# Trade ideas: 2026-11-06 07:39 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (0% of 125 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (0% of 126 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **CYBER** | 2.2/10 | Avoid - watch only | Very high | $0.335 | $0.3685 (+10.0%) | $0.31825 (-5.0%) | 07:35 06-Nov |
-| 2 | **ERA** | 1.8/10 | Avoid - watch only | High | $0.072 | $0.0761324 (+5.7%) | $0.06979 (-3.1%) | 07:35 06-Nov |
-| 3 | **TRUMP** | 1.6/10 | Avoid - watch only | Low | $1.22 | $1.25 (+2.5%) | $1.20 (-1.2%) | 07:35 06-Nov |
-| 4 | **ACT** | 1.6/10 | Avoid - watch only | High | $0.00963 | $0.0101123 (+5.0%) | $0.00938887 (-2.5%) | 07:35 06-Nov |
-| 5 | **AAVE** | 1.5/10 | Avoid - watch only | Low | $129.55 | $132.41 (+2.2%) | $127.84 (-1.3%) | 07:35 06-Nov |
+| 1 | **BCH** | 2.1/10 | Avoid - watch only | Medium | $261.90 | $270.69 (+3.4%) | $257.50 (-1.7%) | 08:35 06-Nov |
+| 2 | **TRUMP** | 1.5/10 | Avoid - watch only | Medium | $1.20 | $1.24 (+2.9%) | $1.19 (-1.4%) | 08:35 06-Nov |
+| 3 | **STX** | 1.5/10 | Avoid - watch only | Medium | $0.3304 | $0.340851 (+3.2%) | $0.325174 (-1.6%) | 08:35 06-Nov |
+| 4 | **ZEC** | 1.5/10 | Avoid - watch only | Medium | $1,250.32 | $1,282.07 (+2.5%) | $1,234.44 (-1.3%) | 08:35 06-Nov |
+| 5 | **CFG** | 1.5/10 | Avoid - watch only | Medium | $0.097 | $0.100171 (+3.3%) | $0.0954144 (-1.6%) | 08:35 06-Nov |
 
-- **CYBER:** Buyers have been more eager than sellers over the last 30 minutes (55% of trades were buys). Trading activity is 1.6x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **ERA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **TRUMP:** Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **BCH:** Trading activity is 2.0x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **TRUMP:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **STX:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (0% of 125 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (2% of 126 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ZEC** | 3.4/10 | Avoid - watch only | Medium | $1,270.60 | $1,343.36 (+5.7%) | $1,234.22 (-2.9%) | 10:30 06-Nov |
-| 2 | **INJ** | 3.3/10 | Avoid - watch only | Medium | $8.19 | $8.65 (+5.6%) | $7.96 (-2.8%) | 10:30 06-Nov |
-| 3 | **WLFI** | 3.2/10 | Avoid - watch only | Medium | $0.0471 | $0.0499 (+5.9%) | $0.045662 (-3.1%) | 10:30 06-Nov |
-| 4 | **NEXO** | 3.2/10 | Avoid - watch only | Medium | $0.732 | $0.775004 (+5.9%) | $0.710498 (-2.9%) | 10:30 06-Nov |
-| 5 | **TRUMP** | 3.0/10 | Avoid - watch only | Medium | $1.22 | $1.29 (+5.9%) | $1.19 (-3.0%) | 10:30 06-Nov |
+| 1 | **BCH** | 4.9/10 | Avoid - watch only | Medium | $265.00 | $280.05 (+5.7%) | $257.47 (-2.8%) | 11:30 06-Nov |
+| 2 | **ZEC** | 4.1/10 | Avoid - watch only | Medium | $1,250.11 | $1,317.52 (+5.4%) | $1,216.41 (-2.7%) | 11:30 06-Nov |
+| 3 | **STX** | 3.9/10 | Avoid - watch only | Medium | $0.332 | $0.354765 (+6.9%) | $0.320618 (-3.4%) | 11:30 06-Nov |
+| 4 | **NEXO** | 3.8/10 | Avoid - watch only | Medium | $0.729 | $0.769323 (+5.5%) | $0.708838 (-2.8%) | 11:30 06-Nov |
+| 5 | **INJ** | 3.7/10 | Avoid - watch only | Medium | $8.12 | $8.55 (+5.3%) | $7.91 (-2.6%) | 11:30 06-Nov |
 
+- **BCH:** The model sees a slightly better-than-usual pattern, with no single strong reason.
 - **ZEC:** The model sees a slightly better-than-usual pattern, with no single strong reason.
-- **INJ:** Momentum is healthy: not overheated, not collapsing.
-- **WLFI:** It did 2.0% better than Bitcoin over the last 6 hours. Momentum is healthy: not overheated, not collapsing.
+- **STX:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (18% of 125 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (16% of 126 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **CHIP** | 7.6/10 | Strong | Very high | $0.03683 | $0.0432102 (+17.3%) | $0.0336399 (-8.7%) | 06:00 07-Nov |
-| 2 | **MARSCOIN** | 7.0/10 | Strong | Very high | $0.0443 | $0.0524992 (+18.5%) | $0.0402004 (-9.3%) | 06:00 07-Nov |
-| 3 | **HOT** | 6.8/10 | Strong | Very high | $0.00039 | $0.000475415 (+21.9%) | $0.000347292 (-11.0%) | 06:00 07-Nov |
-| 4 | **FOGO** | 6.4/10 | Moderate | Very high | $0.00236 | $0.0029264 (+24.0%) | $0.0020768 (-12.0%) | 06:00 07-Nov |
-| 5 | **XTZ** | 6.2/10 | Moderate | Very high | $0.2478 | $0.29814 (+20.3%) | $0.22263 (-10.2%) | 06:00 07-Nov |
+| 1 | **AT** | 7.0/10 | Strong | Very high | $0.0971 | $0.115078 (+18.5%) | $0.0881111 (-9.3%) | 07:00 07-Nov |
+| 2 | **CHIP** | 6.8/10 | Strong | Very high | $0.037 | $0.0433056 (+17.0%) | $0.0338472 (-8.5%) | 07:00 07-Nov |
+| 3 | **MARSCOIN** | 6.8/10 | Strong | Very high | $0.0447 | $0.0528707 (+18.3%) | $0.0406146 (-9.1%) | 07:00 07-Nov |
+| 4 | **HOT** | 6.6/10 | Strong | Very high | $0.000383 | $0.000465859 (+21.6%) | $0.000341571 (-10.8%) | 07:00 07-Nov |
+| 5 | **FOGO** | 6.3/10 | Moderate | Very high | $0.0024 | $0.002976 (+24.0%) | $0.002112 (-12.0%) | 07:00 07-Nov |
 
-- **CHIP:** Buyers have been more eager than sellers over the last 6 hours (57% of trades were buys). Trading activity is 1.6x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin.
+- **AT:** Trading activity is 2.6x higher than usual, so people are paying attention to it. Buyers have been more eager than sellers over the last 6 hours (53% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin.
+- **CHIP:** Buyers have been more eager than sellers over the last 6 hours (57% of trades were buys). Trading activity is 1.5x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin.
 - **MARSCOIN:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin.
-- **HOT:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 3885 | 41% | -0.26% | -0.24% |
-| Short: exit within 4 hours | 3954 | 40% | -0.34% | -0.30% |
-| Day: exit within 24 hours | 3697 | 37% | -0.60% | -0.39% |
+| Quick: exit within 1 hour | 3890 | 41% | -0.26% | -0.24% |
+| Short: exit within 4 hours | 3959 | 40% | -0.34% | -0.30% |
+| Day: exit within 24 hours | 3700 | 37% | -0.60% | -0.39% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
