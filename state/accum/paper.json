@@ -1,6 +1,6 @@
 {
  "start": 100.0,
- "cash": 76.27785641687335,
+ "cash": 71.40401770241128,
  "positions": [
   {
    "key": "stealth:solana:Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ",
@@ -45,20 +45,6 @@
    "why": "2 addresses (2 probable owners) quietly bought 0.51% of the supply in small chunks since 2026-10-20, price +0.1% over 30 days"
   },
   {
-   "key": "solana:XsCPL9dNWBMvFtTmwcCA5v3xWPSMEBCszbQdiLLq6aN",
-   "symbol": "GOOGLX",
-   "chain": "solana",
-   "opened": "2026-11-05T02:02:19.282589+00:00",
-   "entry": 290.32930352933965,
-   "qty": 0.016425117071298984,
-   "stop": 268.0093243170838,
-   "target": 334.9646136370324,
-   "cost": 4.792998878097196,
-   "fees": 0.024306078399094305,
-   "route": "B",
-   "why": "one address net bought 0.159% of supply ($108,239) in 14 days: newly observed holder"
-  },
-  {
    "key": "solana:FeR8VBqNRSUD5NtXAj2n3j1dAHkZHfyDktKuLXD4pump",
    "symbol": "JELLYJELLY",
    "chain": "solana",
@@ -71,6 +57,34 @@
    "fees": 0.02425386490056682,
    "route": "A,B",
    "why": "0.213% of supply ($90,138) net bought in swaps over 7 days, buying on 5 days; one address net bought 0.156% of supply ($63,585) in 14 days: newly observed holder"
+  },
+  {
+   "key": "solana:Xs78JED6PFZxWc2wCEPspZW9kL3Se5J7L5TChKgsidH",
+   "symbol": "STRCX",
+   "chain": "solana",
+   "opened": "2026-11-07T00:32:10.962324+00:00",
+   "entry": 109.26214058488257,
+   "qty": 0.043368326428222276,
+   "stop": 105.26583753984842,
+   "target": 117.24040091740315,
+   "cost": 4.762731727668895,
+   "fees": 0.0242155485373945,
+   "route": "B",
+   "why": "0.118% of supply ($158,656) net bought in swaps over 7 days, buying on 7 days; one address net bought 0.082% of supply ($109,194) in 14 days: newly observed holder"
+  },
+  {
+   "key": "solana:XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W",
+   "symbol": "SPYX",
+   "chain": "solana",
+   "opened": "2026-11-07T00:32:10.962324+00:00",
+   "entry": 740.1890188998456,
+   "qty": 0.006400115256443743,
+   "stop": 717.0949595286297,
+   "target": 786.3701748128404,
+   "cost": 4.761506917610567,
+   "fees": 0.024211885097539083,
+   "route": "B",
+   "why": "one address net bought 0.841% of supply ($633,459) in 14 days: newly observed holder"
   }
  ],
  "trades": [
@@ -957,6 +971,23 @@
    "fees": 0.04903952742033636,
    "pnl": 0.13386338301572565,
    "ret": 0.028047659941561554
+  },
+  {
+   "key": "solana:XsCPL9dNWBMvFtTmwcCA5v3xWPSMEBCszbQdiLLq6aN",
+   "symbol": "GOOGLX",
+   "chain": "solana",
+   "opened": "2026-11-05T02:02:19.282589+00:00",
+   "entry": 290.32930352933965,
+   "qty": 0.016425117071298984,
+   "stop": 268.0093243170838,
+   "target": 334.9646136370324,
+   "route": "B",
+   "closed": "2026-11-07T00:32:10.962324+00:00",
+   "exit": 284.58995193476306,
+   "reason": "state changed: accumulation weakening",
+   "fees": 0.048329425425540085,
+   "pnl": -0.14259894727980704,
+   "ret": -0.029751508587128717
   }
  ],
  "decisions": [
@@ -2795,6 +2826,65 @@
     "risk": 0.43681688576397454,
     "impact": 4.05891326146544e-06,
     "costs_est": 0.04854629993531501,
+    "rr": 2.0
+   },
+   "rules": {
+    "risk_per_trade": 0.01,
+    "max_open_risk": 0.04,
+    "max_position": 0.05,
+    "min_rr": 2.0,
+    "dex_fee": 0.003,
+    "max_hold_d": 30
+   }
+  },
+  {
+   "t": "2026-11-07T00:32:10.962324+00:00",
+   "key": "solana:XsCPL9dNWBMvFtTmwcCA5v3xWPSMEBCszbQdiLLq6aN",
+   "symbol": "GOOGLX",
+   "action": "close",
+   "reason": "state changed: accumulation weakening"
+  },
+  {
+   "t": "2026-11-07T00:32:10.962324+00:00",
+   "key": "solana:Xs78JED6PFZxWc2wCEPspZW9kL3Se5J7L5TChKgsidH",
+   "symbol": "STRCX",
+   "action": "open",
+   "plan": {
+    "eligible": true,
+    "entry": 109.2573586657,
+    "stop": 105.26583753984842,
+    "target": 117.24040091740315,
+    "qty": 0.04337022455055102,
+    "notional": 4.7385161791315005,
+    "risk": 0.17311316752645112,
+    "impact": 4.376747928905886e-05,
+    "costs_est": 0.04884588289225102,
+    "rr": 2.0
+   },
+   "rules": {
+    "risk_per_trade": 0.01,
+    "max_open_risk": 0.04,
+    "max_position": 0.05,
+    "min_rr": 2.0,
+    "dex_fee": 0.003,
+    "max_hold_d": 30
+   }
+  },
+  {
+   "t": "2026-11-07T00:32:10.962324+00:00",
+   "key": "solana:XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W",
+   "symbol": "SPYX",
+   "action": "open",
+   "plan": {
+    "eligible": true,
+    "entry": 740.1866979567,
+    "stop": 717.0949595286297,
+    "target": 786.3701748128404,
+    "qty": 0.006400135324763906,
+    "notional": 4.737295032513027,
+    "risk": 0.1477902508237005,
+    "impact": 3.13561855689252e-06,
+    "costs_est": 0.04845347889550501,
     "rr": 2.0
    },
    "rules": {
