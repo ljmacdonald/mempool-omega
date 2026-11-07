@@ -1,4 +1,4 @@
-# Trade ideas: 2026-11-07 04:56 UTC
+# Trade ideas: 2026-11-07 05:52 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (0% of 98 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (0% of 96 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ONE** | 2.5/10 | Avoid - watch only | Very high | $0.001929 | $0.0021219 (+10.0%) | $0.00183255 (-5.0%) | 05:50 07-Nov |
-| 2 | **CYBER** | 1.6/10 | Avoid - watch only | Very high | $0.33 | $0.356053 (+7.9%) | $0.316974 (-3.9%) | 05:50 07-Nov |
-| 3 | **GTC** | 1.2/10 | Avoid - watch only | High | $0.17028 | $0.179802 (+5.6%) | $0.165519 (-2.8%) | 05:50 07-Nov |
-| 4 | **INJ** | 1.1/10 | Avoid - watch only | Low | $8.27 | $8.46 (+2.3%) | $8.18 (-1.2%) | 05:50 07-Nov |
-| 5 | **LSK** | 1.0/10 | Avoid - watch only | High | $0.1903 | $0.199128 (+4.6%) | $0.185886 (-2.3%) | 05:50 07-Nov |
+| 1 | **CYBER** | 2.1/10 | Avoid - watch only | Very high | $0.331 | $0.360288 (+8.8%) | $0.316356 (-4.4%) | 06:50 07-Nov |
+| 2 | **ONE** | 1.6/10 | Avoid - watch only | Very high | $0.001917 | $0.0021087 (+10.0%) | $0.00182115 (-5.0%) | 06:50 07-Nov |
+| 3 | **BTC** | 1.0/10 | Avoid - watch only | Low | $76,021.66 | $76,933.92 (+1.2%) | $75,565.53 (-0.6%) | 06:50 07-Nov |
+| 4 | **INJ** | 1.0/10 | Avoid - watch only | Low | $8.25 | $8.42 (+2.1%) | $8.16 (-1.0%) | 06:50 07-Nov |
+| 5 | **BMT** | 0.9/10 | Avoid - watch only | Medium | $0.02318 | $0.0237687 (+2.5%) | $0.0228857 (-1.3%) | 06:50 07-Nov |
 
-- **ONE:** It did 5.9% better than Bitcoin over the last 2 hours. Buyers have been more eager than sellers over the last 30 minutes (58% of trades were buys). Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **CYBER:** It did 5.0% better than Bitcoin over the last 2 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **GTC:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **CYBER:** Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. It did 1.3% better than Bitcoin over the last 2 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ONE:** It did 11.8% better than Bitcoin over the last 2 hours. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **BTC:** Buyers have been more eager than sellers over the last 30 minutes (61% of trades were buys). Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. It is close to its highest price of the last 14 hours. A breakout is possible. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (3% of 98 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (2% of 96 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **CYBER** | 3.6/10 | Avoid - watch only | Very high | $0.33 | $0.3828 (+16.0%) | $0.3036 (-8.0%) | 08:45 07-Nov |
-| 2 | **GTC** | 3.4/10 | Avoid - watch only | High | $0.17266 | $0.189467 (+9.7%) | $0.164256 (-4.9%) | 08:45 07-Nov |
-| 3 | **CHIP** | 2.7/10 | Avoid - watch only | Medium | $0.03753 | $0.0394219 (+5.0%) | $0.036584 (-2.5%) | 08:45 07-Nov |
-| 4 | **INJ** | 2.4/10 | Avoid - watch only | Medium | $8.30 | $8.71 (+4.9%) | $8.10 (-2.5%) | 08:45 07-Nov |
-| 5 | **ZEC** | 2.0/10 | Avoid - watch only | Medium | $1,318.10 | $1,376.78 (+4.5%) | $1,288.76 (-2.2%) | 08:45 07-Nov |
+| 1 | **CYBER** | 3.6/10 | Avoid - watch only | Very high | $0.331 | $0.38396 (+16.0%) | $0.30452 (-8.0%) | 09:45 07-Nov |
+| 2 | **ZEC** | 2.6/10 | Avoid - watch only | Medium | $1,312.89 | $1,367.45 (+4.2%) | $1,285.61 (-2.1%) | 09:45 07-Nov |
+| 3 | **INJ** | 2.4/10 | Avoid - watch only | Medium | $8.25 | $8.65 (+4.8%) | $8.05 (-2.4%) | 09:45 07-Nov |
+| 4 | **CHIP** | 2.1/10 | Avoid - watch only | Medium | $0.03759 | $0.0393532 (+4.7%) | $0.0367084 (-2.3%) | 09:45 07-Nov |
+| 5 | **DASH** | 2.0/10 | Avoid - watch only | Low | $47.01 | $48.90 (+4.0%) | $46.07 (-2.0%) | 09:45 07-Nov |
 
 - **CYBER:** Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **GTC:** Trading activity is 2.1x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **CHIP:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ZEC:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **INJ:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (21% of 98 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (24% of 96 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **CYBER** | 8.4/10 | Strong | Very high | $0.325 | $0.403 (+24.0%) | $0.286 (-12.0%) | 04:00 08-Nov |
-| 2 | **TRX** | 8.0/10 | Strong | Low | $0.3177 | $0.327231 (+3.0%) | $0.312935 (-1.5%) | 04:00 08-Nov |
-| 3 | **BNB** | 7.2/10 | Strong | Low | $694.13 | $717.88 (+3.4%) | $682.25 (-1.7%) | 04:00 08-Nov |
-| 4 | **THE** | 6.9/10 | Strong | Very high | $0.0374 | $0.044586 (+19.2%) | $0.033807 (-9.6%) | 04:00 08-Nov |
-| 5 | **BMT** | 6.5/10 | Strong | Very high | $0.02319 | $0.0269851 (+16.4%) | $0.0212924 (-8.2%) | 04:00 08-Nov |
+| 1 | **TRX** | 8.4/10 | Strong | Low | $0.3178 | $0.327334 (+3.0%) | $0.313033 (-1.5%) | 05:00 08-Nov |
+| 2 | **CYBER** | 8.2/10 | Strong | Very high | $0.327 | $0.40548 (+24.0%) | $0.28776 (-12.0%) | 05:00 08-Nov |
+| 3 | **BNB** | 7.8/10 | Strong | Low | $694.59 | $717.90 (+3.4%) | $682.94 (-1.7%) | 05:00 08-Nov |
+| 4 | **CAKE** | 7.6/10 | Strong | Low | $1.92 | $2.02 (+5.6%) | $1.86 (-2.8%) | 05:00 08-Nov |
+| 5 | **HOT** | 7.1/10 | Strong | Very high | $0.000378 | $0.000452831 (+19.8%) | $0.000340585 (-9.9%) | 05:00 08-Nov |
 
-- **CYBER:** Trading activity is 4.7x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing.
 - **TRX:** The model sees a slightly better-than-usual pattern, with no single strong reason.
-- **BNB:** It is bouncing up from near its lowest price of the last 7 days. Buyers have been more eager than sellers over the last 6 hours (52% of trades were buys). Momentum is healthy: not overheated, not collapsing.
+- **CYBER:** Trading activity is 4.5x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing.
+- **BNB:** It is bouncing up from near its lowest price of the last 7 days. Momentum is healthy: not overheated, not collapsing.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 4000 | 41% | -0.26% | -0.24% |
-| Short: exit within 4 hours | 4064 | 40% | -0.34% | -0.30% |
-| Day: exit within 24 hours | 3780 | 37% | -0.55% | -0.37% |
+| Quick: exit within 1 hour | 4005 | 41% | -0.26% | -0.24% |
+| Short: exit within 4 hours | 4070 | 40% | -0.33% | -0.30% |
+| Day: exit within 24 hours | 3785 | 37% | -0.55% | -0.37% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
