@@ -1,4 +1,4 @@
-# Trade ideas: 2026-11-07 10:06 UTC
+# Trade ideas: 2026-11-07 11:07 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (0% of 97 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (0% of 96 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **MITO** | 1.8/10 | Avoid - watch only | Very high | $0.00756 | $0.00825041 (+9.1%) | $0.00721479 (-4.6%) | 11:00 07-Nov |
-| 2 | **ACT** | 1.5/10 | Avoid - watch only | Very high | $0.01139 | $0.012138 (+6.6%) | $0.011016 (-3.3%) | 11:00 07-Nov |
-| 3 | **CYBER** | 1.4/10 | Avoid - watch only | High | $0.313 | $0.32837 (+4.9%) | $0.305315 (-2.5%) | 11:00 07-Nov |
-| 4 | **AMP** | 1.2/10 | Avoid - watch only | High | $0.000656 | $0.000684896 (+4.4%) | $0.000641552 (-2.2%) | 11:00 07-Nov |
-| 5 | **GTC** | 1.1/10 | Avoid - watch only | High | $0.17418 | $0.182427 (+4.7%) | $0.170057 (-2.4%) | 11:00 07-Nov |
+| 1 | **ONE** | 2.3/10 | Avoid - watch only | Very high | $0.00193 | $0.002123 (+10.0%) | $0.00182168 (-5.6%) | 12:05 07-Nov |
+| 2 | **MITO** | 1.6/10 | Avoid - watch only | Very high | $0.0074 | $0.00801413 (+8.3%) | $0.00709293 (-4.1%) | 12:05 07-Nov |
+| 3 | **MEGA** | 1.6/10 | Avoid - watch only | High | $0.04982 | $0.052684 (+5.7%) | $0.048388 (-2.9%) | 12:05 07-Nov |
+| 4 | **CYBER** | 1.3/10 | Avoid - watch only | High | $0.312 | $0.325516 (+4.3%) | $0.305242 (-2.2%) | 12:00 07-Nov |
+| 5 | **ZEC** | 0.9/10 | Avoid - watch only | Medium | $1,299.44 | $1,333.08 (+2.6%) | $1,282.62 (-1.3%) | 12:05 07-Nov |
 
-- **MITO:** Trading activity is 1.9x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **ACT:** Trading activity is 2.8x higher than usual, so people are paying attention to it. It did 1.5% better than Bitcoin over the last 2 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **CYBER:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ONE:** Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MITO:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MEGA:** Trading activity is 5.1x higher than usual, so people are paying attention to it. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (1% of 97 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (1% of 96 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **CYBER** | 3.7/10 | Avoid - watch only | Very high | $0.313 | $0.355655 (+13.6%) | $0.291673 (-6.8%) | 14:00 07-Nov |
-| 2 | **MITO** | 2.7/10 | Avoid - watch only | Very high | $0.00756 | $0.00872677 (+15.4%) | $0.00697661 (-7.7%) | 14:00 07-Nov |
-| 3 | **ZIL** | 2.3/10 | Avoid - watch only | Medium | $0.001714 | $0.00181386 (+5.8%) | $0.00166407 (-2.9%) | 14:00 07-Nov |
-| 4 | **INJ** | 1.5/10 | Avoid - watch only | Low | $8.18 | $8.51 (+4.0%) | $8.02 (-2.0%) | 14:00 07-Nov |
-| 5 | **USUAL** | 1.5/10 | Avoid - watch only | Low | $0.01035 | $0.0106462 (+2.9%) | $0.0102019 (-1.4%) | 14:00 07-Nov |
+| 1 | **CYBER** | 2.8/10 | Avoid - watch only | Very high | $0.312 | $0.351773 (+12.7%) | $0.292113 (-6.4%) | 15:00 07-Nov |
+| 2 | **MITO** | 2.5/10 | Avoid - watch only | Very high | $0.00732 | $0.00846978 (+15.7%) | $0.00674511 (-7.9%) | 15:00 07-Nov |
+| 3 | **LSK** | 2.5/10 | Avoid - watch only | Medium | $0.187 | $0.1996 (+6.7%) | $0.18069 (-3.4%) | 15:00 07-Nov |
+| 4 | **ZIL** | 2.0/10 | Avoid - watch only | Medium | $0.001704 | $0.00179677 (+5.4%) | $0.00165762 (-2.7%) | 15:00 07-Nov |
+| 5 | **MEGA** | 2.0/10 | Avoid - watch only | High | $0.05017 | $0.054757 (+9.1%) | $0.047559 (-5.2%) | 15:00 07-Nov |
 
 - **CYBER:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **MITO:** It did 11.1% better than Bitcoin over the last 6 hours. Buyers have been more eager than sellers over the last 1.5 hours (55% of trades were buys). Trading activity is 4.0x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **ZIL:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MITO:** It did 6.7% better than Bitcoin over the last 6 hours. Trading activity is 4.5x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **LSK:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (30% of 97 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (30% of 96 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ETC** | 7.3/10 | Strong | Low | $6.95 | $7.37 (+6.0%) | $6.74 (-3.0%) | 10:00 08-Nov |
-| 2 | **SHIB** | 7.0/10 | Strong | Low | $4.5e-06 | $4.74966e-06 (+5.5%) | $4.37517e-06 (-2.8%) | 10:00 08-Nov |
-| 3 | **BNB** | 6.9/10 | Strong | Low | $694.49 | $715.86 (+3.1%) | $683.80 (-1.5%) | 10:00 08-Nov |
-| 4 | **SKY** | 6.9/10 | Strong | Low | $0.06409 | $0.0675487 (+5.4%) | $0.0623606 (-2.7%) | 10:00 08-Nov |
-| 5 | **GTC** | 6.8/10 | Strong | Very high | $0.17418 | $0.214091 (+22.9%) | $0.154224 (-11.5%) | 10:00 08-Nov |
+| 1 | **BNB** | 7.3/10 | Strong | Low | $694.43 | $715.36 (+3.0%) | $683.97 (-1.5%) | 11:00 08-Nov |
+| 2 | **GTC** | 7.1/10 | Strong | Very high | $0.1715 | $0.210161 (+22.5%) | $0.15217 (-11.3%) | 11:00 08-Nov |
+| 3 | **SKY** | 7.1/10 | Strong | Low | $0.06421 | $0.0676189 (+5.3%) | $0.0625055 (-2.7%) | 11:00 08-Nov |
+| 4 | **ETC** | 7.1/10 | Strong | Low | $6.94 | $7.35 (+5.9%) | $6.74 (-2.9%) | 11:00 08-Nov |
+| 5 | **ZIL** | 7.0/10 | Strong | High | $0.001704 | $0.00196656 (+15.4%) | $0.00157272 (-7.7%) | 11:00 08-Nov |
 
-- **ETC:** Buyers have been more eager than sellers over the last 6 hours (54% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **SHIB:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **BNB:** Buyers have been more eager than sellers over the last 6 hours (61% of trades were buys). Momentum is healthy: not overheated, not collapsing.
+- **BNB:** Buyers have been more eager than sellers over the last 6 hours (62% of trades were buys). Momentum is healthy: not overheated, not collapsing.
+- **GTC:** Buyers have been more eager than sellers over the last 6 hours (59% of trades were buys). Trading activity is 1.8x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **SKY:** Buyers have been more eager than sellers over the last 6 hours (61% of trades were buys). It is bouncing up from near its lowest price of the last 7 days. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 4025 | 41% | -0.27% | -0.24% |
-| Short: exit within 4 hours | 4096 | 40% | -0.33% | -0.30% |
-| Day: exit within 24 hours | 3812 | 37% | -0.55% | -0.36% |
+| Quick: exit within 1 hour | 4035 | 41% | -0.27% | -0.24% |
+| Short: exit within 4 hours | 4101 | 40% | -0.34% | -0.30% |
+| Day: exit within 24 hours | 3817 | 37% | -0.55% | -0.36% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
