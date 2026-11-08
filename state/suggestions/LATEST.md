@@ -1,4 +1,4 @@
-# Trade ideas: 2026-11-08 17:25 UTC
+# Trade ideas: 2026-11-08 18:21 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,50 +6,50 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (12% of 84 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (2% of 85 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **DGB** | 4.7/10 | Avoid - watch only | Very high | $0.00326 | $0.00350132 (+7.4%) | $0.00313934 (-3.7%) | 18:20 08-Nov |
-| 2 | **RSR** | 4.7/10 | Avoid - watch only | Very high | $0.001694 | $0.00182378 (+7.7%) | $0.00162911 (-3.8%) | 18:20 08-Nov |
-| 3 | **MITO** | 4.3/10 | Avoid - watch only | High | $0.00698 | $0.00738965 (+5.9%) | $0.00677518 (-2.9%) | 18:20 08-Nov |
-| 4 | **BMT** | 4.2/10 | Avoid - watch only | Medium | $0.0246 | $0.025581 (+4.0%) | $0.0241095 (-2.0%) | 18:20 08-Nov |
-| 5 | **LSK** | 3.5/10 | Avoid - watch only | Medium | $0.1791 | $0.185825 (+3.8%) | $0.175737 (-1.9%) | 18:20 08-Nov |
+| 1 | **HOT** | 5.5/10 | Weak | Very high | $0.000445 | $0.0004895 (+10.0%) | $0.00042275 (-5.0%) | 19:15 08-Nov |
+| 2 | **ONE** | 4.1/10 | Avoid - watch only | Very high | $0.001825 | $0.00199078 (+9.1%) | $0.00174211 (-4.5%) | 19:15 08-Nov |
+| 3 | **BMT** | 4.0/10 | Avoid - watch only | Medium | $0.02421 | $0.025009 (+3.3%) | $0.0238105 (-1.7%) | 19:15 08-Nov |
+| 4 | **RSR** | 3.7/10 | Avoid - watch only | Very high | $0.001728 | $0.0018477 (+6.9%) | $0.00166815 (-3.5%) | 19:15 08-Nov |
+| 5 | **MITO** | 3.4/10 | Avoid - watch only | High | $0.00712 | $0.00756803 (+6.3%) | $0.00684252 (-3.9%) | 19:15 08-Nov |
 
-- **DGB:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **RSR:** Trading activity is 2.4x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **MITO:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **HOT:** Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **ONE:** Buyers have been more eager than sellers over the last 30 minutes (58% of trades were buys). Momentum is healthy: not overheated, not collapsing.
+- **BMT:** The model sees a slightly better-than-usual pattern, with no single strong reason.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (4% of 84 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (7% of 85 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **NEAR** | 3.1/10 | Avoid - watch only | Low | $3.59 | $3.73 (+4.0%) | $3.52 (-2.0%) | 21:15 08-Nov |
-| 2 | **MITO** | 2.9/10 | Avoid - watch only | Very high | $0.00703 | $0.00780422 (+11.0%) | $0.00664289 (-5.5%) | 21:15 08-Nov |
-| 3 | **BMT** | 2.9/10 | Avoid - watch only | High | $0.02451 | $0.0267821 (+9.3%) | $0.0233739 (-4.6%) | 21:15 08-Nov |
-| 4 | **DGB** | 2.4/10 | Avoid - watch only | Very high | $0.00328 | $0.0037058 (+13.0%) | $0.0030671 (-6.5%) | 21:15 08-Nov |
-| 5 | **ONE** | 2.4/10 | Avoid - watch only | Very high | $0.001759 | $0.00204044 (+16.0%) | $0.00161828 (-8.0%) | 21:15 08-Nov |
+| 1 | **DGB** | 2.8/10 | Avoid - watch only | Very high | $0.00329 | $0.00369497 (+12.3%) | $0.00308751 (-6.2%) | 22:15 08-Nov |
+| 2 | **ATM** | 2.7/10 | Avoid - watch only | High | $0.725 | $0.7984 (+10.1%) | $0.687756 (-5.1%) | 22:15 08-Nov |
+| 3 | **MITO** | 2.6/10 | Avoid - watch only | Very high | $0.00712 | $0.00790991 (+11.1%) | $0.00672504 (-5.5%) | 22:15 08-Nov |
+| 4 | **GLMR** | 2.6/10 | Avoid - watch only | Very high | $0.007428 | $0.00861648 (+16.0%) | $0.00683376 (-8.0%) | 22:15 08-Nov |
+| 5 | **BMT** | 2.6/10 | Avoid - watch only | High | $0.02421 | $0.0263159 (+8.7%) | $0.0231571 (-4.3%) | 22:15 08-Nov |
 
-- **NEAR:** Trading activity is 1.9x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **MITO:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **BMT:** Trading activity is 1.5x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **DGB:** It did 1.0% better than Bitcoin over the last 6 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ATM:** Trading activity is 4.1x higher than usual, so people are paying attention to it. It is bouncing up from near its lowest price of the last 42 hours. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MITO:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (30% of 84 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (26% of 85 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **BTC** | 6.4/10 | Moderate | Low | $75,780.22 | $78,053.63 (+3.0%) | $74,643.52 (-1.5%) | 17:00 09-Nov |
-| 2 | **ACT** | 5.4/10 | Weak | Very high | $0.00982 | $0.0121768 (+24.0%) | $0.0086416 (-12.0%) | 17:00 09-Nov |
-| 3 | **MITO** | 5.2/10 | Weak | Very high | $0.00699 | $0.0086676 (+24.0%) | $0.0061512 (-12.0%) | 17:00 09-Nov |
-| 4 | **ETH** | 5.2/10 | Weak | Low | $2,230.80 | $2,298.57 (+3.0%) | $2,196.92 (-1.5%) | 17:00 09-Nov |
-| 5 | **ETHFI** | 4.8/10 | Avoid - watch only | Medium | $0.5846 | $0.628875 (+7.6%) | $0.562462 (-3.8%) | 17:00 09-Nov |
+| 1 | **BTC** | 6.5/10 | Strong | Low | $75,754.01 | $78,026.63 (+3.0%) | $74,617.70 (-1.5%) | 18:00 09-Nov |
+| 2 | **ACT** | 6.2/10 | Moderate | Very high | $0.00994 | $0.0123256 (+24.0%) | $0.0087472 (-12.0%) | 18:00 09-Nov |
+| 3 | **MITO** | 5.7/10 | Moderate | Very high | $0.00705 | $0.008742 (+24.0%) | $0.006204 (-12.0%) | 18:00 09-Nov |
+| 4 | **ATM** | 5.4/10 | Weak | Very high | $0.726 | $0.892679 (+23.0%) | $0.642661 (-11.5%) | 18:00 09-Nov |
+| 5 | **HMSTR** | 5.0/10 | Weak | Very high | $0.0001322 | $0.000155941 (+18.0%) | $0.00012033 (-9.0%) | 18:00 09-Nov |
 
 - **BTC:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **ACT:** Trading activity is 2.1x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ACT:** Trading activity is 2.0x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 - **MITO:** Trading activity is 1.8x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ---
@@ -57,8 +57,8 @@ Market mood: **Unfavourable** (30% of 84 coins look positive). If it says *Unfav
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 4193 | 41% | -0.27% | -0.24% |
-| Short: exit within 4 hours | 4266 | 40% | -0.35% | -0.30% |
-| Day: exit within 24 hours | 3969 | 37% | -0.59% | -0.38% |
+| Quick: exit within 1 hour | 4195 | 41% | -0.27% | -0.24% |
+| Short: exit within 4 hours | 4270 | 40% | -0.35% | -0.31% |
+| Day: exit within 24 hours | 3973 | 37% | -0.59% | -0.38% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
