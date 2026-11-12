@@ -1,4 +1,4 @@
-# Trade ideas: 2026-11-12 19:00 UTC
+# Trade ideas: 2026-11-12 20:06 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (0% of 108 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (0% of 106 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ERA** | 4.3/10 | Avoid - watch only | Very high | $0.084 | $0.0901787 (+7.4%) | $0.0809106 (-3.7%) | 19:55 12-Nov |
-| 2 | **DODO** | 3.7/10 | Avoid - watch only | Very high | $0.02763 | $0.0299198 (+8.3%) | $0.0264851 (-4.1%) | 19:55 12-Nov |
-| 3 | **ZEC** | 3.4/10 | Avoid - watch only | Medium | $939.52 | $970.77 (+3.3%) | $923.90 (-1.7%) | 19:55 12-Nov |
-| 4 | **STX** | 2.9/10 | Avoid - watch only | Medium | $0.2857 | $0.294951 (+3.2%) | $0.281075 (-1.6%) | 19:55 12-Nov |
-| 5 | **BARD** | 2.3/10 | Avoid - watch only | Very high | $0.1361 | $0.1497 (+10.0%) | $0.129295 (-5.0%) | 19:55 12-Nov |
+| 1 | **ERA** | 4.0/10 | Avoid - watch only | High | $0.0841 | $0.0894023 (+6.3%) | $0.0814489 (-3.2%) | 21:00 12-Nov |
+| 2 | **DODO** | 4.0/10 | Avoid - watch only | Very high | $0.02773 | $0.029868 (+7.7%) | $0.0264737 (-4.5%) | 21:00 12-Nov |
+| 3 | **GRAM** | 2.7/10 | Avoid - watch only | Medium | $1.14 | $1.19 (+3.7%) | $1.12 (-1.8%) | 21:00 12-Nov |
+| 4 | **CYBER** | 2.4/10 | Avoid - watch only | High | $0.252 | $0.265668 (+5.4%) | $0.245166 (-2.7%) | 21:00 12-Nov |
+| 5 | **PARTI** | 2.3/10 | Avoid - watch only | Medium | $0.0361 | $0.0373573 (+3.5%) | $0.0354714 (-1.7%) | 21:00 12-Nov |
 
-- **ERA:** Buyers have been more eager than sellers over the last 30 minutes (53% of trades were buys). It is bouncing up from near its lowest price of the last 14 hours.
-- **DODO:** It did 3.3% better than Bitcoin over the last 2 hours. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Trading activity is 2.4x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **ZEC:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **ERA:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **DODO:** Buyers have been more eager than sellers over the last 30 minutes (65% of trades were buys). Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Trading activity is 1.7x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **GRAM:** Trading activity is 2.2x higher than usual, so people are paying attention to it. Buyers have been more eager than sellers over the last 30 minutes (54% of trades were buys). It is bouncing up from near its lowest price of the last 14 hours.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (6% of 108 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (4% of 106 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **WLFI** | 5.1/10 | Weak | Medium | $0.0477 | $0.0506485 (+6.2%) | $0.0462257 (-3.1%) | 22:45 12-Nov |
-| 2 | **STX** | 4.8/10 | Avoid - watch only | Medium | $0.2855 | $0.300935 (+5.4%) | $0.277783 (-2.7%) | 22:45 12-Nov |
-| 3 | **GRAM** | 4.1/10 | Avoid - watch only | Medium | $1.18 | $1.26 (+6.9%) | $1.14 (-3.4%) | 22:45 12-Nov |
-| 4 | **ERA** | 4.0/10 | Avoid - watch only | Very high | $0.0839 | $0.0970374 (+15.7%) | $0.0773313 (-7.8%) | 22:45 12-Nov |
-| 5 | **ZRO** | 3.9/10 | Avoid - watch only | Medium | $1.50 | $1.58 (+5.0%) | $1.47 (-2.5%) | 22:45 12-Nov |
+| 1 | **WLFI** | 5.1/10 | Weak | Medium | $0.0475 | $0.0501908 (+5.7%) | $0.0458182 (-3.5%) | 00:00 13-Nov |
+| 2 | **PSG** | 4.7/10 | Avoid - watch only | Very high | $0.336 | $0.380272 (+13.2%) | $0.313864 (-6.6%) | 00:00 13-Nov |
+| 3 | **ERA** | 4.5/10 | Avoid - watch only | Very high | $0.0841 | $0.0966862 (+15.0%) | $0.0778069 (-7.5%) | 00:00 13-Nov |
+| 4 | **MEGA** | 4.5/10 | Avoid - watch only | High | $0.0459 | $0.0498579 (+8.6%) | $0.043921 (-4.3%) | 00:00 13-Nov |
+| 5 | **TRX** | 3.5/10 | Avoid - watch only | Low | $0.3159 | $0.322218 (+2.0%) | $0.312741 (-1.0%) | 00:00 13-Nov |
 
-- **WLFI:** Buyers have been more eager than sellers over the last 1.5 hours (55% of trades were buys). Trading activity is 2.5x higher than usual, so people are paying attention to it. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **STX:** Trading activity is 1.9x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **GRAM:** Trading activity is 1.8x higher than usual, so people are paying attention to it.
+- **WLFI:** Trading activity is 2.5x higher than usual, so people are paying attention to it. It is close to its highest price of the last 42 hours. A breakout is possible. It did 1.1% better than Bitcoin over the last 6 hours. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **PSG:** Buyers have been more eager than sellers over the last 1.5 hours (55% of trades were buys). Trading activity is 4.1x higher than usual, so people are paying attention to it. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **ERA:** The model sees a slightly better-than-usual pattern, with no single strong reason.
 
 ## Day: exit within 24 hours
 
-Market mood: **Mixed** (52% of 108 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Mixed** (38% of 106 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **OPG** | 6.9/10 | Strong | Very high | $0.1393 | $0.164219 (+17.9%) | $0.12684 (-8.9%) | 18:00 13-Nov |
-| 2 | **MARSCOIN** | 6.8/10 | Strong | High | $0.039 | $0.0433328 (+11.1%) | $0.0368336 (-5.6%) | 18:00 13-Nov |
-| 3 | **PEPE** | 6.7/10 | Strong | High | $4.36e-06 | $4.85616e-06 (+11.4%) | $4.11192e-06 (-5.7%) | 18:00 13-Nov |
-| 4 | **BANANAS31** | 6.6/10 | Strong | High | $0.004734 | $0.00534256 (+12.9%) | $0.00442972 (-6.4%) | 18:00 13-Nov |
-| 5 | **UNI** | 6.4/10 | Moderate | Medium | $6.00 | $6.51 (+8.7%) | $5.74 (-4.3%) | 18:00 13-Nov |
+| 1 | **BANANAS31** | 8.0/10 | Strong | High | $0.004941 | $0.0057067 (+15.5%) | $0.00455815 (-7.7%) | 20:00 13-Nov |
+| 2 | **PSG** | 7.8/10 | Strong | Very high | $0.336 | $0.401606 (+19.5%) | $0.303197 (-9.8%) | 20:00 13-Nov |
+| 3 | **GRAM** | 6.8/10 | Strong | Very high | $1.14 | $1.35 (+18.3%) | $1.04 (-9.2%) | 20:00 13-Nov |
+| 4 | **OPG** | 6.5/10 | Strong | Very high | $0.1395 | $0.163807 (+17.4%) | $0.127347 (-8.7%) | 20:00 13-Nov |
+| 5 | **BNB** | 6.5/10 | Strong | Low | $655.90 | $679.81 (+3.6%) | $643.95 (-1.8%) | 20:00 13-Nov |
 
-- **OPG:** Buyers have been more eager than sellers over the last 6 hours (55% of trades were buys). Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Trading activity is 1.9x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin.
-- **MARSCOIN:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin.
-- **PEPE:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin.
+- **BANANAS31:** Buyers have been more eager than sellers over the last 6 hours (55% of trades were buys). Trading activity is 3.8x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin.
+- **PSG:** It did 5.7% better than Bitcoin over the last 24 hours. Trading activity is 2.8x higher than usual, so people are paying attention to it. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin.
+- **GRAM:** Trading activity is 2.2x higher than usual, so people are paying attention to it. Buyers have been more eager than sellers over the last 6 hours (52% of trades were buys). ⚠️ Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 4698 | 40% | -0.30% | -0.25% |
-| Short: exit within 4 hours | 4768 | 40% | -0.37% | -0.32% |
-| Day: exit within 24 hours | 4465 | 36% | -0.65% | -0.45% |
+| Quick: exit within 1 hour | 4705 | 40% | -0.30% | -0.25% |
+| Short: exit within 4 hours | 4775 | 40% | -0.37% | -0.32% |
+| Day: exit within 24 hours | 4475 | 36% | -0.65% | -0.46% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
