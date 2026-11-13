@@ -1,4 +1,4 @@
-# Trade ideas: 2026-11-13 18:29 UTC
+# Trade ideas: 2026-11-13 19:27 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -10,46 +10,46 @@ Market mood: **Unfavourable** (0% of 126 coins look positive). If it says *Unfav
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **BARD** | 3.3/10 | Avoid - watch only | Very high | $0.1474 | $0.16214 (+10.0%) | $0.14003 (-5.0%) | 19:25 13-Nov |
-| 2 | **SOPH** | 3.1/10 | Avoid - watch only | Very high | $0.00183 | $0.002013 (+10.0%) | $0.0017385 (-5.0%) | 19:25 13-Nov |
-| 3 | **BMT** | 3.1/10 | Avoid - watch only | Very high | $0.02334 | $0.0252559 (+8.2%) | $0.0223821 (-4.1%) | 19:25 13-Nov |
-| 4 | **NEXO** | 2.7/10 | Avoid - watch only | Very high | $0.712 | $0.762651 (+7.1%) | $0.686674 (-3.6%) | 19:25 13-Nov |
-| 5 | **STO** | 2.5/10 | Avoid - watch only | Very high | $0.0298 | $0.03278 (+10.0%) | $0.02831 (-5.0%) | 19:25 13-Nov |
+| 1 | **SOPH** | 3.1/10 | Avoid - watch only | Very high | $0.00177 | $0.001947 (+10.0%) | $0.0016815 (-5.0%) | 20:25 13-Nov |
+| 2 | **OSMO** | 2.9/10 | Avoid - watch only | Very high | $0.0369 | $0.0401012 (+8.7%) | $0.0352994 (-4.3%) | 20:25 13-Nov |
+| 3 | **NEXO** | 2.9/10 | Avoid - watch only | High | $0.712 | $0.753159 (+5.8%) | $0.69142 (-2.9%) | 20:25 13-Nov |
+| 4 | **BARD** | 2.7/10 | Avoid - watch only | Very high | $0.1348 | $0.14828 (+10.0%) | $0.12806 (-5.0%) | 20:25 13-Nov |
+| 5 | **BMT** | 2.2/10 | Avoid - watch only | Very high | $0.02305 | $0.0246265 (+6.8%) | $0.0222617 (-3.4%) | 20:25 13-Nov |
 
-- **BARD:** Buyers have been more eager than sellers over the last 30 minutes (59% of trades were buys).
-- **SOPH:** Trading activity is 1.7x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **BMT:** Buyers have been more eager than sellers over the last 30 minutes (53% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **SOPH:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **OSMO:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **NEXO:** Trading activity is 2.0x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (0% of 126 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (2% of 126 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **BARD** | 4.4/10 | Avoid - watch only | Very high | $0.1499 | $0.173884 (+16.0%) | $0.137908 (-8.0%) | 22:15 13-Nov |
-| 2 | **BMT** | 4.3/10 | Avoid - watch only | Very high | $0.02349 | $0.0272484 (+16.0%) | $0.0216108 (-8.0%) | 22:15 13-Nov |
-| 3 | **ENA** | 4.2/10 | Avoid - watch only | Medium | $0.1358 | $0.143621 (+5.8%) | $0.13189 (-2.9%) | 22:15 13-Nov |
-| 4 | **NEXO** | 4.1/10 | Avoid - watch only | Very high | $0.713 | $0.789749 (+10.8%) | $0.674625 (-5.4%) | 22:15 13-Nov |
-| 5 | **SOPH** | 3.8/10 | Avoid - watch only | Very high | $0.00185 | $0.002146 (+16.0%) | $0.001702 (-8.0%) | 22:15 13-Nov |
+| 1 | **BARD** | 5.5/10 | Weak | Very high | $0.1333 | $0.154628 (+16.0%) | $0.122636 (-8.0%) | 23:15 13-Nov |
+| 2 | **BMT** | 4.7/10 | Avoid - watch only | Very high | $0.02329 | $0.0269337 (+15.6%) | $0.0214681 (-7.8%) | 23:15 13-Nov |
+| 3 | **SOPH** | 4.6/10 | Avoid - watch only | Very high | $0.00177 | $0.0020532 (+16.0%) | $0.0016284 (-8.0%) | 23:15 13-Nov |
+| 4 | **NEXO** | 4.3/10 | Avoid - watch only | High | $0.712 | $0.783003 (+10.0%) | $0.676499 (-5.0%) | 23:15 13-Nov |
+| 5 | **GRT** | 3.8/10 | Avoid - watch only | High | $0.01751 | $0.018798 (+7.4%) | $0.016866 (-3.7%) | 23:15 13-Nov |
 
-- **BARD:** Buyers have been more eager than sellers over the last 1.5 hours (57% of trades were buys). Trading activity is 1.8x higher than usual, so people are paying attention to it.
-- **BMT:** It did 5.7% better than Bitcoin over the last 6 hours. Trading activity is 3.6x higher than usual, so people are paying attention to it. Buyers have been more eager than sellers over the last 1.5 hours (52% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **ENA:** Buyers have been more eager than sellers over the last 1.5 hours (54% of trades were buys). Trading activity is 1.6x higher than usual, so people are paying attention to it.
+- **BARD:** Buyers have been more eager than sellers over the last 1.5 hours (54% of trades were buys).
+- **BMT:** Trading activity is 3.0x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **SOPH:** Trading activity is 3.4x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Day: exit within 24 hours
 
-Market mood: **Mixed** (46% of 126 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Mixed** (44% of 126 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **BAT** | 5.9/10 | Moderate | High | $0.1116 | $0.126837 (+13.7%) | $0.103981 (-6.8%) | 18:00 14-Nov |
-| 2 | **BANANAS31** | 5.1/10 | Weak | Very high | $0.003972 | $0.00473743 (+19.3%) | $0.00358929 (-9.6%) | 18:00 14-Nov |
-| 3 | **UNI** | 4.8/10 | Avoid - watch only | High | $5.76 | $6.37 (+10.6%) | $5.45 (-5.3%) | 18:00 14-Nov |
-| 4 | **0G** | 4.8/10 | Avoid - watch only | High | $0.1568 | $0.175928 (+12.2%) | $0.147236 (-6.1%) | 18:00 14-Nov |
-| 5 | **ENA** | 4.7/10 | Avoid - watch only | High | $0.1365 | $0.150895 (+10.5%) | $0.129303 (-5.3%) | 18:00 14-Nov |
+| 1 | **BANANAS31** | 5.6/10 | Moderate | Very high | $0.004005 | $0.00477195 (+19.1%) | $0.00362152 (-9.6%) | 19:00 14-Nov |
+| 2 | **ONE** | 5.4/10 | Weak | Very high | $0.001443 | $0.00173206 (+20.0%) | $0.00129847 (-10.0%) | 19:00 14-Nov |
+| 3 | **UNI** | 5.2/10 | Weak | High | $5.82 | $6.45 (+10.7%) | $5.48 (-5.8%) | 19:00 14-Nov |
+| 4 | **HAEDAL** | 5.0/10 | Weak | Very high | $0.02216 | $0.0256949 (+16.0%) | $0.0203926 (-8.0%) | 19:00 14-Nov |
+| 5 | **RE** | 5.0/10 | Weak | High | $0.2542 | $0.285591 (+12.3%) | $0.238504 (-6.2%) | 19:00 14-Nov |
 
-- **BAT:** Trading activity is 1.6x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **BANANAS31:** Trading activity is 3.5x higher than usual, so people are paying attention to it. Buyers have been more eager than sellers over the last 6 hours (54% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **BANANAS31:** Trading activity is 3.4x higher than usual, so people are paying attention to it. Buyers have been more eager than sellers over the last 6 hours (54% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ONE:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 - **UNI:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ---
@@ -57,8 +57,8 @@ Market mood: **Mixed** (46% of 126 coins look positive). If it says *Unfavourabl
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 4825 | 40% | -0.28% | -0.25% |
-| Short: exit within 4 hours | 4892 | 40% | -0.36% | -0.32% |
+| Quick: exit within 1 hour | 4830 | 40% | -0.28% | -0.25% |
+| Short: exit within 4 hours | 4895 | 40% | -0.36% | -0.32% |
 | Day: exit within 24 hours | 4594 | 36% | -0.70% | -0.49% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
