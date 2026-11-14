@@ -1,4 +1,4 @@
-# Trade ideas: 2026-11-14 22:12 UTC
+# Trade ideas: 2026-11-14 22:28 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -10,31 +10,31 @@ Market mood: **Unfavourable** (0% of 150 coins look positive). If it says *Unfav
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ASTER** | 2.3/10 | Avoid - watch only | Very high | $0.4956 | $0.54516 (+10.0%) | $0.47082 (-5.0%) | 23:10 14-Nov |
-| 2 | **STO** | 2.2/10 | Avoid - watch only | High | $0.0229 | $0.0242829 (+6.0%) | $0.0222086 (-3.0%) | 23:10 14-Nov |
-| 3 | **LUNC** | 2.1/10 | Avoid - watch only | High | $3.297e-05 | $3.45146e-05 (+4.7%) | $3.21977e-05 (-2.3%) | 23:10 14-Nov |
-| 4 | **INJ** | 2.0/10 | Avoid - watch only | High | $6.79 | $7.15 (+5.4%) | $6.61 (-2.7%) | 23:10 14-Nov |
-| 5 | **FIL** | 2.0/10 | Avoid - watch only | Medium | $0.6053 | $0.631127 (+4.3%) | $0.592386 (-2.1%) | 23:10 14-Nov |
+| 1 | **ASTER** | 3.3/10 | Avoid - watch only | Very high | $0.5005 | $0.55055 (+10.0%) | $0.475475 (-5.0%) | 23:25 14-Nov |
+| 2 | **MEGA** | 2.3/10 | Avoid - watch only | Very high | $0.04452 | $0.0480768 (+8.0%) | $0.0427416 (-4.0%) | 23:25 14-Nov |
+| 3 | **STO** | 2.2/10 | Avoid - watch only | High | $0.0231 | $0.0244406 (+5.8%) | $0.0224297 (-2.9%) | 23:25 14-Nov |
+| 4 | **INJ** | 2.2/10 | Avoid - watch only | High | $6.93 | $7.33 (+5.8%) | $6.73 (-2.9%) | 23:25 14-Nov |
+| 5 | **NEXO** | 2.1/10 | Avoid - watch only | High | $0.658 | $0.68869 (+4.7%) | $0.642655 (-2.3%) | 23:25 14-Nov |
 
-- **ASTER:** Trading activity is 3.2x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **STO:** Trading activity is 1.8x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **LUNC:** Trading activity is 2.5x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ASTER:** Trading activity is 2.5x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MEGA:** It did 6.6% better than Bitcoin over the last 2 hours. Trading activity is 3.1x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **STO:** Trading activity is 2.0x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (13% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (5% of 150 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **DODO** | 3.8/10 | Avoid - watch only | Very high | $0.03114 | $0.0351472 (+12.9%) | $0.0291364 (-6.4%) | 02:00 15-Nov |
-| 2 | **LTC** | 3.3/10 | Avoid - watch only | Medium | $44.31 | $46.51 (+5.0%) | $43.21 (-2.5%) | 02:00 15-Nov |
-| 3 | **USUAL** | 3.2/10 | Avoid - watch only | High | $0.01035 | $0.0111973 (+8.2%) | $0.00992634 (-4.1%) | 02:00 15-Nov |
-| 4 | **GPS** | 3.2/10 | Avoid - watch only | Very high | $0.00767 | $0.00855394 (+11.5%) | $0.00722803 (-5.8%) | 02:00 15-Nov |
-| 5 | **QNT** | 3.1/10 | Avoid - watch only | High | $142.55 | $153.65 (+7.8%) | $137.00 (-3.9%) | 02:00 15-Nov |
+| 1 | **DODO** | 3.6/10 | Avoid - watch only | Very high | $0.0313 | $0.0352592 (+12.6%) | $0.0293204 (-6.3%) | 02:15 15-Nov |
+| 2 | **GPS** | 3.3/10 | Avoid - watch only | Very high | $0.00772 | $0.00859597 (+11.3%) | $0.00728201 (-5.7%) | 02:15 15-Nov |
+| 3 | **MEGA** | 3.3/10 | Avoid - watch only | Very high | $0.04464 | $0.0499 (+11.8%) | $0.0419791 (-6.0%) | 02:15 15-Nov |
+| 4 | **QNT** | 3.2/10 | Avoid - watch only | High | $144.45 | $156.05 (+8.0%) | $138.33 (-4.2%) | 02:15 15-Nov |
+| 5 | **USUAL** | 3.1/10 | Avoid - watch only | High | $0.01022 | $0.0110585 (+8.2%) | $0.00980073 (-4.1%) | 02:15 15-Nov |
 
-- **DODO:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **LTC:** Trading activity is 1.8x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **USUAL:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **DODO:** It did 1.8% better than Bitcoin over the last 6 hours. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **GPS:** Buyers have been more eager than sellers over the last 1.5 hours (57% of trades were buys). Trading activity is 5.0x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MEGA:** Trading activity is 2.5x higher than usual, so people are paying attention to it. It did 1.6% better than Bitcoin over the last 6 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
