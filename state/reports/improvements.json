@@ -1,5 +1,164 @@
 [
  {
+  "date": "2026-11-14 02:48",
+  "notes": [
+   "Quick: tested 4 model settings on the most recent data they had never seen. Kept/chose 'base' (a challenger must beat the standard setting by 0.05% per idea to replace it): its top-5 picks beat the average coin by -0.06% per idea there (45% of the time). None of the settings beat random picks, so treat this speed with extra caution.",
+   "Short: tested 4 model settings on the most recent data they had never seen. Kept/chose 'base' (a challenger must beat the standard setting by 0.05% per idea to replace it): its top-5 picks beat the average coin by +0.07% per idea there (51% of the time).",
+   "Day: tested 4 model settings on the most recent data they had never seen. Kept/chose 'simpler' (a challenger must beat the standard setting by 0.05% per idea to replace it): its top-5 picks beat the average coin by +0.88% per idea there (75% of the time).",
+   "Fake-signal check 'walls': after 579 flagged ideas, its weight moved from 0.15 to 0.05 based on how flagged ideas actually did.",
+   "Fake-signal check 'thin_book': after 3709 flagged ideas, its weight moved from 0.05 to 0.02 based on how flagged ideas actually did.",
+   "Fake-signal check 'wash': after 114 flagged ideas, its weight moved from 0.10 to 0.03 based on how flagged ideas actually did.",
+   "Fake-signal check 'impact': after 135 flagged ideas, its weight moved from 0.10 to 0.07 based on how flagged ideas actually did.",
+   "Fake-signal check 'venues': after 198 flagged ideas, its weight moved from 0.15 to 0.14 based on how flagged ideas actually did.",
+   "Fake-signal check 'whale': after 8 flagged ideas, its weight moved from 0.05 to 0.07 based on how flagged ideas actually did.",
+   "Fake-signal check 'engineered': after 1210 flagged ideas, its weight moved from 0.10 to 0.02 based on how flagged ideas actually did.",
+   "Quick is on probation: its last 50 ideas did -0.59% vs random picks. Its scores are lowered until it recovers.",
+   "Short is on probation: its last 50 ideas did -0.12% vs random picks. Its scores are lowered until it recovers.",
+   "Day is on probation: its last 50 ideas did -5.24% vs random picks. Its scores are lowered until it recovers.",
+   "Bait monitor: No sign that our ideas are being used as bait."
+  ],
+  "model_selection": {
+   "quick": {
+    "winner": "base",
+    "tested_on": "2026-11-12 12:25:00+00:00 onwards (never seen in training)",
+    "results": {
+     "base": {
+      "top5_excess": -0.00059,
+      "top5_beat_market": 0.451,
+      "train_rows": 172510
+     },
+     "simpler": {
+      "top5_excess": -0.00016,
+      "top5_beat_market": 0.464,
+      "train_rows": 172510
+     },
+     "richer": {
+      "top5_excess": -0.00036,
+      "top5_beat_market": 0.469,
+      "train_rows": 172510
+     },
+     "recent-only": {
+      "top5_excess": -0.00018,
+      "top5_beat_market": 0.47,
+      "train_rows": 86320
+     }
+    },
+    "beats_random": false
+   },
+   "short": {
+    "winner": "base",
+    "tested_on": "2026-11-10 14:15:00+00:00 onwards (never seen in training)",
+    "results": {
+     "base": {
+      "top5_excess": 0.00072,
+      "top5_beat_market": 0.509,
+      "train_rows": 122850
+     },
+     "simpler": {
+      "top5_excess": 0.00121,
+      "top5_beat_market": 0.514,
+      "train_rows": 122850
+     },
+     "richer": {
+      "top5_excess": -0.00015,
+      "top5_beat_market": 0.503,
+      "train_rows": 122850
+     },
+     "recent-only": {
+      "top5_excess": 0.00044,
+      "top5_beat_market": 0.49,
+      "train_rows": 61490
+     }
+    },
+    "beats_random": true
+   },
+   "day": {
+    "winner": "simpler",
+    "tested_on": "2026-11-04 23:00:00+00:00 onwards (never seen in training)",
+    "results": {
+     "base": {
+      "top5_excess": 0.00738,
+      "top5_beat_market": 0.707,
+      "train_rows": 72043
+     },
+     "simpler": {
+      "top5_excess": 0.00877,
+      "top5_beat_market": 0.746,
+      "train_rows": 72043
+     },
+     "richer": {
+      "top5_excess": 0.00581,
+      "top5_beat_market": 0.691,
+      "train_rows": 72043
+     },
+     "recent-only": {
+      "top5_excess": 0.00552,
+      "top5_beat_market": 0.676,
+      "train_rows": 36140
+     }
+    },
+    "beats_random": true
+   }
+  },
+  "check_penalties": {
+   "walls": {
+    "penalty": 0.0505,
+    "n_failed": 579,
+    "learned": 0.0419
+   },
+   "thin_book": {
+    "penalty": 0.02,
+    "n_failed": 3709,
+    "learned": 0.0009
+   },
+   "wash": {
+    "penalty": 0.0305,
+    "n_failed": 114,
+    "learned": 0.0
+   },
+   "impact": {
+    "penalty": 0.0681,
+    "n_failed": 135,
+    "learned": 0.0563
+   },
+   "venues": {
+    "penalty": 0.1363,
+    "n_failed": 198,
+    "learned": 0.1328
+   },
+   "whale": {
+    "penalty": 0.0725,
+    "n_failed": 8,
+    "learned": 0.2128
+   },
+   "engineered": {
+    "penalty": 0.02,
+    "n_failed": 1210,
+    "learned": 0.0
+   }
+  },
+  "probation": {
+   "quick": {
+    "active": true,
+    "n": 50,
+    "avg_vs_random": -0.00586,
+    "penalty": 0.1
+   },
+   "short": {
+    "active": true,
+    "n": 50,
+    "avg_vs_random": -0.00116,
+    "penalty": 0.1
+   },
+   "day": {
+    "active": true,
+    "n": 50,
+    "avg_vs_random": -0.05243,
+    "penalty": 0.1
+   }
+  }
+ },
+ {
   "date": "2026-11-13 09:41",
   "notes": [
    "Quick: tested 4 model settings on the most recent data they had never seen. Kept/chose 'base' (a challenger must beat the standard setting by 0.05% per idea to replace it): its top-5 picks beat the average coin by +0.02% per idea there (49% of the time).",
@@ -9226,162 +9385,6 @@
     "active": true,
     "n": 50,
     "avg_vs_random": -0.02257,
-    "penalty": 0.1
-   }
-  }
- },
- {
-  "date": "2026-10-15 02:41",
-  "notes": [
-   "Quick: tested 4 model settings on the most recent data they had never seen. Kept/chose 'base' (a challenger must beat the standard setting by 0.05% per idea to replace it): its top-5 picks beat the average coin by -0.01% per idea there (49% of the time). None of the settings beat random picks, so treat this speed with extra caution.",
-   "Short: tested 4 model settings on the most recent data they had never seen. Kept/chose 'simpler' (a challenger must beat the standard setting by 0.05% per idea to replace it): its top-5 picks beat the average coin by -0.04% per idea there (47% of the time). None of the settings beat random picks, so treat this speed with extra caution.",
-   "Day: tested 4 model settings on the most recent data they had never seen. Kept/chose 'richer' (a challenger must beat the standard setting by 0.05% per idea to replace it): its top-5 picks beat the average coin by -0.12% per idea there (38% of the time). None of the settings beat random picks, so treat this speed with extra caution.",
-   "Fake-signal check 'thin_book': after 533 flagged ideas, its weight moved from 0.05 to 0.02 based on how flagged ideas actually did.",
-   "Fake-signal check 'wash': after 15 flagged ideas, its weight moved from 0.10 to 0.12 based on how flagged ideas actually did.",
-   "Fake-signal check 'impact': after 19 flagged ideas, its weight moved from 0.10 to 0.07 based on how flagged ideas actually did.",
-   "Fake-signal check 'venues': after 5 flagged ideas, its weight moved from 0.15 to 0.14 based on how flagged ideas actually did.",
-   "Fake-signal check 'engineered': after 54 flagged ideas, its weight moved from 0.10 to 0.13 based on how flagged ideas actually did.",
-   "Quick is on probation: its last 50 ideas did -0.09% vs random picks. Its scores are lowered until it recovers.",
-   "Day is on probation: its last 50 ideas did -3.10% vs random picks. Its scores are lowered until it recovers.",
-   "Bait monitor: No sign that our ideas are being used as bait."
-  ],
-  "model_selection": {
-   "quick": {
-    "winner": "base",
-    "tested_on": "2026-10-13 12:15:00+00:00 onwards (never seen in training)",
-    "results": {
-     "base": {
-      "top5_excess": -0.00015,
-      "top5_beat_market": 0.488,
-      "train_rows": 197723
-     },
-     "simpler": {
-      "top5_excess": 0.00025,
-      "top5_beat_market": 0.512,
-      "train_rows": 197723
-     },
-     "richer": {
-      "top5_excess": -0.00045,
-      "top5_beat_market": 0.476,
-      "train_rows": 197723
-     },
-     "recent-only": {
-      "top5_excess": -0.0,
-      "top5_beat_market": 0.515,
-      "train_rows": 98936
-     }
-    },
-    "beats_random": false
-   },
-   "short": {
-    "winner": "simpler",
-    "tested_on": "2026-10-11 14:00:00+00:00 onwards (never seen in training)",
-    "results": {
-     "base": {
-      "top5_excess": -0.00114,
-      "top5_beat_market": 0.469,
-      "train_rows": 140805
-     },
-     "simpler": {
-      "top5_excess": -0.0004,
-      "top5_beat_market": 0.471,
-      "train_rows": 140805
-     },
-     "richer": {
-      "top5_excess": -0.00158,
-      "top5_beat_market": 0.458,
-      "train_rows": 140805
-     },
-     "recent-only": {
-      "top5_excess": -0.00166,
-      "top5_beat_market": 0.464,
-      "train_rows": 70477
-     }
-    },
-    "beats_random": false
-   },
-   "day": {
-    "winner": "richer",
-    "tested_on": "2026-10-05 23:00:00+00:00 onwards (never seen in training)",
-    "results": {
-     "base": {
-      "top5_excess": -0.00341,
-      "top5_beat_market": 0.392,
-      "train_rows": 82049
-     },
-     "simpler": {
-      "top5_excess": -0.00259,
-      "top5_beat_market": 0.393,
-      "train_rows": 82049
-     },
-     "richer": {
-      "top5_excess": -0.00117,
-      "top5_beat_market": 0.377,
-      "train_rows": 82049
-     },
-     "recent-only": {
-      "top5_excess": -0.00185,
-      "top5_beat_market": 0.394,
-      "train_rows": 41196
-     }
-    },
-    "beats_random": false
-   }
-  },
-  "check_penalties": {
-   "walls": {
-    "penalty": 0.1586,
-    "n_failed": 65,
-    "learned": 0.1652
-   },
-   "thin_book": {
-    "penalty": 0.02,
-    "n_failed": 533,
-    "learned": 0.0
-   },
-   "wash": {
-    "penalty": 0.1155,
-    "n_failed": 15,
-    "learned": 0.1672
-   },
-   "impact": {
-    "penalty": 0.0725,
-    "n_failed": 19,
-    "learned": 0.0
-   },
-   "venues": {
-    "penalty": 0.1364,
-    "n_failed": 5,
-    "learned": 0.0
-   },
-   "whale": {
-    "penalty": 0.05,
-    "n_failed": 0,
-    "learned": null
-   },
-   "engineered": {
-    "penalty": 0.1305,
-    "n_failed": 54,
-    "learned": 0.1587
-   }
-  },
-  "probation": {
-   "quick": {
-    "active": true,
-    "n": 50,
-    "avg_vs_random": -0.00094,
-    "penalty": 0.1
-   },
-   "short": {
-    "active": false,
-    "n": 50,
-    "avg_vs_random": 0.00341,
-    "penalty": 0.0
-   },
-   "day": {
-    "active": true,
-    "n": 50,
-    "avg_vs_random": -0.03103,
     "penalty": 0.1
    }
   }
