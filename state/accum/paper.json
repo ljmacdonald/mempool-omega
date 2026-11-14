@@ -1,6 +1,6 @@
 {
  "start": 100.0,
- "cash": 71.40842013051869,
+ "cash": 71.21664705640238,
  "positions": [
   {
    "key": "stealth:solana:Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ",
@@ -73,18 +73,18 @@
    "why": "one address net bought 0.841% of supply ($633,459) in 14 days: newly observed holder"
   },
   {
-   "key": "solana:9PR7nCP9DpcUotnDPVLUBUZKu5WAYkwrCUx9wDnSpump",
-   "symbol": "BAN",
+   "key": "solana:Xs78JED6PFZxWc2wCEPspZW9kL3Se5J7L5TChKgsidH",
+   "symbol": "STRCX",
    "chain": "solana",
-   "opened": "2026-11-13T05:47:24.017488+00:00",
-   "entry": 0.042603650498741,
-   "qty": 110.83544121724329,
-   "stop": 0.04120228486843923,
-   "target": 0.04540522934312155,
-   "cost": 4.746160383694665,
-   "fees": 0.024165983201479557,
-   "route": "A,B",
-   "why": "0.150% of supply ($69,292) net bought in swaps over 7 days, buying on 4 days; one address net bought 0.253% of supply ($118,545) in 14 days: newly observed holder"
+   "opened": "2026-11-14T09:02:11.343757+00:00",
+   "entry": 109.92384328352895,
+   "qty": 0.042774119186661456,
+   "stop": 104.86648822372018,
+   "target": 120.02249983785966,
+   "cost": 4.7260012607877595,
+   "fees": 0.02410568672219669,
+   "route": "B",
+   "why": "one address net bought 0.788% of supply ($962,488) in 14 days: newly observed holder"
   }
  ],
  "trades": [
@@ -1005,6 +1005,23 @@
    "fees": 0.04854080380435414,
    "pnl": -0.012168915866825003,
    "ret": -0.0025550286185824778
+  },
+  {
+   "key": "solana:9PR7nCP9DpcUotnDPVLUBUZKu5WAYkwrCUx9wDnSpump",
+   "symbol": "BAN",
+   "chain": "solana",
+   "opened": "2026-11-13T05:47:24.017488+00:00",
+   "entry": 0.042603650498741,
+   "qty": 110.83544121724329,
+   "stop": 0.04120228486843923,
+   "target": 0.04540522934312155,
+   "route": "A,B",
+   "closed": "2026-11-14T09:02:11.343757+00:00",
+   "exit": 0.04112314586409625,
+   "reason": "safety exit (invalidation level hit)",
+   "fees": 0.047839812618203276,
+   "pnl": -0.21193219702322708,
+   "ret": -0.04465339977791638
   }
  ],
  "decisions": [
@@ -2935,6 +2952,39 @@
     "risk": 0.15527980184532886,
     "impact": 9.016649985251277e-06,
     "costs_est": 0.048417119544442236,
+    "rr": 2.0
+   },
+   "rules": {
+    "risk_per_trade": 0.01,
+    "max_open_risk": 0.04,
+    "max_position": 0.05,
+    "min_rr": 2.0,
+    "dex_fee": 0.003,
+    "max_hold_d": 30
+   }
+  },
+  {
+   "t": "2026-11-14T09:02:11.343757+00:00",
+   "key": "solana:9PR7nCP9DpcUotnDPVLUBUZKu5WAYkwrCUx9wDnSpump",
+   "symbol": "BAN",
+   "action": "close",
+   "reason": "safety exit (invalidation level hit)"
+  },
+  {
+   "t": "2026-11-14T09:02:11.343757+00:00",
+   "key": "solana:Xs78JED6PFZxWc2wCEPspZW9kL3Se5J7L5TChKgsidH",
+   "symbol": "STRCX",
+   "action": "open",
+   "plan": {
+    "eligible": true,
+    "entry": 109.9184920951,
+    "stop": 104.86648822372018,
+    "target": 120.02249983785966,
+    "qty": 0.04277620156940968,
+    "notional": 4.701895574065563,
+    "risk": 0.2161055359315814,
+    "impact": 4.868324089012414e-05,
+    "costs_est": 0.04866918047413826,
     "rr": 2.0
    },
    "rules": {
