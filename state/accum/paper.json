@@ -1,6 +1,6 @@
 {
  "start": 100.0,
- "cash": 65.98936506372658,
+ "cash": 70.86540320413381,
  "positions": [
   {
    "key": "stealth:solana:Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ",
@@ -45,34 +45,6 @@
    "why": "2 addresses (2 probable owners) quietly bought 0.51% of the supply in small chunks since 2026-10-20, price +0.1% over 30 days"
   },
   {
-   "key": "solana:XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W",
-   "symbol": "SPYX",
-   "chain": "solana",
-   "opened": "2026-11-07T00:32:10.962324+00:00",
-   "entry": 740.1890188998456,
-   "qty": 0.006400115256443743,
-   "stop": 717.0949595286297,
-   "target": 786.3701748128404,
-   "cost": 4.761506917610567,
-   "fees": 0.024211885097539083,
-   "route": "B",
-   "why": "one address net bought 0.841% of supply ($633,459) in 14 days: newly observed holder"
-  },
-  {
-   "key": "solana:Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ",
-   "symbol": "QQQX",
-   "chain": "solana",
-   "opened": "2026-11-14T16:32:13.317858+00:00",
-   "entry": 672.6761108977187,
-   "qty": 0.00695039006061714,
-   "stop": 628.2892669208669,
-   "target": 761.4385249644662,
-   "cost": 4.699387439263691,
-   "fees": 0.02402608406559429,
-   "route": "A,B",
-   "why": "0.195% of supply ($141,142) net bought in swaps over 7 days, buying on 4 days; one address net bought 1.189% of supply ($869,415) in 14 days: newly observed holder"
-  },
-  {
    "key": "solana:BCNT4t3rv5Hva8RnUtJUJLnxzeFAabcYp8CghC1SmWin",
    "symbol": "BC",
    "chain": "solana",
@@ -99,6 +71,20 @@
    "fees": 0.024002584062073146,
    "route": "C",
    "why": ""
+  },
+  {
+   "key": "solana:XsP7xzNPvEHS1m6qfanPUGjNmdnmsLKEoNAnHjdxxyZ",
+   "symbol": "MSTRX",
+   "chain": "solana",
+   "opened": "2026-11-16T00:17:27.701405+00:00",
+   "entry": 101.65415133943101,
+   "qty": 0.04614559551387825,
+   "stop": 93.18479501003222,
+   "target": 118.58935966363555,
+   "cost": 4.7149640240659965,
+   "fees": 0.024072674050047843,
+   "route": "A,B",
+   "why": "0.320% of supply ($346,380) net bought in swaps over 7 days, buying on 4 days; one address net bought 0.638% of supply ($680,434) in 14 days: newly observed holder"
   }
  ],
  "trades": [
@@ -1087,6 +1073,40 @@
    "fees": 0.04803757657118987,
    "pnl": -0.09516694374547008,
    "ret": -0.020160020324936134
+  },
+  {
+   "key": "solana:XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W",
+   "symbol": "SPYX",
+   "chain": "solana",
+   "opened": "2026-11-07T00:32:10.962324+00:00",
+   "entry": 740.1890188998456,
+   "qty": 0.006400115256443743,
+   "stop": 717.0949595286297,
+   "target": 786.3701748128404,
+   "route": "B",
+   "closed": "2026-11-16T00:17:27.701405+00:00",
+   "exit": 762.4259030509623,
+   "reason": "state changed: accumulation weakening",
+   "fees": 0.048850783676484724,
+   "pnl": 0.09346783783484902,
+   "ret": 0.019629885969325356
+  },
+  {
+   "key": "solana:Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ",
+   "symbol": "QQQX",
+   "chain": "solana",
+   "opened": "2026-11-14T16:32:13.317858+00:00",
+   "entry": 672.6761108977187,
+   "qty": 0.00695039006061714,
+   "stop": 628.2892669208669,
+   "target": 761.4385249644662,
+   "route": "A,B",
+   "closed": "2026-11-16T00:17:27.701405+00:00",
+   "exit": 684.8980240503519,
+   "reason": "state changed: accumulation weakening",
+   "fees": 0.048307093933670935,
+   "pnl": 0.0366399697641171,
+   "ret": 0.007796754414838736
   }
  ],
  "decisions": [
@@ -3175,6 +3195,46 @@
     "risk": 0.1519648711219256,
     "impact": 3.197372038792643e-05,
     "costs_est": 0.04830364459581907,
+    "rr": 2.0
+   },
+   "rules": {
+    "risk_per_trade": 0.01,
+    "max_open_risk": 0.04,
+    "max_position": 0.05,
+    "min_rr": 2.0,
+    "dex_fee": 0.003,
+    "max_hold_d": 30
+   }
+  },
+  {
+   "t": "2026-11-16T00:17:27.701405+00:00",
+   "key": "solana:XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W",
+   "symbol": "SPYX",
+   "action": "close",
+   "reason": "state changed: accumulation weakening"
+  },
+  {
+   "t": "2026-11-16T00:17:27.701405+00:00",
+   "key": "solana:Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ",
+   "symbol": "QQQX",
+   "action": "close",
+   "reason": "state changed: accumulation weakening"
+  },
+  {
+   "t": "2026-11-16T00:17:27.701405+00:00",
+   "key": "solana:XsP7xzNPvEHS1m6qfanPUGjNmdnmsLKEoNAnHjdxxyZ",
+   "symbol": "MSTRX",
+   "action": "open",
+   "plan": {
+    "eligible": true,
+    "entry": 101.6529832279,
+    "stop": 93.18479501003222,
+    "target": 118.58935966363555,
+    "qty": 0.04614612578067922,
+    "notional": 4.690891350015948,
+    "risk": 0.39077407863619223,
+    "impact": 1.149116822663087e-05,
+    "costs_est": 0.04825315574336746,
     "rr": 2.0
    },
    "rules": {
