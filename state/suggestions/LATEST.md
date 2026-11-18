@@ -1,4 +1,4 @@
-# Trade ideas: 2026-11-18 21:13 UTC
+# Trade ideas: 2026-11-18 22:04 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (0% of 100 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (1% of 99 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ZKC** | 4.4/10 | Avoid - watch only | Very high | $0.0312 | $0.0339472 (+8.8%) | $0.0298264 (-4.4%) | 22:10 18-Nov |
-| 2 | **MMT** | 4.1/10 | Avoid - watch only | Very high | $0.2493 | $0.271255 (+8.8%) | $0.238322 (-4.4%) | 22:10 18-Nov |
-| 3 | **HUMA** | 3.3/10 | Avoid - watch only | Very high | $0.00848 | $0.00929461 (+9.6%) | $0.00807269 (-4.8%) | 22:10 18-Nov |
-| 4 | **HEI** | 2.5/10 | Avoid - watch only | Medium | $0.0845 | $0.0880738 (+4.2%) | $0.0827131 (-2.1%) | 22:10 18-Nov |
-| 5 | **BREV** | 2.2/10 | Avoid - watch only | Medium | $0.0851 | $0.0883313 (+3.8%) | $0.0834843 (-1.9%) | 22:10 18-Nov |
+| 1 | **MMT** | 5.3/10 | Weak | Very high | $0.2386 | $0.258659 (+8.4%) | $0.228571 (-4.2%) | 23:00 18-Nov |
+| 2 | **ZKC** | 4.5/10 | Avoid - watch only | Very high | $0.0307 | $0.0331321 (+7.9%) | $0.029484 (-4.0%) | 23:00 18-Nov |
+| 3 | **HUMA** | 3.1/10 | Avoid - watch only | Very high | $0.0086 | $0.00929128 (+8.0%) | $0.00825436 (-4.0%) | 23:00 18-Nov |
+| 4 | **ZKP** | 2.9/10 | Avoid - watch only | Medium | $0.0338 | $0.034925 (+3.3%) | $0.0332375 (-1.7%) | 23:00 18-Nov |
+| 5 | **SOPH** | 2.8/10 | Avoid - watch only | Very high | $0.00101 | $0.00109764 (+8.7%) | $0.000966182 (-4.3%) | 23:00 18-Nov |
 
-- **ZKC:** Momentum is healthy: not overheated, not collapsing.
-- **MMT:** Buyers have been more eager than sellers over the last 30 minutes (61% of trades were buys). Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. It did 1.4% better than Bitcoin over the last 2 hours.
-- **HUMA:** Buyers have been more eager than sellers over the last 30 minutes (58% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **MMT:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **ZKC:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **HUMA:** Buyers have been more eager than sellers over the last 30 minutes (59% of trades were buys). Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (4% of 100 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (5% of 99 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **BREV** | 5.8/10 | Moderate | Very high | $0.0856 | $0.099296 (+16.0%) | $0.078752 (-8.0%) | 01:00 19-Nov |
-| 2 | **OPG** | 5.6/10 | Moderate | High | $0.1366 | $0.147858 (+8.2%) | $0.130971 (-4.1%) | 01:00 19-Nov |
-| 3 | **ZKC** | 5.3/10 | Weak | Very high | $0.0311 | $0.036076 (+16.0%) | $0.028612 (-8.0%) | 01:00 19-Nov |
-| 4 | **STEEM** | 5.3/10 | Weak | High | $0.04266 | $0.0459222 (+7.6%) | $0.0410289 (-3.8%) | 01:00 19-Nov |
-| 5 | **MMT** | 4.6/10 | Avoid - watch only | Very high | $0.2484 | $0.288144 (+16.0%) | $0.228528 (-8.0%) | 01:00 19-Nov |
+| 1 | **BREV** | 7.3/10 | Strong | Very high | $0.0834 | $0.0959521 (+15.1%) | $0.077124 (-7.5%) | 02:00 19-Nov |
+| 2 | **MMT** | 6.1/10 | Moderate | Very high | $0.2386 | $0.276776 (+16.0%) | $0.219512 (-8.0%) | 02:00 19-Nov |
+| 3 | **CHIP** | 6.1/10 | Moderate | High | $0.02916 | $0.0312138 (+7.0%) | $0.0280274 (-3.9%) | 02:00 19-Nov |
+| 4 | **STEEM** | 6.1/10 | Moderate | High | $0.04275 | $0.0457705 (+7.1%) | $0.0412397 (-3.5%) | 02:00 19-Nov |
+| 5 | **ZKC** | 4.9/10 | Avoid - watch only | Very high | $0.0307 | $0.035612 (+16.0%) | $0.028244 (-8.0%) | 02:00 19-Nov |
 
-- **BREV:** Buyers have been more eager than sellers over the last 1.5 hours (55% of trades were buys).
-- **OPG:** Buyers have been more eager than sellers over the last 1.5 hours (64% of trades were buys). Trading activity is 2.3x higher than usual, so people are paying attention to it. It did 1.4% better than Bitcoin over the last 6 hours. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **ZKC:** It did 4.0% better than Bitcoin over the last 6 hours. Momentum is healthy: not overheated, not collapsing.
+- **BREV:** Buyers have been more eager than sellers over the last 1.5 hours (52% of trades were buys).
+- **MMT:** Buyers have been more eager than sellers over the last 1.5 hours (52% of trades were buys).
+- **CHIP:** Trading activity is 2.3x higher than usual, so people are paying attention to it. It did 2.2% better than Bitcoin over the last 6 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (19% of 100 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (17% of 99 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **RARE** | 6.6/10 | Strong | Very high | $0.01138 | $0.0141112 (+24.0%) | $0.00997 (-12.4%) | 21:00 19-Nov |
-| 2 | **BLUR** | 6.0/10 | Moderate | Very high | $0.00652 | $0.0075977 (+16.5%) | $0.00598115 (-8.3%) | 21:00 19-Nov |
-| 3 | **LUNC** | 5.3/10 | Weak | High | $3.965e-05 | $4.47188e-05 (+12.8%) | $3.71156e-05 (-6.4%) | 21:00 19-Nov |
-| 4 | **FF** | 5.1/10 | Weak | High | $0.09982 | $0.111306 (+11.5%) | $0.0940772 (-5.8%) | 21:00 19-Nov |
-| 5 | **DODO** | 5.1/10 | Weak | Medium | $0.03496 | $0.0375106 (+7.3%) | $0.0336847 (-3.6%) | 21:00 19-Nov |
+| 1 | **RARE** | 6.2/10 | Moderate | Very high | $0.0113 | $0.014012 (+24.0%) | $0.009944 (-12.0%) | 22:00 19-Nov |
+| 2 | **BLUR** | 5.9/10 | Moderate | Very high | $0.0065 | $0.00755406 (+16.2%) | $0.00597297 (-8.1%) | 22:00 19-Nov |
+| 3 | **DODO** | 5.2/10 | Weak | Medium | $0.03505 | $0.037557 (+7.2%) | $0.0337965 (-3.6%) | 22:00 19-Nov |
+| 4 | **ZIL** | 5.0/10 | Weak | Very high | $0.001066 | $0.00132184 (+24.0%) | $0.00093808 (-12.0%) | 22:00 19-Nov |
+| 5 | **PHA** | 4.9/10 | Avoid - watch only | High | $0.0302 | $0.0349005 (+15.6%) | $0.0278497 (-7.8%) | 22:00 19-Nov |
 
-- **RARE:** Buyers have been more eager than sellers over the last 6 hours (53% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **BLUR:** It did 6.3% better than Bitcoin over the last 24 hours. Buyers have been more eager than sellers over the last 6 hours (55% of trades were buys). Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **LUNC:** Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **RARE:** Buyers have been more eager than sellers over the last 6 hours (56% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin.
+- **BLUR:** It did 8.6% better than Bitcoin over the last 24 hours. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Buyers have been more eager than sellers over the last 6 hours (53% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin.
+- **DODO:** It did 4.8% better than Bitcoin over the last 24 hours. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 5455 | 40% | -0.29% | -0.26% |
-| Short: exit within 4 hours | 5523 | 39% | -0.40% | -0.34% |
-| Day: exit within 24 hours | 5199 | 36% | -0.74% | -0.46% |
+| Quick: exit within 1 hour | 5457 | 40% | -0.29% | -0.26% |
+| Short: exit within 4 hours | 5528 | 39% | -0.40% | -0.34% |
+| Day: exit within 24 hours | 5203 | 36% | -0.74% | -0.46% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
