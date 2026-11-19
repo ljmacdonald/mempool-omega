@@ -1,4 +1,4 @@
-# Trade ideas: 2026-11-19 20:12 UTC
+# Trade ideas: 2026-11-19 21:11 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (0% of 103 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (0% of 107 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **MMT** | 2.9/10 | Avoid - watch only | Very high | $0.2766 | $0.30426 (+10.0%) | $0.26277 (-5.0%) | 21:10 19-Nov |
-| 2 | **YB** | 2.1/10 | Avoid - watch only | Very high | $0.0551 | $0.06061 (+10.0%) | $0.052345 (-5.0%) | 21:10 19-Nov |
-| 3 | **SKY** | 1.9/10 | Avoid - watch only | Very high | $0.04591 | $0.050501 (+10.0%) | $0.0436145 (-5.0%) | 21:10 19-Nov |
-| 4 | **HYPE** | 1.9/10 | Avoid - watch only | Medium | $67.24 | $69.13 (+2.8%) | $66.29 (-1.4%) | 21:10 19-Nov |
-| 5 | **SOPH** | 1.8/10 | Avoid - watch only | Very high | $0.001 | $0.0010659 (+6.6%) | $0.000967051 (-3.3%) | 21:10 19-Nov |
+| 1 | **MMT** | 3.3/10 | Avoid - watch only | Very high | $0.2689 | $0.29579 (+10.0%) | $0.255455 (-5.0%) | 22:05 19-Nov |
+| 2 | **YB** | 2.4/10 | Avoid - watch only | Very high | $0.053 | $0.0583 (+10.0%) | $0.05035 (-5.0%) | 22:05 19-Nov |
+| 3 | **SAPIEN** | 2.1/10 | Avoid - watch only | High | $0.03981 | $0.0422437 (+6.1%) | $0.0385931 (-3.1%) | 22:05 19-Nov |
+| 4 | **BREV** | 1.8/10 | Avoid - watch only | High | $0.077 | $0.0813094 (+5.6%) | $0.0748453 (-2.8%) | 22:05 19-Nov |
+| 5 | **RARE** | 1.8/10 | Avoid - watch only | Very high | $0.01422 | $0.015642 (+10.0%) | $0.013509 (-5.0%) | 22:05 19-Nov |
 
 - **MMT:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 - **YB:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **SKY:** It did 13.0% better than Bitcoin over the last 2 hours. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Trading activity is 2.0x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **SAPIEN:** Trading activity is 1.5x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (17% of 103 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (10% of 107 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ENA** | 5.7/10 | Moderate | Medium | $0.1064 | $0.112104 (+5.4%) | $0.103548 (-2.7%) | 00:00 20-Nov |
-| 2 | **ZEC** | 4.5/10 | Avoid - watch only | Medium | $903.83 | $945.20 (+4.6%) | $883.15 (-2.3%) | 00:00 20-Nov |
-| 3 | **AAVE** | 3.9/10 | Avoid - watch only | Medium | $105.38 | $110.05 (+4.4%) | $103.05 (-2.2%) | 00:00 20-Nov |
-| 4 | **YB** | 3.3/10 | Avoid - watch only | Very high | $0.0576 | $0.066816 (+16.0%) | $0.052992 (-8.0%) | 00:00 20-Nov |
-| 5 | **APT** | 3.3/10 | Avoid - watch only | Medium | $0.4196 | $0.439688 (+4.8%) | $0.409556 (-2.4%) | 00:00 20-Nov |
+| 1 | **TLM** | 5.1/10 | Weak | Very high | $0.000974 | $0.0010902 (+11.9%) | $0.000915902 (-6.0%) | 01:00 20-Nov |
+| 2 | **ENA** | 3.8/10 | Avoid - watch only | Medium | $0.1053 | $0.11089 (+5.3%) | $0.102505 (-2.7%) | 01:00 20-Nov |
+| 3 | **ZKC** | 3.7/10 | Avoid - watch only | High | $0.0266 | $0.0291409 (+9.6%) | $0.0253295 (-4.8%) | 01:00 20-Nov |
+| 4 | **THE** | 3.6/10 | Avoid - watch only | High | $0.0285 | $0.0314564 (+10.4%) | $0.0270218 (-5.2%) | 01:00 20-Nov |
+| 5 | **YB** | 3.3/10 | Avoid - watch only | Very high | $0.0539 | $0.062524 (+16.0%) | $0.049588 (-8.0%) | 01:00 20-Nov |
 
-- **ENA:** It is bouncing up from near its lowest price of the last 42 hours. Trading activity is 1.5x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **ZEC:** Trading activity is 2.2x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **AAVE:** Buyers have been more eager than sellers over the last 1.5 hours (54% of trades were buys). Trading activity is 1.9x higher than usual, so people are paying attention to it. It is bouncing up from near its lowest price of the last 42 hours. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **TLM:** Trading activity is 3.0x higher than usual, so people are paying attention to it. It did 2.8% better than Bitcoin over the last 6 hours. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ENA:** Trading activity is 1.7x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ZKC:** It did 1.2% better than Bitcoin over the last 6 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (14% of 103 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (16% of 107 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **SENT** | 5.3/10 | Weak | Very high | $0.02114 | $0.0262136 (+24.0%) | $0.0186032 (-12.0%) | 20:00 20-Nov |
-| 2 | **YB** | 4.6/10 | Avoid - watch only | Very high | $0.0576 | $0.071424 (+24.0%) | $0.050688 (-12.0%) | 20:00 20-Nov |
-| 3 | **HEI** | 4.4/10 | Avoid - watch only | Very high | $0.0848 | $0.0981475 (+15.7%) | $0.0781262 (-7.9%) | 20:00 20-Nov |
-| 4 | **LUNC** | 4.2/10 | Avoid - watch only | Very high | $4.74e-05 | $5.8776e-05 (+24.0%) | $4.1712e-05 (-12.0%) | 20:00 20-Nov |
-| 5 | **ZKC** | 3.8/10 | Avoid - watch only | Very high | $0.0262 | $0.032488 (+24.0%) | $0.023056 (-12.0%) | 20:00 20-Nov |
+| 1 | **SKY** | 4.9/10 | Avoid - watch only | Very high | $0.04755 | $0.058962 (+24.0%) | $0.041844 (-12.0%) | 21:00 20-Nov |
+| 2 | **ZKC** | 4.8/10 | Avoid - watch only | Very high | $0.0266 | $0.032984 (+24.0%) | $0.023408 (-12.0%) | 21:00 20-Nov |
+| 3 | **HEI** | 4.6/10 | Avoid - watch only | Very high | $0.0837 | $0.0967884 (+15.6%) | $0.0771558 (-7.8%) | 21:00 20-Nov |
+| 4 | **SENT** | 4.4/10 | Avoid - watch only | Very high | $0.02117 | $0.0262508 (+24.0%) | $0.0186296 (-12.0%) | 21:00 20-Nov |
+| 5 | **HUMA** | 4.4/10 | Avoid - watch only | Very high | $0.00874 | $0.0108376 (+24.0%) | $0.0076912 (-12.0%) | 21:00 20-Nov |
 
-- **SENT:** It did 8.2% better than Bitcoin over the last 24 hours. Trading activity is 4.5x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **YB:** It did 24.9% better than Bitcoin over the last 24 hours. Trading activity is 5.8x higher than usual, so people are paying attention to it. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **HEI:** It did 1.2% better than Bitcoin over the last 24 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **SKY:** Buyers have been more eager than sellers over the last 6 hours (56% of trades were buys). Trading activity is 4.3x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ZKC:** Trading activity is 2.0x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **HEI:** Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 5575 | 41% | -0.28% | -0.25% |
-| Short: exit within 4 hours | 5643 | 39% | -0.39% | -0.32% |
-| Day: exit within 24 hours | 5320 | 36% | -0.78% | -0.45% |
+| Quick: exit within 1 hour | 5576 | 40% | -0.28% | -0.25% |
+| Short: exit within 4 hours | 5649 | 39% | -0.39% | -0.33% |
+| Day: exit within 24 hours | 5332 | 36% | -0.73% | -0.45% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
