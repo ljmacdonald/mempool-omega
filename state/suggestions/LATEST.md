@@ -1,4 +1,4 @@
-# Trade ideas: 2026-11-20 15:44 UTC
+# Trade ideas: 2026-11-20 16:43 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (4% of 123 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (3% of 129 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ENSO** | 4.6/10 | Avoid - watch only | Very high | $0.423 | $0.461807 (+9.2%) | $0.403597 (-4.6%) | 16:40 20-Nov |
-| 2 | **HMSTR** | 4.1/10 | Avoid - watch only | High | $0.0001488 | $0.000158044 (+6.2%) | $0.000144178 (-3.1%) | 16:40 20-Nov |
-| 3 | **FTT** | 3.8/10 | Avoid - watch only | High | $0.1687 | $0.178614 (+5.9%) | $0.163743 (-2.9%) | 16:40 20-Nov |
-| 4 | **KERNEL** | 3.6/10 | Avoid - watch only | Very high | $0.0527 | $0.05797 (+10.0%) | $0.04985 (-5.4%) | 16:40 20-Nov |
-| 5 | **BARD** | 3.6/10 | Avoid - watch only | Medium | $0.0878 | $0.0914775 (+4.2%) | $0.0859613 (-2.1%) | 16:40 20-Nov |
+| 1 | **PROM** | 5.2/10 | Weak | Very high | $5.28 | $5.65 (+7.0%) | $5.10 (-3.5%) | 17:40 20-Nov |
+| 2 | **FTT** | 4.0/10 | Avoid - watch only | Very high | $0.1655 | $0.176332 (+6.5%) | $0.160084 (-3.3%) | 17:40 20-Nov |
+| 3 | **ZEC** | 4.0/10 | Avoid - watch only | High | $780.29 | $814.16 (+4.3%) | $759.12 (-2.7%) | 17:40 20-Nov |
+| 4 | **PEPE** | 3.9/10 | Avoid - watch only | High | $3.4e-06 | $3.54881e-06 (+4.4%) | $3.31668e-06 (-2.5%) | 17:40 20-Nov |
+| 5 | **INIT** | 3.9/10 | Avoid - watch only | Medium | $0.09488 | $0.0982934 (+3.6%) | $0.0931733 (-1.8%) | 17:40 20-Nov |
 
-- **ENSO:** Trading activity is 1.7x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **HMSTR:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **FTT:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **PROM:** Buyers have been more eager than sellers over the last 30 minutes (60% of trades were buys). Trading activity is 4.2x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 2 hours. Most coins follow Bitcoin.
+- **FTT:** Buyers have been more eager than sellers over the last 30 minutes (54% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 2 hours. Most coins follow Bitcoin.
+- **ZEC:** Trading activity is 2.4x higher than usual, so people are paying attention to it. ⚠️ Bitcoin fell more than 3% in the last 2 hours. Most coins follow Bitcoin.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (15% of 123 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (28% of 129 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ENSO** | 4.8/10 | Avoid - watch only | Very high | $0.424 | $0.487369 (+14.9%) | $0.392316 (-7.5%) | 19:30 20-Nov |
-| 2 | **TREE** | 4.0/10 | Avoid - watch only | Very high | $0.0296 | $0.0331573 (+12.0%) | $0.0278213 (-6.0%) | 19:30 20-Nov |
-| 3 | **HMSTR** | 3.9/10 | Avoid - watch only | Very high | $0.0001504 | $0.000169547 (+12.7%) | $0.000140827 (-6.4%) | 19:30 20-Nov |
-| 4 | **LINK** | 3.4/10 | Avoid - watch only | Medium | $8.49 | $8.92 (+5.1%) | $8.27 (-2.5%) | 19:30 20-Nov |
-| 5 | **PROM** | 3.4/10 | Avoid - watch only | High | $5.60 | $6.10 (+9.0%) | $5.32 (-4.9%) | 19:30 20-Nov |
+| 1 | **PROM** | 4.7/10 | Avoid - watch only | High | $5.37 | $5.85 (+9.1%) | $5.12 (-4.5%) | 20:30 20-Nov |
+| 2 | **SOL** | 4.3/10 | Avoid - watch only | Medium | $68.80 | $72.36 (+5.2%) | $67.02 (-2.6%) | 20:30 20-Nov |
+| 3 | **LINK** | 4.2/10 | Avoid - watch only | Medium | $8.37 | $8.83 (+5.5%) | $8.14 (-2.8%) | 20:30 20-Nov |
+| 4 | **XRP** | 4.0/10 | Avoid - watch only | Medium | $0.9125 | $0.958233 (+5.0%) | $0.889633 (-2.5%) | 20:30 20-Nov |
+| 5 | **DOGE** | 4.0/10 | Avoid - watch only | Medium | $0.05385 | $0.0565484 (+5.0%) | $0.0525008 (-2.5%) | 20:30 20-Nov |
 
-- **ENSO:** It did 4.9% better than Bitcoin over the last 6 hours. Trading activity is 3.6x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **TREE:** Trading activity is 3.7x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **HMSTR:** Trading activity is 4.7x higher than usual, so people are paying attention to it. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **PROM:** Buyers have been more eager than sellers over the last 1.5 hours (71% of trades were buys). Trading activity is 6.1x higher than usual, so people are paying attention to it. It did 2.5% better than Bitcoin over the last 6 hours. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 6 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **SOL:** Trading activity is 2.1x higher than usual, so people are paying attention to it. ⚠️ Bitcoin fell more than 3% in the last 6 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **LINK:** Trading activity is 2.4x higher than usual, so people are paying attention to it. ⚠️ Bitcoin fell more than 3% in the last 6 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (35% of 123 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Mixed** (47% of 129 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **POL** | 7.5/10 | Strong | Medium | $0.07722 | $0.0822522 (+6.5%) | $0.0747039 (-3.3%) | 15:00 21-Nov |
-| 2 | **HMSTR** | 7.2/10 | Strong | Very high | $0.0001518 | $0.000188232 (+24.0%) | $0.000133584 (-12.0%) | 15:00 21-Nov |
-| 3 | **ENSO** | 7.0/10 | Strong | Very high | $0.431 | $0.500933 (+16.2%) | $0.396034 (-8.1%) | 15:00 21-Nov |
-| 4 | **LTC** | 6.9/10 | Strong | Medium | $41.64 | $44.52 (+6.9%) | $40.20 (-3.5%) | 15:00 21-Nov |
-| 5 | **HBAR** | 6.8/10 | Strong | Medium | $0.05338 | $0.0573708 (+7.5%) | $0.0513846 (-3.7%) | 15:00 21-Nov |
+| 1 | **MANTRA** | 8.2/10 | Strong | Very high | $0.0018 | $0.00219832 (+22.1%) | $0.00160084 (-11.1%) | 16:00 21-Nov |
+| 2 | **BANK** | 7.6/10 | Strong | High | $0.0166 | $0.0187098 (+12.7%) | $0.0155451 (-6.4%) | 16:00 21-Nov |
+| 3 | **FTT** | 7.5/10 | Strong | Very high | $0.1653 | $0.204972 (+24.0%) | $0.145464 (-12.0%) | 16:00 21-Nov |
+| 4 | **ENSO** | 7.4/10 | Strong | Very high | $0.423 | $0.492463 (+16.4%) | $0.388269 (-8.2%) | 16:00 21-Nov |
+| 5 | **ONDO** | 7.3/10 | Strong | High | $0.2753 | $0.312932 (+13.7%) | $0.256484 (-6.8%) | 16:00 21-Nov |
 
-- **POL:** Buyers have been more eager than sellers over the last 6 hours (65% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **HMSTR:** It did 10.3% better than Bitcoin over the last 24 hours. Trading activity is 3.0x higher than usual, so people are paying attention to it. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **ENSO:** It did 9.8% better than Bitcoin over the last 24 hours. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Trading activity is 2.3x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **MANTRA:** Trading activity is 2.2x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin.
+- **BANK:** Trading activity is 1.7x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin.
+- **FTT:** Trading activity is 3.1x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 24 hours. Most coins follow Bitcoin.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 5675 | 40% | -0.28% | -0.26% |
-| Short: exit within 4 hours | 5744 | 39% | -0.41% | -0.34% |
-| Day: exit within 24 hours | 5405 | 36% | -0.72% | -0.47% |
+| Quick: exit within 1 hour | 5680 | 40% | -0.28% | -0.26% |
+| Short: exit within 4 hours | 5750 | 39% | -0.41% | -0.34% |
+| Day: exit within 24 hours | 5444 | 36% | -0.74% | -0.49% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
