@@ -1,4 +1,4 @@
-# Trade ideas: 2026-11-20 07:11 UTC
+# Trade ideas: 2026-11-20 08:14 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (0% of 111 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (3% of 112 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **BARD** | 3.3/10 | Avoid - watch only | Very high | $0.1016 | $0.11176 (+10.0%) | $0.09652 (-5.0%) | 08:05 20-Nov |
-| 2 | **ZIL** | 3.2/10 | Avoid - watch only | Very high | $0.000919 | $0.00100406 (+9.3%) | $0.00087647 (-4.6%) | 08:05 20-Nov |
-| 3 | **ERA** | 3.1/10 | Avoid - watch only | High | $0.0754 | $0.078833 (+4.6%) | $0.0732544 (-2.8%) | 08:05 20-Nov |
-| 4 | **SOPH** | 3.0/10 | Avoid - watch only | Very high | $0.00101 | $0.00108225 (+7.2%) | $0.000973875 (-3.6%) | 08:05 20-Nov |
-| 5 | **MMT** | 3.0/10 | Avoid - watch only | High | $0.2473 | $0.261912 (+5.9%) | $0.239994 (-3.0%) | 08:05 20-Nov |
+| 1 | **MMT** | 5.0/10 | Weak | High | $0.242 | $0.253856 (+4.9%) | $0.236072 (-2.4%) | 09:10 20-Nov |
+| 2 | **ZIL** | 4.2/10 | Avoid - watch only | Very high | $0.000911 | $0.000979817 (+7.6%) | $0.000876591 (-3.8%) | 09:10 20-Nov |
+| 3 | **HUMA** | 4.0/10 | Avoid - watch only | High | $0.00911 | $0.0095479 (+4.8%) | $0.00889105 (-2.4%) | 09:10 20-Nov |
+| 4 | **YB** | 3.6/10 | Avoid - watch only | Very high | $0.0514 | $0.05654 (+10.0%) | $0.04883 (-5.0%) | 09:10 20-Nov |
+| 5 | **BARD** | 3.6/10 | Avoid - watch only | Very high | $0.0996 | $0.10956 (+10.0%) | $0.09462 (-5.0%) | 09:10 20-Nov |
 
-- **BARD:** Trading activity is 1.8x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **ZIL:** Trading activity is 2.1x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **ERA:** Trading activity is 3.0x higher than usual, so people are paying attention to it. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Buyers have been more eager than sellers over the last 30 minutes (53% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **MMT:** Buyers have been more eager than sellers over the last 30 minutes (55% of trades were buys).
+- **ZIL:** It did 1.9% better than Bitcoin over the last 2 hours. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **HUMA:** Buyers have been more eager than sellers over the last 30 minutes (54% of trades were buys). ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (1% of 111 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (1% of 112 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **SAPIEN** | 5.5/10 | Weak | Very high | $0.04011 | $0.04443 (+10.8%) | $0.03795 (-5.4%) | 11:00 20-Nov |
-| 2 | **YB** | 4.7/10 | Avoid - watch only | Very high | $0.0545 | $0.06322 (+16.0%) | $0.05014 (-8.0%) | 11:00 20-Nov |
-| 3 | **MEGA** | 4.5/10 | Avoid - watch only | Very high | $0.05005 | $0.0576741 (+15.2%) | $0.0462379 (-7.6%) | 11:00 20-Nov |
-| 4 | **MMT** | 4.4/10 | Avoid - watch only | Very high | $0.249 | $0.288679 (+15.9%) | $0.22916 (-8.0%) | 11:00 20-Nov |
-| 5 | **BMT** | 3.5/10 | Avoid - watch only | High | $0.02215 | $0.0241499 (+9.0%) | $0.02115 (-4.5%) | 11:00 20-Nov |
+| 1 | **SAPIEN** | 5.3/10 | Weak | High | $0.04094 | $0.0451605 (+10.3%) | $0.0388298 (-5.2%) | 12:00 20-Nov |
+| 2 | **YB** | 5.1/10 | Weak | Very high | $0.0525 | $0.0609 (+16.0%) | $0.0483 (-8.0%) | 12:00 20-Nov |
+| 3 | **MMT** | 4.4/10 | Avoid - watch only | Very high | $0.2424 | $0.278914 (+15.1%) | $0.224143 (-7.5%) | 12:00 20-Nov |
+| 4 | **BMT** | 4.1/10 | Avoid - watch only | High | $0.02194 | $0.023847 (+8.7%) | $0.0209865 (-4.3%) | 12:00 20-Nov |
+| 5 | **MEGA** | 3.9/10 | Avoid - watch only | Very high | $0.04927 | $0.0562903 (+14.2%) | $0.0457599 (-7.1%) | 12:00 20-Nov |
 
-- **SAPIEN:** Trading activity is 2.4x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **YB:** Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. It did 1.5% better than Bitcoin over the last 6 hours. Momentum is healthy: not overheated, not collapsing.
-- **MEGA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **SAPIEN:** Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Trading activity is 2.3x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **YB:** Momentum is healthy: not overheated, not collapsing.
+- **MMT:** Buyers have been more eager than sellers over the last 1.5 hours (53% of trades were buys).
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (22% of 111 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (21% of 112 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **HEI** | 8.3/10 | Strong | High | $0.084 | $0.0957615 (+14.0%) | $0.0781192 (-7.0%) | 07:00 21-Nov |
-| 2 | **FTT** | 7.8/10 | Strong | Very high | $0.1725 | $0.2139 (+24.0%) | $0.1518 (-12.0%) | 07:00 21-Nov |
-| 3 | **YB** | 7.2/10 | Strong | Very high | $0.0545 | $0.06758 (+24.0%) | $0.04796 (-12.0%) | 07:00 21-Nov |
-| 4 | **SENT** | 7.2/10 | Strong | Very high | $0.02069 | $0.0254548 (+23.0%) | $0.0183076 (-11.5%) | 07:00 21-Nov |
-| 5 | **SNX** | 6.9/10 | Strong | Medium | $0.1623 | $0.176966 (+9.0%) | $0.154967 (-4.5%) | 07:00 21-Nov |
+| 1 | **FTT** | 8.1/10 | Strong | Very high | $0.1698 | $0.210552 (+24.0%) | $0.149424 (-12.0%) | 08:00 21-Nov |
+| 2 | **HEI** | 7.8/10 | Strong | High | $0.0837 | $0.0951916 (+13.7%) | $0.0779542 (-6.9%) | 08:00 21-Nov |
+| 3 | **MEGA** | 7.8/10 | Strong | Very high | $0.04927 | $0.0609709 (+23.7%) | $0.0434195 (-11.9%) | 08:00 21-Nov |
+| 4 | **NEAR** | 7.3/10 | Strong | High | $3.04 | $3.40 (+11.6%) | $2.87 (-5.8%) | 08:00 21-Nov |
+| 5 | **SKY** | 7.1/10 | Strong | Very high | $0.04295 | $0.053258 (+24.0%) | $0.037796 (-12.0%) | 08:00 21-Nov |
 
-- **HEI:** It did 3.8% better than Bitcoin over the last 24 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 - **FTT:** Trading activity is 4.7x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **YB:** It did 21.5% better than Bitcoin over the last 24 hours. Trading activity is 6.1x higher than usual, so people are paying attention to it. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up.
+- **HEI:** It did 4.4% better than Bitcoin over the last 24 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **MEGA:** Trading activity is 1.9x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 5630 | 40% | -0.28% | -0.25% |
-| Short: exit within 4 hours | 5698 | 39% | -0.40% | -0.33% |
-| Day: exit within 24 hours | 5370 | 36% | -0.73% | -0.46% |
+| Quick: exit within 1 hour | 5635 | 40% | -0.28% | -0.25% |
+| Short: exit within 4 hours | 5703 | 39% | -0.40% | -0.33% |
+| Day: exit within 24 hours | 5373 | 36% | -0.73% | -0.46% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
