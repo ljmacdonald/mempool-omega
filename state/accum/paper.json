@@ -1,6 +1,6 @@
 {
  "start": 100.0,
- "cash": 67.58937052443036,
+ "cash": 67.75397291247259,
  "positions": [
   {
    "key": "stealth:solana:Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ",
@@ -29,20 +29,6 @@
    "fees": 0.019517970963840815,
    "route": "S",
    "why": "2 addresses (2 probable owners) quietly bought 0.51% of the supply in small chunks since 2026-10-20, price +0.1% over 30 days"
-  },
-  {
-   "key": "solana:BCNT4t3rv5Hva8RnUtJUJLnxzeFAabcYp8CghC1SmWin",
-   "symbol": "BC",
-   "chain": "solana",
-   "opened": "2026-11-14T16:32:13.317858+00:00",
-   "entry": 0.03769691269959232,
-   "qty": 123.99314453886748,
-   "stop": 0.03599778863631686,
-   "target": 0.04109456169736627,
-   "cost": 4.698181221264709,
-   "fees": 0.02402247623508886,
-   "route": "B",
-   "why": "0.114% of supply ($141,314) net bought in swaps over 7 days, buying on 5 days; one address net bought 0.147% of supply ($180,544) in 14 days: newly observed holder"
   },
   {
    "key": "solana:9PR7nCP9DpcUotnDPVLUBUZKu5WAYkwrCUx9wDnSpump",
@@ -85,6 +71,20 @@
    "fees": 0.02388451076384538,
    "route": "A,B",
    "why": "one address net bought 0.257% of supply ($75,604) in 14 days: newly observed holder"
+  },
+  {
+   "key": "solana:9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump",
+   "symbol": "FARTCOIN",
+   "chain": "solana",
+   "opened": "2026-11-21T13:47:18.678616+00:00",
+   "entry": 0.07795054811257501,
+   "qty": 59.24770292264405,
+   "stop": 0.07359872019279637,
+   "target": 0.08665374779440725,
+   "cost": 4.64224608998281,
+   "fees": 0.02385517275169335,
+   "route": "A,B",
+   "why": "one address net bought 0.241% of supply ($239,267) in 14 days: newly observed holder"
   }
  ],
  "trades": [
@@ -1294,6 +1294,23 @@
    "fees": 0.04764695222064781,
    "pnl": -0.06603990552311334,
    "ret": -0.014230075133018771
+  },
+  {
+   "key": "solana:BCNT4t3rv5Hva8RnUtJUJLnxzeFAabcYp8CghC1SmWin",
+   "symbol": "BC",
+   "chain": "solana",
+   "opened": "2026-11-14T16:32:13.317858+00:00",
+   "entry": 0.03769691269959232,
+   "qty": 123.99314453886748,
+   "stop": 0.03599778863631686,
+   "target": 0.04109456169736627,
+   "route": "B",
+   "closed": "2026-11-21T13:47:18.678616+00:00",
+   "exit": 0.03896459439386982,
+   "reason": "state changed: accumulation weakening",
+   "fees": 0.048516582787504925,
+   "pnl": 0.10866725676032107,
+   "ret": 0.02312964350299551
   }
  ],
  "decisions": [
@@ -3795,6 +3812,39 @@
    "symbol": "FARTCOIN",
    "action": "close",
    "reason": "state changed: accumulation weakening"
+  },
+  {
+   "t": "2026-11-21T13:47:18.678616+00:00",
+   "key": "solana:BCNT4t3rv5Hva8RnUtJUJLnxzeFAabcYp8CghC1SmWin",
+   "symbol": "BC",
+   "action": "close",
+   "reason": "state changed: accumulation weakening"
+  },
+  {
+   "t": "2026-11-21T13:47:18.678616+00:00",
+   "key": "solana:9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump",
+   "symbol": "FARTCOIN",
+   "action": "open",
+   "plan": {
+    "eligible": true,
+    "entry": 0.07795039606,
+    "stop": 0.07359872019279637,
+    "target": 0.08665374779440725,
+    "qty": 59.247818493138226,
+    "notional": 4.618390917231117,
+    "risk": 0.2578273019210504,
+    "impact": 1.9506324882538546e-06,
+    "costs_est": 0.04772836307011992,
+    "rr": 2.0
+   },
+   "rules": {
+    "risk_per_trade": 0.01,
+    "max_open_risk": 0.04,
+    "max_position": 0.05,
+    "min_rr": 2.0,
+    "dex_fee": 0.003,
+    "max_hold_d": 30
+   }
   }
  ],
  "live_trading": false,
