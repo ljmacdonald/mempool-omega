@@ -1,4 +1,4 @@
-# Trade ideas: 2026-11-22 21:21 UTC
+# Trade ideas: 2026-11-22 21:54 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,35 +6,35 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (2% of 94 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (1% of 94 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **KAVA** | 4.0/10 | Avoid - watch only | High | $0.02334 | $0.0244573 (+4.8%) | $0.0227814 (-2.4%) | 22:15 22-Nov |
-| 2 | **MMT** | 2.2/10 | Avoid - watch only | Medium | $0.2177 | $0.226558 (+4.1%) | $0.213271 (-2.0%) | 22:15 22-Nov |
-| 3 | **RARE** | 1.6/10 | Avoid - watch only | Medium | $0.01345 | $0.0139015 (+3.4%) | $0.0132243 (-1.7%) | 22:15 22-Nov |
-| 4 | **ALLO** | 1.3/10 | Avoid - watch only | High | $0.1272 | $0.132862 (+4.5%) | $0.124369 (-2.2%) | 22:15 22-Nov |
-| 5 | **PARTI** | 1.2/10 | Avoid - watch only | Medium | $0.0384 | $0.0395021 (+2.9%) | $0.0378489 (-1.4%) | 22:15 22-Nov |
+| 1 | **KAVA** | 2.9/10 | Avoid - watch only | High | $0.02331 | $0.0244885 (+5.1%) | $0.0227208 (-2.5%) | 22:50 22-Nov |
+| 2 | **MMT** | 2.0/10 | Avoid - watch only | Medium | $0.2175 | $0.225743 (+3.8%) | $0.213379 (-1.9%) | 22:50 22-Nov |
+| 3 | **XVG** | 2.0/10 | Avoid - watch only | Very high | $0.001532 | $0.0016771 (+9.5%) | $0.00145945 (-4.7%) | 22:50 22-Nov |
+| 4 | **LISTA** | 1.9/10 | Avoid - watch only | Very high | $0.0747 | $0.0796405 (+6.6%) | $0.0722298 (-3.3%) | 22:50 22-Nov |
+| 5 | **PROM** | 1.8/10 | Avoid - watch only | Very high | $4.62 | $5.08 (+10.0%) | $4.39 (-5.0%) | 22:50 22-Nov |
 
 - **KAVA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **MMT:** Buyers have been more eager than sellers over the last 30 minutes (59% of trades were buys). Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **RARE:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MMT:** Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **XVG:** It did 1.7% better than Bitcoin over the last 2 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (10% of 94 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (5% of 94 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ALLO** | 4.1/10 | Avoid - watch only | High | $0.1272 | $0.139385 (+9.6%) | $0.121107 (-4.8%) | 01:15 23-Nov |
-| 2 | **MMT** | 3.9/10 | Avoid - watch only | Very high | $0.2177 | $0.250884 (+15.2%) | $0.201108 (-7.6%) | 01:15 23-Nov |
-| 3 | **RWUSD** | 3.0/10 | Avoid - watch only | Low | $1.00 | $1.02 (+2.0%) | $0.99 (-1.0%) | 01:15 23-Nov |
-| 4 | **PARTI** | 2.6/10 | Avoid - watch only | Medium | $0.0384 | $0.0410159 (+6.8%) | $0.037092 (-3.4%) | 01:15 23-Nov |
-| 5 | **TRUMP** | 2.6/10 | Avoid - watch only | Low | $0.895 | $0.922341 (+3.1%) | $0.88133 (-1.5%) | 01:15 23-Nov |
+| 1 | **MMT** | 4.1/10 | Avoid - watch only | Very high | $0.2166 | $0.24836 (+14.7%) | $0.20072 (-7.3%) | 01:45 23-Nov |
+| 2 | **PROM** | 3.1/10 | Avoid - watch only | Very high | $4.62 | $5.36 (+16.0%) | $4.25 (-8.0%) | 01:45 23-Nov |
+| 3 | **RWUSD** | 2.7/10 | Avoid - watch only | Low | $1.00 | $1.02 (+2.0%) | $0.990099 (-1.0%) | 01:45 23-Nov |
+| 4 | **ALLO** | 2.6/10 | Avoid - watch only | High | $0.1271 | $0.138779 (+9.2%) | $0.12126 (-4.6%) | 01:45 23-Nov |
+| 5 | **LISTA** | 2.5/10 | Avoid - watch only | Very high | $0.0751 | $0.0834701 (+11.1%) | $0.070915 (-5.6%) | 01:45 23-Nov |
 
-- **ALLO:** Trading activity is 5.5x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **MMT:** Buyers have been more eager than sellers over the last 1.5 hours (54% of trades were buys). Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **RWUSD:** It is close to its highest price of the last 42 hours. A breakout is possible. Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MMT:** Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **PROM:** Trading activity is 3.7x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **RWUSD:** Buyers have been more eager than sellers over the last 1.5 hours (68% of trades were buys). Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. It is close to its highest price of the last 42 hours. A breakout is possible. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
@@ -57,7 +57,7 @@ Market mood: **Mixed** (44% of 94 coins look positive). If it says *Unfavourable
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 5956 | 40% | -0.29% | -0.25% |
+| Quick: exit within 1 hour | 5960 | 40% | -0.29% | -0.25% |
 | Short: exit within 4 hours | 6028 | 39% | -0.41% | -0.32% |
 | Day: exit within 24 hours | 5665 | 37% | -0.68% | -0.49% |
 
