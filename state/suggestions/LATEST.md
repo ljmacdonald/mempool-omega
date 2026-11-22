@@ -1,4 +1,4 @@
-# Trade ideas: 2026-11-22 10:55 UTC
+# Trade ideas: 2026-11-22 11:51 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (2% of 101 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (0% of 101 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **ERA** | 2.4/10 | Avoid - watch only | Medium | $0.0782 | $0.0802825 (+2.7%) | $0.0771587 (-1.3%) | 11:50 22-Nov |
-| 2 | **ETHFI** | 2.2/10 | Avoid - watch only | Medium | $0.492 | $0.505412 (+2.7%) | $0.485294 (-1.4%) | 11:50 22-Nov |
-| 3 | **AIGENSYN** | 2.0/10 | Avoid - watch only | Very high | $0.01531 | $0.0166395 (+8.7%) | $0.0146453 (-4.3%) | 11:50 22-Nov |
-| 4 | **ENSO** | 1.8/10 | Avoid - watch only | High | $0.496 | $0.523242 (+5.5%) | $0.482379 (-2.7%) | 11:50 22-Nov |
-| 5 | **BONK** | 1.7/10 | Avoid - watch only | Medium | $2.09e-06 | $2.15335e-06 (+3.0%) | $2.05833e-06 (-1.5%) | 11:50 22-Nov |
+| 1 | **MMT** | 2.4/10 | Avoid - watch only | Very high | $0.2032 | $0.22352 (+10.0%) | $0.19304 (-5.0%) | 12:45 22-Nov |
+| 2 | **COOKIE** | 2.3/10 | Avoid - watch only | Very high | $0.0084 | $0.00907231 (+8.0%) | $0.00806384 (-4.0%) | 12:45 22-Nov |
+| 3 | **PARTI** | 1.8/10 | Avoid - watch only | High | $0.0375 | $0.0392897 (+4.8%) | $0.0366051 (-2.4%) | 12:45 22-Nov |
+| 4 | **PROM** | 1.7/10 | Avoid - watch only | Very high | $4.70 | $5.05 (+7.6%) | $4.52 (-3.8%) | 12:45 22-Nov |
+| 5 | **NEAR** | 1.6/10 | Avoid - watch only | Low | $2.99 | $3.06 (+2.3%) | $2.96 (-1.2%) | 12:45 22-Nov |
 
-- **ERA:** Buyers have been more eager than sellers over the last 30 minutes (60% of trades were buys). Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Trading activity is 2.2x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **ETHFI:** Buyers have been more eager than sellers over the last 30 minutes (57% of trades were buys). Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Trading activity is 1.6x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **AIGENSYN:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MMT:** Trading activity is 2.9x higher than usual, so people are paying attention to it. Buyers have been more eager than sellers over the last 30 minutes (53% of trades were buys). ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **COOKIE:** Buyers have been more eager than sellers over the last 30 minutes (56% of trades were buys). It did 3.2% better than Bitcoin over the last 2 hours. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **PARTI:** Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Trading activity is 2.1x higher than usual, so people are paying attention to it. It is close to its highest price of the last 14 hours. A breakout is possible. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (6% of 101 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (9% of 101 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **INIT** | 4.1/10 | Avoid - watch only | Very high | $0.0868 | $0.0966281 (+11.3%) | $0.0818859 (-5.7%) | 14:45 22-Nov |
-| 2 | **AIGENSYN** | 3.8/10 | Avoid - watch only | Very high | $0.01532 | $0.0177712 (+16.0%) | $0.0140944 (-8.0%) | 14:45 22-Nov |
-| 3 | **ENSO** | 3.5/10 | Avoid - watch only | Very high | $0.495 | $0.556372 (+12.4%) | $0.464314 (-6.2%) | 14:45 22-Nov |
-| 4 | **COOKIE** | 2.5/10 | Avoid - watch only | Very high | $0.00865 | $0.00958139 (+10.8%) | $0.0081843 (-5.4%) | 14:45 22-Nov |
-| 5 | **ORCA** | 2.4/10 | Avoid - watch only | High | $1.19 | $1.29 (+8.6%) | $1.14 (-4.3%) | 14:45 22-Nov |
+| 1 | **MMT** | 5.4/10 | Weak | Very high | $0.2032 | $0.235712 (+16.0%) | $0.186944 (-8.0%) | 15:45 22-Nov |
+| 2 | **AIGENSYN** | 3.0/10 | Avoid - watch only | Very high | $0.01525 | $0.01769 (+16.0%) | $0.01403 (-8.0%) | 15:45 22-Nov |
+| 3 | **RARE** | 3.0/10 | Avoid - watch only | High | $0.01426 | $0.0157325 (+10.3%) | $0.0135238 (-5.2%) | 15:45 22-Nov |
+| 4 | **ZAMA** | 2.9/10 | Avoid - watch only | Medium | $0.06162 | $0.0647595 (+5.1%) | $0.05982 (-2.9%) | 15:45 22-Nov |
+| 5 | **ENSO** | 2.8/10 | Avoid - watch only | Very high | $0.473 | $0.5349 (+13.1%) | $0.44205 (-6.5%) | 15:45 22-Nov |
 
-- **INIT:** It is bouncing up from near its lowest price of the last 42 hours. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **AIGENSYN:** Trading activity is 3.9x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **ENSO:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MMT:** Trading activity is 2.4x higher than usual, so people are paying attention to it. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **AIGENSYN:** Trading activity is 3.5x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **RARE:** Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. It did 1.2% better than Bitcoin over the last 6 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (34% of 101 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (28% of 101 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **JST** | 8.9/10 | Strong | Low | $0.14652 | $0.153746 (+4.9%) | $0.142907 (-2.5%) | 10:00 23-Nov |
-| 2 | **RWUSD** | 8.6/10 | Strong | Low | $1.00 | $1.03 (+3.0%) | $0.985098 (-1.5%) | 10:00 23-Nov |
-| 3 | **SC** | 7.7/10 | Strong | Very high | $0.000591 | $0.000730678 (+23.6%) | $0.000521161 (-11.8%) | 10:00 23-Nov |
-| 4 | **TRX** | 7.6/10 | Strong | Low | $0.3065 | $0.315695 (+3.0%) | $0.301903 (-1.5%) | 10:00 23-Nov |
-| 5 | **USUAL** | 6.7/10 | Strong | High | $0.01115 | $0.0126147 (+13.1%) | $0.0104177 (-6.6%) | 10:00 23-Nov |
+| 1 | **JST** | 9.0/10 | Strong | Low | $0.14649 | $0.153568 (+4.8%) | $0.142951 (-2.4%) | 11:00 23-Nov |
+| 2 | **RWUSD** | 8.4/10 | Strong | Low | $1.00 | $1.03 (+3.0%) | $0.985 (-1.5%) | 11:00 23-Nov |
+| 3 | **TRX** | 8.0/10 | Strong | Low | $0.3054 | $0.314607 (+3.0%) | $0.300797 (-1.5%) | 11:00 23-Nov |
+| 4 | **ERA** | 7.0/10 | Strong | High | $0.0777 | $0.0889698 (+14.5%) | $0.071712 (-7.7%) | 11:00 23-Nov |
+| 5 | **BNB** | 6.9/10 | Strong | Medium | $552.53 | $601.86 (+8.9%) | $527.86 (-4.5%) | 11:00 23-Nov |
 
-- **JST:** Buyers have been more eager than sellers over the last 6 hours (57% of trades were buys). Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. It is close to its highest price of the last 7 days. A breakout is possible. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **RWUSD:** Buyers have been more eager than sellers over the last 6 hours (89% of trades were buys). Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Trading activity is 1.7x higher than usual, so people are paying attention to it.
-- **SC:** Trading activity is 4.0x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **JST:** Buyers have been more eager than sellers over the last 6 hours (54% of trades were buys). Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. It is close to its highest price of the last 7 days. A breakout is possible. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **RWUSD:** Buyers have been more eager than sellers over the last 6 hours (85% of trades were buys). Trading activity is 1.7x higher than usual, so people are paying attention to it. It is close to its highest price of the last 7 days. A breakout is possible.
+- **TRX:** Buyers have been more eager than sellers over the last 6 hours (55% of trades were buys). It is bouncing up from near its lowest price of the last 7 days. Momentum is healthy: not overheated, not collapsing.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 5905 | 40% | -0.28% | -0.25% |
-| Short: exit within 4 hours | 5974 | 40% | -0.39% | -0.32% |
-| Day: exit within 24 hours | 5610 | 36% | -0.70% | -0.51% |
+| Quick: exit within 1 hour | 5907 | 40% | -0.28% | -0.25% |
+| Short: exit within 4 hours | 5982 | 40% | -0.40% | -0.32% |
+| Day: exit within 24 hours | 5615 | 36% | -0.70% | -0.51% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
