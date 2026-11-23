@@ -1,6 +1,6 @@
 {
  "start": 100.0,
- "cash": 62.33486581446901,
+ "cash": 62.277353261884066,
  "positions": [
   {
    "key": "stealth:solana:Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ",
@@ -87,18 +87,18 @@
    "why": "one address net bought 0.506% of supply ($393,306) in 14 days: newly observed holder"
   },
   {
-   "key": "solana:5Y8NV33Vv7WbnLfq3zBcKSdYPrk7g2KoiQoe7M2tcxp5",
-   "symbol": "ONYC",
+   "key": "solana:XsDoVfqeBukxuZHWhdvWHBhgEHjGNst4MLodqsJHzoB",
+   "symbol": "TSLAX",
    "chain": "solana",
-   "opened": "2026-11-23T07:32:04.840332+00:00",
-   "entry": 1.1691007338729524,
-   "qty": 3.920365408105903,
-   "stop": 1.1065212703431093,
-   "target": 1.2942240339137816,
-   "cost": 4.607051981893749,
-   "fees": 0.023749906227000246,
-   "route": "B",
-   "why": "0.229% of supply ($215,277) net bought in swaps over 7 days, buying on 5 days; one address net bought 0.720% of supply ($668,206) in 14 days: newly observed holder"
+   "opened": "2026-11-23T08:32:17.830775+00:00",
+   "entry": 360.919274056747,
+   "qty": 0.012690015163148593,
+   "stop": 336.7167776347782,
+   "target": 409.3194696923436,
+   "cost": 4.60381127363406,
+   "fees": 0.023740213181358105,
+   "route": "A,B",
+   "why": "one address net bought 0.269% of supply ($181,181) in 14 days: newly observed holder"
   }
  ],
  "trades": [
@@ -1580,6 +1580,23 @@
    "fees": 0.04753012491681677,
    "pnl": -0.024649796783148048,
    "ret": -0.005357912476193771
+  },
+  {
+   "key": "solana:5Y8NV33Vv7WbnLfq3zBcKSdYPrk7g2KoiQoe7M2tcxp5",
+   "symbol": "ONYC",
+   "chain": "solana",
+   "opened": "2026-11-23T07:32:04.840332+00:00",
+   "entry": 1.1691007338729524,
+   "qty": 3.920365408105903,
+   "stop": 1.1065212703431093,
+   "target": 1.2942240339137816,
+   "route": "B",
+   "closed": "2026-11-23T08:32:17.830775+00:00",
+   "exit": 1.165709930011343,
+   "reason": "state changed: accumulation weakening",
+   "fees": 0.0474600706799046,
+   "pnl": -0.0607532608446304,
+   "ret": -0.013187014403874264
   }
  ],
  "decisions": [
@@ -4625,6 +4642,39 @@
     "risk": 0.2452902987506626,
     "impact": 1.0158058447975269e-05,
     "costs_est": 0.04759292735473919,
+    "rr": 2.0
+   },
+   "rules": {
+    "risk_per_trade": 0.01,
+    "max_open_risk": 0.04,
+    "max_position": 0.05,
+    "min_rr": 2.0,
+    "dex_fee": 0.003,
+    "max_hold_d": 30
+   }
+  },
+  {
+   "t": "2026-11-23T08:32:17.830775+00:00",
+   "key": "solana:5Y8NV33Vv7WbnLfq3zBcKSdYPrk7g2KoiQoe7M2tcxp5",
+   "symbol": "ONYC",
+   "action": "close",
+   "reason": "state changed: accumulation weakening"
+  },
+  {
+   "t": "2026-11-23T08:32:17.830775+00:00",
+   "key": "solana:XsDoVfqeBukxuZHWhdvWHBhgEHjGNst4MLodqsJHzoB",
+   "symbol": "TSLAX",
+   "action": "open",
+   "plan": {
+    "eligible": true,
+    "entry": 360.9176749873,
+    "stop": 336.7167776347782,
+    "target": 409.3194696923436,
+    "qty": 0.012690071387093651,
+    "notional": 4.580071060452702,
+    "risk": 0.3071111150352273,
+    "impact": 4.430565632703518e-06,
+    "costs_est": 0.047521010973587775,
     "rr": 2.0
    },
    "rules": {
