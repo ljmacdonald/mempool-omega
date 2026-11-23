@@ -1,6 +1,6 @@
 {
  "start": 100.0,
- "cash": 67.14945950606048,
+ "cash": 67.05806724233827,
  "positions": [
   {
    "key": "stealth:solana:Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ",
@@ -59,20 +59,6 @@
    "why": "0.511% of supply ($211,023) net bought in swaps over 7 days, buying on 6 days; one address net bought 0.889% of supply ($361,966) in 14 days: newly observed holder"
   },
   {
-   "key": "solana:METAwkXcqyXKy1AtsSgJ8JiUHwGCafnZL38n3vYmeta",
-   "symbol": "META",
-   "chain": "solana",
-   "opened": "2026-11-22T06:47:10.962401+00:00",
-   "entry": 3.1687607939028406,
-   "qty": 1.4402778987891314,
-   "stop": 2.866293843408664,
-   "target": 3.7736339385826723,
-   "cost": 4.587587826421786,
-   "fees": 0.02369168841402329,
-   "route": "C",
-   "why": "one address net bought 0.231% of supply ($198,648) in 14 days: newly observed holder"
-  },
-  {
    "key": "solana:GNE6oDS6jHrfaV3GQVVCCp37fDnT7PiPuewMKBj2bqNm",
    "symbol": "AUTO",
    "chain": "solana",
@@ -85,6 +71,20 @@
    "fees": 0.023772202853888494,
    "route": "B",
    "why": "one address net bought 0.162% of supply ($184,835) in 14 days: newly observed holder"
+  },
+  {
+   "key": "solana:Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ",
+   "symbol": "QQQX",
+   "chain": "solana",
+   "opened": "2026-11-23T01:47:19.073577+00:00",
+   "entry": 630.9450233879413,
+   "qty": 0.007256125580145908,
+   "stop": 595.9820939044102,
+   "target": 700.8612233787796,
+   "cost": 4.601950972842612,
+   "fees": 0.023734648971613,
+   "route": "A,B",
+   "why": "one address net bought 0.506% of supply ($393,306) in 14 days: newly observed holder"
   }
  ],
  "trades": [
@@ -1498,6 +1498,23 @@
    "fees": 0.04743747733144692,
    "pnl": -0.03188235089228453,
    "ret": -0.006947842194759968
+  },
+  {
+   "key": "solana:METAwkXcqyXKy1AtsSgJ8JiUHwGCafnZL38n3vYmeta",
+   "symbol": "META",
+   "chain": "solana",
+   "opened": "2026-11-22T06:47:10.962401+00:00",
+   "entry": 3.1687607939028406,
+   "qty": 1.4402778987891314,
+   "stop": 2.866293843408664,
+   "target": 3.7736339385826723,
+   "route": "C",
+   "closed": "2026-11-23T01:47:19.073577+00:00",
+   "exit": 3.148115570614563,
+   "reason": "state changed: accumulation weakening",
+   "fees": 0.04729425848370497,
+   "pnl": -0.07702911730137796,
+   "ret": -0.016790766785484967
   }
  ],
  "decisions": [
@@ -4385,6 +4402,39 @@
     "risk": 0.17449025843032745,
     "impact": 5.120732704131509e-06,
     "costs_est": 0.04759142155415155,
+    "rr": 2.0
+   },
+   "rules": {
+    "risk_per_trade": 0.01,
+    "max_open_risk": 0.04,
+    "max_position": 0.05,
+    "min_rr": 2.0,
+    "dex_fee": 0.003,
+    "max_hold_d": 30
+   }
+  },
+  {
+   "t": "2026-11-23T01:47:19.073577+00:00",
+   "key": "solana:METAwkXcqyXKy1AtsSgJ8JiUHwGCafnZL38n3vYmeta",
+   "symbol": "META",
+   "action": "close",
+   "reason": "state changed: accumulation weakening"
+  },
+  {
+   "t": "2026-11-23T01:47:19.073577+00:00",
+   "key": "solana:Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ",
+   "symbol": "QQQX",
+   "action": "open",
+   "plan": {
+    "eligible": true,
+    "entry": 630.9418037292,
+    "stop": 595.9820939044102,
+    "target": 700.8612233787796,
+    "qty": 0.00725616260772597,
+    "notional": 4.578216323871,
+    "risk": 0.25367333920758994,
+    "impact": 5.102940908689016e-06,
+    "costs_est": 0.04751602267796182,
     "rr": 2.0
    },
    "rules": {
