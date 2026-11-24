@@ -1,4 +1,4 @@
-# Trade ideas: 2026-11-24 21:12 UTC
+# Trade ideas: 2026-11-24 21:17 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -10,15 +10,15 @@ Market mood: **Unfavourable** (0% of 118 coins look positive). If it says *Unfav
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **LISTA** | 4.0/10 | Avoid - watch only | Very high | $0.1132 | $0.121033 (+6.9%) | $0.109284 (-3.5%) | 22:10 24-Nov |
-| 2 | **ATM** | 3.6/10 | Avoid - watch only | Very high | $0.996 | $1.10 (+10.0%) | $0.9462 (-5.0%) | 22:10 24-Nov |
-| 3 | **MMT** | 3.6/10 | Avoid - watch only | High | $0.22 | $0.229815 (+4.5%) | $0.215093 (-2.2%) | 22:10 24-Nov |
-| 4 | **SAHARA** | 3.5/10 | Avoid - watch only | High | $0.00582 | $0.00612605 (+5.3%) | $0.00562872 (-3.3%) | 22:10 24-Nov |
-| 5 | **ASR** | 2.7/10 | Avoid - watch only | High | $0.667 | $0.6986 (+4.7%) | $0.64805 (-2.8%) | 22:10 24-Nov |
+| 1 | **LISTA** | 3.8/10 | Avoid - watch only | Very high | $0.1132 | $0.120871 (+6.8%) | $0.109364 (-3.4%) | 22:15 24-Nov |
+| 2 | **MMT** | 3.4/10 | Avoid - watch only | High | $0.2193 | $0.228912 (+4.4%) | $0.214494 (-2.2%) | 22:15 24-Nov |
+| 3 | **SAHARA** | 3.4/10 | Avoid - watch only | High | $0.00579 | $0.00609168 (+5.2%) | $0.0056274 (-2.8%) | 22:15 24-Nov |
+| 4 | **ASR** | 2.8/10 | Avoid - watch only | High | $0.667 | $0.6986 (+4.7%) | $0.64805 (-2.8%) | 22:15 24-Nov |
+| 5 | **ATM** | 2.5/10 | Avoid - watch only | Very high | $0.984 | $1.08 (+10.0%) | $0.9348 (-5.0%) | 22:15 24-Nov |
 
-- **LISTA:** Momentum is healthy: not overheated, not collapsing.
-- **ATM:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **MMT:** Buyers have been more eager than sellers over the last 30 minutes (83% of trades were buys).
+- **LISTA:** Buyers have been more eager than sellers over the last 30 minutes (53% of trades were buys). Momentum is healthy: not overheated, not collapsing.
+- **MMT:** Buyers have been more eager than sellers over the last 30 minutes (82% of trades were buys). It is bouncing up from near its lowest price of the last 14 hours.
+- **SAHARA:** Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. It did 1.3% better than Bitcoin over the last 2 hours. Momentum is healthy: not overheated, not collapsing.
 
 ## Short: exit within 4 hours
 
@@ -26,15 +26,15 @@ Market mood: **Unfavourable** (0% of 118 coins look positive). If it says *Unfav
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **MMT** | 4.9/10 | Avoid - watch only | Very high | $0.2193 | $0.245205 (+11.8%) | $0.206348 (-5.9%) | 01:00 25-Nov |
-| 2 | **SAHARA** | 4.3/10 | Avoid - watch only | Very high | $0.00577 | $0.00645267 (+11.8%) | $0.00542866 (-5.9%) | 01:00 25-Nov |
-| 3 | **LISTA** | 4.2/10 | Avoid - watch only | Very high | $0.1135 | $0.131309 (+15.7%) | $0.104595 (-7.8%) | 01:00 25-Nov |
-| 4 | **PSG** | 3.4/10 | Avoid - watch only | High | $0.314 | $0.343495 (+9.4%) | $0.299253 (-4.7%) | 01:00 25-Nov |
-| 5 | **ATM** | 3.3/10 | Avoid - watch only | Very high | $0.997 | $1.16 (+16.0%) | $0.91724 (-8.0%) | 01:00 25-Nov |
+| 1 | **MMT** | 4.8/10 | Avoid - watch only | Very high | $0.2193 | $0.244676 (+11.6%) | $0.206612 (-5.8%) | 01:15 25-Nov |
+| 2 | **SAHARA** | 4.3/10 | Avoid - watch only | Very high | $0.00579 | $0.0064615 (+11.6%) | $0.00545425 (-5.8%) | 01:15 25-Nov |
+| 3 | **LISTA** | 4.2/10 | Avoid - watch only | Very high | $0.1132 | $0.130613 (+15.4%) | $0.104493 (-7.7%) | 01:15 25-Nov |
+| 4 | **PSG** | 3.3/10 | Avoid - watch only | High | $0.314 | $0.342887 (+9.2%) | $0.2991 (-4.7%) | 01:15 25-Nov |
+| 5 | **INIT** | 3.1/10 | Avoid - watch only | High | $0.08722 | $0.0947766 (+8.7%) | $0.0834417 (-4.3%) | 01:15 25-Nov |
 
-- **MMT:** The model sees a slightly better-than-usual pattern, with no single strong reason.
-- **SAHARA:** Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. It did 1.6% better than Bitcoin over the last 6 hours. Momentum is healthy: not overheated, not collapsing.
-- **LISTA:** It did 8.7% better than Bitcoin over the last 6 hours. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Trading activity is 1.7x higher than usual, so people are paying attention to it.
+- **MMT:** Buyers have been more eager than sellers over the last 1.5 hours (53% of trades were buys).
+- **SAHARA:** It did 4.0% better than Bitcoin over the last 6 hours. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing.
+- **LISTA:** It did 4.5% better than Bitcoin over the last 6 hours. Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. Trading activity is 1.7x higher than usual, so people are paying attention to it.
 
 ## Day: exit within 24 hours
 
