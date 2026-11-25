@@ -1,4 +1,4 @@
-# Trade ideas: 2026-11-25 18:43 UTC
+# Trade ideas: 2026-11-25 19:43 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (8% of 111 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (2% of 114 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **BIGTIME** | 7.3/10 | Strong | Very high | $0.00687 | $0.007557 (+10.0%) | $0.00648396 (-5.6%) | 19:40 25-Nov |
-| 2 | **MMT** | 4.4/10 | Avoid - watch only | High | $0.2977 | $0.316932 (+6.5%) | $0.288084 (-3.2%) | 19:40 25-Nov |
-| 3 | **ATM** | 4.3/10 | Avoid - watch only | High | $0.863 | $0.907247 (+5.1%) | $0.840876 (-2.6%) | 19:40 25-Nov |
-| 4 | **SOPH** | 4.0/10 | Avoid - watch only | High | $0.00084 | $0.000892033 (+6.2%) | $0.000813983 (-3.1%) | 19:40 25-Nov |
-| 5 | **OPG** | 3.8/10 | Avoid - watch only | High | $0.1672 | $0.175438 (+4.9%) | $0.163081 (-2.5%) | 19:40 25-Nov |
+| 1 | **BIGTIME** | 5.4/10 | Weak | Very high | $0.00677 | $0.007447 (+10.0%) | $0.0064315 (-5.0%) | 20:40 25-Nov |
+| 2 | **AT** | 4.3/10 | Avoid - watch only | Very high | $0.0585 | $0.06435 (+10.0%) | $0.055575 (-5.0%) | 20:40 25-Nov |
+| 3 | **LISTA** | 4.2/10 | Avoid - watch only | Very high | $0.1106 | $0.121475 (+9.8%) | $0.105162 (-4.9%) | 20:40 25-Nov |
+| 4 | **PROM** | 3.8/10 | Avoid - watch only | Very high | $5.16 | $5.54 (+7.5%) | $4.96 (-3.7%) | 20:40 25-Nov |
+| 5 | **SUPER** | 3.3/10 | Avoid - watch only | Medium | $0.1164 | $0.120832 (+3.8%) | $0.114184 (-1.9%) | 20:40 25-Nov |
 
-- **BIGTIME:** Buyers have been more eager than sellers over the last 30 minutes (58% of trades were buys). Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. It did 2.6% better than Bitcoin over the last 2 hours.
-- **MMT:** Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. It is close to its highest price of the last 14 hours. A breakout is possible. Momentum is healthy: not overheated, not collapsing.
-- **ATM:** Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **BIGTIME:** The model sees a slightly better-than-usual pattern, with no single strong reason.
+- **AT:** Trading activity is 3.2x higher than usual, so people are paying attention to it. Price is above its average of the last 2 hours and of the last 6 hours, so the trend is up. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **LISTA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (15% of 111 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (13% of 114 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **OPG** | 5.2/10 | Weak | High | $0.1689 | $0.185666 (+9.9%) | $0.160517 (-5.0%) | 22:30 25-Nov |
-| 2 | **ENA** | 5.2/10 | Weak | Medium | $0.0971 | $0.102776 (+5.8%) | $0.0942619 (-2.9%) | 22:30 25-Nov |
-| 3 | **RWUSD** | 5.0/10 | Weak | Low | $1.00 | $1.02 (+2.0%) | $0.990099 (-1.0%) | 22:30 25-Nov |
-| 4 | **UNI** | 5.0/10 | Weak | Medium | $4.68 | $4.94 (+5.7%) | $4.54 (-2.8%) | 22:30 25-Nov |
-| 5 | **ZRO** | 4.7/10 | Avoid - watch only | High | $1.00 | $1.07 (+7.2%) | $0.965092 (-3.6%) | 22:30 25-Nov |
+| 1 | **OPG** | 5.2/10 | Weak | Very high | $0.1675 | $0.185985 (+11.0%) | $0.158257 (-5.5%) | 23:30 25-Nov |
+| 2 | **RWUSD** | 5.1/10 | Weak | Low | $1.00 | $1.02 (+2.0%) | $0.990099 (-1.0%) | 23:30 25-Nov |
+| 3 | **TRX** | 4.9/10 | Avoid - watch only | Low | $0.304 | $0.31008 (+2.0%) | $0.30096 (-1.0%) | 23:30 25-Nov |
+| 4 | **ATM** | 4.6/10 | Avoid - watch only | High | $0.85 | $0.937845 (+10.3%) | $0.806078 (-5.2%) | 23:30 25-Nov |
+| 5 | **ZRO** | 4.5/10 | Avoid - watch only | Medium | $1.01 | $1.08 (+6.8%) | $0.980493 (-3.4%) | 23:30 25-Nov |
 
-- **OPG:** Buyers have been more eager than sellers over the last 1.5 hours (56% of trades were buys). Momentum is healthy: not overheated, not collapsing.
-- **ENA:** Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up.
-- **RWUSD:** Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. It is bouncing up from near its lowest price of the last 42 hours. It is close to its highest price of the last 42 hours. A breakout is possible.
+- **OPG:** Momentum is healthy: not overheated, not collapsing.
+- **RWUSD:** Buyers have been more eager than sellers over the last 1.5 hours (93% of trades were buys). Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up. It is close to its highest price of the last 42 hours. A breakout is possible.
+- **TRX:** Trading activity is 2.5x higher than usual, so people are paying attention to it.
 
 ## Day: exit within 24 hours
 
-Market mood: **Unfavourable** (23% of 111 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (25% of 114 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **LAYER** | 8.0/10 | Strong | Very high | $0.0442 | $0.054808 (+24.0%) | $0.038896 (-12.0%) | 18:00 26-Nov |
-| 2 | **WAXP** | 7.3/10 | Strong | High | $0.0036 | $0.00415464 (+15.4%) | $0.00332268 (-7.7%) | 18:00 26-Nov |
-| 3 | **MANTA** | 7.3/10 | Strong | Very high | $0.0355 | $0.0432831 (+21.9%) | $0.0316085 (-11.0%) | 18:00 26-Nov |
-| 4 | **ANIME** | 6.3/10 | Moderate | High | $0.002172 | $0.00242777 (+11.8%) | $0.00204412 (-5.9%) | 18:00 26-Nov |
-| 5 | **ATM** | 6.2/10 | Moderate | Very high | $0.851 | $1.06 (+24.0%) | $0.74775 (-12.1%) | 18:00 26-Nov |
+| 1 | **WAXP** | 6.7/10 | Strong | High | $0.00357 | $0.00411341 (+15.2%) | $0.0032983 (-7.6%) | 19:00 26-Nov |
+| 2 | **ATM** | 6.6/10 | Strong | Very high | $0.85 | $1.05 (+24.0%) | $0.748 (-12.0%) | 19:00 26-Nov |
+| 3 | **ANIME** | 6.4/10 | Moderate | High | $0.002174 | $0.00242473 (+11.5%) | $0.00204864 (-5.8%) | 19:00 26-Nov |
+| 4 | **JST** | 6.4/10 | Moderate | Low | $0.14779 | $0.152224 (+3.0%) | $0.145573 (-1.5%) | 19:00 26-Nov |
+| 5 | **TRX** | 6.3/10 | Moderate | Low | $0.3042 | $0.313326 (+3.0%) | $0.2991 (-1.7%) | 19:00 26-Nov |
 
-- **LAYER:** It did 5.4% better than Bitcoin over the last 24 hours. Trading activity is 5.6x higher than usual, so people are paying attention to it. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **WAXP:** It did 9.4% better than Bitcoin over the last 24 hours. Trading activity is 5.6x higher than usual, so people are paying attention to it. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **MANTA:** Trading activity is 3.0x higher than usual, so people are paying attention to it. It did 1.6% better than Bitcoin over the last 24 hours. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **WAXP:** It did 8.1% better than Bitcoin over the last 24 hours. Trading activity is 5.6x higher than usual, so people are paying attention to it. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ATM:** Trading activity is 2.0x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ANIME:** It did 3.6% better than Bitcoin over the last 24 hours. Trading activity is 3.1x higher than usual, so people are paying attention to it. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 6315 | 40% | -0.27% | -0.25% |
-| Short: exit within 4 hours | 6381 | 39% | -0.40% | -0.33% |
-| Day: exit within 24 hours | 6045 | 37% | -0.63% | -0.42% |
+| Quick: exit within 1 hour | 6320 | 40% | -0.27% | -0.25% |
+| Short: exit within 4 hours | 6389 | 39% | -0.40% | -0.32% |
+| Day: exit within 24 hours | 6050 | 37% | -0.62% | -0.42% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
