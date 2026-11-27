@@ -1,6 +1,6 @@
 {
  "start": 100.0,
- "cash": 66.96152588862195,
+ "cash": 67.69484606570393,
  "positions": [
   {
    "key": "stealth:solana:Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ",
@@ -29,20 +29,6 @@
    "fees": 0.019517970963840815,
    "route": "S",
    "why": "2 addresses (2 probable owners) quietly bought 0.51% of the supply in small chunks since 2026-10-20, price +0.1% over 30 days"
-  },
-  {
-   "key": "solana:9PR7nCP9DpcUotnDPVLUBUZKu5WAYkwrCUx9wDnSpump",
-   "symbol": "BAN",
-   "chain": "solana",
-   "opened": "2026-11-17T21:02:30.215710+00:00",
-   "entry": 0.039103963273368764,
-   "qty": 119.63633259595086,
-   "stop": 0.03607227082661952,
-   "target": 0.04516621634676097,
-   "cost": 4.702289520260571,
-   "fees": 0.02403476426797778,
-   "route": "A,B",
-   "why": "0.116% of supply ($50,922) net bought in swaps over 7 days, buying on 7 days; one address net bought 0.302% of supply ($134,882) in 14 days: newly observed holder"
   },
   {
    "key": "solana:FeR8VBqNRSUD5NtXAj2n3j1dAHkZHfyDktKuLXD4pump",
@@ -85,6 +71,20 @@
    "fees": 0.02373482599303487,
    "route": "A,B",
    "why": "one address net bought 0.252% of supply ($244,094) in 14 days: newly observed holder"
+  },
+  {
+   "key": "solana:5Y8NV33Vv7WbnLfq3zBcKSdYPrk7g2KoiQoe7M2tcxp5",
+   "symbol": "ONYC",
+   "chain": "solana",
+   "opened": "2026-11-27T17:02:12.010118+00:00",
+   "entry": 1.1700462255964745,
+   "qty": 3.948624624792675,
+   "stop": 1.1065212703431093,
+   "target": 1.296968415613781,
+   "cost": 4.643933558551573,
+   "fees": 0.0238602200156079,
+   "route": "B",
+   "why": "2.773% of supply ($2,437,191) net bought in swaps over 7 days, buying on 6 days; one address net bought 1.112% of supply ($837,914) in 14 days: newly observed holder"
   }
  ],
  "trades": [
@@ -1702,6 +1702,23 @@
    "fees": 0.04753177608284875,
    "pnl": -0.045649539116976,
    "ret": -0.009899230677856918
+  },
+  {
+   "key": "solana:9PR7nCP9DpcUotnDPVLUBUZKu5WAYkwrCUx9wDnSpump",
+   "symbol": "BAN",
+   "chain": "solana",
+   "opened": "2026-11-17T21:02:30.215710+00:00",
+   "entry": 0.039103963273368764,
+   "qty": 119.63633259595086,
+   "stop": 0.03607227082661952,
+   "target": 0.04516621634676097,
+   "route": "A,B",
+   "closed": "2026-11-27T17:02:12.010118+00:00",
+   "exit": 0.04516574672449721,
+   "reason": "target reached",
+   "fees": 0.050245325710863084,
+   "pnl": 0.6749642153729711,
+   "ret": 0.1435394848540863
   }
  ],
  "decisions": [
@@ -4985,6 +5002,39 @@
     "risk": 0.5246287637694402,
     "impact": 1.8866373096253536e-06,
     "costs_est": 0.04748692707617619,
+    "rr": 2.0
+   },
+   "rules": {
+    "risk_per_trade": 0.01,
+    "max_open_risk": 0.04,
+    "max_position": 0.05,
+    "min_rr": 2.0,
+    "dex_fee": 0.003,
+    "max_hold_d": 30
+   }
+  },
+  {
+   "t": "2026-11-27T17:02:12.010118+00:00",
+   "key": "solana:9PR7nCP9DpcUotnDPVLUBUZKu5WAYkwrCUx9wDnSpump",
+   "symbol": "BAN",
+   "action": "close",
+   "reason": "target reached"
+  },
+  {
+   "t": "2026-11-27T17:02:12.010118+00:00",
+   "key": "solana:5Y8NV33Vv7WbnLfq3zBcKSdYPrk7g2KoiQoe7M2tcxp5",
+   "symbol": "ONYC",
+   "action": "open",
+   "plan": {
+    "eligible": true,
+    "entry": 1.1700036521,
+    "stop": 1.1065212703431093,
+    "target": 1.296968415613781,
+    "qty": 3.9487683053326816,
+    "notional": 4.620073338535965,
+    "risk": 0.25067721702863915,
+    "impact": 3.6387490242714665e-05,
+    "costs_est": 0.048056665778269,
     "rr": 2.0
    },
    "rules": {
