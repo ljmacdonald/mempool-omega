@@ -1,4 +1,4 @@
-# Trade ideas: 2026-11-27 15:05 UTC
+# Trade ideas: 2026-11-27 16:12 UTC
 
 > **Paper / education only. Not financial advice.** Ideas are ranked by a computer, not promised. Coins that can rise 20% can also fall 20%. Never use money you can't afford to lose.
 
@@ -6,59 +6,59 @@
 
 ## Quick: exit within 1 hour
 
-Market mood: **Unfavourable** (0% of 114 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (0% of 116 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **BLUR** | 2.5/10 | Avoid - watch only | Very high | $0.00855 | $0.00939836 (+9.9%) | $0.00812582 (-5.0%) | 16:00 27-Nov |
-| 2 | **LISTA** | 2.2/10 | Avoid - watch only | Very high | $0.0922 | $0.100252 (+8.7%) | $0.0881742 (-4.4%) | 16:00 27-Nov |
-| 3 | **HAEDAL** | 2.1/10 | Avoid - watch only | Very high | $0.02388 | $0.0256775 (+7.5%) | $0.0229813 (-3.8%) | 16:00 27-Nov |
-| 4 | **INIT** | 2.1/10 | Avoid - watch only | Very high | $0.10517 | $0.112785 (+7.2%) | $0.101362 (-3.6%) | 16:00 27-Nov |
-| 5 | **SOPH** | 1.9/10 | Avoid - watch only | Very high | $0.00101 | $0.00108408 (+7.3%) | $0.00097296 (-3.7%) | 16:00 27-Nov |
+| 1 | **HAEDAL** | 2.3/10 | Avoid - watch only | Very high | $0.02338 | $0.02495 (+6.7%) | $0.0225839 (-3.4%) | 17:10 27-Nov |
+| 2 | **FET** | 2.3/10 | Avoid - watch only | Medium | $0.1261 | $0.131151 (+4.0%) | $0.123575 (-2.0%) | 17:10 27-Nov |
+| 3 | **INIT** | 2.2/10 | Avoid - watch only | High | $0.10291 | $0.109014 (+5.9%) | $0.0997 (-3.1%) | 17:10 27-Nov |
+| 4 | **BLUR** | 2.1/10 | Avoid - watch only | Very high | $0.0082 | $0.00895252 (+9.2%) | $0.00782374 (-4.6%) | 17:10 27-Nov |
+| 5 | **PEPE** | 2.0/10 | Avoid - watch only | Medium | $3.51e-06 | $3.64013e-06 (+3.7%) | $3.44494e-06 (-1.9%) | 17:10 27-Nov |
 
-- **BLUR:** It did 3.1% better than Bitcoin over the last 2 hours. Buyers have been more eager than sellers over the last 30 minutes (53% of trades were buys). ⚠️ Bitcoin fell more than 3% in the last 2 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **LISTA:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 2 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **HAEDAL:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Bitcoin fell more than 3% in the last 2 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **HAEDAL:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **FET:** Trading activity is 2.2x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **INIT:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Short: exit within 4 hours
 
-Market mood: **Unfavourable** (5% of 114 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (6% of 116 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **MOVE** | 4.1/10 | Avoid - watch only | High | $0.005395 | $0.00576797 (+6.9%) | $0.00520852 (-3.5%) | 19:00 27-Nov |
-| 2 | **BLUR** | 4.1/10 | Avoid - watch only | Very high | $0.00855 | $0.009918 (+16.0%) | $0.007866 (-8.0%) | 19:00 27-Nov |
-| 3 | **QI** | 3.6/10 | Avoid - watch only | Very high | $0.001749 | $0.00202884 (+16.0%) | $0.00160908 (-8.0%) | 19:00 27-Nov |
-| 4 | **MMT** | 3.3/10 | Avoid - watch only | Very high | $0.1776 | $0.199335 (+12.2%) | $0.166732 (-6.1%) | 19:00 27-Nov |
-| 5 | **SSV** | 3.3/10 | Avoid - watch only | Very high | $2.66 | $3.08 (+16.0%) | $2.45 (-8.0%) | 19:00 27-Nov |
+| 1 | **MOVE** | 4.9/10 | Avoid - watch only | Medium | $0.005402 | $0.0057529 (+6.5%) | $0.00522655 (-3.2%) | 20:00 27-Nov |
+| 2 | **ME** | 3.7/10 | Avoid - watch only | High | $0.03982 | $0.0427502 (+7.4%) | $0.0383549 (-3.7%) | 20:00 27-Nov |
+| 3 | **BIGTIME** | 3.5/10 | Avoid - watch only | Very high | $0.00583 | $0.00653294 (+12.1%) | $0.00547853 (-6.0%) | 20:00 27-Nov |
+| 4 | **ONE** | 3.2/10 | Avoid - watch only | High | $0.001003 | $0.00108508 (+8.2%) | $0.00096196 (-4.1%) | 20:00 27-Nov |
+| 5 | **OPG** | 3.2/10 | Avoid - watch only | High | $0.1695 | $0.185445 (+9.4%) | $0.161528 (-4.7%) | 20:00 27-Nov |
 
-- **MOVE:** It did 2.6% better than Bitcoin over the last 6 hours. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 6 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **BLUR:** Trading activity is 1.6x higher than usual, so people are paying attention to it. ⚠️ Bitcoin fell more than 3% in the last 6 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
-- **QI:** It did 14.2% better than Bitcoin over the last 6 hours. Trading activity is 6.3x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. Bitcoin fell more than 3% in the last 6 hours. Most coins follow Bitcoin. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **MOVE:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **ME:** Buyers have been more eager than sellers over the last 1.5 hours (59% of trades were buys). It did 1.3% better than Bitcoin over the last 6 hours. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
+- **BIGTIME:** The model sees a slightly better-than-usual pattern, with no single strong reason. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push. This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered.
 
 ## Day: exit within 24 hours
 
-Market mood: **Mixed** (46% of 114 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
+Market mood: **Unfavourable** (32% of 116 coins look positive). If it says *Unfavourable*, sitting out is a good choice.
 
 | # | Coin | Score | Grade | Risk | Buy near | Take profit | Safety exit | Sell by (UTC) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **CFG** | 7.8/10 | Strong | Very high | $0.0559 | $0.069316 (+24.0%) | $0.0489036 (-12.5%) | 15:00 28-Nov |
-| 2 | **RUNE** | 7.4/10 | Strong | Medium | $0.571 | $0.627211 (+9.8%) | $0.538836 (-5.6%) | 15:00 28-Nov |
-| 3 | **QI** | 7.0/10 | Strong | Very high | $0.001749 | $0.00216876 (+24.0%) | $0.00153912 (-12.0%) | 15:00 28-Nov |
-| 4 | **CFX** | 6.5/10 | Strong | Medium | $0.03373 | $0.0368237 (+9.2%) | $0.0321832 (-4.6%) | 15:00 28-Nov |
-| 5 | **MMT** | 6.3/10 | Moderate | Very high | $0.1776 | $0.220224 (+24.0%) | $0.156288 (-12.0%) | 15:00 28-Nov |
+| 1 | **QI** | 7.0/10 | Strong | Very high | $0.001714 | $0.00212536 (+24.0%) | $0.00150832 (-12.0%) | 16:00 28-Nov |
+| 2 | **SOPH** | 6.6/10 | Strong | Very high | $0.00097 | $0.00116906 (+20.5%) | $0.000870468 (-10.3%) | 16:00 28-Nov |
+| 3 | **RUNE** | 6.6/10 | Strong | Medium | $0.573 | $0.628317 (+9.7%) | $0.545341 (-4.8%) | 16:00 28-Nov |
+| 4 | **CFG** | 6.5/10 | Strong | Very high | $0.0566 | $0.070184 (+24.0%) | $0.049808 (-12.0%) | 16:00 28-Nov |
+| 5 | **CFX** | 6.5/10 | Strong | Medium | $0.03422 | $0.0374388 (+9.4%) | $0.0326106 (-4.7%) | 16:00 28-Nov |
 
-- **CFG:** It did 15.4% better than Bitcoin over the last 24 hours. Trading activity is 3.5x higher than usual, so people are paying attention to it. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **RUNE:** It did 6.3% better than Bitcoin over the last 24 hours. Trading activity is 1.6x higher than usual, so people are paying attention to it. Momentum is healthy: not overheated, not collapsing. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
-- **QI:** It did 17.1% better than Bitcoin over the last 24 hours. Trading activity is 4.4x higher than usual, so people are paying attention to it. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **QI:** It did 12.4% better than Bitcoin over the last 24 hours. Trading activity is 4.5x higher than usual, so people are paying attention to it. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **SOPH:** It did 13.7% better than Bitcoin over the last 24 hours. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Trading activity is 2.3x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
+- **RUNE:** It did 3.5% better than Bitcoin over the last 24 hours. Price is above its average of the last 24 hours and of the last 3 days, so the trend is up. Trading activity is 1.7x higher than usual, so people are paying attention to it. ⚠️ Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.
 
 ---
 ## Track record (how past ideas actually did)
 
 | Speed | Ideas checked | Ended in profit | Avg per idea | Random pick avg |
 |---|---|---|---|---|
-| Quick: exit within 1 hour | 6550 | 40% | -0.27% | -0.25% |
-| Short: exit within 4 hours | 6618 | 39% | -0.42% | -0.31% |
-| Day: exit within 24 hours | 6260 | 38% | -0.47% | -0.31% |
+| Quick: exit within 1 hour | 6555 | 40% | -0.27% | -0.25% |
+| Short: exit within 4 hours | 6625 | 39% | -0.42% | -0.31% |
+| Day: exit within 24 hours | 6268 | 38% | -0.47% | -0.31% |
 
 New to this? Read [the beginner's guide](../../docs/BEGINNERS_GUIDE.md).
