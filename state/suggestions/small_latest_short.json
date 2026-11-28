@@ -1,103 +1,105 @@
 {
-  "generated_at": "2026-11-28 02:27:50.961162+00:00",
+  "generated_at": "2026-11-28 03:30:07.052062+00:00",
   "style": "short",
   "style_label": "Short: exit within 4 hours",
   "hold_text": "4 hours",
-  "coins_scanned": 35,
+  "coins_scanned": 58,
   "market_mood": {
     "label": "Unfavourable",
-    "share_positive": 0.05714285714285714,
-    "avg_chance_beats_market": 0.4847975770324319
+    "share_positive": 0.0,
+    "avg_chance_beats_market": 0.47213979437601916
   },
   "model": {
     "style": "short",
-    "config": "base",
-    "trained_rows": 141020,
-    "coins": 110,
-    "oos_auc": 0.5027911685326751,
-    "top5_beat_market_rate": 0.49064449064449067,
-    "top5_avg_excess_ret": 0.0002731570129021366,
-    "all_ideas_win_rate": 0.393999243999244,
-    "all_ideas_avg_net_ret": -0.002261637776230854,
-    "top5_win_rate": 0.31642411642411644,
-    "top5_avg_net_ret": -0.001988480763328717,
-    "start": "2026-11-13 22:00:00+00:00",
-    "end": "2026-11-27 06:15:00+00:00",
+    "config": "simpler",
+    "trained_rows": 161532,
+    "coins": 126,
+    "oos_auc": 0.5056643573963273,
+    "top5_beat_market_rate": 0.5014553014553015,
+    "top5_avg_excess_ret": 6.513389683704575e-05,
+    "all_ideas_win_rate": 0.38914463914463915,
+    "all_ideas_avg_net_ret": -0.0025921087563081113,
+    "top5_win_rate": 0.3130977130977131,
+    "top5_avg_net_ret": -0.0025269748594710655,
+    "start": "2026-11-14 13:45:00+00:00",
+    "end": "2026-11-27 22:00:00+00:00",
     "caveat": "Coins are chosen by TODAY's trading volume, which favours coins that recently rose (survivorship bias), so these past-data numbers look better than reality. Judge the scanner by the live track record instead.",
     "selection": {
-      "winner": "base",
-      "tested_on": "2026-11-23 22:15:00+00:00 onwards (never seen in training)",
+      "winner": "simpler",
+      "tested_on": "2026-11-24 14:00:00+00:00 onwards (never seen in training)",
       "results": {
         "base": {
-          "top5_excess": -0.00046,
-          "top5_beat_market": 0.457,
-          "train_rows": 103950
+          "top5_excess": -0.00159,
+          "top5_beat_market": 0.464,
+          "train_rows": 119070
         },
         "simpler": {
-          "top5_excess": -0.00127,
-          "top5_beat_market": 0.46,
-          "train_rows": 103950
+          "top5_excess": -0.00074,
+          "top5_beat_market": 0.47,
+          "train_rows": 119070
         },
         "richer": {
           "top5_excess": -0.00131,
-          "top5_beat_market": 0.445,
-          "train_rows": 103950
+          "top5_beat_market": 0.459,
+          "train_rows": 119070
         },
         "recent-only": {
-          "top5_excess": -0.00293,
-          "top5_beat_market": 0.421,
-          "train_rows": 52030
+          "top5_excess": -0.00588,
+          "top5_beat_market": 0.39,
+          "train_rows": 59598
         }
       },
       "beats_random": false
     },
-    "base_rate": 0.4513615090058148
+    "base_rate": 0.4553401183666394
   },
   "ideas": [
     {
-      "symbol": "CVCUSDT",
-      "coin": "CVC",
+      "symbol": "ACTUSDT",
+      "coin": "ACT",
       "style": "short",
-      "score": 2.9,
+      "score": 2.5,
       "grade": "Avoid - watch only",
-      "chance_beats_market": 0.629,
-      "expected_r": -0.15,
-      "risk_level": "Low",
-      "risk_unit": 0.0193404107743017,
-      "price_now": 0.01844,
-      "take_profit": 0.01915327434935625,
-      "take_profit_pct": 0.03868082154860342,
-      "safety_exit": 0.01808336282532188,
-      "safety_exit_pct": -0.01934041077430171,
+      "chance_beats_market": 0.472,
+      "expected_r": -0.182,
+      "risk_level": "Medium",
+      "risk_unit": 0.03270497351817996,
+      "price_now": 0.0097,
+      "take_profit": 0.010334476486252691,
+      "take_profit_pct": 0.06540994703635983,
+      "safety_exit": 0.009382761756873656,
+      "safety_exit_pct": -0.032704973518179914,
       "hold_minutes": 240,
       "hold_text": "4 hours",
-      "exit_by": "2026-11-28 06:15:00+00:00",
-      "size_for_10usd_risk": 517.052099704488,
-      "pre_ret": -0.037258167896360384,
-      "vol_surge": 0.2380036822620451,
+      "exit_by": "2026-11-28 07:15:00+00:00",
+      "size_for_10usd_risk": 305.7638922851058,
+      "pre_ret": 0.01873103670606291,
+      "vol_surge": 2.5014279644728137,
       "why": [
-        "Buyers have been more eager than sellers over the last 1.5 hours (60% of trades were buys)."
+        "Trading activity is 2.5x higher than usual, so people are paying attention to it.",
+        "It did 1.7% better than Bitcoin over the last 6 hours.",
+        "Momentum is healthy: not overheated, not collapsing."
       ],
       "warnings": [
         "Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.",
         "This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered."
       ],
-      "week_up20_pct": 0.20224719101123595,
-      "week_down20_pct": 0.1348314606741573,
-      "ts": "2026-11-28 02:00:00+00:00",
-      "suggested_at": "2026-11-28 02:15:00+00:00",
+      "week_up20_pct": 0.1797752808988764,
+      "week_down20_pct": 0.02247191011235955,
+      "ts": "2026-11-28 03:00:00+00:00",
+      "suggested_at": "2026-11-28 03:15:00+00:00",
       "rank": 1,
       "integrity": {
         "checks": [
           {
             "key": "walls",
             "ok": true,
-            "text": "Big orders near the price stayed in place across 3 checks (they look real)."
+            "text": "No suspicious giant orders near the price (no sign of spoofing)."
           },
           {
             "key": "thin_book",
-            "ok": false,
-            "text": "Only about $12,284 of orders within 2% of the price (spread 0.16%). One large trade can push it around."
+            "ok": true,
+            "text": "About $60,015 of orders within 2% of the price. Healthy depth."
           },
           {
             "key": "wash",
@@ -121,50 +123,48 @@
           },
           {
             "key": "engineered",
-            "ok": false,
-            "text": "The case rests on signals that are cheap to fake (a burst of volume or buying) with no lasting price trend behind it. Manipulators build exactly this look to attract buyers."
+            "ok": true,
+            "text": "No artificial-looking burst of activity."
           }
         ],
-        "penalty": 0.04,
-        "passed": 5,
+        "penalty": 0.0,
+        "passed": 7,
         "checked": 7,
-        "trust": 0.943
+        "trust": 1.0
       }
     },
     {
-      "symbol": "WAXPUSDT",
-      "coin": "WAXP",
+      "symbol": "POWRUSDT",
+      "coin": "POWR",
       "style": "short",
-      "score": 2.8,
+      "score": 2.4,
       "grade": "Avoid - watch only",
-      "chance_beats_market": 0.535,
-      "expected_r": -0.154,
+      "chance_beats_market": 0.52,
+      "expected_r": -0.194,
       "risk_level": "Medium",
-      "risk_unit": 0.029591125071507306,
-      "price_now": 0.00364,
-      "take_profit": 0.003855423390520573,
-      "take_profit_pct": 0.05918225014301459,
-      "safety_exit": 0.0035322883047397132,
-      "safety_exit_pct": -0.029591125071507407,
+      "risk_unit": 0.02852321312949132,
+      "price_now": 0.0403,
+      "take_profit": 0.042598970978237005,
+      "take_profit_pct": 0.05704642625898271,
+      "safety_exit": 0.0391505145108815,
+      "safety_exit_pct": -0.028523213129491354,
       "hold_minutes": 240,
       "hold_text": "4 hours",
-      "exit_by": "2026-11-28 06:15:00+00:00",
-      "size_for_10usd_risk": 337.9391616856354,
-      "pre_ret": 0.044951387862266046,
-      "vol_surge": 2.09180161428585,
+      "exit_by": "2026-11-28 07:15:00+00:00",
+      "size_for_10usd_risk": 350.5916375760828,
+      "pre_ret": -0.014778594096118702,
+      "vol_surge": 4.3884895388020855,
       "why": [
-        "Buyers have been more eager than sellers over the last 1.5 hours (63% of trades were buys).",
-        "It did 3.8% better than Bitcoin over the last 6 hours.",
-        "Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up."
+        "Trading activity is 4.4x higher than usual, so people are paying attention to it."
       ],
       "warnings": [
         "Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.",
         "This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered."
       ],
-      "week_up20_pct": 0.19101123595505617,
-      "week_down20_pct": 0.011235955056179775,
-      "ts": "2026-11-28 02:00:00+00:00",
-      "suggested_at": "2026-11-28 02:15:00+00:00",
+      "week_up20_pct": 0.16853932584269662,
+      "week_down20_pct": 0.0449438202247191,
+      "ts": "2026-11-28 03:00:00+00:00",
+      "suggested_at": "2026-11-28 03:15:00+00:00",
       "rank": 2,
       "integrity": {
         "checks": [
@@ -176,7 +176,166 @@
           {
             "key": "thin_book",
             "ok": false,
-            "text": "Only about $55,359 of orders within 2% of the price (spread 0.56%). One large trade can push it around."
+            "text": "Only about $76,304 of orders within 2% of the price (spread 0.50%). One large trade can push it around."
+          },
+          {
+            "key": "wash",
+            "ok": true,
+            "text": "Recent trades look natural (no back-and-forth fake trading)."
+          },
+          {
+            "key": "impact",
+            "ok": true,
+            "text": "The price reacts normally to the amount being traded."
+          },
+          {
+            "key": "venues",
+            "ok": true,
+            "text": "Other exchanges confirm the price (1 checked)."
+          },
+          {
+            "key": "whale",
+            "ok": true,
+            "text": "Activity comes from many normal-sized trades."
+          },
+          {
+            "key": "engineered",
+            "ok": false,
+            "text": "The case rests on signals that are cheap to fake (a burst of volume or buying) with no lasting price trend behind it. Manipulators build exactly this look to attract buyers."
+          }
+        ],
+        "penalty": 0.04,
+        "passed": 5,
+        "checked": 7,
+        "trust": 0.943
+      }
+    },
+    {
+      "symbol": "GTCUSDT",
+      "coin": "GTC",
+      "style": "short",
+      "score": 2.2,
+      "grade": "Avoid - watch only",
+      "chance_beats_market": 0.476,
+      "expected_r": -0.215,
+      "risk_level": "Medium",
+      "risk_unit": 0.031075330306562114,
+      "price_now": 0.12736,
+      "take_profit": 0.13527550813568748,
+      "take_profit_pct": 0.06215066061312413,
+      "safety_exit": 0.12340224593215626,
+      "safety_exit_pct": -0.031075330306562066,
+      "hold_minutes": 240,
+      "hold_text": "4 hours",
+      "exit_by": "2026-11-28 07:15:00+00:00",
+      "size_for_10usd_risk": 321.7986712079561,
+      "pre_ret": 0.05511903749582103,
+      "vol_surge": 2.038451805865188,
+      "why": [
+        "Buyers have been more eager than sellers over the last 1.5 hours (60% of trades were buys).",
+        "It did 5.4% better than Bitcoin over the last 6 hours.",
+        "Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up."
+      ],
+      "warnings": [
+        "Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.",
+        "This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered."
+      ],
+      "week_up20_pct": 0.3707865168539326,
+      "week_down20_pct": 0.2696629213483146,
+      "ts": "2026-11-28 03:00:00+00:00",
+      "suggested_at": "2026-11-28 03:15:00+00:00",
+      "rank": 3,
+      "integrity": {
+        "checks": [
+          {
+            "key": "walls",
+            "ok": true,
+            "text": "Big orders near the price stayed in place across 3 checks (they look real)."
+          },
+          {
+            "key": "thin_book",
+            "ok": true,
+            "text": "About $89,421 of orders within 2% of the price. Healthy depth."
+          },
+          {
+            "key": "wash",
+            "ok": true,
+            "text": "Recent trades look natural (no back-and-forth fake trading)."
+          },
+          {
+            "key": "impact",
+            "ok": true,
+            "text": "The price reacts normally to the amount being traded."
+          },
+          {
+            "key": "venues",
+            "ok": null,
+            "penalty": 0.03,
+            "text": "Not traded on the other exchanges checked (OKX, Gate.io), so the move can't be confirmed."
+          },
+          {
+            "key": "whale",
+            "ok": true,
+            "text": "Activity comes from many normal-sized trades."
+          },
+          {
+            "key": "engineered",
+            "ok": true,
+            "text": "The setup is backed by a longer-lasting trend, not just a short burst of activity."
+          }
+        ],
+        "penalty": 0.03,
+        "passed": 6,
+        "checked": 6,
+        "trust": 0.957
+      }
+    },
+    {
+      "symbol": "WAXPUSDT",
+      "coin": "WAXP",
+      "style": "short",
+      "score": 2.0,
+      "grade": "Avoid - watch only",
+      "chance_beats_market": 0.447,
+      "expected_r": -0.236,
+      "risk_level": "Medium",
+      "risk_unit": 0.030698057162358787,
+      "price_now": 0.00359,
+      "take_profit": 0.0038104120504257356,
+      "take_profit_pct": 0.06139611432471748,
+      "safety_exit": 0.00346608,
+      "safety_exit_pct": -0.03451810584958215,
+      "hold_minutes": 240,
+      "hold_text": "4 hours",
+      "exit_by": "2026-11-28 07:15:00+00:00",
+      "size_for_10usd_risk": 289.7030342156232,
+      "pre_ret": 0.02538923400481874,
+      "vol_surge": 2.512177033848716,
+      "why": [
+        "Buyers have been more eager than sellers over the last 1.5 hours (61% of trades were buys).",
+        "Trading activity is 2.5x higher than usual, so people are paying attention to it.",
+        "Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up."
+      ],
+      "warnings": [
+        "Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.",
+        "This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered."
+      ],
+      "week_up20_pct": 0.20224719101123595,
+      "week_down20_pct": 0.011235955056179775,
+      "ts": "2026-11-28 03:00:00+00:00",
+      "suggested_at": "2026-11-28 03:15:00+00:00",
+      "rank": 4,
+      "integrity": {
+        "checks": [
+          {
+            "key": "walls",
+            "ok": true,
+            "text": "No suspicious giant orders near the price (no sign of spoofing)."
+          },
+          {
+            "key": "thin_book",
+            "ok": false,
+            "text": "Only about $26,982 of orders within 2% of the price (spread 0.28%). One large trade can push it around."
           },
           {
             "key": "wash",
@@ -214,23 +373,23 @@
       "symbol": "SHELLUSDT",
       "coin": "SHELL",
       "style": "short",
-      "score": 2.2,
+      "score": 1.9,
       "grade": "Avoid - watch only",
-      "chance_beats_market": 0.512,
-      "expected_r": -0.209,
+      "chance_beats_market": 0.482,
+      "expected_r": -0.245,
       "risk_level": "Medium",
-      "risk_unit": 0.02389114258114427,
-      "price_now": 0.02703,
-      "take_profit": 0.028321555167936656,
-      "take_profit_pct": 0.04778228516228844,
-      "safety_exit": 0.02638422241603167,
-      "safety_exit_pct": -0.02389114258114422,
+      "risk_unit": 0.023066832070934924,
+      "price_now": 0.02701,
+      "take_profit": 0.028256070268471906,
+      "take_profit_pct": 0.04613366414186992,
+      "safety_exit": 0.026386964865764046,
+      "safety_exit_pct": -0.02306683207093496,
       "hold_minutes": 240,
       "hold_text": "4 hours",
-      "exit_by": "2026-11-28 06:15:00+00:00",
-      "size_for_10usd_risk": 418.5651634716028,
-      "pre_ret": -0.001478743337853583,
-      "vol_surge": 0.44536164319809596,
+      "exit_by": "2026-11-28 07:15:00+00:00",
+      "size_for_10usd_risk": 433.5229028957279,
+      "pre_ret": -0.011045767681089558,
+      "vol_surge": 0.41692186907472023,
       "why": [
         "The model sees a slightly better-than-usual pattern, with no single strong reason."
       ],
@@ -240,162 +399,8 @@
       ],
       "week_up20_pct": 0.24719101123595505,
       "week_down20_pct": 0.011235955056179775,
-      "ts": "2026-11-28 02:00:00+00:00",
-      "suggested_at": "2026-11-28 02:15:00+00:00",
-      "rank": 3,
-      "integrity": {
-        "checks": [
-          {
-            "key": "walls",
-            "ok": true,
-            "text": "Big orders near the price stayed in place across 3 checks (they look real)."
-          },
-          {
-            "key": "thin_book",
-            "ok": false,
-            "text": "Only about $35,468 of orders within 2% of the price (spread 0.18%). One large trade can push it around."
-          },
-          {
-            "key": "wash",
-            "ok": true,
-            "text": "Recent trades look natural (no back-and-forth fake trading)."
-          },
-          {
-            "key": "impact",
-            "ok": true,
-            "text": "The price reacts normally to the amount being traded."
-          },
-          {
-            "key": "venues",
-            "ok": true,
-            "text": "Other exchanges confirm the price (1 checked)."
-          },
-          {
-            "key": "whale",
-            "ok": true,
-            "text": "Activity comes from many normal-sized trades."
-          },
-          {
-            "key": "engineered",
-            "ok": true,
-            "text": "No artificial-looking burst of activity."
-          }
-        ],
-        "penalty": 0.02,
-        "passed": 6,
-        "checked": 7,
-        "trust": 0.971
-      }
-    },
-    {
-      "symbol": "BATUSDT",
-      "coin": "BAT",
-      "style": "short",
-      "score": 2.0,
-      "grade": "Avoid - watch only",
-      "chance_beats_market": 0.528,
-      "expected_r": -0.231,
-      "risk_level": "Low",
-      "risk_unit": 0.019177213639260473,
-      "price_now": 0.0747,
-      "take_profit": 0.07756507571770552,
-      "take_profit_pct": 0.03835442727852101,
-      "safety_exit": 0.07326746214114724,
-      "safety_exit_pct": -0.019177213639260615,
-      "hold_minutes": 240,
-      "hold_text": "4 hours",
-      "exit_by": "2026-11-28 06:15:00+00:00",
-      "size_for_10usd_risk": 521.4521873776004,
-      "pre_ret": -0.004008021397538641,
-      "vol_surge": 0.6399335126887823,
-      "why": [
-        "The model sees a slightly better-than-usual pattern, with no single strong reason."
-      ],
-      "warnings": [
-        "Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.",
-        "This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered."
-      ],
-      "week_up20_pct": 0.24719101123595505,
-      "week_down20_pct": 0.21348314606741572,
-      "ts": "2026-11-28 02:00:00+00:00",
-      "suggested_at": "2026-11-28 02:15:00+00:00",
-      "rank": 4,
-      "integrity": {
-        "checks": [
-          {
-            "key": "walls",
-            "ok": true,
-            "text": "No suspicious giant orders near the price (no sign of spoofing)."
-          },
-          {
-            "key": "thin_book",
-            "ok": false,
-            "text": "Only about $41,438 of orders within 2% of the price (spread 0.13%). One large trade can push it around."
-          },
-          {
-            "key": "wash",
-            "ok": true,
-            "text": "Recent trades look natural (no back-and-forth fake trading)."
-          },
-          {
-            "key": "impact",
-            "ok": true,
-            "text": "The price reacts normally to the amount being traded."
-          },
-          {
-            "key": "venues",
-            "ok": true,
-            "text": "Other exchanges confirm the price (2 checked)."
-          },
-          {
-            "key": "whale",
-            "ok": true,
-            "text": "Activity comes from many normal-sized trades."
-          },
-          {
-            "key": "engineered",
-            "ok": true,
-            "text": "No artificial-looking burst of activity."
-          }
-        ],
-        "penalty": 0.02,
-        "passed": 6,
-        "checked": 7,
-        "trust": 0.971
-      }
-    },
-    {
-      "symbol": "BEAMXUSDT",
-      "coin": "BEAMX",
-      "style": "short",
-      "score": 1.8,
-      "grade": "Avoid - watch only",
-      "chance_beats_market": 0.499,
-      "expected_r": -0.25,
-      "risk_level": "Low",
-      "risk_unit": 0.01805858535751933,
-      "price_now": 0.003203,
-      "take_profit": 0.003318683297800269,
-      "take_profit_pct": 0.03611717071503873,
-      "safety_exit": 0.0031451583510998657,
-      "safety_exit_pct": -0.018058585357519363,
-      "hold_minutes": 240,
-      "hold_text": "4 hours",
-      "exit_by": "2026-11-28 06:15:00+00:00",
-      "size_for_10usd_risk": 553.7532316082626,
-      "pre_ret": -0.009941057325843161,
-      "vol_surge": 0.29805919309934836,
-      "why": [
-        "The model sees a slightly better-than-usual pattern, with no single strong reason."
-      ],
-      "warnings": [
-        "Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.",
-        "This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered."
-      ],
-      "week_up20_pct": 0.38202247191011235,
-      "week_down20_pct": 0.06741573033707865,
-      "ts": "2026-11-28 02:00:00+00:00",
-      "suggested_at": "2026-11-28 02:15:00+00:00",
+      "ts": "2026-11-28 03:00:00+00:00",
+      "suggested_at": "2026-11-28 03:15:00+00:00",
       "rank": 5,
       "integrity": {
         "checks": [
@@ -406,8 +411,8 @@
           },
           {
             "key": "thin_book",
-            "ok": true,
-            "text": "About $86,503 of orders within 2% of the price. Healthy depth."
+            "ok": false,
+            "text": "Only about $38,190 of orders within 2% of the price (spread 0.15%). One large trade can push it around."
           },
           {
             "key": "wash",
@@ -435,56 +440,56 @@
             "text": "No artificial-looking burst of activity."
           }
         ],
-        "penalty": 0.0,
-        "passed": 7,
+        "penalty": 0.02,
+        "passed": 6,
         "checked": 7,
-        "trust": 1.0
+        "trust": 0.971
       }
     },
     {
-      "symbol": "METUSDT",
-      "coin": "MET",
+      "symbol": "GLMRUSDT",
+      "coin": "GLMR",
       "style": "short",
-      "score": 1.7,
+      "score": 1.9,
       "grade": "Avoid - watch only",
-      "chance_beats_market": 0.531,
-      "expected_r": -0.259,
-      "risk_level": "Low",
-      "risk_unit": 0.016281403711687563,
-      "price_now": 0.1948,
-      "take_profit": 0.20114323488607347,
-      "take_profit_pct": 0.03256280742337503,
-      "safety_exit": 0.19162838255696327,
-      "safety_exit_pct": -0.016281403711687514,
+      "chance_beats_market": 0.45,
+      "expected_r": -0.242,
+      "risk_level": "Medium",
+      "risk_unit": 0.028782899740331033,
+      "price_now": 0.005979,
+      "take_profit": 0.006323185915094878,
+      "take_profit_pct": 0.05756579948066198,
+      "safety_exit": 0.005806907042452561,
+      "safety_exit_pct": -0.028782899740331103,
       "hold_minutes": 240,
       "hold_text": "4 hours",
-      "exit_by": "2026-11-28 06:15:00+00:00",
-      "size_for_10usd_risk": 614.1976562390353,
-      "pre_ret": -0.025343475006018412,
-      "vol_surge": 0.8320720897348567,
+      "exit_by": "2026-11-28 07:15:00+00:00",
+      "size_for_10usd_risk": 347.42851103316127,
+      "pre_ret": -0.026571412260283367,
+      "vol_surge": 0.5369605178555699,
       "why": [
-        "Buyers have been more eager than sellers over the last 1.5 hours (82% of trades were buys)."
+        "The model sees a slightly better-than-usual pattern, with no single strong reason."
       ],
       "warnings": [
         "Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.",
         "This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered."
       ],
-      "week_up20_pct": 0.3595505617977528,
-      "week_down20_pct": 0.12359550561797752,
-      "ts": "2026-11-28 02:00:00+00:00",
-      "suggested_at": "2026-11-28 02:15:00+00:00",
+      "week_up20_pct": 0.38202247191011235,
+      "week_down20_pct": 0.10112359550561797,
+      "ts": "2026-11-28 03:00:00+00:00",
+      "suggested_at": "2026-11-28 03:15:00+00:00",
       "rank": 6,
       "integrity": {
         "checks": [
           {
             "key": "walls",
             "ok": true,
-            "text": "No suspicious giant orders near the price (no sign of spoofing)."
+            "text": "Big orders near the price stayed in place across 3 checks (they look real)."
           },
           {
             "key": "thin_book",
-            "ok": true,
-            "text": "About $172,302 of orders within 2% of the price. Healthy depth."
+            "ok": false,
+            "text": "Only about $18,785 of orders within 2% of the price (spread 0.18%). One large trade can push it around."
           },
           {
             "key": "wash",
@@ -499,7 +504,7 @@
           {
             "key": "venues",
             "ok": true,
-            "text": "Other exchanges confirm the price (2 checked)."
+            "text": "Other exchanges confirm the price (1 checked)."
           },
           {
             "key": "whale",
@@ -508,8 +513,8 @@
           },
           {
             "key": "engineered",
-            "ok": false,
-            "text": "The case rests on signals that are cheap to fake (a burst of volume or buying) with no lasting price trend behind it. Manipulators build exactly this look to attract buyers."
+            "ok": true,
+            "text": "No artificial-looking burst of activity."
           }
         ],
         "penalty": 0.02,
@@ -519,26 +524,26 @@
       }
     },
     {
-      "symbol": "ZKUSDT",
-      "coin": "ZK",
+      "symbol": "CVCUSDT",
+      "coin": "CVC",
       "style": "short",
-      "score": 1.7,
+      "score": 1.8,
       "grade": "Avoid - watch only",
-      "chance_beats_market": 0.525,
-      "expected_r": -0.259,
-      "risk_level": "Low",
-      "risk_unit": 0.015197726168576262,
-      "price_now": 0.00632,
-      "take_profit": 0.006512099258770805,
-      "take_profit_pct": 0.030395452337152573,
-      "safety_exit": 0.006223950370614598,
-      "safety_exit_pct": -0.015197726168576287,
+      "chance_beats_market": 0.494,
+      "expected_r": -0.248,
+      "risk_level": "Medium",
+      "risk_unit": 0.02107194029536432,
+      "price_now": 0.01817,
+      "take_profit": 0.018935754310333536,
+      "take_profit_pct": 0.0421438805907286,
+      "safety_exit": 0.01778712284483323,
+      "safety_exit_pct": -0.0210719402953643,
       "hold_minutes": 240,
       "hold_text": "4 hours",
-      "exit_by": "2026-11-28 06:15:00+00:00",
-      "size_for_10usd_risk": 657.9931687857746,
-      "pre_ret": -0.011015060230676887,
-      "vol_surge": 0.7079454708945668,
+      "exit_by": "2026-11-28 07:15:00+00:00",
+      "size_for_10usd_risk": 474.56474628489434,
+      "pre_ret": -0.04150420534985244,
+      "vol_surge": 0.2798621747562804,
       "why": [
         "The model sees a slightly better-than-usual pattern, with no single strong reason."
       ],
@@ -546,10 +551,10 @@
         "Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.",
         "This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered."
       ],
-      "week_up20_pct": 0.29213483146067415,
-      "week_down20_pct": 0.15730337078651685,
-      "ts": "2026-11-28 02:00:00+00:00",
-      "suggested_at": "2026-11-28 02:15:00+00:00",
+      "week_up20_pct": 0.21348314606741572,
+      "week_down20_pct": 0.1348314606741573,
+      "ts": "2026-11-28 03:00:00+00:00",
+      "suggested_at": "2026-11-28 03:15:00+00:00",
       "rank": 7,
       "integrity": {
         "checks": [
@@ -560,8 +565,8 @@
           },
           {
             "key": "thin_book",
-            "ok": true,
-            "text": "About $171,547 of orders within 2% of the price. Healthy depth."
+            "ok": false,
+            "text": "Only about $11,865 of orders within 2% of the price (spread 0.11%). One large trade can push it around."
           },
           {
             "key": "wash",
@@ -589,33 +594,33 @@
             "text": "No artificial-looking burst of activity."
           }
         ],
-        "penalty": 0.0,
-        "passed": 7,
+        "penalty": 0.02,
+        "passed": 6,
         "checked": 7,
-        "trust": 1.0
+        "trust": 0.971
       }
     },
     {
-      "symbol": "ARUSDT",
-      "coin": "AR",
+      "symbol": "TUTUSDT",
+      "coin": "TUT",
       "style": "short",
-      "score": 1.7,
+      "score": 1.8,
       "grade": "Avoid - watch only",
-      "chance_beats_market": 0.51,
-      "expected_r": -0.265,
+      "chance_beats_market": 0.478,
+      "expected_r": -0.252,
       "risk_level": "Low",
-      "risk_unit": 0.01582083060420136,
-      "price_now": 2.264,
-      "take_profit": 2.3356367209758235,
-      "take_profit_pct": 0.03164166120840273,
-      "safety_exit": 2.228181639512088,
-      "safety_exit_pct": -0.015820830604201364,
+      "risk_unit": 0.020140534183358302,
+      "price_now": 0.01295,
+      "take_profit": 0.013471639835348978,
+      "take_profit_pct": 0.04028106836671652,
+      "safety_exit": 0.01268918008232551,
+      "safety_exit_pct": -0.02014053418335826,
       "hold_minutes": 240,
       "hold_text": "4 hours",
-      "exit_by": "2026-11-28 06:15:00+00:00",
-      "size_for_10usd_risk": 632.078065316268,
-      "pre_ret": -0.003527340517968436,
-      "vol_surge": 0.4134165507940596,
+      "exit_by": "2026-11-28 07:15:00+00:00",
+      "size_for_10usd_risk": 496.5111604767072,
+      "pre_ret": -0.008458335702738573,
+      "vol_surge": 1.0661745695281926,
       "why": [
         "The model sees a slightly better-than-usual pattern, with no single strong reason."
       ],
@@ -624,9 +629,9 @@
         "This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered."
       ],
       "week_up20_pct": 0.19101123595505617,
-      "week_down20_pct": 0.11235955056179775,
-      "ts": "2026-11-28 02:00:00+00:00",
-      "suggested_at": "2026-11-28 02:15:00+00:00",
+      "week_down20_pct": 0.2696629213483146,
+      "ts": "2026-11-28 03:00:00+00:00",
+      "suggested_at": "2026-11-28 03:15:00+00:00",
       "rank": 8,
       "integrity": {
         "checks": [
@@ -638,7 +643,7 @@
           {
             "key": "thin_book",
             "ok": true,
-            "text": "About $132,456 of orders within 2% of the price. Healthy depth."
+            "text": "About $66,732 of orders within 2% of the price. Healthy depth."
           },
           {
             "key": "wash",
@@ -653,7 +658,7 @@
           {
             "key": "venues",
             "ok": true,
-            "text": "Other exchanges confirm the price (2 checked)."
+            "text": "Other exchanges confirm the price (1 checked)."
           },
           {
             "key": "whale",
@@ -673,51 +678,49 @@
       }
     },
     {
-      "symbol": "PIXELUSDT",
-      "coin": "PIXEL",
+      "symbol": "BEAMXUSDT",
+      "coin": "BEAMX",
       "style": "short",
       "score": 1.7,
       "grade": "Avoid - watch only",
-      "chance_beats_market": 0.424,
-      "expected_r": -0.264,
+      "chance_beats_market": 0.449,
+      "expected_r": -0.261,
       "risk_level": "Medium",
-      "risk_unit": 0.025563755624386383,
-      "price_now": 0.00304,
-      "take_profit": 0.0031954276341962695,
-      "take_profit_pct": 0.051127511248772795,
-      "safety_exit": 0.0029622861829018657,
-      "safety_exit_pct": -0.025563755624386286,
+      "risk_unit": 0.022411747963851737,
+      "price_now": 0.003203,
+      "take_profit": 0.003346569657456434,
+      "take_profit_pct": 0.044823495927703405,
+      "safety_exit": 0.003131215171271783,
+      "safety_exit_pct": -0.022411747963851814,
       "hold_minutes": 240,
       "hold_text": "4 hours",
-      "exit_by": "2026-11-28 06:15:00+00:00",
-      "size_for_10usd_risk": 391.178829391586,
-      "pre_ret": 0.013245226750020933,
-      "vol_surge": 1.2411179056751318,
+      "exit_by": "2026-11-28 07:15:00+00:00",
+      "size_for_10usd_risk": 446.1945590379262,
+      "pre_ret": -0.013027479529032604,
+      "vol_surge": 0.42134949696213847,
       "why": [
-        "Price is above its average of the last 6 hours and of the last 18 hours, so the trend is up.",
-        "It is close to its highest price of the last 42 hours. A breakout is possible.",
         "Momentum is healthy: not overheated, not collapsing."
       ],
       "warnings": [
         "Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.",
         "This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered."
       ],
-      "week_up20_pct": 0.16853932584269662,
-      "week_down20_pct": 0.15730337078651685,
-      "ts": "2026-11-28 02:00:00+00:00",
-      "suggested_at": "2026-11-28 02:15:00+00:00",
+      "week_up20_pct": 0.3707865168539326,
+      "week_down20_pct": 0.06741573033707865,
+      "ts": "2026-11-28 03:00:00+00:00",
+      "suggested_at": "2026-11-28 03:15:00+00:00",
       "rank": 9,
       "integrity": {
         "checks": [
           {
             "key": "walls",
             "ok": true,
-            "text": "No suspicious giant orders near the price (no sign of spoofing)."
+            "text": "Big orders near the price stayed in place across 3 checks (they look real)."
           },
           {
             "key": "thin_book",
             "ok": true,
-            "text": "About $58,729 of orders within 2% of the price. Healthy depth."
+            "text": "About $84,037 of orders within 2% of the price. Healthy depth."
           },
           {
             "key": "wash",
@@ -732,7 +735,7 @@
           {
             "key": "venues",
             "ok": true,
-            "text": "Other exchanges confirm the price (2 checked)."
+            "text": "Other exchanges confirm the price (1 checked)."
           },
           {
             "key": "whale",
@@ -752,26 +755,26 @@
       }
     },
     {
-      "symbol": "ZILUSDT",
-      "coin": "ZIL",
+      "symbol": "TSTUSDT",
+      "coin": "TST",
       "style": "short",
-      "score": 1.6,
+      "score": 1.7,
       "grade": "Avoid - watch only",
-      "chance_beats_market": 0.471,
-      "expected_r": -0.271,
+      "chance_beats_market": 0.492,
+      "expected_r": -0.268,
       "risk_level": "Medium",
-      "risk_unit": 0.02094514017957717,
-      "price_now": 0.000882,
-      "take_profit": 0.000918947227276774,
-      "take_profit_pct": 0.04189028035915432,
-      "safety_exit": 0.0008635263863616129,
-      "safety_exit_pct": -0.02094514017957716,
+      "risk_unit": 0.02273166458115779,
+      "price_now": 0.01098,
+      "take_profit": 0.011479187354202227,
+      "take_profit_pct": 0.04546332916231566,
+      "safety_exit": 0.010730406322898888,
+      "safety_exit_pct": -0.02273166458115783,
       "hold_minutes": 240,
       "hold_text": "4 hours",
-      "exit_by": "2026-11-28 06:15:00+00:00",
-      "size_for_10usd_risk": 477.4377213168826,
-      "pre_ret": -0.0067796869853786745,
-      "vol_surge": 0.7249365263988358,
+      "exit_by": "2026-11-28 07:15:00+00:00",
+      "size_for_10usd_risk": 439.91499013622405,
+      "pre_ret": -0.01894508624244917,
+      "vol_surge": 0.8526439586100154,
       "why": [
         "The model sees a slightly better-than-usual pattern, with no single strong reason."
       ],
@@ -779,10 +782,10 @@
         "Fairly thin trading (under $10M a day). Prices can jump around and are easier to push.",
         "This speed is on probation: its last 50 ideas did worse than picking coins at random, so its scores are lowered."
       ],
-      "week_up20_pct": 0.23595505617977527,
-      "week_down20_pct": 0.24719101123595505,
-      "ts": "2026-11-28 02:00:00+00:00",
-      "suggested_at": "2026-11-28 02:15:00+00:00",
+      "week_up20_pct": 0.25842696629213485,
+      "week_down20_pct": 0.10112359550561797,
+      "ts": "2026-11-28 03:00:00+00:00",
+      "suggested_at": "2026-11-28 03:15:00+00:00",
       "rank": 10,
       "integrity": {
         "checks": [
@@ -794,7 +797,7 @@
           {
             "key": "thin_book",
             "ok": false,
-            "text": "Only about $47,461 of orders within 2% of the price (spread 0.11%). One large trade can push it around."
+            "text": "Only about $27,411 of orders within 2% of the price (spread 0.18%). One large trade can push it around."
           },
           {
             "key": "wash",
@@ -808,8 +811,9 @@
           },
           {
             "key": "venues",
-            "ok": true,
-            "text": "Other exchanges confirm the price (2 checked)."
+            "ok": null,
+            "penalty": 0.03,
+            "text": "Not traded on the other exchanges checked (OKX, Gate.io), so the move can't be confirmed."
           },
           {
             "key": "whale",
@@ -822,12 +826,12 @@
             "text": "No artificial-looking burst of activity."
           }
         ],
-        "penalty": 0.02,
-        "passed": 6,
-        "checked": 7,
-        "trust": 0.971
+        "penalty": 0.05,
+        "passed": 5,
+        "checked": 6,
+        "trust": 0.929
       }
     }
   ],
-  "settled_this_run": 11
+  "settled_this_run": 14
 }
