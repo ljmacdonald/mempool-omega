@@ -1,21 +1,7 @@
 {
  "start": 100.0,
- "cash": 67.69484606570393,
+ "cash": 61.33287436348748,
  "positions": [
-  {
-   "key": "stealth:solana:Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ",
-   "symbol": "QQQX",
-   "chain": "solana",
-   "opened": "2026-10-29T00:02:12.544013+00:00",
-   "entry": 721.7609355026973,
-   "qty": 0.004523024285830832,
-   "stop": 505.23029763283,
-   "target": 1154.8121088750402,
-   "cost": 3.2843358665622087,
-   "fees": 0.019793626719528043,
-   "route": "S",
-   "why": "1 addresses (1 probable owners) quietly bought 0.57% of the supply in small chunks since 2026-10-19, price -2.4% over 30 days"
-  },
   {
    "key": "stealth:solana:XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W",
    "symbol": "SPYX",
@@ -85,6 +71,34 @@
    "fees": 0.0238602200156079,
    "route": "B",
    "why": "2.773% of supply ($2,437,191) net bought in swaps over 7 days, buying on 6 days; one address net bought 1.112% of supply ($837,914) in 14 days: newly observed holder"
+  },
+  {
+   "key": "solana:ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82",
+   "symbol": "BOME",
+   "chain": "solana",
+   "opened": "2026-11-28T00:17:22.350571+00:00",
+   "entry": 0.0004770754709358531,
+   "qty": 9687.471165336141,
+   "stop": 0.0004110245557836325,
+   "target": 0.0006091745879327349,
+   "cost": 4.645519832985378,
+   "fees": 0.02386496460514071,
+   "route": "B",
+   "why": "one address net bought 0.411% of supply ($138,329) in 14 days: newly observed holder"
+  },
+  {
+   "key": "solana:HNg5PYJmtqcmzXrv6S9zP1CDKk5BgDuyFBxbvNApump",
+   "symbol": "ALCH",
+   "chain": "solana",
+   "opened": "2026-11-28T00:17:22.350571+00:00",
+   "entry": 0.02952639499930489,
+   "qty": 156.4857877900077,
+   "stop": 0.026577095608720215,
+   "target": 0.035424335642559576,
+   "cost": 4.644322565611365,
+   "fees": 0.023861383546195505,
+   "route": "A,B",
+   "why": "one address net bought 0.115% of supply ($36,012) in 14 days: newly observed holder"
   }
  ],
  "trades": [
@@ -1719,6 +1733,23 @@
    "fees": 0.050245325710863084,
    "pnl": 0.6749642153729711,
    "ret": 0.1435394848540863
+  },
+  {
+   "key": "stealth:solana:Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ",
+   "symbol": "QQQX",
+   "chain": "solana",
+   "opened": "2026-10-29T00:02:12.544013+00:00",
+   "entry": 721.7609355026973,
+   "qty": 0.004523024285830832,
+   "stop": 505.23029763283,
+   "target": 1154.8121088750402,
+   "route": "S",
+   "closed": "2026-11-28T00:17:22.350571+00:00",
+   "exit": 651.4912750661038,
+   "reason": "held 30 days",
+   "fees": 0.03863378947013008,
+   "pnl": -0.3564651701819286,
+   "ret": -0.1085349320729031
   }
  ],
  "decisions": [
@@ -5035,6 +5066,65 @@
     "risk": 0.25067721702863915,
     "impact": 3.6387490242714665e-05,
     "costs_est": 0.048056665778269,
+    "rr": 2.0
+   },
+   "rules": {
+    "risk_per_trade": 0.01,
+    "max_open_risk": 0.04,
+    "max_position": 0.05,
+    "min_rr": 2.0,
+    "dex_fee": 0.003,
+    "max_hold_d": 30
+   }
+  },
+  {
+   "t": "2026-11-28T00:17:22.350571+00:00",
+   "key": "stealth:solana:Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ",
+   "symbol": "QQQX",
+   "action": "close",
+   "reason": "held 30 days"
+  },
+  {
+   "t": "2026-11-28T00:17:22.350571+00:00",
+   "key": "solana:ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82",
+   "symbol": "BOME",
+   "action": "open",
+   "plan": {
+    "eligible": true,
+    "entry": 0.0004770745665,
+    "stop": 0.0004110245557836325,
+    "target": 0.0006091745879327349,
+    "qty": 9687.489530801131,
+    "notional": 4.621654868380237,
+    "risk": 0.6398587873241124,
+    "impact": 1.8957955771474708e-06,
+    "costs_est": 0.04774745263599858,
+    "rr": 2.0
+   },
+   "rules": {
+    "risk_per_trade": 0.01,
+    "max_open_risk": 0.04,
+    "max_position": 0.05,
+    "min_rr": 2.0,
+    "dex_fee": 0.003,
+    "max_hold_d": 30
+   }
+  },
+  {
+   "t": "2026-11-28T00:17:22.350571+00:00",
+   "key": "solana:HNg5PYJmtqcmzXrv6S9zP1CDKk5BgDuyFBxbvNApump",
+   "symbol": "ALCH",
+   "action": "open",
+   "plan": {
+    "eligible": true,
+    "entry": 0.02952617562,
+    "stop": 0.026577095608720215,
+    "target": 0.035424335642559576,
+    "qty": 156.48695047845715,
+    "notional": 4.620461182065169,
+    "risk": 0.4614925376821477,
+    "impact": 7.429993904697449e-06,
+    "costs_est": 0.04779142708923029,
     "rr": 2.0
    },
    "rules": {
